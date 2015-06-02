@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--Upcoming Gigs-->
+        <!--Upcoming Gigs in Dublin-->
         <scene sceneID="mUS-bu-hKL">
             <objects>
                 <tableViewController id="x4b-di-ACi" customClass="UpcomingGigs" sceneMemberID="viewController">
@@ -42,7 +42,7 @@
                             <outlet property="delegate" destination="x4b-di-ACi" id="D5k-Hu-cnA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Upcoming Gigs" id="5h0-5U-r1X"/>
+                    <navigationItem key="navigationItem" title="Upcoming Gigs in Dublin" id="5h0-5U-r1X"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UJv-by-j8Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
