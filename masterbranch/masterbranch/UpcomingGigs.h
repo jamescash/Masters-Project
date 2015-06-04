@@ -13,6 +13,6 @@
 @interface UpcomingGigs : UITableViewController
 @property (nonatomic) NSMutableArray *upcomingDublinGigs;
 @property (nonatomic) NSMutableArray *eventObjects;
-
+@property (nonatomic) int i;
 
 @end
