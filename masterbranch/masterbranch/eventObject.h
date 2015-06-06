@@ -19,5 +19,14 @@
 @property (nonatomic) NSString *twitterSearchQuery;
 @property (nonatomic) NSString *InstaSearchQuery;
 @property (nonatomic) NSMutableArray *artistsAtEvent;
+//@property (nonatomic) NSMutableArray *bandsintownresults;
+//@property (nonatomic) NSMutableArray *eventObjects;
+
+
+
+
+
+
+
 
 @end
