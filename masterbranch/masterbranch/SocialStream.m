@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self twitterSearch];
+    //[self twitterSearch];
     [self instgramSearch];
 }
 

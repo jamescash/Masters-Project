@@ -235,13 +235,7 @@
         
     };
     
-    //[self.tableView reloadData];
-    
-////    eventObject *object = [self.eventObjects objectAtIndex:3];
-//    NSString *stringRep = [NSString stringWithFormat:@"%@", self.todaysObjects];
-//    NSLog(@"%@",stringRep);
 
-    //testblock();
 
 
 };
@@ -256,14 +250,15 @@
             NSLog(@"error");
         } else {
             
-            self.upcomingDublinGigs = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        
+    self.upcomingDublinGigs = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             
             
+            
+            
+            //go bild event objects befour the block testblock is call so all the arrarys are full befour the code moves on
             [self buildEventObjectArray];
-            
-          // [self buildEventObjectArray:^{MapView *map = [[MapView alloc]init]; [map testfucntion];}];
-            
-           
+            //testblock call fuctions in the mapview classs
             testblock();
             
             

@@ -30,6 +30,7 @@
                     </view>
                     <connections>
                         <outlet property="MkMapViewOutLet" destination="K9W-Ha-F5r" id="jUY-9s-6xz"/>
+                        <segue destination="vHF-aI-j1s" kind="show" identifier="socialStream" id="1bm-kM-264"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7H0-k9-SDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -104,7 +105,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="52d-Fi-OZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1785" y="-619"/>
+            <point key="canvasLocation" x="2373" y="251"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kDJ-gD-nIa">
