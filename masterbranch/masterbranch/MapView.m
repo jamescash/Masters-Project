@@ -21,26 +21,12 @@
     EngineRoom *event = [[EngineRoom alloc]init];
     
     [event songKickApiCall:^{
-                //  NSString *stringRep = [NSString stringWithFormat:@"%@", event.todaysObjects];
-               // NSLog(@"%@",stringRep);
         self.todaysGigs = [[NSMutableArray alloc]init];
         self.todaysGigs = event.todaysObjects;
         [self buildannotations];
     }];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    [self.MkMapViewOutLet setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,9 +41,6 @@
     CLLocationCoordinate2D location;
     eventObject *current = [[eventObject alloc]init];
 
-    //NSLog(@"%d",[self.todaysGigs count]);
-    
-    
     for (int i = 0; i<[self.todaysGigs count]; i++) {
         
         //CLLocationCoordinate2D location;
@@ -70,45 +53,44 @@
         Annotation *ann = [[Annotation alloc]init];
         ann.coordinate = location;
         ann.title = current.eventTitle;
+        ann.subtitle = current.venueName;
+        ann.eventObjectIndex = i;
         
         [self.annotations addObject:ann];
         
-    
+     
+        
     }
     
-    NSString *stringRep = [NSString stringWithFormat:@"%@", self.annotations];
-    NSLog(@"%@",stringRep);
     
-    [self.MkMapViewOutLet addAnnotations: self.annotations];
+    [self.MkMapViewOutLet addAnnotations:self.annotations];
+
     
-    
-    
-    
-    
-    //    for ( id item in self.todaysGigs) {
-//   
-//        
-//        NSLog(@"%@",[item description]);
-//    
-//    
-// 
-//        
-//        
-//        
-//    }
     
 }
 
 
 
-/*
-#pragma mark - Navigation
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    Annotation *currentannoation = view.annotation;
+    int indexpath = currentannoation.eventObjectIndex;
+    [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
 }
-*/
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"socialStream"])
+    {
+        eventObject *currentevent = sender;
+        SocialStream *svc = [segue destinationViewController];
+        svc.currentevent = currentevent;
+
+    }
+}
+
+
 
 @end
