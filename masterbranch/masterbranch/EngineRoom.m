@@ -207,7 +207,7 @@
   
     dispatch_async( myQueue, ^{ [self buildmasterarray:^{ NSLog(@"now were working");}];});
 
-    [NSThread sleepForTimeInterval:1];
+    [NSThread sleepForTimeInterval:3];
     
     [self buildEventObjectArray];
     
@@ -229,7 +229,12 @@
     
     self.countysInIreland = [[NSArray alloc]init];
     
-    self.countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,UnitedKingdom",@"Kildare,Ireland"];
+    self.countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,UnitedKingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
+                              @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland"
+                              
+                              
+                              
+                              ];
     
     
     
