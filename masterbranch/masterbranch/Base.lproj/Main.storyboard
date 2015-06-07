@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--Map View-->
+        <!--Gigs happening right now-->
         <scene sceneID="Ifi-74-D51">
             <objects>
                 <viewController id="MQZ-zJ-8yF" customClass="MapView" sceneMemberID="viewController">
@@ -28,6 +28,7 @@
                             <constraint firstItem="K9W-Ha-F5r" firstAttribute="bottom" secondItem="NQD-jT-1wR" secondAttribute="top" id="coA-0i-V4v"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Gigs happening right now" id="yul-rm-31m"/>
                     <connections>
                         <outlet property="MkMapViewOutLet" destination="K9W-Ha-F5r" id="jUY-9s-6xz"/>
                         <segue destination="vHF-aI-j1s" kind="show" identifier="socialStream" id="1bm-kM-264"/>
