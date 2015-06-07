@@ -12,12 +12,19 @@
 @interface EngineRoom : NSObject
 
 @property (nonatomic) NSMutableArray *upcomingDublinGigs;
+@property (nonatomic) NSMutableArray *corkGigs;
+@property (nonatomic) NSMutableArray *galwayGigs;
 @property (nonatomic) NSMutableArray *eventObjects;
 @property (nonatomic) NSMutableArray *todaysObjects;
+@property (nonatomic) NSMutableArray *masterArray;
 @property (nonatomic) int i;
+@property (nonatomic) NSArray *countysInIreland;
+
+
 
 
 -(void) buildEventObjectArray;
 -(void) songKickApiCall:(void(^)(void))testblock;
+-(void) buildmasterarray:(void(^)(void))completionBlock;
 
 @end
