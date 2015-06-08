@@ -1,3 +1,4 @@
+
 //
 //  EngineRoom.m
 //  masterbranch
@@ -28,9 +29,9 @@
 
     
     
-    for (NSArray *item in self.masterArray) {
+    //for (NSArray *item in self.masterArray) {
         
-        for (NSDictionary *object in item) {
+        for (NSDictionary *object in self.masterArray) {
             
             
             //for gigs with more then one artist
@@ -46,8 +47,8 @@
             [dateFormat setDateFormat:@"yyyy-LL-dd HH-mm-ss"];
             NSDate *eventDate = [dateFormat dateFromString:dateformatted];
             //todays date
-            NSDate * now = [NSDate date];
-            NSComparisonResult result = [now compare:eventDate];
+           // NSDate * now = [NSDate date];
+           // NSComparisonResult result = [now compare:eventDate];
             
             
             
@@ -60,7 +61,7 @@
             
             
             
-            if (result==NSOrderedDescending) {
+           // if (result==NSOrderedDescending) {
                 
                 
                 
@@ -177,14 +178,15 @@
                 }
             
             
-            }else{
-                NSLog(@"wasnt todays date");
-            }
+            //}
+            //else{
+             //   NSLog(@"wasnt todays date");
+            //}
             
             
      }
     
-}
+//}
     
     
 
@@ -207,7 +209,7 @@
   
     dispatch_async( myQueue, ^{ [self buildmasterarray:^{ NSLog(@"now were working");}];});
 
-    [NSThread sleepForTimeInterval:3];
+    [NSThread sleepForTimeInterval:6];
     
     [self buildEventObjectArray];
     
@@ -230,10 +232,20 @@
     self.countysInIreland = [[NSArray alloc]init];
     
     self.countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,UnitedKingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
-                              @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland"
-                              
-                              
-                              
+                              @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
+                              ,@"Louth,Ireland"
+                              ,@"Roscommon,Ireland"
+                              ,@"Longford,Ireland"
+                              //,@"Meath,Ireland"
+                              //,@"Westmeath,Ireland"
+                              //,@"Offaly,Ireland"
+                              //,@"Laois,Ireland"
+                              ,@"Claregalway,Ireland",
+                              @"Tipperary,Ireland",
+                              @"Limerick,Ireland",
+                              @"Wexford,Ireland",
+                               @"Waterford,Ireland",
+                               @"Kerrykeel,Ireland"
                               ];
     
     
@@ -262,7 +274,34 @@
                   
                     self.upcomingDublinGigs = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
                     
-                    [self.masterArray addObject:self.upcomingDublinGigs];
+                for (NSDictionary *eventobject in self.upcomingDublinGigs) {
+                    
+                    NSString *objectdate = eventobject[@"datetime"];
+                    
+                    //NSLog(@"%@",objectdate);
+                    
+                    NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+                    // Convert string to date object
+                    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                    [dateFormat setDateFormat:@"yyyy-LL-dd HH-mm-ss"];
+                    NSDate *eventDate = [dateFormat dateFromString:dateformatted];
+                    //todays date
+                    NSDate * now = [NSDate date];
+                    NSComparisonResult result = [now compare:eventDate];
+                    
+                    
+                    if (result==NSOrderedDescending) {
+                        
+                    [self.masterArray addObject:eventobject];
+                    
+                    }
+               
+              }
+                
+                
+              
+                
+                
                 
 //                           NSString *stringRep = [NSString stringWithFormat:@"%@",self.masterArray ];
 //                           NSLog(@"%@",stringRep);
