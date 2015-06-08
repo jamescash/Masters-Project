@@ -69,7 +69,20 @@
         
         //NSLog(@"%@",self.countysInIreland[i]);
        
-        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&location=%@",[self.countysInIreland objectAtIndex:i]];
+         NSDate * now = [NSDate date];
+        
+        
+        
+        
+         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+         [dateFormat setDateFormat:@"yyyy-LL-dd"];
+         NSString *todaysdate = [dateFormat stringFromDate:now];
+        
+       // NSDate *todaysdate = [dateFormat dateFromString:now];
+        // NSLog(@"Ttodays date is %@",todaysdate);
+        
+        
+        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",todaysdate,todaysdate,[self.countysInIreland objectAtIndex:i]];
        
         NSURL *url = [NSURL URLWithString:endpoint];
         
@@ -82,22 +95,35 @@
                 NSLog(@"api call didnt work with %@",self.countysInIreland[i]);
             } else {
                 
+                
                 self.jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
                     
+                NSString *stringRep = [NSString stringWithFormat:@"%lu",(unsigned long)[self.jsonData count]];
+                NSLog(@"%@",stringRep);
+                
+                if ([self.jsonData count]== 0 ) {
+                    NSLog(@"0 events in jason");
+                }else {
+                
+                
+                
+                
                 for (NSDictionary *object in self.jsonData) {
+                    
+                    
                     
                     NSString *objectdate = object[@"datetime"];
                     NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
                     // Convert string to date object
                     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                    [dateFormat setDateFormat:@"yyyy-LL-dd HH-mm-ss"];
+                   // [dateFormat setDateFormat:@"yyyy-LL-dd HH-mm-ss"];
                     NSDate *eventDate = [dateFormat dateFromString:dateformatted];
                     //todays date
-                    NSDate * now = [NSDate date];
-                    NSComparisonResult result = [now compare:eventDate];
+                   // NSDate * now = [NSDate date];
+                   // NSComparisonResult result = [now compare:eventDate];
                     
                     
-                    if (result==NSOrderedDescending) {
+                   // if (result==NSOrderedDescending) {
                         
                         self.eventObjects = [[NSMutableArray alloc]init];
                         self.todaysObjects = [[NSMutableArray alloc]init];
@@ -125,7 +151,7 @@
                             //gig with multiple performers, while loop and i counter to itterate each sningle artist in returened json event
                             
                             int i = 0;
-                            while ( i <= [artistdic count] )
+                            while ( i < [artistdic count] )
                             {
                                 
                                 event = [[eventObject alloc]init];
@@ -227,33 +253,36 @@
                             NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
                             event.InstaSearchQuery = c;
                             
-                            
                             [self.todaysObjects addObject:event];
                             NSLog(@"sinlge artist event");
                         }
-
-                    
-                    
-                    
-                    
-                    
-                    //[self.masterArray addObject:object];
-
-                    
-                    }
+                }
+                   
                
               }
                 
             }
             
-            int a = ([self.countysInIreland count] - 1);
+            int a = ([self.countysInIreland count]-1);
             if (i == a) {
+               
+                NSString *stringRep = [NSString stringWithFormat:@"%@",self.todaysObjects];
+                NSLog(@"%@",stringRep);
+                
                 completionBlock();
+            
+            
             };
             
  
         }];//end of completion block for api call all events are parsed and ready to go
      }
+
+  
+
+
+
+
 }
 
 
