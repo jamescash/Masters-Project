@@ -11,7 +11,7 @@
 #import "MapView.h"
 @interface EngineRoom : NSObject
 
-@property (nonatomic) NSMutableArray *upcomingDublinGigs;
+@property (nonatomic) NSMutableArray *jsonData;
 @property (nonatomic) NSMutableArray *corkGigs;
 @property (nonatomic) NSMutableArray *galwayGigs;
 @property (nonatomic) NSMutableArray *eventObjects;
@@ -23,7 +23,7 @@
 
 
 
--(void) buildEventObjectArray;
+//-(void) buildEventObjectArray;
 -(void) songKickApiCall:(void(^)(void))testblock;
 -(void) buildmasterarray:(void(^)(void))completionBlock;
 
