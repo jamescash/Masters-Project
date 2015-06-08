@@ -30,17 +30,14 @@
     
     [self buildmasterarray:^{ testblock();NSLog(@"COMPLETEION BLOCK");}];
 
-    //[NSThread sleepForTimeInterval:6];
-    
-    
-    //[self buildEventObjectArray];
+  
 }
 
 
 
 -(void)buildmasterarray:(void (^)(void))completionBlock {
     
-    self.masterArray = [[NSMutableArray alloc]init];
+    //self.masterArray = [[NSMutableArray alloc]init];
     
     self.countysInIreland = [[NSArray alloc]init];
     
@@ -81,8 +78,8 @@
                     for (NSDictionary *object in self.jsonData) {
                     
                     eventObject *event = [[eventObject alloc]init];
+                       // NSString *eventDate = object[@"datetime"];
 
-                   // NSString *eventDate = object[@"datetime"];
                     //NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
                     // Convert string to date object
                     //NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -127,7 +124,8 @@
                                 //i counter in the while loop to choose a diffrent artist everytime for the event object
                                 NSDictionary *artistinfo = artists [i];
                                 event.eventTitle = artistinfo[@"name"];
-                                
+                               // [self getartistpicture:artistdic];
+
                                 //retreving venue details
                                 NSDictionary *venue = object [@"venue"];
                                 event.venueName = venue [@"name"];
@@ -160,6 +158,17 @@
                                 event.InstaSearchQuery = c;
                                 
                                 
+                               
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 [self.todaysObjects addObject:event];
                                 i++;
                                 
@@ -187,6 +196,7 @@
                                 event.eventTitle = @"NO EVENT TITLE ****FIX*** ";
                             }
                             
+                          // [self getartistpicture:artistdic];
                             
                             //retreving venue details
                             NSDictionary *venue = object [@"venue"];
@@ -228,8 +238,6 @@
                 }
                 
             
-            
-               
                 int a = ([self.countysInIreland count]-1);
                 if (x == a) {
                     
@@ -237,41 +245,63 @@
                     //NSLog(@"%@",stringRep);
                     
                     completionBlock();
-                    
-                    
                 };
-            
-            
-            
-            
-            
-            
-            }
-            
-           
-            
- 
+            }//end of outter if/else statment
         }];//end of completion block for api call all events are parsed and ready to go
      
           NSLog(@"%d",x);
         x = x+1;
          //NSLog(@"%d",x);
-        
-        
+      }//end of while loop
+
+}//end of build master array loop
+
+//-(void) getartistpicture:(NSString*)artistName{
     
-    }
 
-}
+   // NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",artistName];
 
+     
+//    NSURL *url = [NSURL URLWithString:endpoint];
+//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        
+//        if (error) {
+//            NSLog(@"api call for artist image didnt work  ");
+//        }else {
+//            
+//            
+//            NSDictionary *jsonData = [[NSDictionary alloc]init];
+//            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+//            
+//            if ([jsonData count]== 0 ) {
+//                NSLog(@"No info for that artist");
+//           }
+//            else {
+//                
+//             
+//                NSString *imageurl = jsonData [@"image_url"];
+//                NSLog(@"%@",imageurl);
+//            
+//            
+//            }
+//            
+//       
+//        
+//        
+//        
+//        
+//        }
+//        
+//        
+//        
+//    }];
+//
+  //  NSString *stringRep = [NSString stringWithFormat:@"%@",artistName];
+  //  NSLog(@"%@",stringRep);
+    
 
-
-
-
-
-
-
-
-
+//}//end of method call
+     
 
 
 

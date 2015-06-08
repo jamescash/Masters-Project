@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.MkMapViewOutLet setDelegate:self];
     EngineRoom *event = [[EngineRoom alloc]init];
     
     [event songKickApiCall:^{
@@ -26,7 +27,7 @@
         [self buildannotations];
     }];
 
-    [self.MkMapViewOutLet setDelegate:self];
+    
 }
 
 - (void)didReceiveMemoryWarning {
