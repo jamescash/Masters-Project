@@ -23,5 +23,5 @@
 //-(void) buildEventObjectArray;
 -(void) songKickApiCall:(void(^)(void))testblock;
 -(void) buildmasterarray:(void(^)(void))completionBlock;
-//-(void) getartistpicture:(NSDictionary*)artistName;
+-(void) getartistpicture:(eventObject*)currentEvent;
 @end
