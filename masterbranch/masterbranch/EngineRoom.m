@@ -69,56 +69,27 @@
                 self.jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
 
                 if ([self.jsonData count]== 0 ) {
-                    //NSLog(@"there was no events in %@ today",self.countysInIreland[x]);
+                  //NSLog(@"there was no events in %@ today",self.countysInIreland[x]);
                 }
                 else {
                 
                   
                     
                     for (NSDictionary *object in self.jsonData) {
-                    
                     eventObject *event = [[eventObject alloc]init];
-                       // NSString *eventDate = object[@"datetime"];
-
-                    //NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                    // Convert string to date object
-                    //NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                   // [dateFormat setDateFormat:@"yyyy-LL-dd HH-mm-ss"];
-                    //NSDate *eventDate = [dateFormat dateFromString:dateformatted];
-                    //todays date
-                   // NSDate * now = [NSDate date];
-                   // NSComparisonResult result = [now compare:eventDate];
-                    
-                    
-                   // if (result==NSOrderedDescending) {
-                        
-                        
-                        //for gigs with more then one artist
+                     
                     NSDictionary *artistdic = object [@"artists"];
-                        //get the date and compare to determin if the gig happens today
-                        //NSString *objectdate = object [@"datetime"];
+               
                         
-                        // NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                        // Convert string to date object
-                        // NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                        // [dateFormat setDateFormat:@"yyyy-LL-dd HH-mm-ss"];
-                        //NSDate *eventDate = [dateFormat dateFromString:dateformatted];
-                        //      if(result==NSOrderedAscending)
-                        //            NSLog(@"today is less");
-                        //      else if(result==NSOrderedDescending)
-                        //            NSLog(@"newDate is less");
-                        //      else
-                        //           NSLog(@"BOOOOOOOOOOOOOOOOM");
-                        
-                        if ([artistdic count] > 1 ) {
-                            
-                            //gig with multiple performers, while loop and i counter to itterate each sningle artist in returened json event
+                     if ([artistdic count] > 1 ) {
+                     //gig with multiple performers, while loop and i counter to itterate each sningle artist in returened json event
                             
                             int i = 0;
-                            while ( i < [artistdic count] )
-                            {
-                                //NSLog(@"%d",i);
+                            while ( i < [artistdic count] ){
+                                //NEED TO ALOW MULIT ARTIST IN THE COVER PICTURE AREA
+                                
                                 event = [[eventObject alloc]init];
+
                                 //retreving event title to be the artist name
                                 NSArray *artists = object [@"artists"];
                                 //i counter in the while loop to choose a diffrent artist everytime for the event object
@@ -126,27 +97,15 @@
                                 event.eventTitle = artistinfo[@"name"];
                                 
                                 
-//                                event.mbidNumber = artistinfo[@"mbid"];
-//                                NSString *stringRep = [NSString stringWithFormat:@"%@",artistinfo];
-//                                NSLog(@"%@",stringRep);
-                                
-                                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-                                     event.mbidNumber = @"empty";
-                                    
-//                                    NSString *stringRep = [NSString stringWithFormat:@"%@",event.mbidNumber];
-//                                    NSLog(@"%@",stringRep);
-                                    //NSLog(@"multiple artist mbid number logged");
-                                }else{
-                                    event.mbidNumber = artistinfo[@"mbid"];
 
-                                    //NSLog(@"nill assigened to multiple artist mbid");
-
-                                };
                                 
+                                    if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                                        event.mbidNumber = @"empty";
                                 
+                                         }else{
+                                        event.mbidNumber = artistinfo[@"mbid"];
+                                        };
                                 
-                                // [self getartistpicture:artistdic];
-
                                 //retreving venue details
                                 NSDictionary *venue = object [@"venue"];
                                 event.venueName = venue [@"name"];
@@ -179,8 +138,6 @@
                                 event.InstaSearchQuery = c;
                                 
                                 
-                               
-                                
                                 
                                 
                                 [self getartistpicture:event];
@@ -188,12 +145,13 @@
                                 
                                 
                                 
-                                
-                                
-                                
                                 [self.todaysObjects addObject:event];
                                 i++;
                                 
+                               // NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpictureURL];
+                               // NSLog(@"%@",stringRep);
+                            
+                            
                             };
                             //NSLog(@"multiple artist event ");
                             
@@ -202,10 +160,8 @@
                         else{
                             
                             
-                            
                             event = [[eventObject alloc]init];
                             //event.eventDate = eventDate;
-                            
                             //retreving event title to be the artist name
                             NSArray *artists = object [@"artists"];
                          
@@ -214,39 +170,18 @@
                             if ([artists count]>0) {
                                 NSDictionary *artistinfo = artists [0];
                                 event.eventTitle = artistinfo[@"name"];
-                                
-                                
-//                                event.mbidNumber = artistinfo[@"mbid"];
-//                                NSString *stringRep = [NSString stringWithFormat:@"%@",artistinfo];
-//                                NSLog(@"%@",stringRep);
-                                
-                                
-                                
-                                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-//
-                                     event.mbidNumber = @"empty";
-                                }else{
-                                    event.mbidNumber = artistinfo[@"mbid"];
 
-                                    //NSLog(@"nill assigened to single artist mbid");
-                                };
+                                
+                                    if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                                     event.mbidNumber = @"empty";
+                                    }else{
+                                    event.mbidNumber = artistinfo[@"mbid"];
+                                    };
                              
-                            
-                            } else {
+                            }else {
                                 event.eventTitle = @"NO EVENT TITLE ****FIX*** ";
                             }
                            
-//                            NSDictionary *artistinfo = artists [0];
-//
-//                         
-//                            if (artistinfo[@"mbid"]!= nil) {
-//                               
-//                                
-//                            };
-                            
-                            
-                            // [self getartistpicture:artistdic];
-                            
                             //retreving venue details
                             NSDictionary *venue = object [@"venue"];
                             event.venueName = venue [@"name"];
@@ -278,31 +213,39 @@
                             NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
                             event.InstaSearchQuery = c;
                             
+                            
                             [self getartistpicture:event];
+
                             
                             
                             [self.todaysObjects addObject:event];
                             //NSLog(@"sinlge artist event");
+                        
+                           // NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpictureURL];
+                           // NSLog(@"%@",stringRep);
+                        
+                        
                         }
                     }
                    
                
                 }
-                
-            
-                
                 //***** add a stronger if statment here to make sure completion block is not called unill loop is finished
-                int a = ([self.countysInIreland count]-1);
+                int a = ([self.countysInIreland count]-1 );
                 if (x == a) {
                     completionBlock();
                 };
+                
+               
             }//end of outter if/else statment
         }];//end of completion block for api call all events are parsed and ready to go
      
-        //NSLog(@"%d",x);
+       // NSLog(@"%d",x);
         x = x+1;
-      }//end of while loop
+        
 
+    
+    }//end of while loop
 }//end of build master array loop
 
 
@@ -311,18 +254,12 @@
 //    NSString *stringRep = [NSString stringWithFormat:@"%@",currentEvent.mbidNumber];
 //    NSLog(@"%@",stringRep);
     
+    NSString *empty = @"empty";
     
-    
-    if (currentEvent.mbidNumber == (id)[NSNull null]) {
+    if (currentEvent.mbidNumber == empty) {
         
-   
-    
-        
-    
-        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",currentEvent.InstaSearchQuery];
-        
-        
-        NSURL *url = [NSURL URLWithString:endpoint];
+         NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",currentEvent.InstaSearchQuery];
+         NSURL *url = [NSURL URLWithString:endpoint];
         [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             
             if (error) {
@@ -338,31 +275,25 @@
                 }
                 else {
                     
-                    NSLog(@"search for artist image url by artist name worked");
-                    //                NSString *imageurl = jsonData [@"image_url"];
-                    //                NSLog(@"%@",imageurl);
-                    //
+                    
+                    if (jsonData[@"errors"]) {
+                        NSString *error = jsonData[@"errors"];
+                        NSLog(@"%@",error);
+                    
+                    }else{
+                        NSString *imageurl = jsonData [@"image_url"];
+                       // NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData];
+                      //NSLog(@"%@",stringRep);
+                       // NSLog(@"%@",imageurl);
+                       // NSLog(@"%@",currentEvent.eventTitle);
+                    
+                        currentEvent.coverpictureURL = imageurl;
+                    }
                     
                 }
-                
-                
-                
-                
-                
-                
-            }
-            
-            
-            
-        }];
+             }
+          }];
 
-    
-    
-    
-    
-    
-    
-    
     
     }else {
     
@@ -387,33 +318,20 @@
                     NSLog(@"No info for that artist via mbid api call");
                 }
                 else {
-                   // NSLog(@"MBID number worked");
+                   // NSLog(@"MBID number worked but gave back null object");
                     
-                                            NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData];
-                                            NSLog(@"%@",stringRep);
-                    // NSString *returnString = @"return";
-                    
-                    // return returnString;
+                                        //   NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData[@"image_url"]];
+                                      //  NSLog(@"%@",stringRep);
+                    currentEvent.coverpictureURL = jsonData[@"image_url"];
+
                     
                 }
                 
-                
-                
-                
-                
-                
             }
-            
-            
-            
-        }];
-    
-
- }
+         }];
+    }
   //  NSString *stringRep = [NSString stringWithFormat:@"%@",artistName];
   //  NSLog(@"%@",stringRep);
-    
-
 }//end of method call
      
 

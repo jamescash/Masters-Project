@@ -18,6 +18,6 @@
 
 - initWithpostion: (CLLocationCoordinate2D)coords;
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView;
+//- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView;
 
 @end
