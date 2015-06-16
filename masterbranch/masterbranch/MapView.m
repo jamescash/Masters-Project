@@ -19,12 +19,14 @@
     [super viewDidLoad];
     
     [self.MkMapViewOutLet setDelegate:self];
-    EngineRoom *event = [[EngineRoom alloc]init];
+    eventObject *event = [[eventObject alloc]init];
     
-    [event songKickApiCall:^{
+    [event buildmasterarray:^{
+        NSLog(@"copletetion block");
         self.todaysGigs = [[NSMutableArray alloc]init];
         self.todaysGigs = event.todaysObjects;
         [self buildannotations];
+        
     }];
 
     

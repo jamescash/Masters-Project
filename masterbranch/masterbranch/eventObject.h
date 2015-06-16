@@ -20,9 +20,15 @@
 @property (nonatomic) NSString *InstaSearchQuery;
 @property (nonatomic) NSMutableArray *artistsAtEvent;
 @property (nonatomic) NSString *mbidNumber;
-//@property (nonatomic) NSMutableArray *bandsintownresults;
-//@property (nonatomic) NSMutableArray *eventObjects;
 
+
+@property (nonatomic) NSMutableArray *jsonData;
+@property (nonatomic) NSMutableArray *todaysObjects;
+@property (nonatomic) NSArray *countysInIreland;
+
+
+-(void) buildmasterarray:(void(^)(void))completionBlock;
+//-(void) getartistpicture:(eventObject*)currentEvent;
 
 
 
