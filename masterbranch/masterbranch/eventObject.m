@@ -47,7 +47,7 @@
      NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
      [dateFormat setDateFormat:@"yyyy-LL-dd"];
      NSString *todaysdate = [dateFormat stringFromDate:now];
-
+        // NSLog(@"%@",todaysdate);
 
         NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",todaysdate,todaysdate,[self.countysInIreland objectAtIndex:x]];
        NSURL *url = [NSURL URLWithString:endpoint];
@@ -126,13 +126,14 @@
                                                     }else{
                                                         NSString *imageurl = jsonData [@"image_url"];
                                                         event.coverpictureURL = imageurl;
-                                                        NSLog(@"artist name serch mulite artist");
+                                                      //  NSLog(@"artist name serch mulite artist");
                                                     }
                                                     
                                                 }
                                             }
                                         }];
-                                        }else{
+                                        }
+                                    else{
                                         event.mbidNumber = artistinfo[@"mbid"];
                                             
                                             NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=YOUR_APP_ID",event.mbidNumber];
@@ -158,7 +159,7 @@
                                                        // NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData[@"image_url"]];
                                                         //NSLog(@"%@",stringRep);
                                                         event.coverpictureURL = jsonData[@"image_url"];
-                                                        NSLog(@"artist mbid search mulite artist");
+                                                        //NSLog(@"artist mbid search mulite artist");
 
                                                         
                                                     }
@@ -190,13 +191,46 @@
 
                                 event.twitterSearchQuery = encodedrequest;
 
-                                //[self getartistpicture:event];
 
-
-
+                                //NSDictionary *artistdic = object [@"artists"];
+                                
+                                //for gigs with more then one artist
+                                NSString *objectdate = object [@"datetime"];
+                                NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+                                // Convert string to date object
+                                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                                [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
                                
-                               // NSLog(@"%@",event.coverpictureURL);
+                                NSDate *date = [dateFormat dateFromString:dateformatted];
+                                
+                                
+                                NSDate *todaysdate = [NSDate date];
+                                
+                              
+                            
 
+                                
+//                                            NSString *stringRep = [NSString stringWithFormat:@"%@",date];
+//                                            NSLog(@"%@",stringRep);
+                                
+                                //todays date
+                                //NSDate * now = [NSDate date];
+                                
+                                
+                                //NSComparisonResult result = [now compare:date];
+                                
+                                //        if(result==NSOrderedAscending)
+                                //            NSLog(@"today is less");
+                                //        else if(result==NSOrderedDescending)
+                                //            NSLog(@"newDate is less");
+                                //        else
+                                //            NSLog(@"BOOOOOOOOOOOOOOOOM");
+                                
+                                
+                                
+                                
+                                
+                                
                                 [self.todaysObjects addObject:event];
                                 i++;
 
@@ -255,7 +289,7 @@
                                                     }else{
                                                         NSString *imageurl = jsonData [@"image_url"];
                                                         event.coverpictureURL = imageurl;
-                                                        NSLog(@"artist name search single artist");
+                                                       // NSLog(@"artist name search single artist");
 
                                                     }
                                                     
@@ -293,7 +327,7 @@
                                                     //NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData[@"image_url"]];
                                                     //NSLog(@"%@",stringRep);
                                                     event.coverpictureURL = jsonData[@"image_url"];
-                                                    NSLog(@"artist mbid search single artist");
+                                                   // NSLog(@"artist mbid search single artist");
 
                                                     
                                                 }
