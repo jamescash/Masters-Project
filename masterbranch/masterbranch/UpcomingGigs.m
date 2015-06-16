@@ -120,7 +120,6 @@
                 NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
                 event.InstaSearchQuery = c;
                
-                
                 [self.eventObjects addObject:event];
                 i++;
             
