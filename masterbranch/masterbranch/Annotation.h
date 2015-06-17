@@ -8,13 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "eventObject.h"
+
 
 @interface Annotation : NSObject <MKAnnotation>
 
 @property (nonatomic) CLLocationCoordinate2D coordinate;
+@property (nonatomic) eventObject *currentEvent;
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
-@property (nonatomic) int eventObjectIndex;
+@property (nonatomic, copy) NSString *imageURL;
+@property (nonatomic) NSString *status;
 
 - initWithpostion: (CLLocationCoordinate2D)coords;
 

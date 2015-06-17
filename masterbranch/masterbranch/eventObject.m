@@ -32,9 +32,13 @@
 
     //self.masterArray = [[NSMutableArray alloc]init];
     self.countysInIreland = [[NSArray alloc]init];
+  //  self.happeningLater = [[NSMutableArray alloc]init];
+  //  self.currentlyHappening = [[NSMutableArray alloc]init];
+  //  self.alreadlyHappened = [[NSMutableArray alloc]init];
+    self.allEvents = [[NSMutableArray alloc]init];
 
     //self.eventObjects = [[NSMutableArray alloc]init];
-    self.todaysObjects = [[NSMutableArray alloc]init];
+    self.happeningLater = [[NSMutableArray alloc]init];
 
     self.countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
                               @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
@@ -97,77 +101,6 @@
                                 event.InstaSearchQuery = c;
 
 
-                                    //making second API call to get artist info and take there picture URL
-                                    if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-                                        event.mbidNumber = @"empty";
-                                        
-                                        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",event.InstaSearchQuery];
-                                        NSURL *url = [NSURL URLWithString:endpoint];
-                                        [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                            
-                                            if (error) {
-                                                NSLog(@"JSON ERROR api artist serch by name for image");
-                                            }else {
-                                                
-                                                
-                                                NSDictionary *jsonData = [[NSDictionary alloc]init];
-                                                jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-                                                
-                                                if ([jsonData count]== 0 ) {
-                                                    NSLog(@"No info for that artist seched by name");
-                                                }
-                                                else {
-                                                    
-                                                    
-                                                    if (jsonData[@"errors"]) {
-                                                        NSString *error = jsonData[@"errors"];
-                                                        NSLog(@"%@",error);
-                                                        
-                                                    }else{
-                                                        NSString *imageurl = jsonData [@"image_url"];
-                                                        event.coverpictureURL = imageurl;
-                                                      //  NSLog(@"artist name serch mulite artist");
-                                                    }
-                                                    
-                                                }
-                                            }
-                                        }];
-                                        }
-                                    else{
-                                        event.mbidNumber = artistinfo[@"mbid"];
-                                            
-                                            NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=YOUR_APP_ID",event.mbidNumber];
-                                            
-                                            
-                                            NSURL *url = [NSURL URLWithString:endpoint];
-                                            [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                                
-                                                if (error) {
-                                                    NSLog(@" JSON error mbid number didnt work");
-                                                }else {
-                                                    
-                                                    
-                                                    NSDictionary *jsonData = [[NSDictionary alloc]init];
-                                                    jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-                                                    
-                                                    if ([jsonData count]== 0 ) {
-                                                        NSLog(@"No info for that artist via mbid api call");
-                                                    }
-                                                    else {
-                                                        // NSLog(@"MBID number worked but gave back null object");
-                                                        
-                                                       // NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData[@"image_url"]];
-                                                        //NSLog(@"%@",stringRep);
-                                                        event.coverpictureURL = jsonData[@"image_url"];
-                                                        //NSLog(@"artist mbid search mulite artist");
-
-                                                        
-                                                    }
-                                                    
-                                                }
-                                            }];
-                                   };
-
                                
                                 //retreving venue details
                                 NSDictionary *venue = object [@"venue"];
@@ -192,50 +125,45 @@
                                 event.twitterSearchQuery = encodedrequest;
 
 
-                                //NSDictionary *artistdic = object [@"artists"];
                                 
                                 //for gigs with more then one artist
                                 NSString *objectdate = object [@"datetime"];
                                 NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+                                
+                                
                                 // Convert string to date object
                                 NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
                                 [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
                                
                                 NSDate *date = [dateFormat dateFromString:dateformatted];
-                                
-                                
                                 NSDate *todaysdate = [NSDate date];
+                                NSTimeInterval diff = ([date timeIntervalSinceDate:todaysdate]/60)/60;
                                 
-                              
-                            
+                                
+                                
+                                
+                                
+                                if (diff < -5 && diff > -24) {
+                                    
+                                 //[self.alreadlyHappened addObject:event];
+                                    event.status = @"alreadyHappened";
+
+                                }else if (diff > 1){
+                                
+                                //[self.happeningLater addObject:event];
+                                    event.status = @"happeningLater";
+
+                                }else {
+                                    //[self.currentlyHappening addObject:event];
+                                    event.status = @"currentlyhappening";
 
                                 
-//                                            NSString *stringRep = [NSString stringWithFormat:@"%@",date];
-//                                            NSLog(@"%@",stringRep);
+                                };
                                 
-                                //todays date
-                                //NSDate * now = [NSDate date];
+                                [self.allEvents addObject:event];
                                 
-                                
-                                //NSComparisonResult result = [now compare:date];
-                                
-                                //        if(result==NSOrderedAscending)
-                                //            NSLog(@"today is less");
-                                //        else if(result==NSOrderedDescending)
-                                //            NSLog(@"newDate is less");
-                                //        else
-                                //            NSLog(@"BOOOOOOOOOOOOOOOOM");
-                                
-                                
-                                
-                                
-                                
-                                
-                                [self.todaysObjects addObject:event];
-                                i++;
+                                    i++;
 
-                               // NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpictureURL];
-                               // NSLog(@"%@",stringRep);
 
 
                             };
@@ -250,97 +178,24 @@
                             //event.eventDate = eventDate;
                             //retreving event title to be the artist name
                             NSArray *artists = object [@"artists"];
+                            
                             NSString *A = event.eventTitle;
                             NSString *b = [A stringByReplacingOccurrencesOfString:@" " withString:@""];
                             NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
                             event.InstaSearchQuery = c;
 
+
                             //check and make sure there is an event title
                             if ([artists count]>0) {
                                 NSDictionary *artistinfo = artists [0];
                                 event.eventTitle = artistinfo[@"name"];
-
-
-                                    if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-                                     event.mbidNumber = @"empty";
-                                    
-                                        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",event.InstaSearchQuery];
-                                        NSURL *url = [NSURL URLWithString:endpoint];
-                                        [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                            
-                                            if (error) {
-                                                NSLog(@"JSON ERROR api artist serch by name for image");
-                                            }else {
-                                                
-                                                
-                                                NSDictionary *jsonData = [[NSDictionary alloc]init];
-                                                jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-                                                
-                                                if ([jsonData count]== 0 ) {
-                                                    NSLog(@"No info for that artist seched by name");
-                                                }
-                                                else {
-                                                    
-                                                    
-                                                    if (jsonData[@"errors"]) {
-                                                        NSString *error = jsonData[@"errors"];
-                                                        NSLog(@"%@",error);
-                                                        
-                                                    }else{
-                                                        NSString *imageurl = jsonData [@"image_url"];
-                                                        event.coverpictureURL = imageurl;
-                                                       // NSLog(@"artist name search single artist");
-
-                                                    }
-                                                    
-                                                }
-                                            }
-                                        }];
-                                    
-                                    
-                                    
-                                    
-                                    }else{
-                                    event.mbidNumber = artistinfo[@"mbid"];
-                                    
-                                        
-                                        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=YOUR_APP_ID",event.mbidNumber];
-                                        
-                                        
-                                        NSURL *url = [NSURL URLWithString:endpoint];
-                                        [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                            
-                                            if (error) {
-                                                NSLog(@" JSON error mbid number didnt work");
-                                            }else {
-                                                
-                                                
-                                                NSDictionary *jsonData = [[NSDictionary alloc]init];
-                                                jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-                                                
-                                                if ([jsonData count]== 0 ) {
-                                                    NSLog(@"No info for that artist via mbid api call");
-                                                }
-                                                else {
-                                                    // NSLog(@"MBID number worked but gave back null object");
-                                                    
-                                                    //NSString *stringRep = [NSString stringWithFormat:@"%@",jsonData[@"image_url"]];
-                                                    //NSLog(@"%@",stringRep);
-                                                    event.coverpictureURL = jsonData[@"image_url"];
-                                                   // NSLog(@"artist mbid search single artist");
-
-                                                    
-                                                }
-                                                
-                                            }
-                                        }];
-                                    
-                                    };
-
+                            
                             }else {
                                 event.eventTitle = @"Some silly goose forgeot to enter event title";
+                                event.InstaSearchQuery = @"jesign";
                             }
 
+                            
                             //retreving venue details
                             NSDictionary *venue = object [@"venue"];
                             event.venueName = venue [@"name"];
@@ -364,19 +219,38 @@
 
                             event.twitterSearchQuery = encodedrequest;
 
-                            //setup insta search query
+                            //for gigs with more then one artist
+                            NSString *objectdate = object [@"datetime"];
+                            NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+                            // Convert string to date object
+                            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                            [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
                             
-                            //remove any white space  //TAKE OUT ANY " OR ' OR ANYTHING THAT PEOPLE WOULDNT NORMALY HASHTAG
+                            NSDate *date = [dateFormat dateFromString:dateformatted];
+                            NSDate *todaysdate = [NSDate date];
+                            NSTimeInterval diff = ([date timeIntervalSinceDate:todaysdate]/60)/60;
+                            
 
-                          
+                            
+                            
+                            if (diff < -5 && diff > -24) {
+                                
+                                //[self.alreadlyHappened addObject:event];
+                                event.status = @"alreadyHappened";
+                                
+                            }else if (diff > 1){
+                                
+                                //[self.happeningLater addObject:event];
+                                event.status = @"happeningLater";
 
-
-                            //[self getartistpicture:event];
-
-
-                           // NSLog(@"%@",event.coverpictureURL);
-                            [self.todaysObjects addObject:event];
+                                
+                            }else {
+                                //[self.currentlyHappening addObject:event];
+                                event.status = @"currentlyhappening";
+                             };
+                            
                     
+                            [self.allEvents addObject:event];
 
 
                         }
@@ -389,6 +263,13 @@
                 int a = ([self.countysInIreland count]-1 );
                 if (x == a) {
                     completionBlock();
+                    //NSString *stringRep1 = [NSString stringWithFormat:@"%@",self.happeningLater];
+                    //NSLog(@"%@",stringRep1);
+//                    NSString *stringRep = [NSString stringWithFormat:@"%@",self.currentlyHappening];
+//                    NSLog(@"%@",stringRep);
+//                    NSString *stringRep0 = [NSString stringWithFormat:@"%@",self.alreadlyHappened];
+//                    NSLog(@"%@",stringRep0);
+                
                 };
 
 
@@ -401,7 +282,95 @@
 
 
     }//end of while loop
+    
+ 
+
 }//end of build master array loop
+
+-(NSString*)getArtistInfoByName:(NSString*)artistname completionBolock:(void(^)(void))completionBlock{
+    
+    
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",artistname];
+    NSURL *url = [NSURL URLWithString:endpoint];
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            NSLog(@"JSON ERROR api artist serch by name for image");
+        }else {
+            
+            
+            NSDictionary *jsonData = [[NSDictionary alloc]init];
+            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
+            if ([jsonData count]== 0 ) {
+                NSLog(@"No info for that artist seched by name");
+            }
+            else {
+                
+                
+                if (jsonData[@"errors"]) {
+                    NSString *error = jsonData[@"errors"];
+                    NSLog(@"%@",error);
+                    
+                }else{
+                    
+                    self.imageUrl = jsonData [@"image_url"];
+                }
+                
+            }
+        }
+    }];
+    NSLog(@"%@ coming from the artist info class",self.imageUrl);
+    completionBlock();
+    return self.imageUrl;
+};
+
+
+-(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber completionBolock:(void (^)(void))completionBlock{
+    
+    
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=YOUR_APP_ID",mbidNumber];
+    
+    
+    NSURL *url = [NSURL URLWithString:endpoint];
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            NSLog(@" JSON error mbid number didnt work");
+        }else {
+            
+            
+            NSDictionary *jsonData = [[NSDictionary alloc]init];
+            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
+            if ([jsonData count]== 0 ) {
+                NSLog(@"No info for that artist via mbid api call");
+            }
+            else {
+                
+                
+                self.imageUrl = jsonData[@"image_url"];
+                
+                
+                completionBlock();
+                
+                //self.imageUrl = jsonData[@"image_url"];
+                //NSLog(@"%@",returnString);
+            }
+        }
+        
+    }];
+    
+    // NSLog(@"%@",returnString);
+    
+    
+    //NSLog(@"%@ coming from the artist info class",self.imageUrl);
+    return self.imageUrl;
+    
+};
+
 
 
 
