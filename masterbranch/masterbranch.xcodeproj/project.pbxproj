@@ -11,7 +11,6 @@
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
 		8936A64A1B2336B100748803 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6491B2336B100748803 /* Annotation.m */; };
-		8936A64D1B23476D00748803 /* EngineRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A64C1B23476D00748803 /* EngineRoom.m */; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -40,8 +39,6 @@
 		8936A6461B23351A00748803 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8936A6481B2336B100748803 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
 		8936A6491B2336B100748803 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
-		8936A64B1B23476D00748803 /* EngineRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineRoom.h; sourceTree = "<group>"; };
-		8936A64C1B23476D00748803 /* EngineRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineRoom.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* masterbranch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = masterbranch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -135,8 +132,6 @@
 				89F51E011B1E1C62004E9055 /* SocialStream.m */,
 				89F51E021B1E1C62004E9055 /* UpcomingGigs.h */,
 				89F51E031B1E1C62004E9055 /* UpcomingGigs.m */,
-				8936A64B1B23476D00748803 /* EngineRoom.h */,
-				8936A64C1B23476D00748803 /* EngineRoom.m */,
 				89F51DD71B1E1B39004E9055 /* Supporting Files */,
 			);
 			path = masterbranch;
@@ -270,7 +265,6 @@
 			files = (
 				89F51E041B1E1C62004E9055 /* SocialStream.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
-				8936A64D1B23476D00748803 /* EngineRoom.m in Sources */,
 				89F51E051B1E1C62004E9055 /* UpcomingGigs.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
