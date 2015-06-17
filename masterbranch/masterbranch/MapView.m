@@ -94,7 +94,7 @@
     }else if ([currentAnnotaion.status isEqualToString:@"happeningLater"]){
         view.pinColor = MKPinAnnotationColorPurple;
 
-    }else{
+    }else if ([currentAnnotaion.status isEqualToString:@"currentlyhappening"]){
         view.pinColor = MKPinAnnotationColorRed;
     }
     
@@ -118,28 +118,28 @@
 
 //here trying to call the get artist cover picture API method when annotation is selected
 
-//- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
-//{
-//
-//    
-//    Annotation *currentannoation = view.annotation;
-//    
-//    //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
-//    
-//    eventObject *event = [[eventObject alloc]init];
-//    
-//    event = currentannoation.currentEvent;
-//    
-//    NSString *url = [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"hi");}];
-//    
-//    //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
-//    //NSString *url = [getartistinfo ]
-//    
-//   // NSLog(@"%@",coverpictureURL);
-//    
-//    //int indexpath = currentannoation.eventObjectIndex;
-//   // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
-//}
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+
+    
+    Annotation *currentannoation = view.annotation;
+    
+    //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
+    
+    eventObject *event = [[eventObject alloc]init];
+    
+    event = currentannoation.currentEvent;
+    
+    NSString *url = [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"hi");}];
+    
+    //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
+    //NSString *url = [getartistinfo ]
+    
+   // NSLog(@"%@",coverpictureURL);
+    
+    //int indexpath = currentannoation.eventObjectIndex;
+   // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
+}
 
 //
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
