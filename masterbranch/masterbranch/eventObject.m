@@ -84,7 +84,6 @@
 
                             int i = 0;
                             while ( i < [artistdic count] ){
-                                //NEED TO ALOW MULIT ARTIST IN THE COVER PICTURE AREA
 
                                 event = [[eventObject alloc]init];
 
@@ -139,13 +138,15 @@
                                
                                 NSDate *date = [dateFormat dateFromString:dateformatted];
                                 NSDate *todaysdate = [NSDate date];
+                                
+                                //getting the diffrence in hours between events date and time and NOW in +/-
                                 NSTimeInterval diff = ([date timeIntervalSinceDate:todaysdate]/60)/60;
                                 
                                 
                                 
                                 
                                 
-                                if (diff < -5 && diff > -24) {
+                                if (diff < -4 && diff > -24) {
                                     
                                  //[self.alreadlyHappened addObject:event];
                                     event.status = @"alreadyHappened";
