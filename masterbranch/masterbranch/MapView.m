@@ -12,7 +12,6 @@
 
 
 @interface MapView ()
-
 @end
 
 @implementation MapView
@@ -73,7 +72,33 @@
         ann.currentEvent = event;
         ann.status = event.status;
         
-        [self.annotations addObject:ann];
+//       
+//        if ([event.mbidNumber isEqualToString:@"empty"]) {
+//            NSLog(@"no mbid number");
+//        
+//        
+//        }else {
+//
+//            [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^(NSString* argument){
+//                
+//                self.url = argument;
+//                ann.imageURL = self.url;
+//                //NSLog(@"%@",ann.imageURL);
+//
+//            
+//               
+//
+//            
+//            
+//            }];
+//            
+//        }
+        
+         [self.annotations addObject:ann];
+        // NSLog(@"%@",ann.imageURL);
+
+        
+        
 
    }
     
@@ -128,19 +153,15 @@
 {
 
     
-    Annotation *currentannoation = view.annotation;
+    //Annotation *currentannoation = view.annotation;
     
     //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
     
-    eventObject *event = [[eventObject alloc]init];
+    //eventObject *event = [[eventObject alloc]init];
     
-    event = currentannoation.currentEvent;
+    //event = currentannoation.currentEvent;
    // (id)[NSNull null]
-    if ([event.mbidNumber isEqualToString:@"empty"]) {
-        NSLog(@"no mbid number");
-    }else {
-        NSString *url = [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"hi");}];
-     }
+   
     
     
     

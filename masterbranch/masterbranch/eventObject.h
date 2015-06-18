@@ -41,7 +41,7 @@
 
 -(NSString*)getArtistInfoByName:(NSString*)artistname completionBolock:(void(^)(void))completionBlock;
 
--(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber completionBolock:(void(^)(void))completionBlock;
+-(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber completionBolock:(void(^)(NSString*))completionBlock;
 
 //-(void) getartistpicture:(eventObject*)currentEvent;
 

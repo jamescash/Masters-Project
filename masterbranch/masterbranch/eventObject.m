@@ -101,9 +101,15 @@
                                 NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
                                 event.InstaSearchQuery = c;
 
+                                //getting artist mbid number
+                                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                                    event.mbidNumber = @"empty";
+                                }else{
+                                    event.mbidNumber = artistinfo[@"mbid"];
+                                };
+                                
 
-                               
-                                //retreving venue details
+                               //retreving venue details
                                 NSDictionary *venue = object [@"venue"];
                                 event.venueName = venue [@"name"];
                                 event.LatLong = @{ @"lat" : venue[@"latitude"],
@@ -175,7 +181,10 @@
                         }//End of Multie Artist
 
                         else{
-
+                            
+                            
+                          
+                            event.coverpictureURL = @"nil";
 
                             event = [[eventObject alloc]init];
                             //event.eventDate = eventDate;
@@ -193,10 +202,37 @@
                                 NSDictionary *artistinfo = artists [0];
                                 event.eventTitle = artistinfo[@"name"];
                             
+                                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                                    event.mbidNumber = @"empty";
+                                }else{
+                                    event.mbidNumber = artistinfo[@"mbid"];
+                                };
+                            
                             }else {
                                 event.eventTitle = @"Some silly goose forgeot to enter event title";
                                 event.InstaSearchQuery = @"jesign";
                             }
+                            
+
+                            if ([event.mbidNumber isEqualToString:@"empty"]) {
+                                NSLog(@"no mbid number");
+                                
+                                
+                            }else {
+                                
+                                [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^(NSString* argument){
+                                    
+                                    event.coverpictureURL = argument;
+                                  
+//                                    [self.allEvents addObject:event];
+
+
+                                    
+                                }];
+                                
+                            }
+
+                            
 
                             
                             //retreving venue details
@@ -252,8 +288,8 @@
                                 event.status = @"currentlyhappening";
                              };
                             
-                    
-                            [self.allEvents addObject:event];
+                             [self.allEvents addObject:event];
+                          //   NSLog(@"%@",event.coverpictureURL);
 
 
                         }
@@ -330,7 +366,7 @@
 };
 
 
--(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber completionBolock:(void (^)(void))completionBlock{
+-(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber completionBolock:(void(^)(NSString* argument))completionBlock{
     
     
     
@@ -357,7 +393,7 @@
                 self.imageUrl = jsonData[@"image_url"];
                 
                 
-                completionBlock();
+                completionBlock(self.imageUrl);
                 
                 //self.imageUrl = jsonData[@"image_url"];
                 //NSLog(@"%@",returnString);
@@ -368,11 +404,11 @@
     
     //
     
-    NSLog(@"method working");
+   // NSLog(@"method working");
     
     
     //NSLog(@"%@ coming from the artist info class",self.imageUrl);
-    return self.imageUrl;
+    return 0;
     
 };
 
