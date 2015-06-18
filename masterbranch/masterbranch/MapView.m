@@ -102,6 +102,12 @@
     view.enabled = YES;
     view.animatesDrop = YES;
     view.canShowCallout = YES;
+    view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    
+    
+    
+    
+    
     
     //NSString *pictureurl =currentAnnotaion.imageURL;
     //NSLog(@"%@",pictureurl);
@@ -129,8 +135,19 @@
     eventObject *event = [[eventObject alloc]init];
     
     event = currentannoation.currentEvent;
+   // (id)[NSNull null]
+    if ([event.mbidNumber isEqualToString:@"empty"]) {
+        NSLog(@"no mbid number");
+    }else {
+        NSString *url = [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"hi");}];
+     }
     
-    NSString *url = [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"hi");}];
+    
+    
+    
+    
+    
+    
     
     //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
     //NSString *url = [getartistinfo ]

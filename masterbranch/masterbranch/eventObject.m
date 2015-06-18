@@ -51,7 +51,9 @@
      NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
      [dateFormat setDateFormat:@"yyyy-LL-dd"];
      NSString *todaysdate = [dateFormat stringFromDate:now];
-        // NSLog(@"%@",todaysdate);
+       
+         
+         // NSLog(@"%@",todaysdate);
 
         NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",todaysdate,todaysdate,[self.countysInIreland objectAtIndex:x]];
        NSURL *url = [NSURL URLWithString:endpoint];
@@ -363,7 +365,9 @@
         
     }];
     
-    // NSLog(@"%@",returnString);
+    //
+    
+    NSLog(@"method working");
     
     
     //NSLog(@"%@ coming from the artist info class",self.imageUrl);
