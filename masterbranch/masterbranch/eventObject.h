@@ -39,9 +39,11 @@
 -(void) buildmasterarray:(void(^)(void))completionBlock;
 
 
--(NSString*)getArtistInfoByName:(NSString*)artistname completionBolock:(void(^)(void))completionBlock;
+-(NSString*)getArtistInfoByName:(NSString*)artistname currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock;
 
--(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber completionBolock:(void(^)(NSString*))completionBlock;
+-(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock;
+
+
 
 //-(void) getartistpicture:(eventObject*)currentEvent;
 
