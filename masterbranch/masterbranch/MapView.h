@@ -18,6 +18,9 @@
 //@property (nonatomic) NSMutableArray *todaysGigs;
 @property (nonatomic) NSMutableArray *annotations;
 @property (nonatomic) NSMutableArray *arrayOfGigs;
+@property (nonatomic) NSString *url;
+
+
 
 
 -(void)buildannotations:(NSArray*)arrayofgigs;

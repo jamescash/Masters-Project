@@ -12,7 +12,6 @@
 
 
 @interface MapView ()
-
 @end
 
 @implementation MapView
@@ -72,8 +71,13 @@
         ann.subtitle = event.venueName;
         ann.currentEvent = event;
         ann.status = event.status;
+
         
-        [self.annotations addObject:ann];
+         [self.annotations addObject:ann];
+        // NSLog(@"%@",ann.imageURL);
+
+        
+        
 
    }
     
@@ -89,26 +93,47 @@
     currentAnnotaion = annotation;
     
     if ([currentAnnotaion.status isEqualToString: @"alreadyHappened"]) {
-        view.pinColor = MKPinAnnotationColorGreen;
+        view.pinColor = MKPinAnnotationColorRed;
 
     }else if ([currentAnnotaion.status isEqualToString:@"happeningLater"]){
         view.pinColor = MKPinAnnotationColorPurple;
 
     }else if ([currentAnnotaion.status isEqualToString:@"currentlyhappening"]){
-        view.pinColor = MKPinAnnotationColorRed;
+        view.pinColor = MKPinAnnotationColorGreen;
     }
     
     //enable annimation
     view.enabled = YES;
     view.animatesDrop = YES;
     view.canShowCallout = YES;
+    view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     
-    //NSString *pictureurl =currentAnnotaion.imageURL;
-    //NSLog(@"%@",pictureurl);
-    //NSURL *pic = [NSURL URLWithString:pictureurl];
-    //NSData *data = [NSData dataWithContentsOfURL:pic];
-    //UIImage *img = [[UIImage alloc] initWithData:data];
-    //cell.imageView.image = img;
+    
+    
+    eventObject *currentevent = currentAnnotaion.currentEvent;
+    
+    
+    NSString *pictureurl =currentevent.coverpictureURL;
+    NSLog(@"%@",pictureurl);
+    NSURL *pic = [NSURL URLWithString:pictureurl];
+    NSData *data = [NSData dataWithContentsOfURL:pic];
+    UIImage *img = [[UIImage alloc] initWithData:data];
+    
+    //UIImage *actualImage = [UIImage imageWithData:imageData];
+    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
+                                [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
+                                UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+                                UIGraphicsEndImageContext();
+                                NSData *smallData = UIImagePNGRepresentation(newImage);
+    
+    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
+
+    
+    
+    UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
+    
+    
+    view.leftCalloutAccessoryView = imageview;
     
     return view;
     
@@ -122,15 +147,22 @@
 {
 
     
-    Annotation *currentannoation = view.annotation;
+    //Annotation *currentannoation = view.annotation;
     
     //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
     
-    eventObject *event = [[eventObject alloc]init];
+    //eventObject *event = [[eventObject alloc]init];
     
-    event = currentannoation.currentEvent;
+    //event = currentannoation.currentEvent;
+   // (id)[NSNull null]
+   
     
-    NSString *url = [event getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"hi");}];
+    
+    
+    
+    
+    
+    
     
     //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
     //NSString *url = [getartistinfo ]
