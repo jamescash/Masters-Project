@@ -20,14 +20,15 @@
     [super viewDidLoad];
     
     [self.MkMapViewOutLet setDelegate:self];
-    eventObject *event = [[eventObject alloc]init];
     
+    //create event object and then call the main buld master array method
+    //this method builds an array of parsed event objects that represents all the event happening in ireland on todays date
+    
+    eventObject *event = [[eventObject alloc]init];
     [event buildmasterarray:^{
-        //NSLog(@"copletetion block");
-        //self.todaysGigs = [[NSMutableArray alloc]init];
-        //self.todaysGigs = event.happeningLater;
-        
+       
         self.arrayOfGigs = [[NSMutableArray alloc]init];
+        //
         self.arrayOfGigs = event.allEvents;
         
 
@@ -156,14 +157,6 @@
     //event = currentannoation.currentEvent;
    // (id)[NSNull null]
    
-    
-    
-    
-    
-    
-    
-    
-    
     //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
     //NSString *url = [getartistinfo ]
     
