@@ -28,9 +28,6 @@
 
 
 @property (nonatomic) NSMutableArray *jsonData;
-//@property (nonatomic) NSMutableArray *happeningLater;
-//@property (nonatomic) NSMutableArray *alreadlyHappened;
-//@property (nonatomic) NSMutableArray *currentlyHappening;
 @property (nonatomic) NSMutableArray *allEvents;
 
 @property (nonatomic) NSArray *countysInIreland;
@@ -43,9 +40,9 @@
 -(void) buildmasterarray:(void(^)(void))completionBlock;
 
 
--(NSString*)getArtistInfoByName:(NSString*)artistname currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock;
+-(NSString*)getArtistInfoByName:(NSString*)artistname;
 
--(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock;
+-(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
 
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult;

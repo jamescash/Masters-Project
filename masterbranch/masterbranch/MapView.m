@@ -27,24 +27,14 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+    [self.MkMapViewOutLet setDelegate:self];
+
     if (!APIcalls) {
         APIcalls = dispatch_queue_create("com.APIcall.Bandsintown", NULL);
     }
     
-   
-    
-    [self.MkMapViewOutLet setDelegate:self];
-    
-    //create event object and then call the main buld master array method
-    //this method builds an array of parsed event objects that represents all the event happening in ireland on todays date
-    
-    
-    
-    
     eventObject *event = [[eventObject alloc]init];
    
-    
     dispatch_async(APIcalls, ^{
     
         [event buildmasterarray:^{
@@ -103,8 +93,7 @@
         ann.currentEvent = event;
         ann.status = event.status;
 
-        
-         [self.annotations addObject:ann];
+        [self.annotations addObject:ann];
         // NSLog(@"%@",ann.imageURL);
 
         
@@ -141,11 +130,24 @@
     
     
     
+
+    dispatch_async(APIcalls, ^{
+    
     eventObject *currentevent = currentAnnotaion.currentEvent;
     
     
+//    if ([currentevent.mbidNumber isEqualToString:@"empty"]) {
+//        currentevent.coverpictureURL = [currentevent getArtistInfoByName:currentevent.InstaSearchQuery];
+//
+//    }else{
+//        
+//        currentevent.coverpictureURL = [currentevent getArtistInfoByMbidNumuber:currentevent.mbidNumber];
+//    }
+    
+    
+
     NSString *pictureurl =currentevent.coverpictureURL;
-   // NSLog(@"%@",pictureurl);
+    NSLog(@"%@",pictureurl);
     NSURL *pic = [NSURL URLWithString:pictureurl];
     NSData *data = [NSData dataWithContentsOfURL:pic];
     UIImage *img = [[UIImage alloc] initWithData:data];
@@ -158,14 +160,25 @@
                                 NSData *smallData = UIImagePNGRepresentation(newImage);
     
     UIImage *newimage = [[UIImage alloc] initWithData:smallData];
-
-    
-    
     UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
     
     
-    view.leftCalloutAccessoryView = imageview;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            
+            view.leftCalloutAccessoryView = imageview;
+        
+           // view.image = newimage;
+        
+        
+        
+        });
+   
     
+    });
+    
+    
+        
     return view;
     
     
@@ -177,14 +190,19 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
 
+   
+//    eventObject *event = [[eventObject alloc]init];
+     //Annotation *currentannoation = view.annotation;
     
-    //Annotation *currentannoation = view.annotation;
+//    event = currentannoation.currentEvent;
+//
+//    event.coverpictureURL = [event getArtistInfoByName:event.InstaSearchQuery];
+//    
+//    NSLog(@"%@",event.coverpictureURL);
     
     //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
     
-    //eventObject *event = [[eventObject alloc]init];
     
-    //event = currentannoation.currentEvent;
    // (id)[NSNull null]
    
     //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
@@ -196,7 +214,6 @@
    // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
 }
 
-//
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 //{
 //    if ([segue.identifier isEqualToString:@"socialStream"])
