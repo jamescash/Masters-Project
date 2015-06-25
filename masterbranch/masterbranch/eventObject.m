@@ -57,7 +57,7 @@
         JSONresultes = [pasre GetEventJSON:countyName dateObject:yesterdaysDate];
         
         if ([JSONresultes count]== 0 ) {
-            NSLog(@"there was no events in that county today");
+            NSLog(@"there was no events in that county yesterday");
         }
         else {
             
@@ -83,8 +83,10 @@
 
 
 //this method is called to get more artist info ie.cover picutre URL of a paticular artist
--(NSString*)getArtistInfoByName:(NSString*)artistname currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock{
-    
+-(NSString*)getArtistInfoByName:(NSString*)artistname{
+   
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
     
     //conect to the endpoint with the artist name and get artist JSON
     NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",artistname];
@@ -94,10 +96,8 @@
        
         if (error) {
             NSLog(@"JSON ERROR adding coverpicture URL artsit search with name");
-            //add event with the cover picture URL
-            [self.allEvents addObject:currentevent];
-            //call the comletion block
-            completionBlock();
+            dispatch_semaphore_signal(sema);
+
 
 
 
@@ -108,8 +108,9 @@
             
             if ([jsonData count]== 0 ) {
                 NSLog(@"No info for that artist seched by name");
-                [self.allEvents addObject:currentevent];
-                completionBlock();
+                dispatch_semaphore_signal(sema);
+
+              
             }
             else {
                 
@@ -117,28 +118,34 @@
                 if (jsonData[@"errors"]) {
                     NSString *error = jsonData[@"errors"];
                     NSLog(@"%@",error);
-                    [self.allEvents addObject:currentevent];
-                    NSLog(@"event added bad" );
-                    completionBlock();
+                    dispatch_semaphore_signal(sema);
+
 
                 }else{
+                    //NSString *coverpicURL;
+                    self.imageUrl = jsonData [@"thumb_url"];
+                    dispatch_semaphore_signal(sema);
+
                     
-                    currentevent.coverpictureURL = jsonData [@"thumb_url"];
-                    [self.allEvents addObject:currentevent];
-                    NSLog(@"event added good" );
-                    completionBlock();
                 }
                 
             }
         }
     }];
-    //remove this reture type when time theres no need for it
+
+    
+    
+    
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+
     return self.imageUrl;
 };
 
 //work the same as the above method exept it just searchs by MBID number
--(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock{
+-(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
     
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
     
     
     NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=YOUR_APP_ID",mbidNumber];
@@ -147,9 +154,9 @@
         
         if (error) {
             NSLog(@" JSON error mbid number didnt work");
-            [self.allEvents addObject:currentevent];
             NSLog(@"event added bad" );
-            completionBlock();
+            dispatch_semaphore_signal(sema);
+
 
         }else {
             
@@ -159,9 +166,9 @@
             
             if ([jsonData count]== 0 ) {
                 NSLog(@"No info for that artist via mbid api call");
-                [self.allEvents addObject:currentevent];
                 NSLog(@"event added bad" );
-                completionBlock();
+                dispatch_semaphore_signal(sema);
+
 
 
 
@@ -169,24 +176,26 @@
             else {
                 
                 
-                currentevent.coverpictureURL = jsonData[@"thumb_url"];
+                self.imageUrl = jsonData [@"thumb_url"];
+                dispatch_semaphore_signal(sema);
+
                 
-                [self.allEvents addObject:currentevent];
-                NSLog(@"event added good" );
-                completionBlock();
                 
             }
         }
         
     }];
-    
-//remove reture type
-    return 0;
+  
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+
+    return self.imageUrl;
 };
 
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult{
     
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
     
 
     //for eveny object in the dictionary self.jsonData parse it in this way
@@ -254,6 +263,25 @@
         event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName];
         event.status = [pasre GetEventStatus:object [@"datetime"]];
         
+        
+        
+            if ([event.mbidNumber isEqualToString:@"empty"]) {
+                event.coverpictureURL = [self getArtistInfoByName:event.InstaSearchQuery];
+                dispatch_semaphore_signal(sema);
+
+    
+            
+            }else{
+        
+                event.coverpictureURL = [self getArtistInfoByMbidNumuber:event.mbidNumber];
+                dispatch_semaphore_signal(sema);
+
+            
+            }
+
+        
+        
+        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
         [self.allEvents addObject:event];
         
     };//end of JSON parsing loop
