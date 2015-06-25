@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EventObjectParser.h"
 
 @interface eventObject : NSObject
 
@@ -21,12 +22,15 @@
 @property (nonatomic) NSMutableArray *artistsAtEvent;
 @property (nonatomic) NSString *mbidNumber;
 @property (nonatomic) NSString *status;
+@property (nonatomic) NSString *eventType;
+@property (nonatomic) NSMutableArray *artistNames;
+
 
 
 @property (nonatomic) NSMutableArray *jsonData;
-@property (nonatomic) NSMutableArray *happeningLater;
-@property (nonatomic) NSMutableArray *alreadlyHappened;
-@property (nonatomic) NSMutableArray *currentlyHappening;
+//@property (nonatomic) NSMutableArray *happeningLater;
+//@property (nonatomic) NSMutableArray *alreadlyHappened;
+//@property (nonatomic) NSMutableArray *currentlyHappening;
 @property (nonatomic) NSMutableArray *allEvents;
 
 @property (nonatomic) NSArray *countysInIreland;
@@ -42,6 +46,9 @@
 -(NSString*)getArtistInfoByName:(NSString*)artistname currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock;
 
 -(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber currentevent:(eventObject*)currentevent completionBlock:(void(^)(void))completionBlock;
+
+
+-(void)praseJSONresult: (NSDictionary*)JSONresult;
 
 
 
