@@ -57,7 +57,7 @@
         JSONresultes = [pasre GetEventJSON:countyName dateObject:yesterdaysDate];
         
         if ([JSONresultes count]== 0 ) {
-            NSLog(@"there was no events in that county today");
+            NSLog(@"there was no events in that county yesterday");
         }
         else {
             
