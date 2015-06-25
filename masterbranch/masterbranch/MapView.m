@@ -11,35 +11,65 @@
 #import "eventObject.h"
 
 
-@interface MapView ()
+@interface MapView (){
+  
+    dispatch_queue_t APIcalls;
+    
+}
+
+
 @end
 
 @implementation MapView
 
+
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
+    if (!APIcalls) {
+        APIcalls = dispatch_queue_create("com.APIcall.Bandsintown", NULL);
+    }
+    
+   
     
     [self.MkMapViewOutLet setDelegate:self];
     
     //create event object and then call the main buld master array method
     //this method builds an array of parsed event objects that represents all the event happening in ireland on todays date
     
+    
+    
+    
     eventObject *event = [[eventObject alloc]init];
-    [event buildmasterarray:^{
-       
-        self.arrayOfGigs = [[NSMutableArray alloc]init];
-        //
-        self.arrayOfGigs = event.allEvents;
-        
+   
+    
+    dispatch_async(APIcalls, ^{
+    
+        [event buildmasterarray:^{
+            
+            self.arrayOfGigs = [[NSMutableArray alloc]init];
+            //
+            self.arrayOfGigs = event.allEvents;
+            
+            self.annotations = [[NSMutableArray alloc]init];
+            [self buildannotations:self.arrayOfGigs];
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
+            
+        }];//end of songkick API call + Data parsing
+    
+    
+    
+    });
+    
+    
 
-        
-        self.annotations = [[NSMutableArray alloc]init];
-        [self buildannotations:self.arrayOfGigs];
-        
 
-        [self.MkMapViewOutLet addAnnotations:self.annotations];
-        
-    }];//end of songkick API call + Data parsing
+
+
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
@@ -115,7 +145,7 @@
     
     
     NSString *pictureurl =currentevent.coverpictureURL;
-    NSLog(@"%@",pictureurl);
+   // NSLog(@"%@",pictureurl);
     NSURL *pic = [NSURL URLWithString:pictureurl];
     NSData *data = [NSData dataWithContentsOfURL:pic];
     UIImage *img = [[UIImage alloc] initWithData:data];

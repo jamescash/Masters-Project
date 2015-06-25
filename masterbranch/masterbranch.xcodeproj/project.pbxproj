@@ -11,6 +11,7 @@
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
 		8936A64A1B2336B100748803 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6491B2336B100748803 /* Annotation.m */; };
+		89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -39,6 +40,8 @@
 		8936A6461B23351A00748803 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8936A6481B2336B100748803 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
 		8936A6491B2336B100748803 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		89AD3BA71B3C1BC00004CAE4 /* EventObjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventObjectParser.h; sourceTree = "<group>"; };
+		89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventObjectParser.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* masterbranch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = masterbranch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				89B216C11B24417500A3ACDF /* MapView */,
 				89F51DE11B1E1B39004E9055 /* Main.storyboard */,
 				89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */,
+				89AD3BA71B3C1BC00004CAE4 /* EventObjectParser.h */,
+				89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */,
 				89F51DFD1B1E1C49004E9055 /* eventObject.h */,
 				89F51DFE1B1E1C49004E9055 /* eventObject.m */,
 				89F51E001B1E1C62004E9055 /* SocialStream.h */,
@@ -267,6 +272,7 @@
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				89F51E051B1E1C62004E9055 /* UpcomingGigs.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
+				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
