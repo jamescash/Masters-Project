@@ -30,9 +30,10 @@
     NSString *todaysDate = [pasre formatDateForAPIcall:now];
     NSDictionary *JSONresultes = [[NSDictionary alloc]init];
     NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
+    NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
+
     
-               NSString *stringRep = [NSString stringWithFormat:@"%@",yesterday];
-               NSLog(@"%@",stringRep);
+    
     
     
     for (NSString *countyName in self.countysInIreland) {
@@ -47,10 +48,24 @@
     [self praseJSONresult:JSONresultes];
         
     }
-}
+
+ }
    
     
-    
+    for (NSString *countyName in self.countysInIreland) {
+        
+        JSONresultes = [pasre GetEventJSON:countyName dateObject:yesterdaysDate];
+        
+        if ([JSONresultes count]== 0 ) {
+            NSLog(@"there was no events in that county today");
+        }
+        else {
+            
+            [self praseJSONresult:JSONresultes];
+            
+        }
+        
+    }
     
     
     
