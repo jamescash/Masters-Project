@@ -17,7 +17,7 @@
 
 -(NSString*)formatDateForAPIcall:(NSDate*)date;
 
--(NSDictionary*)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date;
+//-(NSDictionary*)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date;
 
 -(NSString*)makeInstagramSearch: (NSString*) eventTitle;
 

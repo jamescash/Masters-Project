@@ -23,37 +23,39 @@
 
 
 
--(NSDictionary*)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date {
-
-    //creat semaphore to signle when asynch API request is finished
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
-    
-    //connet to the BandsinTown API get all events from the area on todays date
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",date,date,countyName];
-    
-    NSURL *url = [NSURL URLWithString:endpoint];
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        if (error) {
-            NSLog(@"api call didnt work with %@",countyName);
-        }else {
-            JSONresults = [[NSDictionary alloc]init];
-            JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            
-            //signil method to returen
-            dispatch_semaphore_signal(sema);
-
-       
-        }
-   
-    }];
-    
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-    
-    return JSONresults;
-
-};//end of GetEvntJSON
+//-(NSDictionary*)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date {
+//
+//    //creat semaphore to signle when asynch API request is finished
+//    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+//
+//    
+//    //connet to the BandsinTown API get all events from the area on todays date
+//    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",date,date,countyName];
+//    
+//    NSURL *url = [NSURL URLWithString:endpoint];
+//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        
+//        if (error) {
+//            NSLog(@"api call didnt work with %@",countyName);
+//            dispatch_semaphore_signal(sema);
+//
+//        }else {
+//            JSONresults = [[NSDictionary alloc]init];
+//            JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+//            
+//            //signil method to returen
+//            dispatch_semaphore_signal(sema);
+//
+//       
+//        }
+//   
+//    }];
+//    
+//    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+//    
+//    return JSONresults;
+//
+//};//end of GetEvntJSON
 
 
 -(NSString*)makeInstagramSearch: (NSString*) eventTitle{
