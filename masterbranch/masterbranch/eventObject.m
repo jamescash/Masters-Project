@@ -8,7 +8,11 @@
 
 #import "eventObject.h"
 
-@implementation eventObject
+@implementation eventObject{
+    
+    dispatch_queue_t yesterdaysEvents;
+
+};
 
 
 
@@ -30,11 +34,8 @@
     NSString *todaysDate = [pasre formatDateForAPIcall:now];
     NSDictionary *JSONresultes = [[NSDictionary alloc]init];
     NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
-    NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
+   NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
 
-    
-    
-    
     
     for (NSString *countyName in self.countysInIreland) {
         
@@ -45,8 +46,9 @@
     }
     else {
         
-    [self praseJSONresult:JSONresultes];
+            [self praseJSONresult:JSONresultes];
         
+   
     }
 
  }
@@ -63,6 +65,7 @@
             
             [self praseJSONresult:JSONresultes];
             
+       
         }
         
     }
@@ -85,7 +88,10 @@
 //this method is called to get more artist info ie.cover picutre URL of a paticular artist
 -(UIImageView*)getArtistInfoByName:(NSString*)artistname{
    
+    
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    EventObjectParser *parser = [[EventObjectParser alloc]init];
+
 
     
     //conect to the endpoint with the artist name and get artist JSON
@@ -137,32 +143,28 @@
     
     
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+   
+    
+    
     NSString *pictureurl =self.imageUrl;
-    //NSLog(@"%@",pictureurl);
     
     NSURL *pic = [NSURL URLWithString:pictureurl];
+    
     NSData *data = [NSData dataWithContentsOfURL:pic];
-    UIImage *img = [[UIImage alloc] initWithData:data];
-    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
-    [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    NSData *smallData = UIImagePNGRepresentation(newImage);
     
-    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
     
-    UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
+    return [parser makeThumbNail:data];
+
     
-    //NSLog(@"imageview returned");
-//    NSString *stringRep = [NSString stringWithFormat:@"%@",imageview];
-//       NSLog(@"%@",stringRep);
-    return imageview;
+    
+    
 };
 
 //work the same as the above method exept it just searchs by MBID number
 -(UIImageView*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
     
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    EventObjectParser *parser = [[EventObjectParser alloc]init];
 
     
     
@@ -209,26 +211,11 @@
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
     
     NSString *pictureurl =self.imageUrl;
-    //NSLog(@"%@",pictureurl);
     
     NSURL *pic = [NSURL URLWithString:pictureurl];
     NSData *data = [NSData dataWithContentsOfURL:pic];
-    UIImage *img = [[UIImage alloc] initWithData:data];
-    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
-    [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    NSData *smallData = UIImagePNGRepresentation(newImage);
-    
-    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
-    
-    UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
-    
-    
-    
-//    NSString *stringRep = [NSString stringWithFormat:@"%@",imageview];
-//    NSLog(@"%@",stringRep);
-    return imageview;
+    return [parser makeThumbNail:data];
+
 
 };
 
@@ -323,6 +310,10 @@
         
         
       //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+       
+       
+        
+        
         [self.allEvents addObject:event];
         
     };//end of JSON parsing loop

@@ -31,23 +31,26 @@
     [self.MkMapViewOutLet setDelegate:self];
 
     if (!APIcalls) {
-        APIcalls = dispatch_queue_create("com.APIcall.Bandsintown", NULL);
+        APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
     }
+    
+    
     
     
     
     eventObject *event = [[eventObject alloc]init];
    
     dispatch_async(APIcalls, ^{
-    
+        
+        
+        
         [event buildmasterarray:^{
             
-            self.arrayOfGigs = [[NSMutableArray alloc]init];
-            //
-            self.arrayOfGigs = event.allEvents;
             
             self.annotations = [[NSMutableArray alloc]init];
-            [self buildannotations:self.arrayOfGigs];
+           
+            
+            [self buildannotations:event.allEvents];
             
             
             dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
@@ -84,7 +87,6 @@
     
     for (eventObject *event in arrayofgigs) {
         
-        //NSLog(@"this should loop");
         NSString *latitude = event.LatLong[@"lat"];
         NSString *Long = event.LatLong[@"long"];
         location.latitude = [latitude doubleValue];
@@ -95,9 +97,12 @@
         ann.subtitle = event.venueName;
         ann.currentEvent = event;
         ann.status = event.status;
+        
+            dispatch_queue_t me = dispatch_get_current_queue();
+            NSString *stringRep = [NSString stringWithFormat:@"%s",dispatch_queue_get_label(me)];
+            NSLog(@"%@",stringRep);
 
         [self.annotations addObject:ann];
-        // NSLog(@"%@",ann.imageURL);
 
         
         
@@ -109,11 +114,18 @@
 
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
-    //create the view
+    
+    //create the annotation view
     
     MKPinAnnotationView *view = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"pin"];
     Annotation *currentAnnotaion = [[Annotation alloc]init];
     currentAnnotaion = annotation;
+    
+    eventObject *event = [[eventObject alloc]init];
+    
+    event = currentAnnotaion.currentEvent;
+    
+
     
     if ([currentAnnotaion.status isEqualToString: @"alreadyHappened"]) {
         view.pinColor = MKPinAnnotationColorRed;
@@ -131,23 +143,68 @@
     view.canShowCallout = YES;
     view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     
-    
-    
+//    
+//    if (!imageLoad) {
+//        imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
+//    }
+//
+//
+//    
+
+//    dispatch_async(imageLoad, ^{
+//        
+//
+//        
+//        if ([event.mbidNumber isEqualToString:@"empty"]) {
+//            
+//            event.coverpic = [event getArtistInfoByName:event.InstaSearchQuery];
+//            
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;  NSLog(@"IMAGES ADDED");});
+//          
+//            
+//        }else{
+//            
+//            
+//            //UIImageView *annoationThumb = [[UIImageView alloc]init];
+//            
+//            event.coverpic = [event getArtistInfoByMbidNumuber:event.mbidNumber];
+//     
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic; NSLog(@"IMAGES ADDED");});
+//            
+//            
+//        }
+//        
+//        
+//    });
 
 
-    
-    
-        
+
     return view;
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 
 //here trying to call the get artist cover picture API method when annotation is selected
-
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
+   
     if (!imageLoad) {
         imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
     }
@@ -157,23 +214,20 @@
     
     event = currentannoation.currentEvent;
   
-  dispatch_async(imageLoad, ^{
+ dispatch_async(imageLoad, ^{
     
     
     
     if ([event.mbidNumber isEqualToString:@"empty"]) {
         
-        
-        //UIImageView *annoationThumb = [[UIImageView alloc]init];
-        
         event.coverpic = [event getArtistInfoByName:event.InstaSearchQuery];
-            NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
-            NSLog(@"%@",stringRep);
+         //   NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
+        //    NSLog(@"%@",stringRep);
         
        // view.leftCalloutAccessoryView = event.coverpic;
         
-        dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic; });
-        
+        dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
+
         
     }else{
         
@@ -182,17 +236,17 @@
 
         event.coverpic = [event getArtistInfoByMbidNumuber:event.mbidNumber];
        
-        NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
-        NSLog(@"%@",stringRep);
+      //  NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
+      //  NSLog(@"%@",stringRep);
 
 
         dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
+
         
       }
      
      //view.leftCalloutAccessoryView = event.coverpic;
 
-      //dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
 });
     
 //view.leftCalloutAccessoryView = event.coverpic;
@@ -216,10 +270,10 @@
 }
 
 
--(void)reloadInputViews {
 
-    NSLog(@"this does fuck all");
-}
+
+   //view.leftCalloutAccessoryView = event.coverpic;
+
 
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 //{

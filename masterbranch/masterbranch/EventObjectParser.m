@@ -114,6 +114,43 @@
 };//end of get event stauts
 
 
+-(UIImageView*)makeThumbNail:(NSData *)pictureData{
+    
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_main_queue(),^{
+    
+    
+    UIImage *img = [[UIImage alloc] initWithData:pictureData];
+    
+    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
+    
+    [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
+    
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    NSData *smallData = UIImagePNGRepresentation(newImage);
+    
+    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
+    
+    self.thumbNail = [[UIImageView alloc] initWithImage:newimage];
+        dispatch_semaphore_signal(sema);
+
+        
+//        dispatch_queue_t me = dispatch_get_current_queue();
+//        NSString *stringRep = [NSString stringWithFormat:@"%s",dispatch_queue_get_label(me)];
+//        NSLog(@"%@",stringRep);
+    
+    });
+
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    return self.thumbNail;
+
+};
+
+
 
 
 

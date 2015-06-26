@@ -7,8 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 
 @interface EventObjectParser : NSObject
+
+@property (nonatomic) UIImageView *thumbNail;
 
 
 -(NSString*)formatDateForAPIcall:(NSDate*)date;
@@ -20,6 +24,8 @@
 -(NSString*)makeTitterSearch: (NSString*)eventTitle venueName:(NSString*)venueName;
 
 -(NSString*)GetEventStatus: (NSString*) currentEventDate;
+
+-(UIImageView*)makeThumbNail: (NSData*) pictureData;
 
 
 

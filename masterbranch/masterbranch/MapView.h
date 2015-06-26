@@ -14,9 +14,7 @@
 
 @interface MapView : UIViewController <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *MkMapViewOutLet;
-//@property (nonatomic) NSMutableArray *todaysGigs;
 @property (nonatomic) NSMutableArray *annotations;
-@property (nonatomic) NSMutableArray *arrayOfGigs;
 @property (nonatomic) NSString *url;
 
 
