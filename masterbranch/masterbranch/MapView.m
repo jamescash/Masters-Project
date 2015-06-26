@@ -7,13 +7,14 @@
 //
 
 #import "MapView.h"
-#import "Annotation.h"
-#import "eventObject.h"
+//#import "Annotation.h"
+//#import "eventObject.h"
 
 
 @interface MapView (){
   
     dispatch_queue_t APIcalls;
+    dispatch_queue_t imageLoad;
     
 }
 
@@ -32,6 +33,8 @@
     if (!APIcalls) {
         APIcalls = dispatch_queue_create("com.APIcall.Bandsintown", NULL);
     }
+    
+    
     
     eventObject *event = [[eventObject alloc]init];
    
@@ -131,51 +134,7 @@
     
     
 
-    dispatch_async(APIcalls, ^{
-    
-    eventObject *currentevent = currentAnnotaion.currentEvent;
-    
-    
-//    if ([currentevent.mbidNumber isEqualToString:@"empty"]) {
-//        currentevent.coverpictureURL = [currentevent getArtistInfoByName:currentevent.InstaSearchQuery];
-//
-//    }else{
-//        
-//        currentevent.coverpictureURL = [currentevent getArtistInfoByMbidNumuber:currentevent.mbidNumber];
-//    }
-    
-    
 
-    NSString *pictureurl =currentevent.coverpictureURL;
-    NSLog(@"%@",pictureurl);
-    NSURL *pic = [NSURL URLWithString:pictureurl];
-    NSData *data = [NSData dataWithContentsOfURL:pic];
-    UIImage *img = [[UIImage alloc] initWithData:data];
-    
-    //UIImage *actualImage = [UIImage imageWithData:imageData];
-    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
-                                [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
-                                UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-                                UIGraphicsEndImageContext();
-                                NSData *smallData = UIImagePNGRepresentation(newImage);
-    
-    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
-    UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
-    
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            
-            view.leftCalloutAccessoryView = imageview;
-        
-           // view.image = newimage;
-        
-        
-        
-        });
-   
-    
-    });
     
     
         
@@ -189,13 +148,55 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-
-   
-//    eventObject *event = [[eventObject alloc]init];
-     //Annotation *currentannoation = view.annotation;
+    if (!imageLoad) {
+        imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
+    }
     
-//    event = currentannoation.currentEvent;
-//
+    eventObject *event = [[eventObject alloc]init];
+    Annotation *currentannoation = view.annotation;
+    
+    event = currentannoation.currentEvent;
+  
+  dispatch_async(imageLoad, ^{
+    
+    
+    
+    if ([event.mbidNumber isEqualToString:@"empty"]) {
+        
+        
+        //UIImageView *annoationThumb = [[UIImageView alloc]init];
+        
+        event.coverpic = [event getArtistInfoByName:event.InstaSearchQuery];
+            NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
+            NSLog(@"%@",stringRep);
+        
+       // view.leftCalloutAccessoryView = event.coverpic;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic; });
+        
+        
+    }else{
+        
+        
+        //UIImageView *annoationThumb = [[UIImageView alloc]init];
+
+        event.coverpic = [event getArtistInfoByMbidNumuber:event.mbidNumber];
+       
+        NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
+        NSLog(@"%@",stringRep);
+
+
+        dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
+        
+      }
+     
+     //view.leftCalloutAccessoryView = event.coverpic;
+
+      //dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
+});
+    
+//view.leftCalloutAccessoryView = event.coverpic;
+    
 //    event.coverpictureURL = [event getArtistInfoByName:event.InstaSearchQuery];
 //    
 //    NSLog(@"%@",event.coverpictureURL);
@@ -212,6 +213,12 @@
     
     //int indexpath = currentannoation.eventObjectIndex;
    // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
+}
+
+
+-(void)reloadInputViews {
+
+    NSLog(@"this does fuck all");
 }
 
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

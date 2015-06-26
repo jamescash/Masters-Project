@@ -83,7 +83,7 @@
 
 
 //this method is called to get more artist info ie.cover picutre URL of a paticular artist
--(NSString*)getArtistInfoByName:(NSString*)artistname{
+-(UIImageView*)getArtistInfoByName:(NSString*)artistname{
    
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -137,12 +137,30 @@
     
     
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-
-    return self.imageUrl;
+    NSString *pictureurl =self.imageUrl;
+    //NSLog(@"%@",pictureurl);
+    
+    NSURL *pic = [NSURL URLWithString:pictureurl];
+    NSData *data = [NSData dataWithContentsOfURL:pic];
+    UIImage *img = [[UIImage alloc] initWithData:data];
+    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
+    [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *smallData = UIImagePNGRepresentation(newImage);
+    
+    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
+    
+    UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
+    
+    //NSLog(@"imageview returned");
+//    NSString *stringRep = [NSString stringWithFormat:@"%@",imageview];
+//       NSLog(@"%@",stringRep);
+    return imageview;
 };
 
 //work the same as the above method exept it just searchs by MBID number
--(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
+-(UIImageView*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
     
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -177,24 +195,47 @@
                 
                 
                 self.imageUrl = jsonData [@"thumb_url"];
+                
                 dispatch_semaphore_signal(sema);
 
-                
-                
-            }
+             }
         }
         
     }];
+    
+    
+    
   
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    
+    NSString *pictureurl =self.imageUrl;
+    //NSLog(@"%@",pictureurl);
+    
+    NSURL *pic = [NSURL URLWithString:pictureurl];
+    NSData *data = [NSData dataWithContentsOfURL:pic];
+    UIImage *img = [[UIImage alloc] initWithData:data];
+    UIGraphicsBeginImageContext(CGSizeMake(img.size.width/5, img.size.height/5));
+    [img drawInRect:CGRectMake(0,0,img.size.width/5, img.size.height/5)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *smallData = UIImagePNGRepresentation(newImage);
+    
+    UIImage *newimage = [[UIImage alloc] initWithData:smallData];
+    
+    UIImageView *imageview = [[UIImageView alloc] initWithImage:newimage];
+    
+    
+    
+//    NSString *stringRep = [NSString stringWithFormat:@"%@",imageview];
+//    NSLog(@"%@",stringRep);
+    return imageview;
 
-    return self.imageUrl;
 };
 
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult{
     
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    //dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
     
 
@@ -265,23 +306,23 @@
         
         
         
-            if ([event.mbidNumber isEqualToString:@"empty"]) {
-                event.coverpictureURL = [self getArtistInfoByName:event.InstaSearchQuery];
-                dispatch_semaphore_signal(sema);
+//            if ([event.mbidNumber isEqualToString:@"empty"]) {
+//              //  event.coverpic = [self getArtistInfoByName:event.InstaSearchQuery];
+//                dispatch_semaphore_signal(sema);
+//
+//    
+//            
+//            }else{
+//        
+//              //  event.coverpic = [self getArtistInfoByMbidNumuber:event.mbidNumber];
+//                dispatch_semaphore_signal(sema);
+//
+//            
+//            }
 
-    
-            
-            }else{
-        
-                event.coverpictureURL = [self getArtistInfoByMbidNumuber:event.mbidNumber];
-                dispatch_semaphore_signal(sema);
-
-            
-            }
-
         
         
-        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+      //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
         [self.allEvents addObject:event];
         
     };//end of JSON parsing loop
