@@ -98,9 +98,9 @@
         ann.currentEvent = event;
         ann.status = event.status;
         
-            dispatch_queue_t me = dispatch_get_current_queue();
-            NSString *stringRep = [NSString stringWithFormat:@"%s",dispatch_queue_get_label(me)];
-            NSLog(@"%@",stringRep);
+          //  dispatch_queue_t me = dispatch_get_current_queue();
+          //  NSString *stringRep = [NSString stringWithFormat:@"%s",dispatch_queue_get_label(me)];
+          //  NSLog(@"%@",stringRep);
 
         [self.annotations addObject:ann];
 

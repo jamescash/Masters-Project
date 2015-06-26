@@ -10,7 +10,14 @@
 
 @implementation eventObject{
     
+    dispatch_queue_t todaysEvents;
     dispatch_queue_t yesterdaysEvents;
+    NSDictionary *JSONresults;
+    BOOL todaysEventsFinishedParsing;
+    BOOL yesterdaysEventsFinishedParsing;
+    int y;
+    int x;
+
 
 };
 
@@ -21,6 +28,10 @@
     self.countysInIreland = [[NSArray alloc]init];
    
     self.allEvents = [[NSMutableArray alloc]init];
+    
+   todaysEventsFinishedParsing = NO;
+   yesterdaysEventsFinishedParsing = NO;
+    
 
     self.countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
                               @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
@@ -32,53 +43,88 @@
     
     NSDate *now = [NSDate date];
     NSString *todaysDate = [pasre formatDateForAPIcall:now];
-    NSDictionary *JSONresultes = [[NSDictionary alloc]init];
     NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
-   NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
+    NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
+
+    if (!todaysEvents) {
+        todaysEvents = dispatch_queue_create("APIcall.bandsintown.todaysevents", NULL);
+    }
+    
+    if (!yesterdaysEvents) {
+        yesterdaysEvents = dispatch_queue_create("APIcall.bandsintown.yesterdays", NULL);
+    }
+    
+    
+dispatch_async(todaysEvents, ^{
+        
+           y = 0;
+    int a = [self.countysInIreland count];
 
     
-    for (NSString *countyName in self.countysInIreland) {
+     for (NSString *countyName in self.countysInIreland) {
         
-    JSONresultes = [pasre GetEventJSON:countyName dateObject:todaysDate];
-    
-    if ([JSONresultes count]== 0 ) {
-        NSLog(@"there was no events in that county today");
-    }
-    else {
-        
-            [self praseJSONresult:JSONresultes];
-        
-   
-    }
+     [self GetEventJSON:countyName dateObject:todaysDate];
+         //NSLog(@"y is equal to %d",y);
+         //NSLog(@"%i", todaysEventsFinishedParsing);
 
- }
-   
+         y++;
+
+      
+     
+         if (y == a ) {
+             todaysEventsFinishedParsing = YES;
+         };
+         
+         if ( (x==a)&&(y==a) ) {
+             completionBlock();
+             NSLog(@"completion block called");
+         }
+     
+     
+     }
+        
     
-    for (NSString *countyName in self.countysInIreland) {
         
-        JSONresultes = [pasre GetEventJSON:countyName dateObject:yesterdaysDate];
+ 
         
-        if ([JSONresultes count]== 0 ) {
-            NSLog(@"there was no events in that county yesterday");
-        }
-        else {
-            
-            [self praseJSONresult:JSONresultes];
-            
+});
        
-        }
-        
-    }
     
     
-    
-    
-    
-    
-    
-    
+    dispatch_async(yesterdaysEvents, ^{
+          
+           x = 0;
+        //int a = [self.countysInIreland count];
 
-    completionBlock();
+
+        
+            for (NSString *countyName in self.countysInIreland) {
+            
+            [self GetEventJSON:countyName dateObject:yesterdaysDate];
+                //NSLog(@"x is equal to %d",x);
+                //NSLog(@"%i", yesterdaysEventsFinishedParsing);
+                //NSLog(@"%d",[self.countysInIreland count]);
+                int a = [self.countysInIreland count];
+                x++;
+
+                
+                if (x == a) {
+                    yesterdaysEventsFinishedParsing = YES;
+                    //completionBlock();
+
+                   };
+            
+                if ( (x==a)&&(y==a) ) {
+                    completionBlock();
+                    NSLog(@"completion block called");
+
+                }
+            
+            
+            }
+        
+ });
+
 
 };
 
@@ -220,15 +266,21 @@
 };
 
 
+
+
+//parsing the Raw JSON results from bandsintwonAPI call
 -(void)praseJSONresult: (NSDictionary*)JSONresult{
     
     //dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
     
+//    
+  
+
+    EventObjectParser *pasre = [[EventObjectParser alloc]init];
+
 
     //for eveny object in the dictionary self.jsonData parse it in this way
     for (NSDictionary *object in JSONresult) {
-        EventObjectParser *pasre = [[EventObjectParser alloc]init];
         eventObject *event = [[eventObject alloc]init];
         
         NSDictionary *artistdic = object [@"artists"];
@@ -311,10 +363,11 @@
         
       //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
        
-       
-        
+        //NSLog(@"event added");
         
         [self.allEvents addObject:event];
+        
+        NSLog(@"%d",[self.allEvents count]);
         
     };//end of JSON parsing loop
 
@@ -324,6 +377,65 @@
 
 
 };
+
+
+
+-(void)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date {
+    
+    //creat semaphore to signle when asynch API request is finished
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    
+    
+    
+    
+    
+    
+    //connet to the BandsinTown API get all events from the area on todays date
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",date,date,countyName];
+    
+    NSURL *url = [NSURL URLWithString:endpoint];
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            NSLog(@"api call didnt work with %@",countyName);
+            //dispatch_semaphore_signal(sema);
+            
+        }else {
+            JSONresults = [[NSDictionary alloc]init];
+            JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+             dispatch_semaphore_signal(sema);
+
+            
+        }
+        
+    }];
+    
+    
+       dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+
+            if ([JSONresults count]== 0 ) {
+                
+                NSLog(@"there was no events in %@ today %@",countyName,date);
+
+            }
+            else {
+                
+                NSLog(@"JSON result wit %d getting packaged for county %@ %@",[JSONresults count],countyName,date);
+                [self praseJSONresult:JSONresults];
+                
+                
+
+            }
+
+            
+            
+    
+    
+    
+    //return JSONresults;
+    
+};//end of GetEvntJSON
+
 
 
 

@@ -42,17 +42,16 @@
 
 -(void) buildmasterarray:(void(^)(void))completionBlock;
 
-
 -(UIImageView*)getArtistInfoByName:(NSString*)artistname;
 
 -(UIImageView*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
 
+-(void)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date;
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult;
 
 
 
-//-(void) getartistpicture:(eventObject*)currentEvent;
 
 
 
