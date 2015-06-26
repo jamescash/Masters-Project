@@ -8,7 +8,11 @@
 
 #import "eventObject.h"
 
-@implementation eventObject
+@implementation eventObject{
+    
+    dispatch_queue_t yesterdaysEvents;
+
+};
 
 
 
@@ -30,11 +34,8 @@
     NSString *todaysDate = [pasre formatDateForAPIcall:now];
     NSDictionary *JSONresultes = [[NSDictionary alloc]init];
     NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
-    NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
+   NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
 
-    
-    
-    
     
     for (NSString *countyName in self.countysInIreland) {
         
@@ -45,8 +46,9 @@
     }
     else {
         
-    [self praseJSONresult:JSONresultes];
+            [self praseJSONresult:JSONresultes];
         
+   
     }
 
  }
@@ -63,6 +65,7 @@
             
             [self praseJSONresult:JSONresultes];
             
+       
         }
         
     }
@@ -83,9 +86,12 @@
 
 
 //this method is called to get more artist info ie.cover picutre URL of a paticular artist
--(NSString*)getArtistInfoByName:(NSString*)artistname{
+-(UIImageView*)getArtistInfoByName:(NSString*)artistname{
    
+    
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    EventObjectParser *parser = [[EventObjectParser alloc]init];
+
 
     
     //conect to the endpoint with the artist name and get artist JSON
@@ -137,14 +143,28 @@
     
     
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+   
+    
+    
+    NSString *pictureurl =self.imageUrl;
+    
+    NSURL *pic = [NSURL URLWithString:pictureurl];
+    
+    NSData *data = [NSData dataWithContentsOfURL:pic];
+    
+    
+    return [parser makeThumbNail:data];
 
-    return self.imageUrl;
+    
+    
+    
 };
 
 //work the same as the above method exept it just searchs by MBID number
--(NSString*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
+-(UIImageView*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
     
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    EventObjectParser *parser = [[EventObjectParser alloc]init];
 
     
     
@@ -177,24 +197,32 @@
                 
                 
                 self.imageUrl = jsonData [@"thumb_url"];
+                
                 dispatch_semaphore_signal(sema);
 
-                
-                
-            }
+             }
         }
         
     }];
+    
+    
+    
   
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    
+    NSString *pictureurl =self.imageUrl;
+    
+    NSURL *pic = [NSURL URLWithString:pictureurl];
+    NSData *data = [NSData dataWithContentsOfURL:pic];
+    return [parser makeThumbNail:data];
 
-    return self.imageUrl;
+
 };
 
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult{
     
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    //dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
     
 
@@ -265,23 +293,27 @@
         
         
         
-            if ([event.mbidNumber isEqualToString:@"empty"]) {
-                event.coverpictureURL = [self getArtistInfoByName:event.InstaSearchQuery];
-                dispatch_semaphore_signal(sema);
+//            if ([event.mbidNumber isEqualToString:@"empty"]) {
+//              //  event.coverpic = [self getArtistInfoByName:event.InstaSearchQuery];
+//                dispatch_semaphore_signal(sema);
+//
+//    
+//            
+//            }else{
+//        
+//              //  event.coverpic = [self getArtistInfoByMbidNumuber:event.mbidNumber];
+//                dispatch_semaphore_signal(sema);
+//
+//            
+//            }
 
-    
-            
-            }else{
-        
-                event.coverpictureURL = [self getArtistInfoByMbidNumuber:event.mbidNumber];
-                dispatch_semaphore_signal(sema);
-
-            
-            }
-
         
         
-        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+      //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+       
+       
+        
+        
         [self.allEvents addObject:event];
         
     };//end of JSON parsing loop

@@ -12,6 +12,7 @@
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
 		8936A64A1B2336B100748803 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6491B2336B100748803 /* Annotation.m */; };
 		89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */; };
+		89AD3BAB1B3C8F490004CAE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89AD3BAA1B3C8F490004CAE4 /* UIKit.framework */; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		8936A6491B2336B100748803 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		89AD3BA71B3C1BC00004CAE4 /* EventObjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventObjectParser.h; sourceTree = "<group>"; };
 		89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventObjectParser.m; sourceTree = "<group>"; };
+		89AD3BAA1B3C8F490004CAE4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89F51DD41B1E1B39004E9055 /* masterbranch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = masterbranch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89AD3BAB1B3C8F490004CAE4 /* UIKit.framework in Frameworks */,
 				8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */,
 				8936A6451B23350E00748803 /* MapKit.framework in Frameworks */,
 			);
@@ -105,6 +108,7 @@
 		89F51DCB1B1E1B39004E9055 = {
 			isa = PBXGroup;
 			children = (
+				89AD3BAA1B3C8F490004CAE4 /* UIKit.framework */,
 				8936A6461B23351A00748803 /* CoreLocation.framework */,
 				8936A6441B23350E00748803 /* MapKit.framework */,
 				89F51DD61B1E1B39004E9055 /* masterbranch */,

@@ -5,9 +5,10 @@
 //  Created by james cash on 01/06/2015.
 //  Copyright (c) 2015 com.james.www. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "EventObjectParser.h"
+//#import "Annotation.h"
 
 @interface eventObject : NSObject
 
@@ -24,6 +25,8 @@
 @property (nonatomic) NSString *status;
 @property (nonatomic) NSString *eventType;
 @property (nonatomic) NSMutableArray *artistNames;
+@property (nonatomic) UIImageView *coverpic;
+
 
 
 
@@ -40,9 +43,9 @@
 -(void) buildmasterarray:(void(^)(void))completionBlock;
 
 
--(NSString*)getArtistInfoByName:(NSString*)artistname;
+-(UIImageView*)getArtistInfoByName:(NSString*)artistname;
 
--(NSString*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
+-(UIImageView*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
 
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult;
