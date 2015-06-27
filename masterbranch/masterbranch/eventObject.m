@@ -345,6 +345,7 @@ dispatch_async(todaysEvents, ^{
         
         
         
+        
 //            if ([event.mbidNumber isEqualToString:@"empty"]) {
 //              //  event.coverpic = [self getArtistInfoByName:event.InstaSearchQuery];
 //                dispatch_semaphore_signal(sema);
@@ -363,11 +364,10 @@ dispatch_async(todaysEvents, ^{
         
       //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
        
-        //NSLog(@"event added");
         
         [self.allEvents addObject:event];
         
-        NSLog(@"%d",[self.allEvents count]);
+        //NSLog(@"%d %@ %@",[self.allEvents count],event.eventTitle,event.venueName);
         
     };//end of JSON parsing loop
 
@@ -420,7 +420,7 @@ dispatch_async(todaysEvents, ^{
             }
             else {
                 
-                NSLog(@"JSON result wit %d getting packaged for county %@ %@",[JSONresults count],countyName,date);
+               // NSLog(@"JSON result wit %d getting packaged for county %@ %@",[JSONresults count],countyName,date);
                 [self praseJSONresult:JSONresults];
                 
                 
