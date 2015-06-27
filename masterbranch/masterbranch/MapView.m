@@ -7,13 +7,13 @@
 //
 
 #import "MapView.h"
-//#import "Annotation.h"
-//#import "eventObject.h"
 
 
 @interface MapView (){
   
+    //the bandsintown API call are made on this queue
     dispatch_queue_t APIcalls;
+    //the annoations image load is made on this queue
     dispatch_queue_t imageLoad;
     
 }
@@ -24,12 +24,14 @@
 @implementation MapView
 
 
-
-- (void)viewDidLoad {
+-(void)viewWillAppear:(BOOL)animated{
     
-    [super viewDidLoad];
+    
+    
     [self.MkMapViewOutLet setDelegate:self];
-
+    
+    
+    //creat dispatch queue for bandsintown API call
     if (!APIcalls) {
         APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
     }
@@ -39,16 +41,19 @@
     
     
     eventObject *event = [[eventObject alloc]init];
-   
+    
+    
     dispatch_async(APIcalls, ^{
         
         
-        
+        //call the build master array on the API dispatch queue
+        //this method connects to bandsintow api gets all the events data parses it
+        //and returs an array of event objects
         [event buildmasterarray:^{
             
             
             self.annotations = [[NSMutableArray alloc]init];
-           
+            
             
             [self buildannotations:event.allEvents];
             
@@ -56,16 +61,25 @@
             dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
             
         }];//end of songkick API call + Data parsing
-    
-    
-    
+        
+        
+        
     });
+
+
+
+
+
+
+
+};
+
+
+- (void)viewDidLoad {
     
+    [super viewDidLoad];
+
     
-
-
-
-
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
@@ -84,7 +98,7 @@
     
     CLLocationCoordinate2D location;
     
-    
+  
     for (eventObject *event in arrayofgigs) {
         
         NSString *latitude = event.LatLong[@"lat"];
@@ -103,7 +117,6 @@
           //  NSLog(@"%@",stringRep);
 
         [self.annotations addObject:ann];
-
         
         
 
@@ -143,44 +156,45 @@
     view.canShowCallout = YES;
     view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     
-//    
-//    if (!imageLoad) {
-//        imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
-//    }
-//
-//
-//    
 
+//        if (!imageLoad) {
+//            imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
+//       }
+//
+//
 //    dispatch_async(imageLoad, ^{
 //        
-//
+//        
 //        
 //        if ([event.mbidNumber isEqualToString:@"empty"]) {
 //            
-//            event.coverpic = [event getArtistInfoByName:event.InstaSearchQuery];
+//            UIImageView *aa = [[UIImageView alloc]init];
 //            
+//            aa = [event getArtistInfoByName:event.InstaSearchQuery];
 //            
-//            dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;  NSLog(@"IMAGES ADDED");});
-//          
+//            dispatch_async(dispatch_get_main_queue(), ^{view.image = aa.image;});
+//            
 //            
 //        }else{
 //            
 //            
-//            //UIImageView *annoationThumb = [[UIImageView alloc]init];
+//            UIImageView *aa = [[UIImageView alloc]init];
 //            
-//            event.coverpic = [event getArtistInfoByMbidNumuber:event.mbidNumber];
-//     
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic; NSLog(@"IMAGES ADDED");});
+//            aa = [event getArtistInfoByMbidNumuber:event.mbidNumber];
+//  
+//            dispatch_async(dispatch_get_main_queue(), ^{view.image = aa.image;});
 //            
 //            
 //        }
 //        
+//        //view.leftCalloutAccessoryView = event.coverpic;
 //        
 //    });
 
 
-
+    
+    
+    
     return view;
 
 
@@ -204,7 +218,7 @@
 //here trying to call the get artist cover picture API method when annotation is selected
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-   
+//   
     if (!imageLoad) {
         imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
     }

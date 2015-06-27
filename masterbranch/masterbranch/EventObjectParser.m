@@ -23,39 +23,7 @@
 
 
 
-//-(NSDictionary*)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date {
-//
-//    //creat semaphore to signle when asynch API request is finished
-//    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-//
-//    
-//    //connet to the BandsinTown API get all events from the area on todays date
-//    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",date,date,countyName];
-//    
-//    NSURL *url = [NSURL URLWithString:endpoint];
-//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-//        
-//        if (error) {
-//            NSLog(@"api call didnt work with %@",countyName);
-//            dispatch_semaphore_signal(sema);
-//
-//        }else {
-//            JSONresults = [[NSDictionary alloc]init];
-//            JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-//            
-//            //signil method to returen
-//            dispatch_semaphore_signal(sema);
-//
-//       
-//        }
-//   
-//    }];
-//    
-//    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-//    
-//    return JSONresults;
-//
-//};//end of GetEvntJSON
+
 
 
 -(NSString*)makeInstagramSearch: (NSString*) eventTitle{
@@ -104,8 +72,10 @@
     //getting the diffrence in hours between the events date&time and NOW in +/-
     NSTimeInterval diff = ([date timeIntervalSinceDate:todaysdate]/60)/60;
     
+    //NSLog(@"%f",diff);
+    
     //setting event status based on the diffrent in event date&time and now
-    if (diff < -4 && diff > -24) {
+    if (diff < -3 ) {
        return @"alreadyHappened";
     }else if (diff > 1){
         return @"happeningLater";
@@ -136,14 +106,18 @@
     NSData *smallData = UIImagePNGRepresentation(newImage);
     
     UIImage *newimage = [[UIImage alloc] initWithData:smallData];
+        
+//        CALayer *imageLayer = newimage.layer;
+//        [imageLayer setCornerRadius:5];
+//        [imageLayer setBorderWidth:1];
+//        [imageLayer setMasksToBounds:YES];
     
     self.thumbNail = [[UIImageView alloc] initWithImage:newimage];
-        dispatch_semaphore_signal(sema);
-
+     
         
-//        dispatch_queue_t me = dispatch_get_current_queue();
-//        NSString *stringRep = [NSString stringWithFormat:@"%s",dispatch_queue_get_label(me)];
-//        NSLog(@"%@",stringRep);
+    dispatch_semaphore_signal(sema);
+
+
     
     });
 
