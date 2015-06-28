@@ -31,7 +31,6 @@
     [self buildTestDataThen:^{
         self.feedEntitySections = @[].mutableCopy;
         [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-        NSLog(@"woring untill table view call");
         [self.tableView reloadData];
     }];
 }
@@ -49,7 +48,7 @@
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
-            NSLog(@"error");
+            NSLog(@"error connecting to insta API");
         } else {
             
             NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];

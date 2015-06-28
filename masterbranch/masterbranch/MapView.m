@@ -24,64 +24,15 @@
 @implementation MapView
 
 
-//-(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated{
     
+//close any open annotations befoure the view opens again
     
-    
-    
-    
-    
-    
-    
-//    [self.MkMapViewOutLet setDelegate:self];
-//    
-//    
-//    //creat dispatch queue for bandsintown API call
-//    if (!APIcalls) {
-//        APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
-//    }
-//    
-//    eventObject *event = [[eventObject alloc]init];
-//    self.allGigs = [[NSMutableArray alloc]init];
-//    
-//    if ([self.allGigs count]==0) {
-//
-//    
-//    dispatch_async(APIcalls, ^{
-//        
-//        
-//        //call the build master array on the API dispatch queue
-//        //this method connects to bandsintow api gets all the events data parses it
-//        //and returs an array of event objects
-//        
-//        
-//        
-//        [event buildmasterarray:^{
-//            
-//            
-//            self.annotations = [[NSMutableArray alloc]init];
-//            self.allGigs = event.allEvents;
-//            
-//            [self buildannotations:event.allEvents];
-//            
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
-//            
-//        }];//end of songkick API call + Data parsing
-//        
-//        
-//        
-//    });
-//
-//    }else{
-//        NSLog(@"annotations already loaded");
-//    }
-
-
-
-
-
-//};
+    for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotations]) {
+        [self.MkMapViewOutLet deselectAnnotation:(id <MKAnnotation>)annotation animated:NO];
+    }
+ 
+};
 
 
 - (void)viewDidLoad {
@@ -91,7 +42,6 @@
     
     [self.MkMapViewOutLet setDelegate:self];
     
-    
     //creat dispatch queue for bandsintown API call
     if (!APIcalls) {
         APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
@@ -100,8 +50,7 @@
     eventObject *event = [[eventObject alloc]init];
     self.allGigs = [[NSMutableArray alloc]init];
     
-   // if ([self.allGigs count]==0) {
-        
+    
         
         dispatch_async(APIcalls, ^{
             
@@ -128,27 +77,7 @@
             
             
         });
-        
-    //}else{
-     //   NSLog(@"annotations already loaded");
-    //}
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
+   
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
@@ -313,6 +242,8 @@
     //eventObject *event = [[eventObject alloc]init];
 
     [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
+    
+
 }
 
 
