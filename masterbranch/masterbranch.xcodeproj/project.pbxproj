@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		891237FB1B400ADB00E7C6CA /* JCFeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 891237FA1B400ADB00E7C6CA /* JCFeedObject.m */; };
+		891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */; };
+		891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238001B40360E00E7C6CA /* JCSocailStreamController.m */; };
+		891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */; };
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
@@ -35,6 +39,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		891237F91B400ADB00E7C6CA /* JCFeedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCFeedObject.h; sourceTree = "<group>"; };
+		891237FA1B400ADB00E7C6CA /* JCFeedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCFeedObject.m; sourceTree = "<group>"; };
+		891237FC1B400C0700E7C6CA /* JCsocialStreamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCsocialStreamCell.h; sourceTree = "<group>"; };
+		891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCsocialStreamCell.m; sourceTree = "<group>"; };
+		891237FF1B40360E00E7C6CA /* JCSocailStreamController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSocailStreamController.h; sourceTree = "<group>"; };
+		891238001B40360E00E7C6CA /* JCSocailStreamController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSocailStreamController.m; sourceTree = "<group>"; };
+		891238071B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDTemplateLayoutCell.h"; sourceTree = "<group>"; };
+		891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
 		8936A6411B23337C00748803 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -84,15 +96,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		89B216C11B24417500A3ACDF /* MapView */ = {
+		891237F21B3FFDAB00E7C6CA /* JCmainMapView */ = {
+			isa = PBXGroup;
+			children = (
+				891237F51B3FFDE100E7C6CA /* controler */,
+				891237F31B3FFDBE00E7C6CA /* model */,
+			);
+			name = JCmainMapView;
+			sourceTree = "<group>";
+		};
+		891237F31B3FFDBE00E7C6CA /* model */ = {
+			isa = PBXGroup;
+			children = (
+				89AD3BA71B3C1BC00004CAE4 /* EventObjectParser.h */,
+				89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */,
+				89F51DFD1B1E1C49004E9055 /* eventObject.h */,
+				89F51DFE1B1E1C49004E9055 /* eventObject.m */,
+				8936A6481B2336B100748803 /* Annotation.h */,
+				8936A6491B2336B100748803 /* Annotation.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		891237F51B3FFDE100E7C6CA /* controler */ = {
 			isa = PBXGroup;
 			children = (
 				8936A6411B23337C00748803 /* MapView.h */,
 				8936A6421B23337C00748803 /* MapView.m */,
-				8936A6481B2336B100748803 /* Annotation.h */,
-				8936A6491B2336B100748803 /* Annotation.m */,
 			);
-			name = MapView;
+			name = controler;
+			sourceTree = "<group>";
+		};
+		891237F61B400A0100E7C6CA /* JCsocailStream */ = {
+			isa = PBXGroup;
+			children = (
+				891237F81B400A3700E7C6CA /* controler */,
+				891237F71B400A2400E7C6CA /* Model */,
+			);
+			name = JCsocailStream;
+			sourceTree = "<group>";
+		};
+		891237F71B400A2400E7C6CA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				891237F91B400ADB00E7C6CA /* JCFeedObject.h */,
+				891237FA1B400ADB00E7C6CA /* JCFeedObject.m */,
+				891237FC1B400C0700E7C6CA /* JCsocialStreamCell.h */,
+				891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		891237F81B400A3700E7C6CA /* controler */ = {
+			isa = PBXGroup;
+			children = (
+				8912380A1B40372B00E7C6CA /* FDTemplateLayoutCell */,
+				891237FF1B40360E00E7C6CA /* JCSocailStreamController.h */,
+				891238001B40360E00E7C6CA /* JCSocailStreamController.m */,
+			);
+			name = controler;
+			sourceTree = "<group>";
+		};
+		8912380A1B40372B00E7C6CA /* FDTemplateLayoutCell */ = {
+			isa = PBXGroup;
+			children = (
+				891238071B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.h */,
+				891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */,
+			);
+			name = FDTemplateLayoutCell;
 			sourceTree = "<group>";
 		};
 		89B216C21B24419100A3ACDF /* utillities */ = {
@@ -130,13 +201,10 @@
 			isa = PBXGroup;
 			children = (
 				89B216C21B24419100A3ACDF /* utillities */,
-				89B216C11B24417500A3ACDF /* MapView */,
-				89F51DE11B1E1B39004E9055 /* Main.storyboard */,
+				891237F21B3FFDAB00E7C6CA /* JCmainMapView */,
 				89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */,
-				89AD3BA71B3C1BC00004CAE4 /* EventObjectParser.h */,
-				89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */,
-				89F51DFD1B1E1C49004E9055 /* eventObject.h */,
-				89F51DFE1B1E1C49004E9055 /* eventObject.m */,
+				89F51DE11B1E1B39004E9055 /* Main.storyboard */,
+				891237F61B400A0100E7C6CA /* JCsocailStream */,
 				89F51E001B1E1C62004E9055 /* SocialStream.h */,
 				89F51E011B1E1C62004E9055 /* SocialStream.m */,
 				89F51E021B1E1C62004E9055 /* UpcomingGigs.h */,
@@ -273,6 +341,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89F51E041B1E1C62004E9055 /* SocialStream.m in Sources */,
+				891237FB1B400ADB00E7C6CA /* JCFeedObject.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				89F51E051B1E1C62004E9055 /* UpcomingGigs.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
@@ -280,6 +349,9 @@
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
+				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
+				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
+				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

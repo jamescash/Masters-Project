@@ -26,60 +26,58 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
+//close any open annotations befoure the view opens again
     
-    
-    [self.MkMapViewOutLet setDelegate:self];
-    
-    
-    //creat dispatch queue for bandsintown API call
-    if (!APIcalls) {
-        APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
+    for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotations]) {
+        [self.MkMapViewOutLet deselectAnnotation:(id <MKAnnotation>)annotation animated:NO];
     }
-    
-    
-    
-    
-    
-    eventObject *event = [[eventObject alloc]init];
-    
-    
-    dispatch_async(APIcalls, ^{
-        
-        
-        //call the build master array on the API dispatch queue
-        //this method connects to bandsintow api gets all the events data parses it
-        //and returs an array of event objects
-        [event buildmasterarray:^{
-            
-            
-            self.annotations = [[NSMutableArray alloc]init];
-            
-            
-            [self buildannotations:event.allEvents];
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
-            
-        }];//end of songkick API call + Data parsing
-        
-        
-        
-    });
-
-
-
-
-
-
-
+ 
 };
 
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
     
+    
+    [self.MkMapViewOutLet setDelegate:self];
+    
+    //creat dispatch queue for bandsintown API call
+    if (!APIcalls) {
+        APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
+    }
+    
+    eventObject *event = [[eventObject alloc]init];
+    self.allGigs = [[NSMutableArray alloc]init];
+    
+    
+        
+        dispatch_async(APIcalls, ^{
+            
+            
+            //call the build master array on the API dispatch queue
+            //this method connects to bandsintow api gets all the events data parses it
+            //and returs an array of event objects
+            
+            
+            
+            [event buildmasterarray:^{
+                
+                
+                self.annotations = [[NSMutableArray alloc]init];
+                self.allGigs = event.allEvents;
+                
+                [self buildannotations:event.allEvents];
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
+                
+            }];//end of songkick API call + Data parsing
+            
+            
+            
+        });
+   
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
@@ -149,12 +147,16 @@
     }else if ([currentAnnotaion.status isEqualToString:@"currentlyhappening"]){
         view.pinColor = MKPinAnnotationColorGreen;
     }
-    
+    //SEL segue = @selector(segue:);
     //enable annimation
     view.enabled = YES;
     view.animatesDrop = YES;
     view.canShowCallout = YES;
-    view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    UIButton *calloutbutton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    view.rightCalloutAccessoryView = calloutbutton;
+    
+    
+    //view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     
 
 //        if (!imageLoad) {
@@ -163,7 +165,7 @@
 //
 //
 //    dispatch_async(imageLoad, ^{
-//        
+//
 //        
 //        
 //        if ([event.mbidNumber isEqualToString:@"empty"]) {
@@ -196,29 +198,13 @@
     
     
     return view;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 
 //here trying to call the get artist cover picture API method when annotation is selected
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-//   
+   
     if (!imageLoad) {
         imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
     }
@@ -235,70 +221,47 @@
     if ([event.mbidNumber isEqualToString:@"empty"]) {
         
         event.coverpic = [event getArtistInfoByName:event.InstaSearchQuery];
-         //   NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
-        //    NSLog(@"%@",stringRep);
-        
-       // view.leftCalloutAccessoryView = event.coverpic;
-        
         dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
 
         
     }else{
         
         
-        //UIImageView *annoationThumb = [[UIImageView alloc]init];
-
         event.coverpic = [event getArtistInfoByMbidNumuber:event.mbidNumber];
-       
-      //  NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
-      //  NSLog(@"%@",stringRep);
-
-
         dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
 
         
       }
-     
-     //view.leftCalloutAccessoryView = event.coverpic;
+ });
 
-});
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    Annotation *currentannoation = view.annotation;
+    //eventObject *event = [[eventObject alloc]init];
+
+    [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
     
-//view.leftCalloutAccessoryView = event.coverpic;
-    
-//    event.coverpictureURL = [event getArtistInfoByName:event.InstaSearchQuery];
-//    
-//    NSLog(@"%@",event.coverpictureURL);
-    
-    //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
-    
-    
-   // (id)[NSNull null]
-   
-    //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
-    //NSString *url = [getartistinfo ]
-    
-   // NSLog(@"%@",coverpictureURL);
-    
-    //int indexpath = currentannoation.eventObjectIndex;
-   // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
+
 }
 
 
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+   
+    if ([segue.identifier isEqualToString:@"socialStream"])
+    {
+        
+        eventObject *currentevent = sender;
+        NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
+        NSLog(@"%@",stringRep);
+        JCSocailStreamController *jc = [segue destinationViewController];
+        jc.currentevent = currentevent;
 
-   //view.leftCalloutAccessoryView = event.coverpic;
-
-
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.identifier isEqualToString:@"socialStream"])
-//    {
-//        eventObject *currentevent = sender;
-//        SocialStream *svc = [segue destinationViewController];
-//        svc.currentevent = currentevent;
-//
-//    }
-//}
+    }
+}
 
 
 
