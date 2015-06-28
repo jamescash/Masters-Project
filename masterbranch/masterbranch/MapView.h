@@ -10,6 +10,7 @@
 #import "eventObject.h"
 #import "Annotation.h"
 #import "SocialStream.h"
+#import "JCSocailStreamController.h"
 
 
 @interface MapView : UIViewController <MKMapViewDelegate>
@@ -21,5 +22,6 @@
 
 
 -(void)buildannotations:(NSArray*)arrayofgigs;
+-(void)segue:(eventObject*)sender;
 
 @end

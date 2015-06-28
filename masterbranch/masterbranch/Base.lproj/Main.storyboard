@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="126-n8-19h">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Gigs happening today-->
@@ -38,25 +39,77 @@
             </objects>
             <point key="canvasLocation" x="2501" y="251"/>
         </scene>
-        <!--Social Stream-->
+        <!--Socail Stream Controller-->
         <scene sceneID="4cM-RN-fZd">
             <objects>
-                <tableViewController id="vHF-aI-j1s" customClass="SocialStream" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="bRD-R2-LGn">
+                <tableViewController id="vHF-aI-j1s" customClass="JCSocailStreamController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="180" sectionHeaderHeight="22" sectionFooterHeight="22" id="bRD-R2-LGn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SocialStream" rowHeight="120" id="vGA-Fo-zU1">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FDFeedCell" rowHeight="180" id="vGA-Fo-zU1" customClass="JCsocialStreamCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vGA-Fo-zU1" id="gMh-LO-M4d">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cell Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HEB-U0-hZX">
+                                            <rect key="frame" x="16" y="18" width="556" height="19.5"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.22286713400201646" blue="0.46711253156565657" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content text" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-CD-GiR">
+                                            <rect key="frame" x="16" y="46" width="556" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cUU-d8-ljl">
+                                            <rect key="frame" x="16" y="71" width="80" height="80"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="UserName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzV-GE-YDT">
+                                            <rect key="frame" x="16" y="158" width="80" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0W-Ft-VHE">
+                                            <rect key="frame" x="545" y="158" width="28" height="15"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="0.47711658099819276" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="HEB-U0-hZX" firstAttribute="leading" secondItem="gMh-LO-M4d" secondAttribute="leadingMargin" constant="8" id="39Z-VW-7sa"/>
+                                        <constraint firstItem="i0W-Ft-VHE" firstAttribute="trailing" secondItem="dSd-CD-GiR" secondAttribute="trailing" constant="1" id="3o7-cw-cnU"/>
+                                        <constraint firstItem="i0W-Ft-VHE" firstAttribute="baseline" secondItem="jzV-GE-YDT" secondAttribute="baseline" constant="0.5" id="EFR-Ak-FTE"/>
+                                        <constraint firstItem="HEB-U0-hZX" firstAttribute="leading" secondItem="jzV-GE-YDT" secondAttribute="leading" id="Mh9-3F-FTM"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="dSd-CD-GiR" secondAttribute="trailing" constant="20" id="OMS-uJ-ZVm"/>
+                                        <constraint firstItem="HEB-U0-hZX" firstAttribute="top" secondItem="gMh-LO-M4d" secondAttribute="topMargin" constant="10" id="VLE-1e-K5W"/>
+                                        <constraint firstItem="jzV-GE-YDT" firstAttribute="top" secondItem="cUU-d8-ljl" secondAttribute="bottom" constant="7" id="WUn-dy-K7d"/>
+                                        <constraint firstItem="cUU-d8-ljl" firstAttribute="top" secondItem="dSd-CD-GiR" secondAttribute="bottom" constant="8" id="X9u-Ob-khB"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="jzV-GE-YDT" secondAttribute="bottom" constant="4" id="YI3-lj-D4M"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="cUU-d8-ljl" secondAttribute="trailing" constant="16" id="ZrE-TI-L6r"/>
+                                        <constraint firstItem="dSd-CD-GiR" firstAttribute="top" secondItem="HEB-U0-hZX" secondAttribute="bottom" constant="8" id="bgL-VA-M3e"/>
+                                        <constraint firstItem="dSd-CD-GiR" firstAttribute="leading" secondItem="gMh-LO-M4d" secondAttribute="leadingMargin" constant="8" id="gma-h7-aTm"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="HEB-U0-hZX" secondAttribute="trailing" constant="20" id="plb-tO-h33"/>
+                                        <constraint firstItem="HEB-U0-hZX" firstAttribute="leading" secondItem="cUU-d8-ljl" secondAttribute="leading" id="wv4-5P-j60"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contentImageView" destination="cUU-d8-ljl" id="Iby-3f-VaT"/>
+                                    <outlet property="contentLabel" destination="dSd-CD-GiR" id="neJ-Td-dIa"/>
+                                    <outlet property="timeLabel" destination="i0W-Ft-VHE" id="Cxl-yR-tCw"/>
+                                    <outlet property="titleLabel" destination="HEB-U0-hZX" id="zmw-a9-E8L"/>
+                                    <outlet property="usernameLabel" destination="jzV-GE-YDT" id="0bZ-pu-ytF"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="vHF-aI-j1s" id="6Lk-O3-G8T"/>
-                            <outlet property="delegate" destination="vHF-aI-j1s" id="cqe-9x-dPA"/>
+                            <outlet property="dataSource" destination="vHF-aI-j1s" id="UrF-k0-Fir"/>
+                            <outlet property="delegate" destination="vHF-aI-j1s" id="Chh-mO-su0"/>
                         </connections>
                     </tableView>
                 </tableViewController>

@@ -149,12 +149,23 @@
     }else if ([currentAnnotaion.status isEqualToString:@"currentlyhappening"]){
         view.pinColor = MKPinAnnotationColorGreen;
     }
-    
+    //SEL segue = @selector(segue:);
     //enable annimation
     view.enabled = YES;
     view.animatesDrop = YES;
     view.canShowCallout = YES;
-    view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    UIButton *calloutbutton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    //[calloutbutton addTarget:self
+                      //action:@selector(segue:)
+                    //  action:@selector(segue:)
+      // forControlEvents:UIControlEventTouchUpInside];
+    
+    //[calloutbutton sendAction:event to:@selector(segue:)forEvent:UIControlEventTouchUpInside];
+    
+    view.rightCalloutAccessoryView = calloutbutton;
+    
+    
+    //view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     
 
 //        if (!imageLoad) {
@@ -163,7 +174,7 @@
 //
 //
 //    dispatch_async(imageLoad, ^{
-//        
+//
 //        
 //        
 //        if ([event.mbidNumber isEqualToString:@"empty"]) {
@@ -196,22 +207,6 @@
     
     
     return view;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 
@@ -258,47 +253,46 @@
 
         
       }
-     
-     //view.leftCalloutAccessoryView = event.coverpic;
+ });
 
-});
-    
-//view.leftCalloutAccessoryView = event.coverpic;
-    
-//    event.coverpictureURL = [event getArtistInfoByName:event.InstaSearchQuery];
-//    
-//    NSLog(@"%@",event.coverpictureURL);
-    
-    //getArtistInfo *getartistinfo = [[getArtistInfo alloc]init];
-    
-    
-   // (id)[NSNull null]
-   
-    //NSString *coverpictureURL = [getartistinfor getArtistInfoByMbidNumuber:event.mbidNumber completionBolock:^{NSLog(@"it worked");} ];
-    //NSString *url = [getartistinfo ]
-    
-   // NSLog(@"%@",coverpictureURL);
-    
-    //int indexpath = currentannoation.eventObjectIndex;
-   // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
+    // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    Annotation *currentannoation = view.annotation;
+    //eventObject *event = [[eventObject alloc]init];
+
+    [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
 }
 
 
 
-
-   //view.leftCalloutAccessoryView = event.coverpic;
-
-
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.identifier isEqualToString:@"socialStream"])
-//    {
-//        eventObject *currentevent = sender;
-//        SocialStream *svc = [segue destinationViewController];
-//        svc.currentevent = currentevent;
+//-(void)segue:(eventObject*)sender {
+//    
+//    
+//    [self performSegueWithIdentifier:@"socialStream" sender:sender];
 //
-//    }
-//}
+//};
+
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+   
+    
+    
+    if ([segue.identifier isEqualToString:@"socialStream"])
+    {
+        
+        eventObject *currentevent = sender;
+        NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
+        NSLog(@"%@",stringRep);
+        JCSocailStreamController *jc = [segue destinationViewController];
+        jc.currentevent = currentevent;
+
+    }
+}
 
 
 
