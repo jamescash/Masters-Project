@@ -24,8 +24,69 @@
 @implementation MapView
 
 
--(void)viewWillAppear:(BOOL)animated{
+//-(void)viewWillAppear:(BOOL)animated{
     
+    
+    
+    
+    
+    
+    
+    
+//    [self.MkMapViewOutLet setDelegate:self];
+//    
+//    
+//    //creat dispatch queue for bandsintown API call
+//    if (!APIcalls) {
+//        APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
+//    }
+//    
+//    eventObject *event = [[eventObject alloc]init];
+//    self.allGigs = [[NSMutableArray alloc]init];
+//    
+//    if ([self.allGigs count]==0) {
+//
+//    
+//    dispatch_async(APIcalls, ^{
+//        
+//        
+//        //call the build master array on the API dispatch queue
+//        //this method connects to bandsintow api gets all the events data parses it
+//        //and returs an array of event objects
+//        
+//        
+//        
+//        [event buildmasterarray:^{
+//            
+//            
+//            self.annotations = [[NSMutableArray alloc]init];
+//            self.allGigs = event.allEvents;
+//            
+//            [self buildannotations:event.allEvents];
+//            
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
+//            
+//        }];//end of songkick API call + Data parsing
+//        
+//        
+//        
+//    });
+//
+//    }else{
+//        NSLog(@"annotations already loaded");
+//    }
+
+
+
+
+
+//};
+
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
     
     
     [self.MkMapViewOutLet setDelegate:self];
@@ -36,48 +97,56 @@
         APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
     }
     
-    
-    
-    
-    
     eventObject *event = [[eventObject alloc]init];
+    self.allGigs = [[NSMutableArray alloc]init];
+    
+   // if ([self.allGigs count]==0) {
+        
+        
+        dispatch_async(APIcalls, ^{
+            
+            
+            //call the build master array on the API dispatch queue
+            //this method connects to bandsintow api gets all the events data parses it
+            //and returs an array of event objects
+            
+            
+            
+            [event buildmasterarray:^{
+                
+                
+                self.annotations = [[NSMutableArray alloc]init];
+                self.allGigs = event.allEvents;
+                
+                [self buildannotations:event.allEvents];
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
+                
+            }];//end of songkick API call + Data parsing
+            
+            
+            
+        });
+        
+    //}else{
+     //   NSLog(@"annotations already loaded");
+    //}
+
     
     
-    dispatch_async(APIcalls, ^{
-        
-        
-        //call the build master array on the API dispatch queue
-        //this method connects to bandsintow api gets all the events data parses it
-        //and returs an array of event objects
-        [event buildmasterarray:^{
-            
-            
-            self.annotations = [[NSMutableArray alloc]init];
-            
-            
-            [self buildannotations:event.allEvents];
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
-            
-        }];//end of songkick API call + Data parsing
-        
-        
-        
-    });
-
-
-
-
-
-
-
-};
-
-
-- (void)viewDidLoad {
     
-    [super viewDidLoad];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     
 }//end of view did load
@@ -155,13 +224,6 @@
     view.animatesDrop = YES;
     view.canShowCallout = YES;
     UIButton *calloutbutton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    //[calloutbutton addTarget:self
-                      //action:@selector(segue:)
-                    //  action:@selector(segue:)
-      // forControlEvents:UIControlEventTouchUpInside];
-    
-    //[calloutbutton sendAction:event to:@selector(segue:)forEvent:UIControlEventTouchUpInside];
-    
     view.rightCalloutAccessoryView = calloutbutton;
     
     
@@ -213,7 +275,7 @@
 //here trying to call the get artist cover picture API method when annotation is selected
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-//   
+   
     if (!imageLoad) {
         imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
     }
@@ -230,32 +292,19 @@
     if ([event.mbidNumber isEqualToString:@"empty"]) {
         
         event.coverpic = [event getArtistInfoByName:event.InstaSearchQuery];
-         //   NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
-        //    NSLog(@"%@",stringRep);
-        
-       // view.leftCalloutAccessoryView = event.coverpic;
-        
         dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
 
         
     }else{
         
         
-        //UIImageView *annoationThumb = [[UIImageView alloc]init];
-
         event.coverpic = [event getArtistInfoByMbidNumuber:event.mbidNumber];
-       
-      //  NSString *stringRep = [NSString stringWithFormat:@"%@",event.coverpic];
-      //  NSLog(@"%@",stringRep);
-
-
         dispatch_async(dispatch_get_main_queue(), ^{view.leftCalloutAccessoryView = event.coverpic;});
 
         
       }
  });
 
-    // [self performSegueWithIdentifier:@"socialStream" sender:self.todaysGigs[indexpath]];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -268,20 +317,9 @@
 
 
 
-//-(void)segue:(eventObject*)sender {
-//    
-//    
-//    [self performSegueWithIdentifier:@"socialStream" sender:sender];
-//
-//};
-
-
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
    
-    
-    
     if ([segue.identifier isEqualToString:@"socialStream"])
     {
         

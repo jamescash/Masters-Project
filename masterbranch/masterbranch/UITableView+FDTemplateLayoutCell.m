@@ -175,7 +175,7 @@ static CGFloat const _FDTemplateLayoutCellHeightCacheAbsentValue = -1;
     if (!self.fd_debugLogEnabled) {
         return;
     }
-    NSLog(@"** FDTemplateLayoutCell ** %@", message);
+    //NSLog(@"** FDTemplateLayoutCell ** %@", message);
 }
 
 @end
@@ -247,11 +247,11 @@ static CGFloat const _FDTemplateLayoutCellHeightCacheAbsentValue = -1;
     
     CGFloat height = [self.delegate tableView:self heightForRowAtIndexPath:indexPath];
     [self.fd_cellHeightCache cacheHeight:height byIndexPath:indexPath];
-    [self fd_debugLog:[NSString stringWithFormat:
-                       @"finished precache - [%@:%@] %@",
-                       @(indexPath.section),
-                       @(indexPath.row),
-                       @(height)]];
+//    [self fd_debugLog:[NSString stringWithFormat:
+//                       @"finished precache - [%@:%@] %@",
+//                       @(indexPath.section),
+//                       @(indexPath.row),
+//                       @(height)]];
 }
 
 - (NSArray *)fd_allIndexPathsToBePrecached
@@ -493,9 +493,9 @@ static CGFloat const _FDTemplateLayoutCellHeightCacheAbsentValue = -1;
     }
     
     if (autoLayoutEnabled) {
-        [self fd_debugLog:[NSString stringWithFormat:@"calculate using auto layout - %@", @(fittingSize.height)]];
+        //[self fd_debugLog:[NSString stringWithFormat:@"calculate using auto layout - %@", @(fittingSize.height)]];
     } else {
-        [self fd_debugLog:[NSString stringWithFormat:@"calculate using frame layout - %@", @(fittingSize.height)]];
+        //[self fd_debugLog:[NSString stringWithFormat:@"calculate using frame layout - %@", @(fittingSize.height)]];
     }
 
     return fittingSize.height;

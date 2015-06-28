@@ -14,9 +14,11 @@
 {
     self = super.init;
     if (self) {
+        
         self.title = @"testing";
-        self.content = @"this is some example content";
-        self.username = @"username";
+        NSDictionary *caption = dictionary [@"caption"];
+        self.content = caption[@"text"];
+        //self.username = @"username";
         self.time = @"yesterday";
         self.imageName = dictionary[@"imageName"];
         NSDictionary *images = dictionary [@"images"];
@@ -26,6 +28,7 @@
          NSData *data = [NSData dataWithContentsOfURL:pic];
          UIImage *img = [[UIImage alloc] initWithData:data];
         self.imageName = img;
+        
         
     }
     return self;

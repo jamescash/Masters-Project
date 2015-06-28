@@ -17,11 +17,12 @@
 @property (weak, nonatomic) IBOutlet MKMapView *MkMapViewOutLet;
 @property (nonatomic) NSMutableArray *annotations;
 @property (nonatomic) NSString *url;
+@property (nonatomic) NSMutableArray *allGigs;
+
 
 
 
 
 -(void)buildannotations:(NSArray*)arrayofgigs;
--(void)segue:(eventObject*)sender;
 
 @end
