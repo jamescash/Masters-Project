@@ -50,9 +50,14 @@
     eventObject *event = [[eventObject alloc]init];
     self.allGigs = [[NSMutableArray alloc]init];
     
-    
+    UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    av.frame=CGRectMake(145, 160, 100, 100);
+    av.tag  = 1;
+    [self.MkMapViewOutLet addSubview:av];
+    [av startAnimating];
         
-        dispatch_async(APIcalls, ^{
+    
+      dispatch_async(APIcalls, ^{
             
             
             //call the build master array on the API dispatch queue
@@ -68,7 +73,7 @@
                 self.allGigs = event.allEvents;
                 
                 [self buildannotations:event.allEvents];
-                
+                [av removeFromSuperview];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
                 
