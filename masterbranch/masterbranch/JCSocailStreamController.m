@@ -24,12 +24,11 @@
     [super viewDidLoad];
     
     self.tableView.estimatedRowHeight = 200;
-    self.tableView.fd_debugLogEnabled = YES;
-    
+    self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
     
     [self buildTestDataThen:^{
-        self.feedEntitySections = @[].mutableCopy;
+         self.feedEntitySections = @[].mutableCopy;
         [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
         [self.tableView reloadData];
     }];
