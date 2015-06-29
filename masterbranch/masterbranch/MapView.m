@@ -247,6 +247,8 @@
     //eventObject *event = [[eventObject alloc]init];
 
     [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
+   // [self performSegueWithIdentifier:@"happeningRightNowTable" sender:currentannoation.currentEvent];
+
     
 
 }
@@ -258,15 +260,30 @@
    
     if ([segue.identifier isEqualToString:@"socialStream"])
     {
-        
-        eventObject *currentevent = sender;
-        NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
-        NSLog(@"%@",stringRep);
-        JCSocailStreamController *jc = [segue destinationViewController];
+        eventObject *currentevent = [[eventObject alloc]init];
+        currentevent = sender;
+        //NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
+        NSLog(@"happening later segue called");
+        JCssHappeningLater *jc = [segue destinationViewController];
         jc.currentevent = currentevent;
-
     }
+//    }else if ([segue.identifier isEqualToString:@"happeningRightNowTable"]){
+//        eventObject *currentevent = [[eventObject alloc]init];
+//        currentevent = sender;
+//        //NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
+//        NSLog(@"social stream segug called");
+//        JCSocailStreamController *jc = [segue destinationViewController];
+//        jc.currentevent = currentevent;
+//   }
+
+
+
+
+
 }
+
+
+
 
 
 

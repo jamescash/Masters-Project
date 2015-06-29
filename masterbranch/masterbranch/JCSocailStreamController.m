@@ -22,7 +22,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+                          // NSString *stringRep = [NSString stringWithFormat:@"%@",[self.currentevent twitterSearchQuery] ];
+                           //NSLog(@"%@",stringRep);
     self.tableView.estimatedRowHeight = 200;
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
@@ -36,7 +37,6 @@
 
 - (void)buildTestDataThen:(void (^)(void))then
 {
-    
     
     
     
