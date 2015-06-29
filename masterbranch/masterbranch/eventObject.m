@@ -54,7 +54,7 @@
         yesterdaysEvents = dispatch_queue_create("APIcall.bandsintown.yesterdays", NULL);
     }
     
-    
+//put the method that finds all the events that happened today onto its own queue
 dispatch_async(todaysEvents, ^{
         
            y = 0;
@@ -90,7 +90,7 @@ dispatch_async(todaysEvents, ^{
 });
        
     
-    
+    //put the method that finds all the events that happened yesterday onto its own queue
     dispatch_async(yesterdaysEvents, ^{
           
            x = 0;
@@ -277,8 +277,6 @@ dispatch_async(todaysEvents, ^{
   
 
     EventObjectParser *pasre = [[EventObjectParser alloc]init];
-
-
     //for eveny object in the dictionary self.jsonData parse it in this way
     for (NSDictionary *object in JSONresult) {
         eventObject *event = [[eventObject alloc]init];
@@ -296,11 +294,13 @@ dispatch_async(todaysEvents, ^{
             event.eventType = @"concert";
             event.eventTitle = venue [@"name"];
             
+            
             int i = 0;
             while ( i < [artistdic count] ){
                 NSDictionary *artistinfo = artists [i];
                 event.artistNames = [[NSMutableArray alloc]init];
                 [event.artistNames addObject:artistinfo[@"name"]];
+                //NSLog(@"%@",event.artistNames);
                 i++;
             }
             
@@ -311,12 +311,20 @@ dispatch_async(todaysEvents, ^{
             if ([artists count]>0) {
                 NSDictionary *artistinfo = artists [0];
                 event.eventTitle = artistinfo[@"name"];
+            
+                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                    event.mbidNumber = @"empty";
+                }else{
+                    event.mbidNumber = artistinfo[@"mbid"];
+                };
+            
             }
             
             
             else {
                 event.eventTitle = @"Some silly goose forgeot to enter event title";
                 event.InstaSearchQuery = @"error";
+                event.mbidNumber = @"empty";
             }
             
         }
@@ -326,13 +334,10 @@ dispatch_async(todaysEvents, ^{
         event.InstaSearchQuery = [pasre makeInstagramSearch:event.eventTitle];
         
         
-        NSDictionary *artistinfo = artists [0];
+       //NSDictionary *artistinfo = artists [0];
         
-        if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-            event.mbidNumber = @"empty";
-        }else{
-            event.mbidNumber = artistinfo[@"mbid"];
-        };
+        
+        
         
         
         event.LatLong = @{ @"lat" : venue[@"latitude"],
@@ -391,7 +396,7 @@ dispatch_async(todaysEvents, ^{
     
     
     //connet to the BandsinTown API get all events from the area on todays date
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=YOUR_APP_ID&date=%@,%@&location=%@",date,date,countyName];
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=preamp&date=%@,%@&location=%@",date,date,countyName];
     
     NSURL *url = [NSURL URLWithString:endpoint];
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -403,7 +408,9 @@ dispatch_async(todaysEvents, ^{
         }else {
             JSONresults = [[NSDictionary alloc]init];
             JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-             dispatch_semaphore_signal(sema);
+            //NSString *stringRep = [NSString stringWithFormat:@"%@",JSONresults];
+            //NSLog(@"%@",stringRep);
+            dispatch_semaphore_signal(sema);
 
             
         }
