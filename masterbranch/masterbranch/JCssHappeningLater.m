@@ -87,9 +87,9 @@
     if ([segue.identifier isEqualToString:@"happeningRightNowHead"])
     {
         
-        JChappeningLaterHeader *jc = [segue destinationViewController];
+        JChappeningLaterSS *jc = [segue destinationViewController];
         
-        jc.currentevent = self.currentevent;
+        jc.currentenven = self.currentevent;
         //        [self displayContentController:jc];
         
     }

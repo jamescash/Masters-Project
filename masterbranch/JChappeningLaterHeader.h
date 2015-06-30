@@ -10,10 +10,27 @@
 #import "eventObject.h"
 
 
-@interface JChappeningLaterHeader : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *ArtistName;
-@property (weak, nonatomic) IBOutlet UILabel *venueName;
+//@interface JChappeningLaterHeader : UIViewController
+
+@protocol RKCardViewDelegate <NSObject>
+@optional
+- (void)nameTap;
+- (void)coverPhotoTap;
+- (void)profilePhotoTap;
+@end
+
+
+@interface JChappeningLaterHeader : UIView
+
+@property (nonatomic, weak) IBOutlet id<RKCardViewDelegate> delegate;
+@property (nonatomic)UIImageView *profileImageView;
+@property (nonatomic)UIImageView *coverImageView;
+@property (nonatomic)UILabel *titleLabel;
 @property (nonatomic) eventObject *currentevent;
-@property (weak, nonatomic) IBOutlet UIImageView *ArtistImage;
+
+- (void)addBlur;
+- (void)removeBlur;
+- (void)addShadow;
+- (void)removeShadow;
 
 @end

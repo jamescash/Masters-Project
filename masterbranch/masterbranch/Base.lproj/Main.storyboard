@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="126-n8-19h">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MQZ-zJ-8yF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -32,7 +32,7 @@
                     <navigationItem key="navigationItem" title="Gigs happening today" id="yul-rm-31m"/>
                     <connections>
                         <outlet property="MkMapViewOutLet" destination="K9W-Ha-F5r" id="jUY-9s-6xz"/>
-                        <segue destination="wY7-9p-k8S" kind="show" identifier="socialStream" id="a5i-cl-vjX"/>
+                        <segue destination="wY7-9p-k8S" kind="presentation" identifier="socialStream" modalTransitionStyle="coverVertical" id="a5i-cl-vjX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7H0-k9-SDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -171,28 +171,10 @@
             </objects>
             <point key="canvasLocation" x="3269" y="68"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Okj-a4-Qmp">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="126-n8-19h" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="twx-TN-bhx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="MQZ-zJ-8yF" kind="relationship" relationship="rootViewController" id="PHw-SW-1WR"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yIY-W9-MVU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1817" y="68"/>
-        </scene>
-        <!--Chappening Later Header-->
+        <!--Chappening LaterSS-->
         <scene sceneID="bI9-Rl-Cbg">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2Bv-KV-cOB" customClass="JChappeningLaterHeader" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2Bv-KV-cOB" customClass="JChappeningLaterSS" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D8w-zn-v1a"/>
                         <viewControllerLayoutGuide type="bottom" id="wz9-KS-74c"/>
@@ -200,43 +182,9 @@
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="4ob-cg-XFx">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="VenueName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cI8-tP-kSs">
-                                <rect key="frame" x="39" y="52" width="93" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.0" green="0.22286713399999999" blue="0.46711253159999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Artist Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u4j-i0-TK4">
-                                <rect key="frame" x="39" y="29" width="105" height="21"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oxX-yv-u2C">
-                                <rect key="frame" x="249" y="20" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="uRS-oR-8dn"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="wz9-KS-74c" firstAttribute="top" secondItem="oxX-yv-u2C" secondAttribute="bottom" constant="60" id="3E4-8m-YF0"/>
-                            <constraint firstItem="cI8-tP-kSs" firstAttribute="top" secondItem="u4j-i0-TK4" secondAttribute="bottom" constant="5" id="IsF-TU-0eR"/>
-                            <constraint firstItem="u4j-i0-TK4" firstAttribute="leading" secondItem="4ob-cg-XFx" secondAttribute="leadingMargin" constant="23" id="ZKa-pc-xxI"/>
-                            <constraint firstItem="cI8-tP-kSs" firstAttribute="leading" secondItem="4ob-cg-XFx" secondAttribute="leadingMargin" constant="23" id="ZqI-UW-3zR"/>
-                            <constraint firstItem="u4j-i0-TK4" firstAttribute="top" secondItem="D8w-zn-v1a" secondAttribute="bottom" constant="29" id="xe3-OH-ttx"/>
-                            <constraint firstItem="oxX-yv-u2C" firstAttribute="top" secondItem="4ob-cg-XFx" secondAttribute="top" constant="20" symbolic="YES" id="y5A-MT-vfX"/>
-                            <constraint firstItem="oxX-yv-u2C" firstAttribute="leading" secondItem="4ob-cg-XFx" secondAttribute="leading" constant="249" id="zmM-Nm-6ry"/>
-                        </constraints>
                     </view>
                     <toolbarItems/>
-                    <connections>
-                        <outlet property="ArtistImage" destination="oxX-yv-u2C" id="ATO-0Z-64B"/>
-                        <outlet property="ArtistName" destination="u4j-i0-TK4" id="XRh-d6-XXu"/>
-                        <outlet property="venueName" destination="cI8-tP-kSs" id="5Ix-Pq-Fmt"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5qU-m7-3IR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

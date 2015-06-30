@@ -10,6 +10,7 @@
 #import "eventObject.h"
 #import "JCSocailStreamController.h"
 #import "JChappeningLaterHeader.h"
+#import "JChappeningLaterSS.h"
 
 
 
