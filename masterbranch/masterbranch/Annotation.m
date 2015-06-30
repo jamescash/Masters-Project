@@ -20,11 +20,4 @@
     return self;
 }
 
-
-//- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
-//{
-//    NSLog(@"did select annotation");
-//}
-
-
 @end
