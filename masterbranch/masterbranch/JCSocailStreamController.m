@@ -46,7 +46,7 @@
     if ([self.currentevent.status isEqualToString:@"happeningLater"]||[self.currentevent.status isEqualToString:@"alreadyHappened"]) {
         
         //seach by event object insta search query
-         searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/popular?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
+         searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
         NSLog(@"searched by Happening later");
     }else{
         
