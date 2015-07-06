@@ -17,7 +17,9 @@
 @property (nonatomic, assign) BOOL cellHeightCacheEnabled;
 @end
 
-@implementation JCSocailStreamController
+@implementation JCSocailStreamController{
+    NSString *searchquery;
+}
 
 - (void)viewDidLoad
 {
@@ -39,22 +41,29 @@
 {
     
     
+   
     
-   // NSString *searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
+    if ([self.currentevent.status isEqualToString:@"happeningLater"]||[self.currentevent.status isEqualToString:@"alreadyHappened"]) {
+        
+        //seach by event object insta search query
+         searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/popular?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
+        NSLog(@"searched by Happening later");
+    }else{
+        
+        NSDictionary *LatLong = [[NSDictionary alloc]init];
+        LatLong = self.currentevent.LatLong;
+        
+        NSString *latitude = LatLong[@"lat"];
+        NSString *Longditude = LatLong [@"long"];
+        
+        //search by lon and lat
+        searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
+        NSLog(@"searched by LatLong");
+    }
     
     
-    NSDictionary *LatLong = [[NSDictionary alloc]init];
-    LatLong = self.currentevent.LatLong;
     
-    NSString *latitude = LatLong[@"lat"];
-    NSString *Longditude = LatLong [@"long"];
-    
-    
-     NSString *searchqueryLocationLatLong = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=100&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
-    NSLog(@"%@",searchqueryLocationLatLong);
-    
-    
-    NSURL *url = [NSURL URLWithString:searchqueryLocationLatLong];
+    NSURL *url = [NSURL URLWithString:searchquery];
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         

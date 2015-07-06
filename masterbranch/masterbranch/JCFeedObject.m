@@ -15,8 +15,8 @@
     self = super.init;
     if (self) {
         
-                      NSString *stringRep = [NSString stringWithFormat:@"%@",dictionary];
-                    NSLog(@"%@",stringRep);
+        NSString *stringRep = [NSString stringWithFormat:@"%@",dictionary];
+        NSLog(@"%@",stringRep);
         
         
          NSDictionary *caption = dictionary [@"caption"];
@@ -37,7 +37,7 @@
         self.imageName = dictionary[@"imageName"];
         
         NSDictionary *images = dictionary [@"images"];
-        NSDictionary *lowResolution = images [@"standard_resolution"];
+        NSDictionary *lowResolution = images [@"low_resolution"];
         NSString *pictureurl = lowResolution [@"url"];
         NSURL *pic = [NSURL URLWithString:pictureurl];
         NSData *data = [NSData dataWithContentsOfURL:pic];
