@@ -216,9 +216,10 @@
     
     eventObject *event = [[eventObject alloc]init];
     Annotation *currentannoation = view.annotation;
-    
-    event = currentannoation.currentEvent;
   
+    event = currentannoation.currentEvent;
+    NSString *stringRep = [NSString stringWithFormat:@"%@",event.LatLong ];
+    NSLog(@"%@",stringRep);
  dispatch_async(imageLoad, ^{
     
     

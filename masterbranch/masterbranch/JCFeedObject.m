@@ -15,15 +15,26 @@
     self = super.init;
     if (self) {
         
-        NSDictionary *caption = dictionary [@"caption"];
-        NSDictionary *from = caption[@"from"];
+        NSString *stringRep = [NSString stringWithFormat:@"%@",dictionary];
+        NSLog(@"%@",stringRep);
         
-        self.content = caption[@"text"];
-        self.title = from[@"full_name"];
-        //self.username = @"username";
-        self.time = @"yesterday";
+        
+         NSDictionary *caption = dictionary [@"caption"];
+        
+        if ( caption == (id)[NSNull null]) {
+            self.content = @"No content for here";
+            self.title = @"No title";
+        }else{
+            
+            NSDictionary *from = caption[@"from"];
+            self.content = caption[@"text"];
+            self.title = from[@"full_name"];
+            
+            
+        }
+        
+       self.time = @"yesterday";
         self.imageName = dictionary[@"imageName"];
-        
         
         NSDictionary *images = dictionary [@"images"];
         NSDictionary *lowResolution = images [@"low_resolution"];
@@ -32,6 +43,10 @@
         NSData *data = [NSData dataWithContentsOfURL:pic];
         UIImage *img = [[UIImage alloc] initWithData:data];
         self.imageName = img;
+        
+        
+        
+        
         
         
     }

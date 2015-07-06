@@ -14,6 +14,8 @@
 		8912380D1B4178AE00E7C6CA /* JCssHappeningLater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8912380C1B4178AE00E7C6CA /* JCssHappeningLater.m */; };
 		891238111B41A9C100E7C6CA /* JChappeningLaterHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238101B41A9C000E7C6CA /* JChappeningLaterHeader.m */; };
 		891238141B41F27800E7C6CA /* JChappeningLaterSS.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238131B41F27800E7C6CA /* JChappeningLaterSS.m */; };
+		891238241B42C44D00E7C6CA /* JCssHeaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238231B42C44D00E7C6CA /* JCssHeaderController.m */; };
+		891238271B42C5FF00E7C6CA /* JCssHeadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238261B42C5FF00E7C6CA /* JCssHeadObject.m */; };
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
@@ -56,6 +58,10 @@
 		891238101B41A9C000E7C6CA /* JChappeningLaterHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JChappeningLaterHeader.m; path = ../JChappeningLaterHeader.m; sourceTree = "<group>"; };
 		891238121B41F27800E7C6CA /* JChappeningLaterSS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JChappeningLaterSS.h; sourceTree = "<group>"; };
 		891238131B41F27800E7C6CA /* JChappeningLaterSS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JChappeningLaterSS.m; sourceTree = "<group>"; };
+		891238221B42C44D00E7C6CA /* JCssHeaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCssHeaderController.h; sourceTree = "<group>"; };
+		891238231B42C44D00E7C6CA /* JCssHeaderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHeaderController.m; sourceTree = "<group>"; };
+		891238251B42C5FF00E7C6CA /* JCssHeadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCssHeadObject.h; sourceTree = "<group>"; };
+		891238261B42C5FF00E7C6CA /* JCssHeadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHeadObject.m; sourceTree = "<group>"; };
 		8936A6411B23337C00748803 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -188,6 +194,8 @@
 			children = (
 				891238121B41F27800E7C6CA /* JChappeningLaterSS.h */,
 				891238131B41F27800E7C6CA /* JChappeningLaterSS.m */,
+				891238221B42C44D00E7C6CA /* JCssHeaderController.h */,
+				891238231B42C44D00E7C6CA /* JCssHeaderController.m */,
 			);
 			name = controler;
 			sourceTree = "<group>";
@@ -197,6 +205,8 @@
 			children = (
 				8912380F1B41A9C000E7C6CA /* JChappeningLaterHeader.h */,
 				891238101B41A9C000E7C6CA /* JChappeningLaterHeader.m */,
+				891238251B42C5FF00E7C6CA /* JCssHeadObject.h */,
+				891238261B42C5FF00E7C6CA /* JCssHeadObject.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -416,6 +426,7 @@
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				89F51E051B1E1C62004E9055 /* UpcomingGigs.m in Sources */,
 				891238141B41F27800E7C6CA /* JChappeningLaterSS.m in Sources */,
+				891238241B42C44D00E7C6CA /* JCssHeaderController.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
@@ -424,6 +435,7 @@
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
+				891238271B42C5FF00E7C6CA /* JCssHeadObject.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 				891238111B41A9C100E7C6CA /* JChappeningLaterHeader.m in Sources */,
 			);

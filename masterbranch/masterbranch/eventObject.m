@@ -402,7 +402,7 @@ dispatch_async(todaysEvents, ^{
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
-            NSLog(@"api call didnt work with %@",countyName);
+            NSLog(@"api call didnt work with %@",error);
             //dispatch_semaphore_signal(sema);
             
         }else {
