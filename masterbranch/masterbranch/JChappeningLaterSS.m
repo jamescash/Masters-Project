@@ -31,8 +31,8 @@
     cardView.profileImageView.image = self.currentenven.coverpic.image;
     cardView.titleLabel.text = self.currentenven.eventTitle;
     cardView.delegate = self;
-    [cardView addBlur];
-    [cardView addShadow];
+    //[cardView addBlur];
+    //[cardView addShadow];
     [self.view addSubview:cardView];
 }
 

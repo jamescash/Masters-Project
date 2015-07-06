@@ -41,6 +41,14 @@
     
     // eventObject *currentevent = [[eventObject alloc]init];
     //currentevent = sender;
+
+
+
+
+
+
+
+
 };
 
 
@@ -48,8 +56,21 @@
 
 
 -(void) viewDidLoad{
+    
+    
+//JCssHeaderController *header = [[JCssHeaderController alloc]init];
+  //  JCSocailStreamController *ss = [[JCSocailStreamController alloc]init];
+    
+    //[self displayContentController:ss];
+    //[self displayContentController:header];
+
    
-   
+    //self.tableViewBox.view.frame = self.contentView.bounds;
+    //[self.contentView addSubview:tableViewController.view];
+    /*Calling the addChildViewController: method also calls
+     the child’s willMoveToParentViewController: method automatically */
+   // [self addChildViewController:tableViewController];
+   // [tableViewController didMoveToParentViewController:self];
     
     
          // NSString *stringRep = [NSString stringWithFormat:@"%lu",(unsigned long)[self.childViewControllers description] ];
@@ -87,10 +108,12 @@
     if ([segue.identifier isEqualToString:@"happeningRightNowHead"])
     {
         
-        JChappeningLaterSS *jc = [segue destinationViewController];
+        JCssHeaderController *jc = [segue destinationViewController];
         
-        jc.currentenven = self.currentevent;
-        //        [self displayContentController:jc];
+        jc.currentEvent = self.currentevent;
+        
+        //[self displayContentController:jc.view];
+        
         
     }
 
@@ -100,7 +123,11 @@
 
 }
 
-//
+
+    
+    
+    
+//}//
 //- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 //{
 //    NSString * segueName = segue.identifier;
@@ -111,18 +138,25 @@
 //        // do something with the AlertView's subviews here...
 //    }
 //}
+
+
 //
-//- (void) displayContentController: (UIView*) content;
+//- (void) displayContentController: (UIViewController*) content;
 //{
-//    //JCSocailStreamController *currentstream = [[JCSocailStreamController alloc]init];
+//   // JCSocailStreamController *currentstream = [[JCSocailStreamController alloc]init];
 //    
 //    [self addChildViewController:content];                 // 1
 //    
-//    content.view.frame = [self.tableViewBox frame]; // 2
-//  
-//    [self.view addSubview:content.view];
+//   // content.view.frame = self.tableViewBox.frame;
+//    
+//    //[self.view addSubview:cardView];
+//    
+//
+//     [self.view addSubview:self.tableViewBox];
 //    
 //    [content didMoveToParentViewController:self];          // 3
 //}
 
+- (IBAction)back:(id)sender {
+}
 @end

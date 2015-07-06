@@ -40,9 +40,21 @@
     
     
     
-    NSString *searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
+   // NSString *searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
     
-    NSURL *url = [NSURL URLWithString:searchquery];
+    
+    NSDictionary *LatLong = [[NSDictionary alloc]init];
+    LatLong = self.currentevent.LatLong;
+    
+    NSString *latitude = LatLong[@"lat"];
+    NSString *Longditude = LatLong [@"long"];
+    
+    
+     NSString *searchqueryLocationLatLong = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=100&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
+    NSLog(@"%@",searchqueryLocationLatLong);
+    
+    
+    NSURL *url = [NSURL URLWithString:searchqueryLocationLatLong];
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
