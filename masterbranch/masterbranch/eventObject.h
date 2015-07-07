@@ -35,8 +35,6 @@
 
 @property (nonatomic) NSArray *countysInIreland;
 
-
-
 @property(nonatomic)NSString *imageUrl;
 
 

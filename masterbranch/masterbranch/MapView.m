@@ -50,6 +50,7 @@
     eventObject *event = [[eventObject alloc]init];
     self.allGigs = [[NSMutableArray alloc]init];
     
+   //add loading whwwl while map is loading
     UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     av.frame=CGRectMake(145, 160, 100, 100);
     av.tag  = 1;
