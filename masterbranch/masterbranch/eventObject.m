@@ -324,126 +324,104 @@ dispatch_async(todaysEvents, ^{
 //
    for (NSDictionary *object in JSONresult) {
        
+       
        //hammer down to the results
        NSDictionary *resultsPage = JSONresult [@"resultsPage"];
        NSDictionary *results = resultsPage [@"results"];
-       NSArray *event = results[@"event"];
+       NSArray *eventArray = results[@"event"];
  
        //see if there are any upcoming events
-    if ([results count]== 0) {
-       NSLog(@"there are no upcoming events here");
-        
-     }else{
+    if ([results count] > 0) {
     
-         for (NSDictionary *eventobject in event) {
+//        NSLog(@"there are no upcoming events here %d",[results count] );
+//        NSLog(@"%@",results);
+//        
+//     }else{
+    
+         for (NSDictionary *eventobj in eventArray) {
             
-             NSDictionary *start = eventobject [@"start"];
+             NSDictionary *start = eventobj [@"start"];
              NSString *eventDate = start[@"date"];
+             NSArray *artistdic = eventobj[@"performance"];
+             NSDictionary *venue = eventobj [@"venue"];
+
              
              if ([todaysDate isEqualToString:eventDate]) {
                 
-                 NSLog(@"%@",eventobject[@"displayName"]);
-            
+                 eventObject *event = [[eventObject alloc]init];
+                         //if it has one or more artist parse into concert
+                         //while loop and i counter to itterate each sningle artist in returened json event
+                         if ([artistdic count] > 1 ) {
+                 
+                             event.eventTitle = eventobj[@"displayName"];
+                 
+                 
+                             int i = 0;
+                             while ( i < [artistdic count] ){
+                                 NSDictionary *artistinfo = artistdic[i];
+                                 event.artistNames = [[NSMutableArray alloc]init];
+                                 [event.artistNames addObject:artistinfo[@"displayName"]];
+                                 //NSLog(@"%@",event.artistNames);
+                                 i++;
+                             }
+                 
+                         }else{
+                 
+                             if ([artistdic count]>0) {
+                                 NSDictionary *artistinfo = artistdic [0];
+                                 event.eventTitle = artistinfo[@"displayName"];
+                 
+                                 if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                                     event.mbidNumber = @"empty";
+                                 }else{
+                                     event.mbidNumber = artistinfo[@"mbid"];
+                                 };
+                             
+                             }
+                             
+                             
+                             else {
+                                 event.eventTitle = @"Some silly goose forgeot to enter event title";
+                                 event.InstaSearchQuery = @"error";
+                                 event.mbidNumber = @"empty";
+                             }
+                             
+                         }
+             
+                         event.eventType = eventobj[@"type"];
+                         event.venueName = venue [@"displayName"];
+                         event.InstaSearchQuery = [pasre makeInstagramSearch:event.eventTitle];
+                 
+                 
+                         event.LatLong = @{ @"lat" : venue[@"lat"],
+                                            @"long": venue[@"lng"]
+                                            };
+                 
+                         event.eventDate = start[@"date"];
+                         event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName];
+                         //event.status = [pasre GetEventStatus:object [@"datetime"]];
+                         
+                         
+                         
+                 
+                        
+                         
+                         [self.allEvents addObject:event];
+             
+             
+             
              
              }else{
-             
-             
+                 
+                 //that event was not on todays date
+                 //NSLog(@"%@",eventDate);
              };
              
              
              
-//             NSArray *performance = eventobject[@"performance"];
-//             NSDictionary *start = eventobject [@"start"];
-             
-             //NSLog(@"%@",start);
-             
-         
-         
-         
-         };
+         };//end of inner loop for event array
        
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-       //  NSLog(@"%@",resultsPage[@"totalEntries"]);
-     }
-//        
-//        
-//        //if it has one or more artist parse into concert
-//        //while loop and i counter to itterate each sningle artist in returened json event
-//        if ([artistdic count] > 1 ) {
-//            
-//            event.eventType = @"concert";
-//            event.eventTitle = venue [@"name"];
-//            
-//            
-//            int i = 0;
-//            while ( i < [artistdic count] ){
-//                NSDictionary *artistinfo = artists [i];
-//                event.artistNames = [[NSMutableArray alloc]init];
-//                [event.artistNames addObject:artistinfo[@"name"]];
-//                //NSLog(@"%@",event.artistNames);
-//                i++;
-//            }
-//            
-//        }else{
-//            event.eventType = @"single";
-//            NSArray *artists = object [@"artists"];
-//            
-//            if ([artists count]>0) {
-//                NSDictionary *artistinfo = artists [0];
-//                event.eventTitle = artistinfo[@"name"];
-//            
-//                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-//                    event.mbidNumber = @"empty";
-//                }else{
-//                    event.mbidNumber = artistinfo[@"mbid"];
-//                };
-//            
-//            }
-//            
-//            
-//            else {
-//                event.eventTitle = @"Some silly goose forgeot to enter event title";
-//                event.InstaSearchQuery = @"error";
-//                event.mbidNumber = @"empty";
-//            }
-//            
-//        }
-//        
-//        
-//        event.venueName = venue [@"name"];
-//        event.InstaSearchQuery = [pasre makeInstagramSearch:event.eventTitle];
-//        
-//        
-//       //NSDictionary *artistinfo = artists [0];
-//        
-//        
-//        
-//        
-//        
-//        event.LatLong = @{ @"lat" : venue[@"latitude"],
-//                           @"long": venue[@"longitude"]
-//                           };
-//        
-//        event.eventDate = object [@"datetime"];
-//        event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName];
-//        event.status = [pasre GetEventStatus:object [@"datetime"]];
-//        
-//        
-//        
-//
-//       
-//        
-//        [self.allEvents addObject:event];
-//        
+    }//end of if no events else events statmen
         
     };//end of JSON parsing loop
 
