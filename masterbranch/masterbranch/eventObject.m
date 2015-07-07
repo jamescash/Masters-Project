@@ -33,11 +33,6 @@
    todaysEventsFinishedParsing = NO;
    yesterdaysEventsFinishedParsing = NO;
     
-
-   // self.countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
-                              //@"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
-                          //    ,@"Louth,Ireland",@"Roscommon,Ireland",@"Longford,Ireland",@"Claregalway,Ireland",@"Tipperary,Ireland",@"Limerick,Ireland",@"Wexford,Ireland",@"Waterford,Ireland",@"Kerrykeel,Ireland"];
-    
     self.countysInIreland = [[NSDictionary alloc]init];
     
     self.countysInIreland = @{@"Antrim":@"24523",
@@ -320,30 +315,64 @@ dispatch_async(todaysEvents, ^{
 
   
     
-   
+    
+    EventObjectParser *pasre = [[EventObjectParser alloc]init];
+    NSDate *now = [NSDate date];
+    NSString *todaysDate = [pasre formatDateForAPIcall:now];
     
     
-//    
+//
    for (NSDictionary *object in JSONresult) {
-//        eventObject *event = [[eventObject alloc]init];
-//        
-//        NSDictionary *artistdic = object [@"artists"];
-//        NSArray *artists = object [@"artists"];
-//        NSDictionary *venue = object [@"venue"];
-      
-      //hammer down to the results
+       
+       //hammer down to the results
        NSDictionary *resultsPage = JSONresult [@"resultsPage"];
        NSDictionary *results = resultsPage [@"results"];
+       NSArray *event = results[@"event"];
  
        //see if there are any upcoming events
     if ([results count]== 0) {
        NSLog(@"there are no upcoming events here");
+        
      }else{
-      //if there is upcoming events parse them
+    
+         for (NSDictionary *eventobject in event) {
+            
+             NSDictionary *start = eventobject [@"start"];
+             NSString *eventDate = start[@"date"];
+             
+             if ([todaysDate isEqualToString:eventDate]) {
+                
+                 NSLog(@"%@",eventobject[@"displayName"]);
+            
+             
+             }else{
+             
+             
+             };
+             
+             
+             
+//             NSArray *performance = eventobject[@"performance"];
+//             NSDictionary *start = eventobject [@"start"];
+             
+             //NSLog(@"%@",start);
+             
          
          
          
-         NSLog(@"%@",resultsPage[@"totalEntries"]);
+         };
+       
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+       //  NSLog(@"%@",resultsPage[@"totalEntries"]);
      }
 //        
 //        
@@ -462,14 +491,14 @@ dispatch_async(todaysEvents, ^{
     
        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
 
-            if ([JSONresults[@"totalEntries"] isEqualToString:@"0"] ) {
+           // if ([JSONresults[@"totalEntries"] isEqualToString:@"0"] ) {
                 
-                NSLog(@"there was no events in %@ today",countyName);
-
-            }
+           //     NSLog(@"there was no events in %@ today",countyName);
+//
+           // }
     
     
-            else {
+           // else {
                 
                 
                // NSLog(@"JSON result wit %d getting packaged for county %@ %@",[JSONresults count],countyName,date);
@@ -478,7 +507,7 @@ dispatch_async(todaysEvents, ^{
              
                 
 
-            }
+            //}
 
             
             
