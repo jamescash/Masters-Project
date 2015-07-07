@@ -33,7 +33,7 @@
 @property (nonatomic) NSMutableArray *jsonData;
 @property (nonatomic) NSMutableArray *allEvents;
 
-@property (nonatomic) NSArray *countysInIreland;
+@property (nonatomic)   NSDictionary *countysInIreland;
 
 @property(nonatomic)NSString *imageUrl;
 
@@ -44,7 +44,7 @@
 
 -(UIImageView*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
 
--(void)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date;
+-(void)GetEventJSON: (NSString*)countyName;
 
 -(void)praseJSONresult: (NSDictionary*)JSONresult;
 
