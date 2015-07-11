@@ -106,16 +106,13 @@
     NSData *smallData = UIImagePNGRepresentation(newImage);
     
     UIImage *newimage = [[UIImage alloc] initWithData:smallData];
-        
-//        CALayer *imageLayer = newimage.layer;
-//        [imageLayer setCornerRadius:5];
-//        [imageLayer setBorderWidth:1];
-//        [imageLayer setMasksToBounds:YES];
-    
     self.thumbNail = [[UIImageView alloc] initWithImage:newimage];
-     
-        
     dispatch_semaphore_signal(sema);
+    
+    
+        
+        
+    //Development 1.0 - Have fun reading guys
 
 
     

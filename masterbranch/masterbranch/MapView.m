@@ -102,13 +102,15 @@
     
     CLLocationCoordinate2D location;
     
-  
+  //Acessing the array of eventObjects build by the eventObject class
     for (eventObject *event in arrayofgigs) {
         
+        //build an annotation for eveny object in that array
         NSString *latitude = event.LatLong[@"lat"];
         NSString *Long = event.LatLong[@"long"];
         location.latitude = [latitude doubleValue];
         location.longitude = [Long doubleValue];
+       
         Annotation *ann = [[Annotation alloc]init];
         ann.coordinate = location;
         ann.title = event.eventTitle;
@@ -116,10 +118,7 @@
         ann.currentEvent = event;
         ann.status = event.status;
         
-          //  dispatch_queue_t me = dispatch_get_current_queue();
-          //  NSString *stringRep = [NSString stringWithFormat:@"%s",dispatch_queue_get_label(me)];
-          //  NSLog(@"%@",stringRep);
-
+        //add it to an array of anationing that will be build when the array is finished being filled
         [self.annotations addObject:ann];
         
         
@@ -129,21 +128,19 @@
     
 }
 
+//this delegation methid is called everytime an annotion is being built, it tell the annotation how it should look
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     
     //create the annotation view
-    
-    MKPinAnnotationView *view = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"pin"];
+     MKPinAnnotationView *view = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"pin"];
     Annotation *currentAnnotaion = [[Annotation alloc]init];
     currentAnnotaion = annotation;
-    
     eventObject *event = [[eventObject alloc]init];
-    
     event = currentAnnotaion.currentEvent;
     
 
-    
+    //here we decide what colour to make the annotation besed on the eventObject status
     if ([currentAnnotaion.status isEqualToString: @"alreadyHappened"]) {
         view.pinColor = MKPinAnnotationColorRed;
 
@@ -153,7 +150,7 @@
     }else if ([currentAnnotaion.status isEqualToString:@"currentlyhappening"]){
         view.pinColor = MKPinAnnotationColorGreen;
     }
-    //SEL segue = @selector(segue:);
+
     //enable annimation
     view.enabled = YES;
     view.animatesDrop = YES;
@@ -206,11 +203,10 @@
     return view;
 };
 
-
-//here trying to call the get artist cover picture API method when annotation is selected
+//when the annation is selected this method is called becuse this class is the delaget
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-   
+   //creat a dittrent queue
     if (!imageLoad) {
         imageLoad = dispatch_queue_create("com.APIcall.annotationImages", NULL);
     }
@@ -218,6 +214,7 @@
     eventObject *event = [[eventObject alloc]init];
     Annotation *currentannoation = view.annotation;
   
+    //put the method the gets the cover picture onto that queue
     event = currentannoation.currentEvent;
     NSString *stringRep = [NSString stringWithFormat:@"%@",event.LatLong ];
     NSLog(@"%@",stringRep);

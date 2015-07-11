@@ -17,7 +17,6 @@
     BOOL yesterdaysEventsFinishedParsing;
     int y;
     int x;
-    NSDictionary *coutyandsearchNumber;
 
 
 };
@@ -72,8 +71,9 @@
     EventObjectParser *pasre = [[EventObjectParser alloc]init];
     
     
-    NSDate *now = [NSDate date];
-    NSString *todaysDate = [pasre formatDateForAPIcall:now];
+    //NSDate *now = [NSDate date];
+   // NSString *todaysDate = [pasre formatDateForAPIcall:now];
+    
     //NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
     //NSString *yesterdaysDate = [pasre formatDateForAPIcall:yesterday];
 
@@ -96,7 +96,7 @@ dispatch_async(todaysEvents, ^{
     for (id countyName in self.countysInIreland) {
         
 
-        
+        //gun the api call with the county area code as the peramiter
        [self GetEventJSON:[self.countysInIreland objectForKey:countyName]];
 
         y++;
@@ -322,7 +322,7 @@ dispatch_async(todaysEvents, ^{
     
     
 //
-   for (NSDictionary *object in JSONresult) {
+   //for (NSDictionary *object in JSONresult) {
        
        
        //hammer down to the results
@@ -333,20 +333,17 @@ dispatch_async(todaysEvents, ^{
        //see if there are any upcoming events
     if ([results count] > 0) {
     
-//        NSLog(@"there are no upcoming events here %d",[results count] );
-//        NSLog(@"%@",results);
-//        
-//     }else{
-    
-         for (NSDictionary *eventobj in eventArray) {
+        for (NSDictionary *eventobj in eventArray) {
             
              NSDictionary *start = eventobj [@"start"];
              NSString *eventDate = start[@"date"];
-             NSArray *artistdic = eventobj[@"performance"];
-             NSDictionary *venue = eventobj [@"venue"];
+           
 
              
              if ([todaysDate isEqualToString:eventDate]) {
+                 
+                 NSArray *artistdic = eventobj[@"performance"];
+                 NSDictionary *venue = eventobj [@"venue"];
                 
                  eventObject *event = [[eventObject alloc]init];
                          //if it has one or more artist parse into concert
@@ -387,6 +384,7 @@ dispatch_async(todaysEvents, ^{
                              }
                              
                          }
+
              
                          event.eventType = eventobj[@"type"];
                          event.venueName = venue [@"displayName"];
@@ -404,8 +402,9 @@ dispatch_async(todaysEvents, ^{
                          
                          
                  
-                        
-                         
+                // NSLog(@"event title: %@ ,event lat: %@, Event long: %@ ",event.eventTitle, event.LatLong[@"lat"],event.LatLong[@"long"]);
+
+                     NSLog(@"%@",event.eventTitle);
                          [self.allEvents addObject:event];
              
              
@@ -423,7 +422,7 @@ dispatch_async(todaysEvents, ^{
        
     }//end of if no events else events statmen
         
-    };//end of JSON parsing loop
+   // };//end of JSON parsing loop
 
 
 
@@ -455,7 +454,7 @@ dispatch_async(todaysEvents, ^{
             //dispatch_semaphore_signal(sema);
             
         }else {
-            JSONresults = [[NSDictionary alloc]init];
+           // JSONresults = [[NSDictionary alloc]init];
             JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             //NSString *stringRep = [NSString stringWithFormat:@"%@",JSONresults];
             //NSLog(@"%@",stringRep);
@@ -480,7 +479,8 @@ dispatch_async(todaysEvents, ^{
                 
                 
                // NSLog(@"JSON result wit %d getting packaged for county %@ %@",[JSONresults count],countyName,date);
-                [self praseJSONresult:JSONresults];
+    [self praseJSONresult:JSONresults];
+    //NSLog(@"%@",countyName);
                // NSDictionary *results = JSONresults[@"results"];
              
                 

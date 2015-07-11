@@ -21,10 +21,6 @@
 @property (nonatomic) NSString *url;
 @property (nonatomic) NSMutableArray *allGigs;
 
-
-
-
-
 -(void)buildannotations:(NSArray*)arrayofgigs;
 
 @end
