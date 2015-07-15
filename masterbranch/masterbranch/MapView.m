@@ -7,6 +7,8 @@
 //
 
 #import "MapView.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 
 @interface MapView (){
@@ -41,6 +43,15 @@
     
     
     [self.MkMapViewOutLet setDelegate:self];
+    
+   
+    //fb logging button
+    //[FBSDKSettings setAppID:@"962582523784456"];
+    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
+    loginButton.center = self.view.center;
+    [self.view addSubview:loginButton];
+    
+    
     
     //creat dispatch queue for bandsintown API call
     if (!APIcalls) {
@@ -218,8 +229,8 @@
     Annotation *currentannoation = view.annotation;
   
     event = currentannoation.currentEvent;
-    NSString *stringRep = [NSString stringWithFormat:@"%@",event.LatLong ];
-    NSLog(@"%@",stringRep);
+//    NSString *stringRep = [NSString stringWithFormat:@"%@",event.LatLong ];
+//    NSLog(@"%@",stringRep);
  dispatch_async(imageLoad, ^{
     
     
@@ -250,7 +261,27 @@
     [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
    // [self performSegueWithIdentifier:@"happeningRightNowTable" sender:currentannoation.currentEvent];
 
+//    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+//                                  initWithGraphPath:@"/me/photos"
+//                                  parameters:nil
+//                                  HTTPMethod:@"GET"];
+//    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+//                                          id result,
+//                                          NSError *error) {
+//        NSLog(@"%@",result);
+//    
+//    }];
     
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"/q=ritual" parameters:nil]
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+             if (!error) {
+                 NSLog(@"fetched user:%@", result);
+             }else{
+                 NSLog(@"%@",error);
+             }
+         }];
+    }
 
 }
 

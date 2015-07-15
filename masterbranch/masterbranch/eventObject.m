@@ -347,28 +347,8 @@ dispatch_async(todaysEvents, ^{
         event.eventDate = object [@"datetime"];
         event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName];
         event.status = [pasre GetEventStatus:object [@"datetime"]];
-        
-        
-        
-        
-//            if ([event.mbidNumber isEqualToString:@"empty"]) {
-//              //  event.coverpic = [self getArtistInfoByName:event.InstaSearchQuery];
-//                dispatch_semaphore_signal(sema);
-//
-//    
-//            
-//            }else{
-//        
-//              //  event.coverpic = [self getArtistInfoByMbidNumuber:event.mbidNumber];
-//                dispatch_semaphore_signal(sema);
-//
-//            
-//            }
-
-        
-        
-      //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
        
+        //NSLog(@"%@",object);
         
         [self.allEvents addObject:event];
         

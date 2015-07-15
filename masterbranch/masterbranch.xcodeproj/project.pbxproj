@@ -16,6 +16,9 @@
 		891238141B41F27800E7C6CA /* JChappeningLaterSS.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238131B41F27800E7C6CA /* JChappeningLaterSS.m */; };
 		891238241B42C44D00E7C6CA /* JCssHeaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238231B42C44D00E7C6CA /* JCssHeaderController.m */; };
 		891238271B42C5FF00E7C6CA /* JCssHeadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238261B42C5FF00E7C6CA /* JCssHeadObject.m */; };
+		8924A9511B56D103007FB71C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */; };
+		8924A9531B56D99C007FB71C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */; };
+		8924A9551B56D9B1007FB71C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */; };
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
@@ -62,6 +65,9 @@
 		891238231B42C44D00E7C6CA /* JCssHeaderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHeaderController.m; sourceTree = "<group>"; };
 		891238251B42C5FF00E7C6CA /* JCssHeadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCssHeadObject.h; sourceTree = "<group>"; };
 		891238261B42C5FF00E7C6CA /* JCssHeadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHeadObject.m; sourceTree = "<group>"; };
+		8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8936A6411B23337C00748803 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -96,6 +102,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				89AD3BAB1B3C8F490004CAE4 /* UIKit.framework in Frameworks */,
+				8924A9511B56D103007FB71C /* FBSDKCoreKit.framework in Frameworks */,
+				8924A9551B56D9B1007FB71C /* FBSDKShareKit.framework in Frameworks */,
+				8924A9531B56D99C007FB71C /* FBSDKLoginKit.framework in Frameworks */,
 				8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */,
 				8936A6451B23350E00748803 /* MapKit.framework in Frameworks */,
 			);
@@ -266,6 +275,9 @@
 				89F51DD61B1E1B39004E9055 /* masterbranch */,
 				89F51DF01B1E1B3A004E9055 /* masterbranchTests */,
 				89F51DD51B1E1B39004E9055 /* Products */,
+				8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */,
+				8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */,
+				8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -563,6 +575,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jamescash/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = masterbranch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -573,6 +589,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jamescash/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = masterbranch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

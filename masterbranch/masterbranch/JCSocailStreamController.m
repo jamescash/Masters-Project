@@ -10,6 +10,7 @@
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "JCFeedObject.h"
 #import "JCsocialStreamCell.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface JCSocailStreamController () <UIActionSheetDelegate>
 @property (nonatomic, copy) NSArray *prototypeEntitiesFromJSON;
@@ -24,8 +25,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-                          // NSString *stringRep = [NSString stringWithFormat:@"%@",[self.currentevent twitterSearchQuery] ];
-                           //NSLog(@"%@",stringRep);
     self.tableView.estimatedRowHeight = 200;
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
@@ -42,6 +41,28 @@
     
     
    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     if ([self.currentevent.status isEqualToString:@"happeningLater"]||[self.currentevent.status isEqualToString:@"alreadyHappened"]) {
         
