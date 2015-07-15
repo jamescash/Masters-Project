@@ -15,8 +15,8 @@
     self = super.init;
     if (self) {
         
-        NSString *stringRep = [NSString stringWithFormat:@"%@",dictionary];
-        NSLog(@"%@",stringRep);
+       // NSString *stringRep = [NSString stringWithFormat:@"%@",dictionary];
+       // NSLog(@"%@",stringRep);
         
         
          NSDictionary *caption = dictionary [@"caption"];
@@ -33,7 +33,7 @@
             
         }
         
-       self.time = @"yesterday";
+        self.time = @"yesterday";
         self.imageName = dictionary[@"imageName"];
         
         NSDictionary *images = dictionary [@"images"];

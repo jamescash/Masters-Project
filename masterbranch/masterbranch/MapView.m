@@ -77,7 +77,7 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
                 
-            }];//end of songkick API call + Data parsing
+            }];//end of API call + Data parsing
             
             
             

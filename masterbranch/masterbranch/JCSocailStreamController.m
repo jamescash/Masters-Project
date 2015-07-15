@@ -47,7 +47,11 @@
         
         //seach by event object insta search query
          searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
-        NSLog(@"searched by Happening later");
+        NSLog(@"searched by Happeninglater/already happened");
+        NSLog(@"%@", [self.currentevent InstaSearchQuery]);
+        NSLog(@"%@", [self.currentevent venueName]);
+  
+    
     }else{
         
         NSDictionary *LatLong = [[NSDictionary alloc]init];
@@ -59,6 +63,8 @@
         //search by lon and lat
         searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
         NSLog(@"searched by LatLong");
+        NSLog(@"%@", [self.currentevent InstaSearchQuery]);
+
     }
     
     
@@ -68,7 +74,7 @@
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
-            NSLog(@"error connecting to insta API");
+            NSLog(@"%@",error);
         } else {
             
             NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
