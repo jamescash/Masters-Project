@@ -48,9 +48,11 @@
     //fb logging button
     //[FBSDKSettings setAppID:@"962582523784456"];
     FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
+    loginButton.readPermissions = @[@"email", @"user_friends",@"public_profile"];
     loginButton.center = self.view.center;
     [self.view addSubview:loginButton];
     
+   
     
     
     //creat dispatch queue for bandsintown API call
@@ -271,18 +273,52 @@
 //        NSLog(@"%@",result);
 //    
 //    }];
-    
-    if ([FBSDKAccessToken currentAccessToken]) {
-        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"/q=ritual" parameters:nil]
-         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-             if (!error) {
-                 NSLog(@"fetched user:%@", result);
-             }else{
-                 NSLog(@"%@",error);
-             }
-         }];
-    }
 
+//    NSArray* permissions = [[NSArray alloc] initWithObjects:@"publish_stream", @"email",
+//                            @"user_birthday",@"user_relationships", @"user_location", @"user_hometown", nil];
+//    
+//    FBSDKLoginManager *loginManager = [[FBSDKLoginManager alloc] init];
+//    [loginManager logInWithPublishPermissions:permissions
+//                                      handler:^(FBSDKLoginManagerLoginResult *result, NSError *error)
+//     {
+//         if ([result.declinedPermissions containsObject:@"publish_stream"])
+//         {
+//             NSLog(@"permission denied");
+//         }
+//         else
+//         {
+//             NSLog(@"permission granted");
+//         }
+//     }];
+    
+    
+    
+//
+    
+    
+    // NSDictionary *parameters = @{@"q":@"ritual",@"center":@"37.76,-122.427 ",@"distance":@"1000"};
+    NSDictionary *parameters = @{@"q":@"academy",@"type":@"place",@"center":@"53.34811,-6.26177",@"distance":@"1000"};
+    
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                  initWithGraphPath:@"search"
+                                  parameters:parameters
+                                  HTTPMethod:@"GET"];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                          id result,
+                                          NSError *error) {
+        //HANDEL RESULT
+        NSLog(@"%@",result);
+    
+    }];
+
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
