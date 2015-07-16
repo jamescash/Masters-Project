@@ -297,19 +297,22 @@
     
     
     // NSDictionary *parameters = @{@"q":@"ritual",@"center":@"37.76,-122.427 ",@"distance":@"1000"};
-    NSDictionary *parameters = @{@"q":@"academy",@"type":@"place",@"center":@"53.34811,-6.26177",@"distance":@"1000"};
     
-    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
-                                  initWithGraphPath:@"search"
-                                  parameters:parameters
-                                  HTTPMethod:@"GET"];
-    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
-                                          id result,
-                                          NSError *error) {
-        //HANDEL RESULT
-        NSLog(@"%@",result);
     
-    }];
+    
+//    NSDictionary *parameters = @{@"q":@"academy",@"type":@"place",@"center":@"53.34811,-6.26177",@"distance":@"500"};
+//    
+//    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+//                                  initWithGraphPath:@"search"
+//                                  parameters:parameters
+//                                  HTTPMethod:@"GET"];
+//    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+//                                          id result,
+//                                          NSError *error) {
+//        //HANDEL RESULT
+//        NSLog(@"%@",result);
+//    
+//    }];
 
     
     
@@ -331,18 +334,11 @@
         eventObject *currentevent = [[eventObject alloc]init];
         currentevent = sender;
         //NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
-        NSLog(@"happening later segue called");
+        //NSLog(@"happening later segue called");
+        
         JCssHappeningLater *jc = [segue destinationViewController];
         jc.currentevent = currentevent;
     }
-//    }else if ([segue.identifier isEqualToString:@"happeningRightNowTable"]){
-//        eventObject *currentevent = [[eventObject alloc]init];
-//        currentevent = sender;
-//        //NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
-//        NSLog(@"social stream segug called");
-//        JCSocailStreamController *jc = [segue destinationViewController];
-//        jc.currentevent = currentevent;
-//   }
 
 
 

@@ -32,18 +32,19 @@
   
  
     
+//    
+//NSString *stringRep = [NSString stringWithFormat:@"%f",self.view.frame.size.width];
+//    
+//   // NSLog(@"%@ self.view.bounds.size.width",stringRep);
+//    
+//    NSString *stringRep1 = [NSString stringWithFormat:@"%f",self.view.frame.size.height];
+//    
+//    
+//    
+//    NSLog(@"%@ self.view.bounds.size.height",stringRep1);
     
-NSString *stringRep = [NSString stringWithFormat:@"%f",self.view.frame.size.width];
+
     
-    NSLog(@"%@ self.view.bounds.size.width",stringRep);
-    
-    NSString *stringRep1 = [NSString stringWithFormat:@"%f",self.view.frame.size.height];
-    
-    
-    
-    NSLog(@"%@ self.view.bounds.size.height",stringRep1);
-    
-    //self.si
     
 //    cardView.ArtistName.text = self.currentEvent.eventTitle;
 //    cardView.Location.text = self.currentEvent.venueName;
