@@ -169,7 +169,7 @@ dispatch_async(todaysEvents, ^{
                 //if unknown artist object comes back form API call do this
                 if (jsonData[@"errors"]) {
                     NSString *error = jsonData[@"errors"];
-                    NSLog(@"%@",error);
+                    NSLog(@"unkown artist picture %@",error);
                     dispatch_semaphore_signal(sema);
 
 
@@ -219,8 +219,7 @@ dispatch_async(todaysEvents, ^{
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
-            NSLog(@" JSON error mbid number didnt work");
-            NSLog(@"event added bad" );
+            NSLog(@"JSON error mbid number didnt work");
             dispatch_semaphore_signal(sema);
 
 
@@ -232,7 +231,6 @@ dispatch_async(todaysEvents, ^{
             
             if ([jsonData count]== 0 ) {
                 NSLog(@"No info for that artist via mbid api call");
-                NSLog(@"event added bad" );
                 dispatch_semaphore_signal(sema);
 
 
@@ -347,28 +345,8 @@ dispatch_async(todaysEvents, ^{
         event.eventDate = object [@"datetime"];
         event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName];
         event.status = [pasre GetEventStatus:object [@"datetime"]];
-        
-        
-        
-        
-//            if ([event.mbidNumber isEqualToString:@"empty"]) {
-//              //  event.coverpic = [self getArtistInfoByName:event.InstaSearchQuery];
-//                dispatch_semaphore_signal(sema);
-//
-//    
-//            
-//            }else{
-//        
-//              //  event.coverpic = [self getArtistInfoByMbidNumuber:event.mbidNumber];
-//                dispatch_semaphore_signal(sema);
-//
-//            
-//            }
-
-        
-        
-      //  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
        
+        //NSLog(@"%@",object);
         
         [self.allEvents addObject:event];
         

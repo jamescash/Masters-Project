@@ -7,6 +7,8 @@
 //
 
 #import "MapView.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 
 @interface MapView (){
@@ -41,6 +43,17 @@
     
     
     [self.MkMapViewOutLet setDelegate:self];
+    
+   
+    //fb logging button
+    //[FBSDKSettings setAppID:@"962582523784456"];
+    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
+    loginButton.readPermissions = @[@"email", @"user_friends",@"public_profile"];
+    loginButton.center = self.view.center;
+    [self.view addSubview:loginButton];
+    
+   
+    
     
     //creat dispatch queue for bandsintown API call
     if (!APIcalls) {
@@ -218,8 +231,8 @@
     Annotation *currentannoation = view.annotation;
   
     event = currentannoation.currentEvent;
-    NSString *stringRep = [NSString stringWithFormat:@"%@",event.LatLong ];
-    NSLog(@"%@",stringRep);
+//    NSString *stringRep = [NSString stringWithFormat:@"%@",event.LatLong ];
+//    NSLog(@"%@",stringRep);
  dispatch_async(imageLoad, ^{
     
     
@@ -250,8 +263,65 @@
     [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
    // [self performSegueWithIdentifier:@"happeningRightNowTable" sender:currentannoation.currentEvent];
 
-    
+//    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+//                                  initWithGraphPath:@"/me/photos"
+//                                  parameters:nil
+//                                  HTTPMethod:@"GET"];
+//    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+//                                          id result,
+//                                          NSError *error) {
+//        NSLog(@"%@",result);
+//    
+//    }];
 
+//    NSArray* permissions = [[NSArray alloc] initWithObjects:@"publish_stream", @"email",
+//                            @"user_birthday",@"user_relationships", @"user_location", @"user_hometown", nil];
+//    
+//    FBSDKLoginManager *loginManager = [[FBSDKLoginManager alloc] init];
+//    [loginManager logInWithPublishPermissions:permissions
+//                                      handler:^(FBSDKLoginManagerLoginResult *result, NSError *error)
+//     {
+//         if ([result.declinedPermissions containsObject:@"publish_stream"])
+//         {
+//             NSLog(@"permission denied");
+//         }
+//         else
+//         {
+//             NSLog(@"permission granted");
+//         }
+//     }];
+    
+    
+    
+//
+    
+    
+    // NSDictionary *parameters = @{@"q":@"ritual",@"center":@"37.76,-122.427 ",@"distance":@"1000"};
+    
+    
+    
+//    NSDictionary *parameters = @{@"q":@"academy",@"type":@"place",@"center":@"53.34811,-6.26177",@"distance":@"500"};
+//    
+//    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+//                                  initWithGraphPath:@"search"
+//                                  parameters:parameters
+//                                  HTTPMethod:@"GET"];
+//    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+//                                          id result,
+//                                          NSError *error) {
+//        //HANDEL RESULT
+//        NSLog(@"%@",result);
+//    
+//    }];
+
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
@@ -264,18 +334,11 @@
         eventObject *currentevent = [[eventObject alloc]init];
         currentevent = sender;
         //NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
-        NSLog(@"happening later segue called");
+        //NSLog(@"happening later segue called");
+        
         JCssHappeningLater *jc = [segue destinationViewController];
         jc.currentevent = currentevent;
     }
-//    }else if ([segue.identifier isEqualToString:@"happeningRightNowTable"]){
-//        eventObject *currentevent = [[eventObject alloc]init];
-//        currentevent = sender;
-//        //NSString *stringRep = [NSString stringWithFormat:@"%@",currentevent.eventTitle];
-//        NSLog(@"social stream segug called");
-//        JCSocailStreamController *jc = [segue destinationViewController];
-//        jc.currentevent = currentevent;
-//   }
 
 
 
