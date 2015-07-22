@@ -17,4 +17,12 @@
 @property (nonatomic) eventObject *currentevent;
 
 
+
+
+-(void)connectToInstagramWithCorrectEndPoint: (NSString*)endpoint then: (void (^)(void))then;
+-(void)getInstagramPlaceIDfromFBplaceID: (NSString*) FBplaceIDstring;
+
+
+
+
 @end

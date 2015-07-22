@@ -22,7 +22,7 @@
     NSString *searchquery;
     NSString *instaPlaceID;
     NSString *FBplaceID;
-    dispatch_queue_t FBapiCalls;
+    //dispatch_queue_t FBapiCalls;
 
 
 }
@@ -34,167 +34,100 @@
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
     
-    [self buildTestDataThen:^{
-         self.feedEntitySections = @[].mutableCopy;
-        [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-        [self.tableView reloadData];
-    }];
+    [self buildTestDataThen];
+     
+//     :^{
+//         self.feedEntitySections = @[].mutableCopy;
+//        [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+//        [self.tableView reloadData];
+//    }];
 }
 
-- (void)buildTestDataThen:(void (^)(void))then
+- (void)buildTestDataThen//:(void (^)(void))then
 {
     
+    //if (!FBapiCalls) {
+     //   FBapiCalls = dispatch_queue_create("APIcall.FBapiCalls", NULL);
+   // }
     
+   //dispatch_async(FBapiCalls, ^{
+        
    //if event has not happened yet do this
     if ([self.currentevent.status isEqualToString:@"happeningLater"])
     {
+        /////////////////////       //////////////////////////
+        //longditude test
+        searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",@"longitude"];
         
-        //seach by event object insta search query
-         searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
+       /////////////////////      //////////////////////////
+        
+        
+        
+        
+        //normal search
+//         searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
         NSLog(@"searched by Happeninglater/already happened");
-  
+        
+        [self connectToInstagramWithCorrectEndPoint:searchquery then:^{
+            self.feedEntitySections = @[].mutableCopy;
+            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+            [self.tableView reloadData];
+        }];
     
-    }else if ([self.currentevent.status isEqualToString:@"alreadyHappened"]){
-        
-     
-        if (!FBapiCalls) {
-            FBapiCalls = dispatch_queue_create("APIcall.FBapiCalls", NULL);
-       }
-        
-        
-        NSString *latLong = [NSString stringWithFormat:@"%@,%@",[self.currentevent.LatLong valueForKey:@"lat"],[self.currentevent.LatLong valueForKey:@"long"]];
-        
-       dispatch_async(FBapiCalls, ^{
-        
-            FBplaceID = [self getFbPlaceID:self.currentevent.venueName location:latLong];
-            
-            NSLog(@"%@ fbPlaceID",FBplaceID);
-        
-        
-        
-           
-        
-       });
-    
-        
-    
-        
-        
-        
-        
-      NSString *InstaPlaceIdSearch = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?facebook_places_id=%@&client_id=d767827366a74edca4bece00bcc8a42c",FBplaceID];
-       
-            
-            NSURL *url = [NSURL URLWithString:InstaPlaceIdSearch];
-            
-            [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                
-                if (error) {
-                    NSLog(@"error coming from InstaPlaceIdSearch %@",error);
-                } else {
-                    
-                    NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-                    
-                    
-                    NSArray *data = instaresults [@"data"];
-                    NSDictionary *NSDdata = [data objectAtIndex:0];
-                    instaPlaceID = NSDdata[@"id"];
-                   // NSLog(@"%@ instaPlaceID",instaPlaceID);
-
-                    
-                }
-            }];
-        
-            
-
-            
-            
-            
-            
-            
-            searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",instaPlaceID];
-
-        
-        
-        
-        
-        }
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    else{
-        
-        NSDictionary *LatLong = [[NSDictionary alloc]init];
-        LatLong = self.currentevent.LatLong;
-        
-        NSString *latitude = LatLong[@"lat"];
-        NSString *Longditude = LatLong [@"long"];
-        
-        //search by lon and lat
-        searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
-        NSLog(@"searched by LatLong");
-
+   
     }
     
     
     
-    NSURL *url = [NSURL URLWithString:searchquery];
     
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    else if ([self.currentevent.status isEqualToString:@"alreadyHappened"]){
+        /////////////////////
+        //LONGITTUDE TEST
+        NSString *latLong = @"53.2775,-6.269722";
+        [self getFbPlaceID:@"Marlay Park" location:latLong];
+        /////////////////////
+      
+        //NORMAL
+        //NSString *latLong = [NSString stringWithFormat:@"%@,%@",[self.currentevent.LatLong valueForKey:@"lat"],[self.currentevent.LatLong valueForKey:@"long"]];
+        //[self getFbPlaceID:self.currentevent.venueName location:latLong];
         
-        if (error) {
-            NSLog(@"error coming from insta APIcall %@",error);
-        } else {
-            
-            NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            
-            NSArray *feedDicts = instaresults [@"data"];
-            
-            if ([feedDicts count]==0) {
-                NSLog(@"no media back from insta API call");
-            };
-            
-            
-            
-                    /// Convert to `JCfeedObject`
-                    NSMutableArray *entities = @[].mutableCopy;
-                    [feedDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        [entities addObject:[[JCFeedObject alloc] initWithDictionary:obj]];
-                    }];
-                    self.prototypeEntitiesFromJSON = entities;
-            
-            
-            
-            
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    !then ?: then();
-                    
-                });
-                
-            
-            
-     
-            
-            
+        
         }
-    }];
-    
+        
+        
+    else{
+        
+        //////////////////////////
+        //longditude test
+        searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",@"longitude"];
+        
+        //////////////////////////
+        
 
-}
+        
+        
+        
+        
+        //normal
+//        NSDictionary *LatLong = [[NSDictionary alloc]init];
+//        LatLong = self.currentevent.LatLong;
+//        
+//        NSString *latitude = LatLong[@"lat"];
+//        NSString *Longditude = LatLong [@"long"];
+//        
+//        //search by lon and lat
+//        searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
+//        NSLog(@"searched by LatLong");
+        
+        [self connectToInstagramWithCorrectEndPoint:searchquery then:^{
+            self.feedEntitySections = @[].mutableCopy;
+            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+            [self.tableView reloadData];
+        }];
+
+    }
+    
+}//end of buildTestDataThen
 
 #pragma mark - UITableViewDataSource
 
@@ -255,13 +188,26 @@
 
 
 
--(NSString*)getFbPlaceID:(NSString*)venueName location:(NSString*)location{
 
 
+
+
+
+
+
+
+
+
+
+
+-(void)getFbPlaceID:(NSString*)venueName location:(NSString*)location{
+
+   // dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+
     
-    NSDictionary *parameters = @{@"q":venueName,@"type":@"place",@"center":location,@"distance":@"1000"};
+    NSDictionary *parameters = @{@"q":venueName,@"type":@"place",@"center":location,@"distance":@"2000"};
     
-    NSLog(@"parameters %@",parameters);
+    //NSLog(@"parameters %@",parameters);
     
     
     
@@ -275,28 +221,152 @@
     [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
                                           id result,
                                           NSError *error) {
-        NSLog(@"woring in the complection handeler TOP");
+        //NSLog(@"working in the complection handeler fb api call TOP");
         
         NSDictionary *JsonResult = result;
         
         NSArray *data = JsonResult[@"data"];
         
-        NSDictionary *object1 = [data objectAtIndex:0];
-        
-        FBplaceID = [object1 valueForKey:@"id"];
-        
-        NSLog(@"%@",FBplaceID);
+        if ([data count]==0) {
+            
+            NSLog(@"venue name for FB search is %@",venueName);
 
+         
+            NSLog(@"Couldnt find a place ID on FaceBook");
+        
+        }else{
+            
+            
+            NSDictionary *object1 = [data objectAtIndex:1];
+            
+            FBplaceID = [object1 valueForKey:@"id"];
+            
+           
+            NSLog(@"venue name for FB search is %@",venueName);
+            
+            NSLog(@"venue lat long for FB search is %@",location);
+            
+            NSLog(@"%@",data);
+            
+            NSLog(@"%@ FBplace ID",FBplaceID);
+            
+            [self getInstagramPlaceIDfromFBplaceID:FBplaceID];
+        }
         
     }];
     
- 
 
-        return FBplaceID;
+
 
 
     
     
+
+};
+
+
+
+-(void)getInstagramPlaceIDfromFBplaceID: (NSString*) FBplaceIDstring{
+    
+    
+    
+    
+    NSString *InstaPlaceIdSearch = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?facebook_places_id=%@&client_id=d767827366a74edca4bece00bcc8a42c",FBplaceIDstring];
+    
+    
+    NSURL *url = [NSURL URLWithString:InstaPlaceIdSearch];
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            NSLog(@"error coming from InstaPlaceIdSearch %@",error);
+        } else {
+            
+            NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
+            
+            NSArray *data = instaresults [@"data"];
+           
+            if ([data count]==0) {
+                NSLog(@"couldnt get place ID from instagram");
+            }else{
+            NSDictionary *NSDdata = [data objectAtIndex:0];
+            instaPlaceID = NSDdata[@"id"];
+                NSLog(@"insta resulte are %@",data);
+                NSLog(@"%@ instaPlaceID",instaPlaceID);
+                
+            searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",instaPlaceID];
+          
+            [self connectToInstagramWithCorrectEndPoint:searchquery then:^{
+                self.feedEntitySections = @[].mutableCopy;
+                [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+                [self.tableView reloadData];
+            }];
+            
+           }
+            
+        }
+    }];
+    
+    
+    
+}
+
+
+
+
+
+-(void)connectToInstagramWithCorrectEndPoint: (NSString*)endpoint then: (void (^)(void))then{
+    
+
+    NSURL *url = [NSURL URLWithString:endpoint];
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            NSLog(@"error coming from insta APIcall %@",error);
+        } else {
+            
+            NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
+            NSArray *feedDicts = instaresults [@"data"];
+            
+            if ([feedDicts count]==0) {
+                NSLog(@"no media back from insta API call");
+            };
+            
+            
+            
+            /// Convert to `JCfeedObject`
+            NSMutableArray *entities = @[].mutableCopy;
+            [feedDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [entities addObject:[[JCFeedObject alloc] initWithDictionary:obj]];
+            }];
+            self.prototypeEntitiesFromJSON = entities;
+            
+            
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                !then ?: then();
+                
+            });
+            
+            
+            
+            
+            
+            
+        }
+    }];
+
+
+
+
+
+
+
 
 };
 
