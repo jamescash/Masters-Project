@@ -44,6 +44,7 @@
         UIImage *img = [[UIImage alloc] initWithData:data];
         self.imageName = img;
         
+        //NSLog(@"%@ coming from JCfeedObject",dictionary);
         
         
         
