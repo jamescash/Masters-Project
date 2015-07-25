@@ -33,7 +33,7 @@
     //remove any white space  //TAKE OUT ANY " OR ' OR ANYTHING THAT PEOPLE WOULDNT NORMALY HASHTAG
     NSString *b = [A stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
-   
+    //NSLog(@"%@",c);
     return c;
 
 };//end of insta search query maker
