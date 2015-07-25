@@ -10,16 +10,16 @@
 
 @implementation JCFeedObject
 
+
+//this custom init method on JCFeedObject is called in the JCSocialStreamVC. The Dictionary peramiter
+//is a JSON object that the JCSocialStreamVC retrived from instagram.
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
     self = super.init;
     if (self) {
         
-       // NSString *stringRep = [NSString stringWithFormat:@"%@",dictionary];
-       // NSLog(@"%@",stringRep);
-        
-        
-         NSDictionary *caption = dictionary [@"caption"];
+        NSDictionary *caption = dictionary [@"caption"];
         
         if ( caption == (id)[NSNull null]) {
             self.content = @"No content for here";
@@ -29,9 +29,7 @@
             NSDictionary *from = caption[@"from"];
             self.content = caption[@"text"];
             self.title = from[@"full_name"];
-            
-            
-        }
+         }
         
         self.time = @"yesterday";
         self.imageName = dictionary[@"imageName"];
@@ -43,12 +41,6 @@
         NSData *data = [NSData dataWithContentsOfURL:pic];
         UIImage *img = [[UIImage alloc] initWithData:data];
         self.imageName = img;
-        
-        //NSLog(@"%@ coming from JCfeedObject",dictionary);
-        
-        
-        
-        
         
     }
     return self;

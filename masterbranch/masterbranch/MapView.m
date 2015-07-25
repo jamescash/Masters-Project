@@ -48,7 +48,7 @@
     //fb logging button
     //[FBSDKSettings setAppID:@"962582523784456"];
     FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
-    loginButton.readPermissions = @[@"email", @"user_friends",@"public_profile"];
+    loginButton.readPermissions = @[@"email",@"public_profile"];
     loginButton.center = self.view.center;
     [self.view addSubview:loginButton];
     

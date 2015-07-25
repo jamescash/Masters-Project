@@ -12,11 +12,17 @@
 
 @interface JCFeedObject : NSObject
 
+
+//custom init method that parses our JSON
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+
+//These are the properties we want to parse our JSON into,
+//If you notice these properties are the same as the JCsocilStreamCell class.
+//This is becuse the JCFeedObject in the model for the the JCsocilStreamCell.
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *content;
-//@property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *time;
 @property (nonatomic, copy) UIImage *imageName;
 
