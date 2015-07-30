@@ -19,6 +19,7 @@
 		8924A9511B56D103007FB71C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */; };
 		8924A9531B56D99C007FB71C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */; };
 		8924A9551B56D9B1007FB71C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */; };
+		8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */; };
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
@@ -68,6 +69,8 @@
 		8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		8924A95A1B63A152007FB71C /* JCEndpointConstructor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCEndpointConstructor.h; sourceTree = "<group>"; };
+		8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCEndpointConstructor.m; sourceTree = "<group>"; };
 		8936A6411B23337C00748803 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -162,22 +165,19 @@
 		891237F71B400A2400E7C6CA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				891237F91B400ADB00E7C6CA /* JCFeedObject.h */,
-				891237FA1B400ADB00E7C6CA /* JCFeedObject.m */,
-				891237FC1B400C0700E7C6CA /* JCsocialStreamCell.h */,
-				891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */,
-				8912380A1B40372B00E7C6CA /* FDTemplateLayoutCell */,
+				8924A9591B63A107007FB71C /* EndPointConstructor */,
+				8924A9561B63A05F007FB71C /* custom cell */,
 			);
 			name = Model;
 			sourceTree = "<group>";
 		};
-		891237F81B400A3700E7C6CA /* controler */ = {
+		891237F81B400A3700E7C6CA /* TableViewcontroler */ = {
 			isa = PBXGroup;
 			children = (
 				891237FF1B40360E00E7C6CA /* JCSocailStreamController.h */,
 				891238001B40360E00E7C6CA /* JCSocailStreamController.m */,
 			);
-			name = controler;
+			name = TableViewcontroler;
 			sourceTree = "<group>";
 		};
 		8912380A1B40372B00E7C6CA /* FDTemplateLayoutCell */ = {
@@ -223,7 +223,7 @@
 		891238181B42B60C00E7C6CA /* SocailStreamTableView */ = {
 			isa = PBXGroup;
 			children = (
-				891237F81B400A3700E7C6CA /* controler */,
+				891237F81B400A3700E7C6CA /* TableViewcontroler */,
 				891237F71B400A2400E7C6CA /* Model */,
 			);
 			name = SocailStreamTableView;
@@ -254,6 +254,43 @@
 				891238181B42B60C00E7C6CA /* SocailStreamTableView */,
 			);
 			name = model;
+			sourceTree = "<group>";
+		};
+		8924A9561B63A05F007FB71C /* custom cell */ = {
+			isa = PBXGroup;
+			children = (
+				8912380A1B40372B00E7C6CA /* FDTemplateLayoutCell */,
+				8924A9571B63A06C007FB71C /* controler */,
+				8924A9581B63A07E007FB71C /* model */,
+			);
+			name = "custom cell";
+			sourceTree = "<group>";
+		};
+		8924A9571B63A06C007FB71C /* controler */ = {
+			isa = PBXGroup;
+			children = (
+				891237FC1B400C0700E7C6CA /* JCsocialStreamCell.h */,
+				891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */,
+			);
+			name = controler;
+			sourceTree = "<group>";
+		};
+		8924A9581B63A07E007FB71C /* model */ = {
+			isa = PBXGroup;
+			children = (
+				891237F91B400ADB00E7C6CA /* JCFeedObject.h */,
+				891237FA1B400ADB00E7C6CA /* JCFeedObject.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		8924A9591B63A107007FB71C /* EndPointConstructor */ = {
+			isa = PBXGroup;
+			children = (
+				8924A95A1B63A152007FB71C /* JCEndpointConstructor.h */,
+				8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */,
+			);
+			name = EndPointConstructor;
 			sourceTree = "<group>";
 		};
 		89B216C21B24419100A3ACDF /* utillities */ = {
@@ -443,6 +480,7 @@
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				8912380D1B4178AE00E7C6CA /* JCssHappeningLater.m in Sources */,
+				8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,

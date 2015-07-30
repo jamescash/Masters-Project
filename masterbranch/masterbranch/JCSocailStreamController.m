@@ -21,55 +21,66 @@
 @end
 
 @implementation JCSocailStreamController{
-    NSString *InstaEndpoint1;
-    NSString *InstaEndopint2;
-    NSString *instaPlaceID;
-    NSString *FBplaceID;
-    int instagramEndpointsMethodCounter;
     
-
-
+ 
+    int instagramEndpointsMethodCounter;
 }
 
 - (void)viewDidLoad
 {
+    
+    self.JCEndpointdelegate = [[JCEndpointConstructor alloc]init];
+    self.JCEndpointdelegate.JCEndpointConstructordelegate = self;
+    //[self.JCEndpointdelegate testdelegation];
     [super viewDidLoad];
     self.tableView.estimatedRowHeight = 200;
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
-    [self buildData];
+    [self buildEndPointsFroCurrentEvent];
 }
 
 
-
+-(void)reloadTabeView{
+    
+    
+    
+  
+                    for (NSString* endpoint in self.JCEndpointdelegate.endpoints) {
+    
+                        [self connectToInstagramWithCorrectEndPoint:endpoint then:^{
+                            //self.feedEntitySections = @[].mutableCopy;
+    
+    
+                             self.feedEntitySections = [[NSMutableArray alloc]init];
+                            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+    
+                            [self.tableView reloadData];
+    
+                        }];
+    
+    
+    
+                        
+                        
+                    };//end of loop
+    
+};
 
 
 //This method figures out if the event has happened/happening/happening later and then constructs the appropriat EndPoints and sends them to the connectToInstagramWithCorrectEndPoint method
-- (void)buildData
+- (void)buildEndPointsFroCurrentEvent
 {
 
-        
-   //if event has not happened yet do this
-    if ([self.currentevent.status isEqualToString:@"happeningLater"])
+         if ([self.currentevent.status isEqualToString:@"happeningLater"])
     {
        
         
-       //using current event InstaSearch query(event title formated to be a hashtag)
-         InstaEndpoint1 = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
-        NSLog(@"searched by Happeninglater (going and getting media by # event.instasearchquery)");
 
         
         
-        //NOT WORKING BECAUSE ENDPOINT1 NOT ADDED TO ARRAY INSTAGRAMENPOINTS
-        
-        
-        //run the function to go to instagram with the endpoint and parse the data then build the table
-        [self connectToInstagramWithCorrectEndPoint:InstaEndpoint1 then:^{
-             self.feedEntitySections = @[].mutableCopy;
-            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-            [self.tableView reloadData];
-        
-        }];
+        [self.JCEndpointdelegate buildHappeningLaterEndPointsForEvent:self.currentevent];
+        NSLog(@"searched by Happeninglater (going and getting media by # event.instasearchquery)");
+
     
    
     }
@@ -79,54 +90,35 @@
     
     else if ([self.currentevent.status isEqualToString:@"alreadyHappened"])
     {
-        
-        
-        NSLog(@"searched by alreadyHappened getting data from Insta place ID");
-        //inint the mutaable array that will hold the reluts for any insta call 
+       
         self.feedDicts = [[NSMutableArray alloc]init];
-
+        //build all the nessasery endpoints then set off the delegation method
+        [self.JCEndpointdelegate buildHappeningLaterEndPointsForEvent:self.currentevent];
         
-        InstaEndopint2 = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",[self.currentevent InstaSearchQuery]];
-        
-        
-        
-        NSString *latLong = [NSString stringWithFormat:@"%@,%@",[self.currentevent.LatLong valueForKey:@"lat"],[self.currentevent.LatLong valueForKey:@"long"]];
-        
-        [self getFbPlaceID:self.currentevent.venueName location:latLong];
-        
-        
-        
-      }
+    
+    
+    }
     
     
     else{
-        
-        /////////////Event test///////////////
-        //searchquery = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",@"longitude"];
-        ////////////Event test//////////////
-        
-
-
-        
-        
-        
-        ////////////////normal use a geo fence to get data back///////////////////////
-        NSDictionary *LatLong = [[NSDictionary alloc]init];
-        LatLong = self.currentevent.LatLong;
-        
-        NSString *latitude = LatLong[@"lat"];
-        NSString *Longditude = LatLong [@"long"];
-        
-        //search by lon and lat
-        InstaEndpoint1 = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
-        NSLog(@"searched by event currently happening (geo fence endpoint)");
-        
-        [self connectToInstagramWithCorrectEndPoint:InstaEndpoint1 then:^{
-            self.feedEntitySections = @[].mutableCopy;
-            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-          
-            [self.tableView reloadData];
-        }];
+      
+//        NSDictionary *LatLong = [[NSDictionary alloc]init];
+//        LatLong = self.currentevent.LatLong;
+//        
+//        NSString *latitude = LatLong[@"lat"];
+//        NSString *Longditude = LatLong [@"long"];
+//        
+//        InstaEndpoint1 = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
+//        NSLog(@"searched by event currently happening (geo fence endpoint)");
+//        
+//       
+//        [self connectToInstagramWithCorrectEndPoint:InstaEndpoint1 then:^{
+//            self.feedEntitySections = @[].mutableCopy;
+//            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+//          
+//            [self.tableView reloadData];
+//        
+//        }];
 
     }
     
@@ -137,23 +129,18 @@
 
 
 #pragma mark - UITableViewDataSource
-
 //The amount of array objects added to the array feedEntitySections determins the amount
 //of sections in the tableView doing it this way allows me to dynamically add sections to the tableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.feedEntitySections.count;
 }
-
-
 //go down one level in that array to find out how many rows per section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.feedEntitySections[section] count];
 
 }
-
-
 //This is where we create the actul cells to place into the tableView at that specific index path
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -166,12 +153,9 @@
     //insert that cell
     return cell;
 }
-
-
 //this is where some of the UITableView-FDTemplateLayoutCell magic happens I downloaded the
 //UITableView-FDTemplateLayoutCell from gitHub at
 //https://github.com/forkingdog/UITableView-FDTemplateLayoutCell
-
 - (void)configureCell:(JCsocialStreamCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
    
@@ -186,18 +170,12 @@
 }
 
 
-
-
-
-
 #pragma mark - UITableViewDelegate
-
 //this method dynamicly callculates the appropriate hight for each cell
 //as it is created and then caches that cells hight so it does not have to be
 //calculated if the user scrolls back up to view that cell again. I downLoaded
 //the UITableView-FDTemplateLayoutCell form gitHub here
 //https://github.com/forkingdog/UITableView-FDTemplateLayoutCell
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.cellHeightCacheEnabled) {
@@ -210,12 +188,7 @@
         }];
     }
 }
-
-
-
-
-
- //ths allows the swipe left to delete the cell option
+//ths allows the swipe left to delete the cell option
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -227,134 +200,11 @@
 
 
 
--(void)getFbPlaceID:(NSString*)venueName location:(NSString*)location{
-
-   // dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-
-    
-    
-    NSDictionary *parameters = @{@"q":venueName,@"type":@"place",@"center":location,@"distance":@"2000"};
-    
-    
-    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
-                                  initWithGraphPath:@"search"
-                                  parameters:parameters
-                                  HTTPMethod:@"GET"];
-    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
-                                          id result,
-                                          NSError *error) {
-        //NSLog(@"working in the complection handeler fb api call TOP");
-        
-        NSDictionary *JsonResult = result;
-        
-        NSArray *data = JsonResult[@"data"];
-        
-        if ([data count]==0) {
-            
-            NSLog(@"Couldnt find a place ID on FaceBook for the venue %@",venueName);
-        
-        }else{
-            
-            
-            NSDictionary *object1 = [data objectAtIndex:0];
-            
-            FBplaceID = [object1 valueForKey:@"id"];
-            
-           
-            //NSLog(@"venue name for FB search is %@",venueName);
-            
-            //NSLog(@"venue lat long for FB search is %@",location);
-            
-            //NSLog(@"%@",data);
-            
-            //NSLog(@"%@ FBplace ID",FBplaceID);
-            
-            [self getInstagramPlaceIDfromFBplaceID:FBplaceID];
-        }
-        
-    }];
-    
 
 
 
 
-    
-    
 
-};
-
-
--(void)getInstagramPlaceIDfromFBplaceID: (NSString*) FBplaceIDstring{
-    
-    
-    
-    
-    NSString *InstaPlaceIdSearch = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?facebook_places_id=%@&client_id=d767827366a74edca4bece00bcc8a42c",FBplaceIDstring];
-    
-    
-    NSURL *url = [NSURL URLWithString:InstaPlaceIdSearch];
-    
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        if (error) {
-            NSLog(@"error coming from InstaPlaceIdSearch %@",error);
-        } else {
-            
-            NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            
-            
-            NSArray *data = instaresults [@"data"];
-           
-            if ([data count]==0) {
-                NSLog(@"couldnt get place ID from instagram");
-            }else{
-            NSDictionary *NSDdata = [data objectAtIndex:0];
-                instaPlaceID = NSDdata[@"id"];
-                //NSLog(@"insta resulte are %@",data);
-                //NSLog(@"%@ instaPlaceID",instaPlaceID);
-                
-               InstaEndpoint1 = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",instaPlaceID];
-          
-
-            
-                
-                
-                self.instagramEndpoints = [[NSMutableArray alloc]init];
-                [self.instagramEndpoints addObject:InstaEndopint2];
-                [self.instagramEndpoints addObject:InstaEndpoint1];
-                
-                
-                for (NSString* st in self.instagramEndpoints) {
-                    
-                    [self connectToInstagramWithCorrectEndPoint:st then:^{
-                        //self.feedEntitySections = @[].mutableCopy;
-                        self.feedEntitySections = [[NSMutableArray alloc]init];
-                        [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-                        
-                        
-                        //NSLog(@"%@ feedEntitySection",self.feedEntitySections);
-                        //NSLog(@"%@ prototypeEntitiesFromJSON",self.prototypeEntitiesFromJSON);
-                        
-                        //maybe add another section to the feedentitysection!?
-                        [self.tableView reloadData];
-
-                    }];
-                    
-                    
-                    
-                    
-                    
-                };//end of loop
-                
-                
-           }
-            
-        }
-    }];
-    
-    
-    
-}
 
 //this method connects to instagram and gets back raw JSON data and then it converts the JSON data into JCFeedObjects and
 //stores them in an array
@@ -372,6 +222,7 @@
             
             NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             NSArray *data = instaresults[@"data"];
+            NSLog(@"there was %d items added to the array",[data count]);
                     
                     //fill the mutable array feedDicts with all the instagram Data
                     [self.feedDicts addObjectsFromArray:data];
@@ -380,7 +231,7 @@
             instagramEndpointsMethodCounter ++;
             
             
-                    if (instagramEndpointsMethodCounter == [self.instagramEndpoints count]) {
+                    if (instagramEndpointsMethodCounter == [self.JCEndpointdelegate.endpoints count]) {
                  
                
                         NSLog(@"%lu total number is",(unsigned long)[self.feedDicts count]);
@@ -412,7 +263,14 @@
 
 
 
-
+    
+    
+    
+    
+    
+    
+    
+    
 
 //#pragma mark - Actions
 //
@@ -489,5 +347,138 @@
 //        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 //    }
 //}
+
+
+//-(void)getInstagramPlaceIDfromFBplaceID: (NSString*) FBplaceIDstring{
+
+
+
+//
+//    NSString *InstaPlaceIdSearch = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?facebook_places_id=%@&client_id=d767827366a74edca4bece00bcc8a42c",FBplaceIDstring];
+//
+//
+//    NSURL *url = [NSURL URLWithString:InstaPlaceIdSearch];
+//
+//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//
+//        if (error) {
+//            NSLog(@"error coming from InstaPlaceIdSearch %@",error);
+//        } else {
+//
+//            NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+//
+//
+//            NSArray *data = instaresults [@"data"];
+//
+//            if ([data count]==0) {
+//                NSLog(@"couldnt get place ID from instagram");
+//            }else{
+//            NSDictionary *NSDdata = [data objectAtIndex:0];
+//                instaPlaceID = NSDdata[@"id"];
+//                //NSLog(@"insta resulte are %@",data);
+//                //NSLog(@"%@ instaPlaceID",instaPlaceID);
+//
+//               InstaEndpoint1 = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",instaPlaceID];
+//
+//
+//
+//
+//
+//                self.instagramEndpoints = [[NSMutableArray alloc]init];
+//                [self.instagramEndpoints addObject:InstaEndopint2];
+//                [self.instagramEndpoints addObject:InstaEndpoint1];
+//
+//
+//                for (NSString* st in self.instagramEndpoints) {
+//
+//                    [self connectToInstagramWithCorrectEndPoint:st then:^{
+//                        //self.feedEntitySections = @[].mutableCopy;
+//
+//
+//                         self.feedEntitySections = [[NSMutableArray alloc]init];
+//                        [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
+//
+//
+//                        //NSLog(@"%@ feedEntitySection",self.feedEntitySections);
+//                        //NSLog(@"%@ prototypeEntitiesFromJSON",self.prototypeEntitiesFromJSON);
+//
+//                        //maybe add another section to the feedentitysection!?
+//                        [self.tableView reloadData];
+//
+//                    }];
+//
+//
+//
+//
+//
+//                };//end of loop
+//
+//
+//           }
+//
+//        }
+//    }];
+//
+//
+//
+//}
+
+
+
+
+//-(void)getFbPlaceID:(NSString*)venueName location:(NSString*)location{
+//
+//   // dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+//
+//
+//
+//    NSDictionary *parameters = @{@"q":venueName,@"type":@"place",@"center":location,@"distance":@"2000"};
+//
+//
+//    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+//                                  initWithGraphPath:@"search"
+//                                  parameters:parameters
+//                                  HTTPMethod:@"GET"];
+//    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+//                                          id result,
+//                                          NSError *error) {
+//
+//        NSDictionary *JsonResult = result;
+//
+//        NSArray *data = JsonResult[@"data"];
+//
+//        if ([data count]==0) {
+//
+//            NSLog(@"Couldnt find a place ID on FaceBook for the venue %@",venueName);
+//
+//        }else{
+//
+//
+//            NSDictionary *object1 = [data objectAtIndex:0];
+//
+//            FBplaceID = [object1 valueForKey:@"id"];
+//
+//
+//            //NSLog(@"venue name for FB search is %@",venueName);
+//
+//            //NSLog(@"venue lat long for FB search is %@",location);
+//
+//            //NSLog(@"%@",data);
+//
+//            //NSLog(@"%@ FBplace ID",FBplaceID);
+//
+//            [self getInstagramPlaceIDfromFBplaceID:FBplaceID];
+//        }
+//
+//    }];
+//
+//
+//
+//
+//
+//
+//
+//
+//};
 
 @end
