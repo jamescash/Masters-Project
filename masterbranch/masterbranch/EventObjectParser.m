@@ -51,7 +51,10 @@
     //encoding query for web
     NSString *artistNameEncodedRequest = [artistNameHashtag stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
+    NSLog(@"twitter sreach query %@",artistNameEncodedRequest);
+
     return artistNameEncodedRequest;
+    
     
 };//end of twitter search query maker
 

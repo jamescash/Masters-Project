@@ -17,22 +17,10 @@
 
 @interface JCHTTPClient : NSObject
 
-@property(nonatomic,strong) NSMutableArray* instaresults;
--(void)InstagramFromHashtag: (NSString*)instasearchquery;
-
-
+@property (nonatomic,strong) NSArray *ParseTwitterResults;
+@property (nonatomic,strong) NSArray *InstaHashTagResults;
+@property (nonatomic,strong) NSArray *InstaPlacesResults;
 - (id)initWithEvent:(eventObject*)curentEvent;
 
-
-
-//@property (strong, nonatomic) id<JCHTTPClientdelegate>JCHTTPClientdelegate;
-
 @end
-
-
-//@protocol JCHTTPClientdelegate <NSObject>
-
-//- (void)APIreqestDidFinish1:(NSArray*)paresedData;
-
-//@end
 

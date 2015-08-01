@@ -45,4 +45,30 @@
     return self;
 }
 
+
+- (instancetype)initWithTwitterDic:(NSDictionary *)dictionary
+{
+    
+    self = super.init;
+    if (self) {
+        
+        
+        self.time = dictionary[@"created_at"];//working
+        self.content = dictionary[@"text"];//working
+        NSDictionary *entities = [dictionary objectForKey:@"entities"];
+        NSArray *media  = entities [@"media"];
+        NSArray *urlarray = [media valueForKey:@"media_url_https"];
+        NSString *url = urlarray[0];
+        NSURL *mediapic = [NSURL URLWithString:url];
+        NSData *data = [NSData dataWithContentsOfURL:mediapic];
+        UIImage *img = [[UIImage alloc] initWithData:data];
+        self.imageName = img;//working
+        self.title = @"name";
+      
+    }
+   
+  return self;
+    
+}
+
 @end

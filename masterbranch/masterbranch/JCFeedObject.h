@@ -15,6 +15,7 @@
 
 //custom init method that parses our JSON
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithTwitterDic: (NSDictionary *)dictionary;
 
 
 

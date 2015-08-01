@@ -22,7 +22,6 @@
 		8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */; };
 		8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */; };
 		8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A97A1B6A3D55007FB71C /* JCHttpFacade.m */; };
-		8924A9811B6D1284007FB71C /* JCPersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A9801B6D1284007FB71C /* JCPersistencyManager.m */; };
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
@@ -78,8 +77,6 @@
 		8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHTTPClient.m; sourceTree = "<group>"; };
 		8924A9791B6A3D55007FB71C /* JCHttpFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCHttpFacade.h; path = ../JCHttpFacade.h; sourceTree = "<group>"; };
 		8924A97A1B6A3D55007FB71C /* JCHttpFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCHttpFacade.m; path = ../JCHttpFacade.m; sourceTree = "<group>"; };
-		8924A97F1B6D1284007FB71C /* JCPersistencyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCPersistencyManager.h; sourceTree = "<group>"; };
-		8924A9801B6D1284007FB71C /* JCPersistencyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCPersistencyManager.m; sourceTree = "<group>"; };
 		8936A6411B23337C00748803 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -307,8 +304,6 @@
 				8924A97A1B6A3D55007FB71C /* JCHttpFacade.m */,
 				8924A9731B6A3CC0007FB71C /* JCHTTPClient.h */,
 				8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */,
-				8924A97F1B6D1284007FB71C /* JCPersistencyManager.h */,
-				8924A9801B6D1284007FB71C /* JCPersistencyManager.m */,
 				891237F91B400ADB00E7C6CA /* JCFeedObject.h */,
 				891237FA1B400ADB00E7C6CA /* JCFeedObject.m */,
 			);
@@ -505,7 +500,6 @@
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				8912380D1B4178AE00E7C6CA /* JCssHappeningLater.m in Sources */,
 				8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */,
-				8924A9811B6D1284007FB71C /* JCPersistencyManager.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
