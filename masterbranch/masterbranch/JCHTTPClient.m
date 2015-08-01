@@ -14,9 +14,7 @@
 
 @interface JCHTTPClient ()
 @property (nonatomic, strong) dispatch_queue_t addToArrayThreadSafe;
-@property (nonatomic,strong) NSArray *ParseTwitterResults;
-@property (nonatomic,strong) NSArray *InstaHashTagResults;
-@property (nonatomic,strong) NSArray *InstaPlacesResults;
+
 
 @end
 
@@ -31,16 +29,25 @@
         
         if ([curentEvent.status isEqualToString:@"alreadyHappened"]) {
             
+            self.InstaPlacesResults = [[NSArray alloc ]init];
+            self.InstaHashTagResults = [[NSArray alloc]init];
+            self.ParseTwitterResults = [[NSArray alloc]init];
+
+
+
             
+            NSLog(@"JCHTTPClient initiated with event title %@",curentEvent.eventTitle);
             
-            //[self getInstaPlaceIDwithFbPlaceID:curentEvent.venueName location:<#(NSString *)#>]
-        
-        
-        
+           NSString *latLong = [NSString stringWithFormat:@"%@,%@",[curentEvent.LatLong valueForKey:@"lat"],[curentEvent.LatLong valueForKey:@"long"]];
+            
+            //insta places media
+            [self getInstaPlaceIDwithFbPlaceID:curentEvent.venueName location:latLong];
+            //insta hashtag media
+            [self InstagramFromHashtag:curentEvent.InstaSearchQuery];
+            //twitter search
+            [self Twittersearch:curentEvent.twitterSearchQuery];
         }
-        
-        
-    }
+      }
     return self;
 }
 
@@ -69,6 +76,7 @@
         if ([data count]==0) {
             
             NSLog(@"Couldnt find a place ID on FaceBook for the venue %@",venueName);
+            self.InstaPlacesResults = @[];
             
         }else{
             NSDictionary *object1 = [data objectAtIndex:0];
@@ -96,6 +104,8 @@
         
         if (error) {
             NSLog(@"error coming from InstaPlaceIdSearch %@",error);
+            self.InstaPlacesResults = @[];
+
         } else {
             
             NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
@@ -105,6 +115,8 @@
             
             if ([data count]==0) {
                 NSLog(@"couldnt get place ID from instagram");
+                self.InstaPlacesResults = @[];
+
             }else{
                 NSDictionary *NSDdata = [data objectAtIndex:0];
                 
@@ -112,6 +124,7 @@
                 NSString  *Endpoint = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",instaPlaceID];
                 
                 [self InstagramData:Endpoint];
+                
                 
             }
             
@@ -130,18 +143,15 @@
         
         if (error) {
             NSLog(@"error coming from insta APIcall %@",error);
+            self.InstaPlacesResults = @[];
+
         } else {
             
             NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
            
             NSArray *data = instaresults[@"data"];
             
-            
-            //fill the mutable array feedDicts with all the instagram Data
-            //[self.feedDicts addObjectsFromArray:data];
-            
-            
-                NSMutableArray *entities = [[NSMutableArray alloc]init];
+             NSMutableArray *entities = [[NSMutableArray alloc]init];
             
                 
                 [data  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -151,7 +161,6 @@
             
             
 
-            self.InstaPlacesResults = [[NSArray alloc ]init];
             self.InstaPlacesResults = entities;
    
             
@@ -175,6 +184,8 @@
         
         if (error) {
             NSLog(@"error coming from insta APIcall %@",error);
+            self.InstaHashTagResults = @[];
+
         } else {
             
             NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
@@ -190,10 +201,7 @@
             }];
             
             
-
-            self.InstaHashTagResults = [[NSArray alloc]init];
             self.InstaHashTagResults = entities;
-      
             
             
         }
@@ -204,6 +212,7 @@
 
 
 - (void) Twittersearch: (NSString*) twittersearchquery {
+    
     
     ACAccountStore *account = [[ACAccountStore alloc]init];
     
@@ -245,29 +254,22 @@
                     
                     if (results.count != 0) {
                         
-                        NSArray *data = jsonResults[@"data"];
+                         NSMutableArray *entities = [[NSMutableArray alloc]init];
                         
-                        
-                        NSMutableArray *entities = [[NSMutableArray alloc]init];
-                        
-                        
-                        [data  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                            [entities addObject:[[JCFeedObject alloc] initWithDictionary:obj]];
+                        [results enumerateObjectsUsingBlock:^(id obj,NSUInteger idx,BOOL *stop){
+                            [entities addObject:[[JCFeedObject alloc] initWithTwitterDic:obj]];
                         }];
-                        
-                        
-                        
-                        dispatch_barrier_async(self.addToArrayThreadSafe, ^{
-                            
-                            if (!self.instaresults){
-                                self.instaresults = [[NSMutableArray alloc]init];
-                            }
-                            
-                            self.instaresults = entities;
-                            
-                        });
+                     
+                    
+                        self.ParseTwitterResults = entities;
+                    
+                    
+                    
+                    }else{
+                    
+                        self.ParseTwitterResults = @[];
 
-                        
+                    
                     }
                     
                 }];
@@ -282,18 +284,6 @@
     
 };
 
-
-- (void) AddToMainArray {
-    
-    if (!self.instaresults){
-        self.instaresults = [[NSMutableArray alloc]init];
-    }
-    
-    [self.instaresults addObject:self.InstaHashTagResults];
-    [self.instaresults addObject:self.InstaPlacesResults];
-    
-    
-};
 
 
 

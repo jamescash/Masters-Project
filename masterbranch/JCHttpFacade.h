@@ -17,25 +17,12 @@
 
 
 
-@interface JCHttpFacade : NSObject// <JCHTTPClientdelegate>;
-
-
-@property (nonatomic,strong) NSMutableArray *socialStreamData;
-
+@interface JCHttpFacade : NSObject
 @property (strong, nonatomic) id<JCHttpFacadedelegate>JCHttpFacadedelegate;
-
-
 - (id)initWithEvent:(eventObject*)currentevent;
-
-
-//- (id)initWithcurrentEvent:(eventObject*) currentEvent delegate:(id<JCHttpFacadedelegate>) theDelegate;
-
-
-
-
 @end
 
 
 @protocol JCHttpFacadedelegate <NSObject>
-- (void)APIreqestDidFinish:(NSArray*)paresedData;
+- (void)reloadTableViewithArray:(NSArray*) instaresults;
 @end

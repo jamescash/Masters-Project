@@ -17,10 +17,17 @@
 
 @interface JCSocailStreamController : UITableViewController <JCHttpFacadedelegate>;
 
-
-
 @property (nonatomic,strong) JCEndpointConstructor *JCEndpointdelegate;
+
 @property (nonatomic) eventObject *currentevent;
+
+@end
+
+
+
+
+
+
 
 //This is the socialstream view contoller.
 //This class connects to the data source and constructs the tableView. It is the VC from the MVC.
@@ -36,6 +43,5 @@
 
 //this method conntects to instagram with any given endpoint finds the data and then gives it to the JCFeedObject class to constuct
  //an array of social stream feedobjects:(prototypeEntitiesFromJSON) that are then haned to the tableView cellForRowAtIndexPath method that constructs a JCsocialStramCell object for each JCFeedObject in the array prototypeEntitiesFromJSON
--(void)connectToInstagramWithCorrectEndPoint: (NSString*)endpoint then: (void (^)(void))then;
 
-@end
+

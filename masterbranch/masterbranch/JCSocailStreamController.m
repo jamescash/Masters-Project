@@ -33,64 +33,33 @@
     
    
 
+    [super viewDidLoad];
+    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:self.currentevent];
     self.JCHttpFacade.JCHttpFacadedelegate = self;
 
-    //self.JCEndpointdelegate = [[JCEndpointConstructor alloc]init];
-    //self.JCEndpointdelegate.JCEndpointConstructordelegate = self;
-    //[self.JCEndpointdelegate testdelegation];
-    [super viewDidLoad];
     self.tableView.estimatedRowHeight = 200;
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
-    [self buildEndPointsFroCurrentEvent];
+    
+    
 }
 
 
-
--(void)APIreqestDidFinish:(NSArray *)paresedData{
+-(void)reloadTableViewithArray:(NSArray *)instaresults{
     
-    
-    
-     self.feedEntitySections = [[NSMutableArray alloc]init];
-    [self.feedEntitySections addObject:paresedData];
-    [self.tableView reloadData];
-}
-
-
-//This method figures out if the event has happened/happening/happening later and then constructs the appropriat EndPoints and sends them to the connectToInstagramWithCorrectEndPoint method
-- (void)buildEndPointsFroCurrentEvent
-{
-
-         if ([self.currentevent.status isEqualToString:@"happeningLater"])
-    {
-       
-        
-        //self.JCHttpFacade = [[JCHttpFacade alloc]initWithcurrentEvent:self.currentevent delegate:self];
-        
-        
-        
-        
-        
-        //[self.JCEndpointdelegate buildHappeningLaterEndPointsForEvent:self.currentevent];
-        NSLog(@"searched by Happeninglater (going and getting media by # event.instasearchquery)");
-
+    NSLog(@"delegation for relaod table view is working");
+    self.feedEntitySections = [[NSMutableArray alloc]init];
+    [self.feedEntitySections addObject:instaresults];
     
    
-    }
-    
-    
-    
-    
-    else if ([self.currentevent.status isEqualToString:@"alreadyHappened"])
-    {
-        NSLog(@"already happened");
-         //self.JCHttpFacade = [[JCHttpFacade alloc]init];
-         //self.JCHttpFacade.currentEvent = self.currentevent;
-    }
-    
-    
-    else{
-      
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+           [self.tableView reloadData];
+    });
+
+}
+
+
 //        NSDictionary *LatLong = [[NSDictionary alloc]init];
 //        LatLong = self.currentevent.LatLong;
 //        
@@ -109,9 +78,7 @@
 //        
 //        }];
 
-    }
-    
-}//end of buildData
+
 
 
 
@@ -189,77 +156,6 @@
 
 
 
-
-
-
-
-
-
-//this method connects to instagram and gets back raw JSON data and then it converts the JSON data into JCFeedObjects and
-//stores them in an array
--(void)connectToInstagramWithCorrectEndPoint: (NSString*)endpoint then: (void (^)(void))then{
-    
-    //make a counter so I know when to run the competion handler
-    instagramEndpointsMethodCounter = 0;
-
-    NSURL *url = [NSURL URLWithString:endpoint];
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        if (error) {
-            NSLog(@"error coming from insta APIcall %@",error);
-        } else {
-            
-            NSDictionary *instaresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            NSArray *data = instaresults[@"data"];
-            NSLog(@"there was %d items added to the array",[data count]);
-                    
-                    //fill the mutable array feedDicts with all the instagram Data
-                    [self.feedDicts addObjectsFromArray:data];
-           
-            //increment the counter
-            instagramEndpointsMethodCounter ++;
-            
-            
-                    if (instagramEndpointsMethodCounter == [self.JCEndpointdelegate.endpoints count]) {
-                 
-               
-                        NSLog(@"%lu total number is",(unsigned long)[self.feedDicts count]);
-                        NSMutableArray *entities = [[NSMutableArray alloc]init];
-                    
-                        //this is where we take each object from the JSON callback and turn it into a JCFeedObject
-                        //and than add it the array prototypeEntitiesFromJSON
-                        
-                        [self.feedDicts  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                                [entities addObject:[[JCFeedObject alloc] initWithDictionary:obj]];
-                            }];
-                        
-                            self.prototypeEntitiesFromJSON = [[NSMutableArray alloc]init];
-                        
-                            self.prototypeEntitiesFromJSON = entities;
-                    
-                   
-                            dispatch_async(dispatch_get_main_queue(), ^{
-
-                                !then ?: then();
-                   
-                            });//dispatch main queq
-               
-                    };// if statment
-        }//outer else statment
-    }];//end of completion handler
-};///end of method
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
 
 //#pragma mark - Actions
 //
