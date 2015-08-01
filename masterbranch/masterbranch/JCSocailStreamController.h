@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "eventObject.h"
+#import "JCHttpFacade.h"
 #import "JCEndpointConstructor.h"
 
 
 
 
 
-@interface JCSocailStreamController : UITableViewController <JCEndpointConstructordelegate>;
+@interface JCSocailStreamController : UITableViewController <JCHttpFacadedelegate>;
 
 
 
