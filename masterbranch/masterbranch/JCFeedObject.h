@@ -17,9 +17,6 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 
-//These are the properties we want to parse our JSON into,
-//If you notice these properties are the same as the JCsocilStreamCell class.
-//This is becuse the JCFeedObject in the model for the the JCsocilStreamCell.
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *content;

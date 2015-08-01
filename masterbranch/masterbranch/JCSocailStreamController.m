@@ -12,12 +12,14 @@
 #import "JCsocialStreamCell.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+
 @interface JCSocailStreamController () <UIActionSheetDelegate>
 @property (nonatomic, copy) NSMutableArray *prototypeEntitiesFromJSON;
 @property (nonatomic, strong) NSMutableArray *feedEntitySections; // 2d array
 @property (nonatomic, assign) BOOL cellHeightCacheEnabled;
 @property (nonatomic, strong) NSMutableArray *instagramEndpoints;
 @property (nonatomic,strong) NSMutableArray *feedDicts;
+@property (nonatomic,strong) JCHttpFacade *JCHttpFacade;
 @end
 
 @implementation JCSocailStreamController{
@@ -29,8 +31,12 @@
 - (void)viewDidLoad
 {
     
-    self.JCEndpointdelegate = [[JCEndpointConstructor alloc]init];
-    self.JCEndpointdelegate.JCEndpointConstructordelegate = self;
+   
+
+    self.JCHttpFacade.JCHttpFacadedelegate = self;
+
+    //self.JCEndpointdelegate = [[JCEndpointConstructor alloc]init];
+    //self.JCEndpointdelegate.JCEndpointConstructordelegate = self;
     //[self.JCEndpointdelegate testdelegation];
     [super viewDidLoad];
     self.tableView.estimatedRowHeight = 200;
@@ -40,31 +46,15 @@
 }
 
 
--(void)reloadTabeView{
+
+-(void)APIreqestDidFinish:(NSArray *)paresedData{
     
     
     
-  
-                    for (NSString* endpoint in self.JCEndpointdelegate.endpoints) {
-    
-                        [self connectToInstagramWithCorrectEndPoint:endpoint then:^{
-                            //self.feedEntitySections = @[].mutableCopy;
-    
-    
-                             self.feedEntitySections = [[NSMutableArray alloc]init];
-                            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-    
-                            [self.tableView reloadData];
-    
-                        }];
-    
-    
-    
-                        
-                        
-                    };//end of loop
-    
-};
+     self.feedEntitySections = [[NSMutableArray alloc]init];
+    [self.feedEntitySections addObject:paresedData];
+    [self.tableView reloadData];
+}
 
 
 //This method figures out if the event has happened/happening/happening later and then constructs the appropriat EndPoints and sends them to the connectToInstagramWithCorrectEndPoint method
@@ -75,10 +65,13 @@
     {
        
         
-
+        //self.JCHttpFacade = [[JCHttpFacade alloc]initWithcurrentEvent:self.currentevent delegate:self];
         
         
-        [self.JCEndpointdelegate buildHappeningLaterEndPointsForEvent:self.currentevent];
+        
+        
+        
+        //[self.JCEndpointdelegate buildHappeningLaterEndPointsForEvent:self.currentevent];
         NSLog(@"searched by Happeninglater (going and getting media by # event.instasearchquery)");
 
     
@@ -90,13 +83,9 @@
     
     else if ([self.currentevent.status isEqualToString:@"alreadyHappened"])
     {
-       
-        self.feedDicts = [[NSMutableArray alloc]init];
-        //build all the nessasery endpoints then set off the delegation method
-        [self.JCEndpointdelegate buildHappeningLaterEndPointsForEvent:self.currentevent];
-        
-    
-    
+        NSLog(@"already happened");
+         //self.JCHttpFacade = [[JCHttpFacade alloc]init];
+         //self.JCHttpFacade.currentEvent = self.currentevent;
     }
     
     

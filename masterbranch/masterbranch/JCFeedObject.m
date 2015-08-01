@@ -11,8 +11,6 @@
 @implementation JCFeedObject
 
 
-//this custom init method on JCFeedObject is called in the JCSocialStreamVC. The Dictionary peramiter
-//is a JSON object that the JCSocialStreamVC retrived from instagram.
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
@@ -21,16 +19,17 @@
         
         NSDictionary *caption = dictionary [@"caption"];
         
+        // really handy way to make an array of all the keys of a dictionary.
+        //NSString *allKeys = [[dictionary allKeys] objectAtIndex:i];
+        
         if ( caption == (id)[NSNull null]) {
             self.content = @"No content for here";
             self.title = @"No title";
         }else{
-            
-            NSDictionary *from = caption[@"from"];
+             NSDictionary *from = caption[@"from"];
             self.content = caption[@"text"];
             self.title = from[@"full_name"];
          }
-        
         self.time = @"yesterday";
         self.imageName = dictionary[@"imageName"];
         
