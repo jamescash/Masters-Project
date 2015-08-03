@@ -78,7 +78,7 @@
 
             [self.socialStreamData addObjectsFromArray:self.JCHTTPClient.InstaPlacesResults];
             considerDeligation2 = YES;
-            NSLog(@"%d InstaPlacesResults added to social stream array", [self.JCHTTPClient.InstaHashTagResults count]);
+            NSLog(@"%d InstaPlacesResults added to social stream array", [self.JCHTTPClient.InstaPlacesResults count]);
 
      
     }

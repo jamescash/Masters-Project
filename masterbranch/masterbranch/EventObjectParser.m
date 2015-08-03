@@ -33,8 +33,9 @@
     //remove any white space  //TAKE OUT ANY " OR ' OR ANYTHING THAT PEOPLE WOULDNT NORMALY HASHTAG
     NSString *b = [A stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    NSString *d = [c stringByReplacingOccurrencesOfString:@"!" withString:@""];
     //NSLog(@"%@",c);
-    return c;
+    return d;
 
 };//end of insta search query maker
 
@@ -42,17 +43,25 @@
 -(NSString*)makeTitterSearch: (NSString*) eventTitle venueName:(NSString*)venueName{
     
     //setting twitter search query 1
-    NSMutableString *artistNameHashtag = [[NSMutableString alloc]init];
-    [artistNameHashtag appendString:@"#"];
-    NSMutableString *venueHashtag = [[NSMutableString alloc]init];
-    [venueHashtag appendString:@" #"];
-    [artistNameHashtag appendString:eventTitle];
-    [venueHashtag appendString:venueName];
-    //encoding query for web
-    NSString *artistNameEncodedRequest = [artistNameHashtag stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    //NSMutableString *artistNameHashtag = [[NSMutableString alloc]init];
+    //[artistNameHashtag appendString:@"#"];
+    NSString *a = eventTitle;
+    NSString *b = [a stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    NSString *d = [c stringByReplacingOccurrencesOfString:@"!" withString:@""];
+    //[artistNameHashtag appendString:d];
     
-    NSLog(@"twitter sreach query %@",artistNameEncodedRequest);
-
+    //NSMutableString *venueHashtag = [[NSMutableString alloc]init];
+    //[venueHashtag appendString:@" #"];
+    //[venueHashtag appendString:venueName];
+   // NSString *venueWithSpace = [NSString stringWithFormat:@" %@",venueName];
+    //encoding query for web
+    NSString *artistNameEncodedRequest = [d stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    
+    //NSString *VenueNameEncodedRequest = [venueWithSpace stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    
+   // NSString *encodedSearchForTwitter = [NSString stringWithFormat:@"%@%@",artistNameEncodedRequest,VenueNameEncodedRequest];
+    
     return artistNameEncodedRequest;
     
     
