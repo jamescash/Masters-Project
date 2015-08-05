@@ -12,7 +12,7 @@
     
     dispatch_queue_t todaysEvents;
     dispatch_queue_t yesterdaysEvents;
-    NSDictionary *JSONresults;
+    NSMutableArray *JSONresults;
     BOOL todaysEventsFinishedParsing;
     BOOL yesterdaysEventsFinishedParsing;
     int y;
@@ -20,9 +20,6 @@
 
 
 };
-
-
-
 -(void)buildmasterarray:(void (^)(void))completionBlock {
 
     self.countysInIreland = [[NSArray alloc]init];
@@ -124,10 +121,6 @@ dispatch_async(todaysEvents, ^{
 
 
 };
-
-
-
-
 //this method is called to get more artist info ie.cover picutre URL of a paticular artist
 -(UIImageView*)getArtistInfoByName:(NSString*)artistname{
    
@@ -202,7 +195,6 @@ dispatch_async(todaysEvents, ^{
     
     
 };
-
 //work the same as the above method exept it just searchs by MBID number
 -(UIImageView*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
     
@@ -259,10 +251,6 @@ dispatch_async(todaysEvents, ^{
 
 
 };
-
-
-
-
 //parsing the Raw JSON results from bandsintwonAPI call
 -(void)praseJSONresult: (NSDictionary*)JSONresult{
     
@@ -367,9 +355,6 @@ dispatch_async(todaysEvents, ^{
 
 
 };
-
-
-
 -(void)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date {
     
     //creat semaphore to signle when asynch API request is finished
@@ -391,12 +376,15 @@ dispatch_async(todaysEvents, ^{
             //dispatch_semaphore_signal(sema);
             
         }else {
-            JSONresults = [[NSDictionary alloc]init];
+            //JSONresults = [[NSDictionary alloc]init];
+            
+            JSONresults = [[NSMutableArray alloc]init];
             JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             //NSString *stringRep = [NSString stringWithFormat:@"%@",JSONresults];
             //NSLog(@"%@",stringRep);
+            NSLog(@"%@",JSONresults);
             dispatch_semaphore_signal(sema);
-
+     
             
         }
         
@@ -407,7 +395,7 @@ dispatch_async(todaysEvents, ^{
 
             if ([JSONresults count]== 0 ) {
                 
-                NSLog(@"there was no events in %@ today %@",countyName,date);
+                //NSLog(@"there was no events in %@ today %@",countyName,date);
 
             }
             else {
@@ -429,6 +417,89 @@ dispatch_async(todaysEvents, ^{
 };//end of GetEvntJSON
 
 
+
+
+
+- (id)initWithTitle:(NSDictionary *)object {
+    
+    
+    self = [super init];
+    if (self) {
+        
+        
+        EventObjectParser *pasre = [[EventObjectParser alloc]init];
+        
+        
+        
+            NSDictionary *artistdic = object [@"artists"];
+            NSArray *artists = object [@"artists"];
+            NSDictionary *venue = object [@"venue"];
+            
+            //if it has one or more artist parse into concert
+            //while loop and i counter to itterate each sningle artist in returened json event
+            if ([artistdic count] > 1 ) {
+                
+                self.eventType = @"concert";
+                self.eventTitle = venue [@"name"];
+                
+                int i = 0;
+                while ( i < [artistdic count] ){
+                    NSDictionary *artistinfo = artists [i];
+                    self.artistNames = [[NSMutableArray alloc]init];
+                    [self.artistNames addObject:artistinfo[@"name"]];
+                    //NSLog(@"%@",event.artistNames);
+                    i++;
+                }
+                
+            }else{
+                self.eventType = @"single";
+                NSArray *artists = object [@"artists"];
+                
+                if ([artists count]>0) {
+                    NSDictionary *artistinfo = artists [0];
+                    self.eventTitle = artistinfo[@"name"];
+                    
+                    if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                        self.mbidNumber = @"empty";
+                    }else{
+                        self.mbidNumber = artistinfo[@"mbid"];
+                    };
+                    
+                }
+                
+                
+                else {
+                    self.eventTitle = @"Some silly goose forgeot to enter event title";
+                    self.InstaSearchQuery = @"error";
+                    self.mbidNumber = @"empty";
+                }
+                
+            }
+            
+            
+            self.venueName = venue [@"name"];
+            self.InstaSearchQuery = [pasre makeInstagramSearch:self.eventTitle];
+            
+            
+            self.LatLong = @{ @"lat" : venue[@"latitude"],
+                               @"long": venue[@"longitude"]
+                               };
+            
+            self.eventDate = object[@"datetime"];
+            
+            self.InstaTimeStamp = [pasre getUnixTimeStamp:object[@"datetime"]];
+            
+            
+        
+            self.twitterSearchQuery = [pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
+            
+            self.status = [pasre GetEventStatus:object [@"datetime"]];
+            
+            
+       }
+    
+    return self;
+}
 
 
 

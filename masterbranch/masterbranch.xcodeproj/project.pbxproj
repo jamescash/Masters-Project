@@ -22,6 +22,8 @@
 		8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */; };
 		8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */; };
 		8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A97A1B6A3D55007FB71C /* JCHttpFacade.m */; };
+		8924A9871B7218FB007FB71C /* JCeventObjectAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A9861B7218FB007FB71C /* JCeventObjectAPI.m */; };
+		8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A98A1B721B26007FB71C /* JCEventBuilder.m */; };
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
@@ -77,6 +79,10 @@
 		8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHTTPClient.m; sourceTree = "<group>"; };
 		8924A9791B6A3D55007FB71C /* JCHttpFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCHttpFacade.h; path = ../JCHttpFacade.h; sourceTree = "<group>"; };
 		8924A97A1B6A3D55007FB71C /* JCHttpFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCHttpFacade.m; path = ../JCHttpFacade.m; sourceTree = "<group>"; };
+		8924A9851B7218FB007FB71C /* JCeventObjectAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCeventObjectAPI.h; sourceTree = "<group>"; };
+		8924A9861B7218FB007FB71C /* JCeventObjectAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCeventObjectAPI.m; sourceTree = "<group>"; };
+		8924A9891B721B26007FB71C /* JCEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCEventBuilder.h; sourceTree = "<group>"; };
+		8924A98A1B721B26007FB71C /* JCEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCEventBuilder.m; sourceTree = "<group>"; };
 		8936A6411B23337C00748803 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -143,8 +149,6 @@
 			children = (
 				89AD3BA71B3C1BC00004CAE4 /* EventObjectParser.h */,
 				89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */,
-				89F51DFD1B1E1C49004E9055 /* eventObject.h */,
-				89F51DFE1B1E1C49004E9055 /* eventObject.m */,
 				8936A6481B2336B100748803 /* Annotation.h */,
 				8936A6491B2336B100748803 /* Annotation.m */,
 			);
@@ -297,7 +301,7 @@
 			name = EndPointConstructor;
 			sourceTree = "<group>";
 		};
-		8924A9721B6A3C6A007FB71C /* HTTP */ = {
+		8924A9721B6A3C6A007FB71C /* SocialStreamAPI */ = {
 			isa = PBXGroup;
 			children = (
 				8924A9791B6A3D55007FB71C /* JCHttpFacade.h */,
@@ -307,7 +311,20 @@
 				891237F91B400ADB00E7C6CA /* JCFeedObject.h */,
 				891237FA1B400ADB00E7C6CA /* JCFeedObject.m */,
 			);
-			name = HTTP;
+			name = SocialStreamAPI;
+			sourceTree = "<group>";
+		};
+		8924A9881B72192D007FB71C /* EventObjectAPI  */ = {
+			isa = PBXGroup;
+			children = (
+				8924A9851B7218FB007FB71C /* JCeventObjectAPI.h */,
+				8924A9861B7218FB007FB71C /* JCeventObjectAPI.m */,
+				8924A9891B721B26007FB71C /* JCEventBuilder.h */,
+				8924A98A1B721B26007FB71C /* JCEventBuilder.m */,
+				89F51DFD1B1E1C49004E9055 /* eventObject.h */,
+				89F51DFE1B1E1C49004E9055 /* eventObject.m */,
+			);
+			name = "EventObjectAPI ";
 			sourceTree = "<group>";
 		};
 		89B216C21B24419100A3ACDF /* utillities */ = {
@@ -347,7 +364,8 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
-				8924A9721B6A3C6A007FB71C /* HTTP */,
+				8924A9881B72192D007FB71C /* EventObjectAPI  */,
+				8924A9721B6A3C6A007FB71C /* SocialStreamAPI */,
 				89B216C21B24419100A3ACDF /* utillities */,
 				891237F21B3FFDAB00E7C6CA /* JCMapView */,
 				891237F61B400A0100E7C6CA /* JCSocailStream */,
@@ -499,6 +517,7 @@
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
+				8924A9871B7218FB007FB71C /* JCeventObjectAPI.m in Sources */,
 				8912380D1B4178AE00E7C6CA /* JCssHappeningLater.m in Sources */,
 				8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
@@ -507,6 +526,7 @@
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
 				891238271B42C5FF00E7C6CA /* JCssHeadObject.m in Sources */,
+				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 				891238111B41A9C100E7C6CA /* JChappeningLaterHeader.m in Sources */,
 			);

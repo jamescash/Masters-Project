@@ -15,7 +15,7 @@
 @property (nonatomic) NSString *eventTitle;
 @property (nonatomic) NSString *coverpictureURL;
 @property (nonatomic) NSString *eventDate;
-@property (nonatomic) int startTime;
+//@property (nonatomic) int startTime;
 @property (nonatomic) NSString *venueName;
 @property (nonatomic) NSDictionary *LatLong;
 @property (nonatomic) NSString *twitterSearchQuery;
@@ -52,6 +52,9 @@
 -(void)praseJSONresult: (NSDictionary*)JSONresult;
 
 
+////////////////////////////////////////////////////////////
+
+- (id)initWithTitle:(NSDictionary *)dictionary;
 
 
 
