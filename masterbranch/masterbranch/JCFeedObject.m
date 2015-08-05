@@ -8,20 +8,27 @@
 
 #import "JCFeedObject.h"
 
+
 @implementation JCFeedObject
 
 
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
+- (instancetype)initWithInstaDic:(NSDictionary *)dictionary andCurrentEvent: (eventObject*)currentEvent
 {
     self = super.init;
     if (self) {
-        
-        NSDictionary *caption = dictionary [@"caption"];
-        
         // really handy way to make an array of all the keys of a dictionary.
         //NSString *allKeys = [[dictionary allKeys] objectAtIndex:i];
         
+        double mediatimestampval =  [dictionary[@"created_time"] doubleValue];
+        double eventstartTimeStamp = [currentEvent.InstaTimeStamp doubleValue];
+
+        if (mediatimestampval<eventstartTimeStamp) {
+            return nil;
+        }
+        
+        
+        NSDictionary *caption = dictionary [@"caption"];
         if ( caption == (id)[NSNull null]) {
             self.content = @"No content for here";
             self.title = @"No title";
@@ -30,10 +37,16 @@
              NSDictionary *from = caption[@"from"];
             self.content = caption[@"text"];
             self.title = from[@"full_name"];
-            self.time = caption[@"created_time"];
-
-         }
-        
+            
+            
+            
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:mediatimestampval];
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+            NSString *stringFromDate = [dateFormat stringFromDate:date];
+            self.time = stringFromDate;
+            
+      }
         
         
         self.imageName = dictionary[@"imageName"];
@@ -57,6 +70,7 @@
     self = super.init;
     if (self) {
         
+        
         NSString *tweetText = dictionary[@"text"];
         
         if ([tweetText rangeOfString:@"RT"].location == NSNotFound) {
@@ -67,6 +81,14 @@
         }
         
         self.time = dictionary[@"created_at"];
+        
+        //double timestampval =  [dictionary[@"created_at"] doubleValue];
+       
+        
+//        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+//        f.numberStyle = NSNumberFormatterDecimalStyle;
+//        NSNumber *myNumber = [f numberFromString:dictionary[@"created_at"]];
+//        NSLog(@"%@",myNumber);
        
         //NSTimeInterval interval = dictionary[@"created_at"];
 //       

@@ -17,11 +17,14 @@
 
 -(NSString*)formatDateForAPIcall:(NSDate*)date;
 
+-(NSString*)getUnixTimeStamp:(NSString*)date;
+
+
 //-(NSDictionary*)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date;
 
 -(NSString*)makeInstagramSearch: (NSString*) eventTitle;
 
--(NSString*)makeTitterSearch: (NSString*)eventTitle venueName:(NSString*)venueName;
+-(NSString*)makeTitterSearch: (NSString*)eventTitle venueName:(NSString*)venueName eventStartDate:(NSString*) eventDate;
 
 -(NSString*)GetEventStatus: (NSString*) currentEventDate;
 

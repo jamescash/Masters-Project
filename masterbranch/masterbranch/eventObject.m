@@ -101,9 +101,6 @@ dispatch_async(todaysEvents, ^{
             for (NSString *countyName in self.countysInIreland) {
             
             [self GetEventJSON:countyName dateObject:yesterdaysDate];
-                //NSLog(@"x is equal to %d",x);
-                //NSLog(@"%i", yesterdaysEventsFinishedParsing);
-                //NSLog(@"%d",[self.countysInIreland count]);
                 int a = [self.countysInIreland count];
                 x++;
 
@@ -342,10 +339,20 @@ dispatch_async(todaysEvents, ^{
                            @"long": venue[@"longitude"]
                            };
         
-        event.eventDate = object [@"datetime"];
-        event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName];
+       // event.eventDate = [pasre formatDateForAPIcall:object[@"datetime"]];
+        
+        event.eventDate = object[@"datetime"];
+        
+        event.InstaTimeStamp = [pasre getUnixTimeStamp:object[@"datetime"]];
+      
+    
+       // NSLog(@"%@",[event.eventDate description]);
+        
+    event.twitterSearchQuery = [pasre makeTitterSearch:event.eventTitle venueName:event.venueName eventStartDate:event.eventDate];
+        
         event.status = [pasre GetEventStatus:object [@"datetime"]];
        
+
         //NSLog(@"%@",object);
         
         [self.allEvents addObject:event];
