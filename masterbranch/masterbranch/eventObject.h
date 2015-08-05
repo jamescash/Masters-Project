@@ -14,7 +14,7 @@
 
 @property (nonatomic) NSString *eventTitle;
 @property (nonatomic) NSString *coverpictureURL;
-@property (nonatomic) NSDate *eventDate;
+@property (nonatomic) NSString *eventDate;
 @property (nonatomic) int startTime;
 @property (nonatomic) NSString *venueName;
 @property (nonatomic) NSDictionary *LatLong;
@@ -26,6 +26,7 @@
 @property (nonatomic) NSString *eventType;
 @property (nonatomic) NSMutableArray *artistNames;
 @property (nonatomic) UIImageView *coverpic;
+@property (nonatomic) NSString *InstaTimeStamp;
 
 
 

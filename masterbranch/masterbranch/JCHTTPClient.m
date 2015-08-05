@@ -14,7 +14,7 @@
 
 @interface JCHTTPClient ()
 @property (nonatomic, strong) dispatch_queue_t addToArrayThreadSafe;
-
+@property (nonatomic, strong) eventObject *currentEvent;
 
 @end
 
@@ -29,6 +29,7 @@
         
         if ([curentEvent.status isEqualToString:@"alreadyHappened"]) {
             
+            self.currentEvent = curentEvent;
             self.InstaPlacesResults = [[NSArray alloc ]init];
             self.InstaHashTagResults = [[NSArray alloc]init];
             self.ParseTwitterResults = [[NSArray alloc]init];
@@ -83,7 +84,7 @@
             
             NSString *FBplaceID = [object1 valueForKey:@"id"];
             
-            
+            NSLog(@"FB place ID %@",FBplaceID);
             [self getInstagramPlaceIDfromFBplaceID:FBplaceID];
         }
         
@@ -119,10 +120,9 @@
 
             }else{
                 NSDictionary *NSDdata = [data objectAtIndex:0];
-                
                 NSString  *instaPlaceID = NSDdata[@"id"];
                 NSString  *Endpoint = [NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=d767827366a74edca4bece00bcc8a42c",instaPlaceID];
-                
+                NSLog(@"Insta place ID %@",instaPlaceID);
                 [self InstagramData:Endpoint];
                 
                 
@@ -155,10 +155,15 @@
             
                 
                 [data  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    [entities addObject:[[JCFeedObject alloc] initWithDictionary:obj]];
+                    
+                    JCFeedObject *cellModel = [[JCFeedObject alloc]initWithInstaDic:obj andCurrentEvent:self.currentEvent];
+                    
+                    if (cellModel != nil){
+                        [entities addObject:cellModel];
+                    }
+                
                 }];
                 
-            
             
 
             self.InstaPlacesResults = entities;
@@ -197,7 +202,14 @@
             
             
             [data  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [entities addObject:[[JCFeedObject alloc] initWithDictionary:obj]];
+            
+                
+                
+                JCFeedObject *cellModel = [[JCFeedObject alloc]initWithInstaDic:obj andCurrentEvent:self.currentEvent];
+                
+                if (cellModel != nil){
+                    [entities addObject:cellModel];
+                }
             }];
             
             
@@ -228,12 +240,14 @@
             if ([arrayofaccounts count] > 0 ) {
                 ACAccount *twitteraccount = [arrayofaccounts lastObject];
                 
+                
+                
+                
                 NSURL *requestAPI = [NSURL URLWithString:@"https://api.twitter.com/1.1/search/tweets.json"];
-                NSDictionary *peramiters = @{@"count" : @"50",
+                NSDictionary *peramiters = @{@"count" : @"30",
                                              @"q" :twittersearchquery,
                                              @"filter_level": @"medium",
-                                             @"result_type": @"mixed"
-                                             //@"lang": @"eu"
+                                             @"result_type": @"recent",
                                              };
                 
                 SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:requestAPI parameters:peramiters];
@@ -256,17 +270,29 @@
                         
                          NSMutableArray *entities = [[NSMutableArray alloc]init];
                         
+                        
                         [results enumerateObjectsUsingBlock:^(id obj,NSUInteger idx,BOOL *stop){
-                            [entities addObject:[[JCFeedObject alloc] initWithTwitterDic:obj]];
+                            
+                            JCFeedObject *cellModel = [[JCFeedObject alloc]initWithTwitterDic:obj];
+                            
+                            
+                            if (cellModel != nil){
+                                     
+                                     [entities addObject:cellModel];
+
+                                 }
+                            
+                        
                         }];
                      
-                    
+                        //NSLog(@"%@",twittersearchquery);
                         self.ParseTwitterResults = entities;
                     
                     
                     
                     }else{
-                    
+                       
+                        //NSLog(@"%@",twittersearchquery);
                         self.ParseTwitterResults = @[];
 
                     

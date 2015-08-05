@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "eventObject.h"
+
 
 
 @interface JCFeedObject : NSObject
 
 
 //custom init method that parses our JSON
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithInstaDic:(NSDictionary *)dictionary andCurrentEvent: (eventObject*)currentEvent;
 - (instancetype)initWithTwitterDic: (NSDictionary *)dictionary;
 
 

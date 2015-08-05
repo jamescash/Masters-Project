@@ -15,7 +15,9 @@
 -(NSString*)formatDateForAPIcall:(NSDate*)date{
 
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    
     [dateFormat setDateFormat:@"yyyy-LL-dd"];
+    
     NSString *formattedDate = [dateFormat stringFromDate:date];
 
     return formattedDate;
@@ -23,6 +25,29 @@
 
 
 
+-(NSString*)getUnixTimeStamp:(NSString*)date{
+    //identifying when the gig happened
+    NSString *objectdate = date;
+    NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+    
+    // Convert string to date object
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+    
+    NSDate *returndate = [dateFormat dateFromString:dateformatted];
+    
+    // NSDate *UNIX = [[NSDate alloc]init]
+    //int timestamp = [[NSDate date] timeIntervalSince1970];
+   
+    NSTimeInterval ti = [returndate timeIntervalSince1970];
+
+    
+    NSString *UnixTimeStamp = [NSString stringWithFormat:@"%f",ti];
+    //NSLog(@"%@",UnixTimeStamp);
+    //NSLog(@"unix time stamp is %f",ti);
+    
+    return UnixTimeStamp;
+};//end of formatDateForAPIcall
 
 
 
@@ -33,28 +58,61 @@
     //remove any white space  //TAKE OUT ANY " OR ' OR ANYTHING THAT PEOPLE WOULDNT NORMALY HASHTAG
     NSString *b = [A stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *c = [b stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    NSString *d = [c stringByReplacingOccurrencesOfString:@"!" withString:@""];
     //NSLog(@"%@",c);
-    return c;
+    return d;
 
 };//end of insta search query maker
 
 
--(NSString*)makeTitterSearch: (NSString*) eventTitle venueName:(NSString*)venueName{
+-(NSString*)makeTitterSearch: (NSString*) eventTitle venueName:(NSString*)venueName eventStartDate:(NSString *)eventDate{
     
-    //setting twitter search query 1
-    NSMutableString *artistNameHashtag = [[NSMutableString alloc]init];
-    [artistNameHashtag appendString:@"#"];
-    NSMutableString *venueHashtag = [[NSMutableString alloc]init];
-    [venueHashtag appendString:@" #"];
-    [artistNameHashtag appendString:eventTitle];
-    [venueHashtag appendString:venueName];
-    //encoding query for web
-    NSString *artistNameEncodedRequest = [artistNameHashtag stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    //prepare title
+    NSString *a = eventTitle;
+    NSString *c = [a stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    NSString *d = [c stringByReplacingOccurrencesOfString:@"!" withString:@""];
+   
+  //  NSString *artistNameEncodedRequest = [d stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+//    
+//    
+//    //prepare the date
+//    //NSString *objectdate = eventDate;
+//    
+//    
+//    //identifying when the gig happened
+//    NSString *objectdate = eventDate;
+//    NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+//    
+//    // Convert string to date object
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+//    NSDate *date = [dateFormat dateFromString:dateformatted];
+//    NSDateFormatter *secondFormatter = [[NSDateFormatter alloc]init];
+//    [secondFormatter setDateFormat:@"yyyy-LL-dd"];
+//   //NSDate *finishedDate = [secondFormatter
+//    
+//    
+//    //trying to format date for twittr search query not having any luck at all
+//    
+//    NSString *stringdate = [dateFormat stringFromDate:date]; // Convert date to string
+//    
+//    
+//    
+//    NSString *twittweSearchQuery = [NSString stringWithFormat:@"%@ since:%@",d,stringdate];
+//    
+//    NSLog(@"%@",twittweSearchQuery);
     
-    NSLog(@"twitter sreach query %@",artistNameEncodedRequest);
-
-    return artistNameEncodedRequest;
+    //NSString *VenueNameEncodedRequest = [venueWithSpace stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
+   // NSString *encodedSearchForTwitter = [NSString stringWithFormat:@"%@%@",artistNameEncodedRequest,VenueNameEncodedRequest];
+    
+    //NSLog(@"%@ twitter search query",d);
+    //NSLog(@"%@ event title",eventTitle);
+    
+    //NSString *testSearchQery = @"food since:2015-08-04 ";
+    
+    //return artistNameEncodedRequest;
+    return d;
     
 };//end of twitter search query maker
 
@@ -70,6 +128,7 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
     NSDate *date = [dateFormat dateFromString:dateformatted];
+    
     NSDate *todaysdate = [NSDate date];
     
     //getting the diffrence in hours between the events date&time and NOW in +/-
