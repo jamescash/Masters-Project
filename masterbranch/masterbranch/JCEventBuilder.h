@@ -10,10 +10,15 @@
 #import "EventObjectParser.h"
 #import "eventObject.h"
 
-
+@protocol JCEventBuildereDlegate;
 
 @interface JCEventBuilder : NSObject
-- (NSArray*)getEvent;
+@property (nonatomic,weak) id<JCEventBuildereDlegate> delegate;
++(JCEventBuilder*)sharedInstance;
+-(NSArray*)getEvent;
+@end
 
 
+@protocol JCEventBuildereDlegate <NSObject>
+-(void)LoadMapView;
 @end

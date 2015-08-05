@@ -9,19 +9,20 @@
 #import "MapView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import "JCeventObjectAPI.h"
 
 
 
 @interface MapView (){
   
-    //the bandsintown API call are made on this queue
-    dispatch_queue_t APIcalls;
-    //the annoations image load is made on this queue
     dispatch_queue_t imageLoad;
+    
     NSArray *allEvents;
+    JCEventBuilder *eventbuilder;
+    NSMutableArray *annotations;
+    UIActivityIndicatorView *av;
     
 }
+
 @end
 
 @implementation MapView
@@ -29,20 +30,20 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
+    
 //close any open annotations befoure the view opens again
 for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotations]) {
         [self.MkMapViewOutLet deselectAnnotation:(id <MKAnnotation>)annotation animated:NO];
     }
- 
 };
-
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
-    
+    annotations = [[NSMutableArray alloc]init];
     [self.MkMapViewOutLet setDelegate:self];
+    eventbuilder  = [JCEventBuilder sharedInstance];
+    eventbuilder.delegate = self;
     
    
     //fb logging button
@@ -52,48 +53,14 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     loginButton.center = self.view.center;
     [self.view addSubview:loginButton];
     
-    //allEvents = [[JCeventObjectAPI sharedInstance] getEvent];
 
-    allEvents = [[JCeventObjectAPI sharedInstance]getEvent];
-    
-    
-//    //creat dispatch queue for bandsintown API call
-//    if (!APIcalls) {
-//        APIcalls = dispatch_queue_create("fmapView.BandsintownAPI.1", NULL);
-//    }
-    
-   // eventObject *event = [[eventObject alloc]init];
-    //self.allGigs = [[NSMutableArray alloc]init];
-    
-    UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     av.frame=CGRectMake(145, 160, 100, 100);
     av.tag  = 1;
     [self.MkMapViewOutLet addSubview:av];
     [av startAnimating];
-        
-    
-    
-    
-    
-//      dispatch_async(APIcalls, ^{
-//            
-//          
-//          [event buildmasterarray:^{
-//                
-//                self.annotations = [[NSMutableArray alloc]init];
-//                self.allGigs = event.allEvents;
-//                
-//                [self buildannotations:event.allEvents];
-//                [av removeFromSuperview];
-//                
-//                dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:self.annotations];});
-//                
-//            }];//end of API call + Data parsing
-//            
-//            
-//            
-//        });
-//   
+
+
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
@@ -102,17 +69,20 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
 
 
 
+-(void)LoadMapView{
+    
+    allEvents = [eventbuilder getEvent];
+    [self buildannotations:allEvents];
+    dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:annotations];});
+    [av stopAnimating];
 
+}
 
 
 -(void)buildannotations:(NSArray*)arrayofgigs{
   
+CLLocationCoordinate2D location;
     
-
-    
-    CLLocationCoordinate2D location;
-    
-  
     for (eventObject *event in arrayofgigs) {
         
         NSString *latitude = event.LatLong[@"lat"];
@@ -125,32 +95,22 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
         ann.subtitle = event.venueName;
         ann.currentEvent = event;
         ann.status = event.status;
-        
-
-        [self.annotations addObject:ann];
-        
-        
-
-   }
-    
-    
+        [annotations addObject:ann];
+     }
 }
+
+
 
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     
     //create the annotation view
-    
     MKPinAnnotationView *view = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"pin"];
+    
     Annotation *currentAnnotaion = [[Annotation alloc]init];
+    
     currentAnnotaion = annotation;
-    
-    eventObject *event = [[eventObject alloc]init];
-    
-    event = currentAnnotaion.currentEvent;
-    
 
-    
     if ([currentAnnotaion.status isEqualToString: @"alreadyHappened"]) {
         view.pinColor = MKPinAnnotationColorRed;
 
@@ -160,8 +120,8 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     }else if ([currentAnnotaion.status isEqualToString:@"currentlyhappening"]){
         view.pinColor = MKPinAnnotationColorGreen;
     }
-    //SEL segue = @selector(segue:);
-    //enable annimation
+    
+    
     view.enabled = YES;
     view.animatesDrop = YES;
     view.canShowCallout = YES;
@@ -181,6 +141,7 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     }
     
     eventObject *event = [[eventObject alloc]init];
+    
     Annotation *currentannoation = view.annotation;
   
     event = currentannoation.currentEvent;
@@ -211,6 +172,7 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
      Annotation *currentannoation = view.annotation;
+    
      [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
 }
 
