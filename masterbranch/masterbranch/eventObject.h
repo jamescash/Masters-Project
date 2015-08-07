@@ -8,14 +8,12 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "EventObjectParser.h"
-//#import "Annotation.h"
 
 @interface eventObject : NSObject
 
 @property (nonatomic) NSString *eventTitle;
 @property (nonatomic) NSString *coverpictureURL;
 @property (nonatomic) NSString *eventDate;
-@property (nonatomic) int startTime;
 @property (nonatomic) NSString *venueName;
 @property (nonatomic) NSDictionary *LatLong;
 @property (nonatomic) NSString *twitterSearchQuery;
@@ -27,37 +25,15 @@
 @property (nonatomic) NSMutableArray *artistNames;
 @property (nonatomic) UIImageView *coverpic;
 @property (nonatomic) NSString *InstaTimeStamp;
+@property (nonatomic) NSString *imageUrl;
 
 
-
-
-@property (nonatomic) NSMutableArray *jsonData;
-@property (nonatomic) NSMutableArray *allEvents;
-
-@property (nonatomic) NSArray *countysInIreland;
-
-
-
-@property(nonatomic)NSString *imageUrl;
-
-
--(void) buildmasterarray:(void(^)(void))completionBlock;
 
 -(UIImageView*)getArtistInfoByName:(NSString*)artistname;
 
 -(UIImageView*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
 
--(void)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date;
 
--(void)praseJSONresult: (NSDictionary*)JSONresult;
-
-
-
-
-
-
-
-
-
+- (id)initWithTitle:(NSDictionary *)dictionary;
 
 @end

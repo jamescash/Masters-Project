@@ -50,13 +50,14 @@
 
 
 
-- (void)dealloc
+- (void)removeObserver
 {
     [self.JCHTTPClient removeObserver:self forKeyPath:@"InstaHashTagResults"];
-    //[self.JCHTTPClient addObserver:self forKeyPath:@"InstaPlacesResults" options:0 context:nil];
+    [self.JCHTTPClient removeObserver:self forKeyPath:@"InstaPlacesResults"];
+    [self.JCHTTPClient removeObserver:self forKeyPath:@"ParseTwitterResults"];
 
 
-    NSLog(@"dealloc in JChttpFacade called");
+
 }
 
 
@@ -98,6 +99,7 @@
     if (considerDeligation1&&considerDeligation2&&considerDeligation3) {
         
         [self.JCHttpFacadedelegate reloadTableViewithArray:self.socialStreamData];
+        [self removeObserver];
 
     }
     

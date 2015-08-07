@@ -12,19 +12,17 @@
 #import "SocialStream.h"
 #import "JCSocailStreamController.h"
 #import "JCssHappeningLater.h"
+#import "JCEventBuilder.h"
 
 
 
-@interface MapView : UIViewController <MKMapViewDelegate>
+
+
+@interface MapView : UIViewController <MKMapViewDelegate,JCEventBuildereDlegate>
+
 @property (weak, nonatomic) IBOutlet MKMapView *MkMapViewOutLet;
-@property (nonatomic) NSMutableArray *annotations;
+
 @property (nonatomic) NSString *url;
-@property (nonatomic) NSMutableArray *allGigs;
 
-
-
-
-
--(void)buildannotations:(NSArray*)arrayofgigs;
 
 @end
