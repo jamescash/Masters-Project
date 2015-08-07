@@ -37,7 +37,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7H0-k9-SDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3365" y="68"/>
+            <point key="canvasLocation" x="3411" y="13"/>
         </scene>
         <!--Socail Stream Controller-->
         <scene sceneID="4cM-RN-fZd">
@@ -212,7 +212,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qE-pb-77q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2553" y="68"/>
+            <point key="canvasLocation" x="2657" y="13"/>
         </scene>
     </scenes>
 </document>

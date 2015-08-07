@@ -73,8 +73,13 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     
     allEvents = [eventbuilder getEvent];
     [self buildannotations:allEvents];
-    dispatch_async(dispatch_get_main_queue(), ^{[self.MkMapViewOutLet addAnnotations:annotations];});
-    [av stopAnimating];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.MkMapViewOutLet addAnnotations:annotations];
+        [av stopAnimating];
+
+    });
 
 }
 
