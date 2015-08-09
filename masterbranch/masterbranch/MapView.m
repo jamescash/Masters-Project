@@ -7,8 +7,21 @@
 //
 
 #import "MapView.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+//top buttons in the nav bar
+#import "MMDrawerBarButtonItem.h"
+//framework for moving leftside viewcontroler
+#import "UIViewController+MMDrawerController.h"
+
+
+//#import "MMNavigationController.h"
+
+
+
+
+//#import "MMDrawerController.h"
+
+#import <QuartzCore/QuartzCore.h>
+
 
 
 
@@ -29,7 +42,11 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     
+    //work around for nav bar
+    self.navigationController.navigationBar.translucent = NO;
+
     
 //close any open annotations befoure the view opens again
 for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotations]) {
@@ -37,30 +54,55 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     }
 };
 
+
+-(void)viewDidAppear:(BOOL)animated{
+    self.navigationController.navigationBar.translucent = YES;
+
+};
+
+
 - (void)viewDidLoad {
     
+
     [super viewDidLoad];
     annotations = [[NSMutableArray alloc]init];
+    self.MkMapViewOutLet = [[MKMapView alloc] initWithFrame:self.view.bounds];
     [self.MkMapViewOutLet setDelegate:self];
+   
+
+    
+    [self.view addSubview:self.MkMapViewOutLet];
+    
+    //go to bandsintown and build a single array of parsed events
     eventbuilder  = [JCEventBuilder sharedInstance];
     eventbuilder.delegate = self;
     
-   
-    //fb logging button
-    //[FBSDKSettings setAppID:@"962582523784456"];
-    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
-    loginButton.readPermissions = @[@"email",@"public_profile"];
-    loginButton.center = self.view.center;
-    [self.view addSubview:loginButton];
-    
-
+    //add a loading wheel for user feedback
     av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     av.frame=CGRectMake(145, 160, 100, 100);
     av.tag  = 1;
     [self.MkMapViewOutLet addSubview:av];
     [av startAnimating];
+    
+    
+    
+    
+    [self setupLeftMenuButton];
+    
+    UIColor * barColor = [UIColor
+                          colorWithRed:247.0/255.0
+                          green:249.0/255.0
+                          blue:250.0/255.0
+                          alpha:1.0];
+   
+    [self.navigationController.navigationBar setBarTintColor:barColor];
+    [self.navigationController.view.layer setCornerRadius:10.0f];
+     self.navigationController.title = @"PreAmp";
+    
+ 
 
-
+    
+    
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
@@ -68,12 +110,15 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
 }
 
 
-
+//delegate method thats called when all the events are laoded and parsed into the main array
 -(void)LoadMapView{
+    
     
     allEvents = [eventbuilder getEvent];
     [self buildannotations:allEvents];
     
+    
+    //make sure the annotations are added to the mapview on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.MkMapViewOutLet addAnnotations:annotations];
@@ -82,6 +127,13 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     });
 
 }
+
+
+
+
+
+
+
 
 
 -(void)buildannotations:(NSArray*)arrayofgigs{
@@ -103,8 +155,6 @@ CLLocationCoordinate2D location;
         [annotations addObject:ann];
      }
 }
-
-
 
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
@@ -135,7 +185,6 @@ CLLocationCoordinate2D location;
     
   return view;
 };
-
 
 //here trying to call the get artist cover picture API method when annotation is selected
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
@@ -181,8 +230,6 @@ CLLocationCoordinate2D location;
      [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
 }
 
-
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
    
@@ -197,6 +244,22 @@ CLLocationCoordinate2D location;
 }
 
 
+
+
+-(void)setupLeftMenuButton{
+    
+    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+   
+    
+    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+}
+
+
+
+-(void)leftDrawerButtonPress:(id)sender{
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+    
+}
 
 
 
