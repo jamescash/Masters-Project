@@ -53,12 +53,7 @@
     
     
     //check to see if there is a user logged in
-   
-    
-    
-    
     //Setting Up the RootViewControler
-    
 //    //Initiating centerVC
 //    MapView *center = [[MapView alloc]init];
 //    
@@ -91,11 +86,20 @@
 ////    }
 //    
 //    [self.window setRootViewController:self.drawerController];
-    
-    
     // [PFUser logOut];
 
-    
+    if ([PFUser currentUser])
+    {
+        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreen"];
+        [PFUser logOut];
+    }
+    else
+    {
+        UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        self.window.rootViewController = rootController;
+        //[PFUser logOut];
+
+    }
     
     
     

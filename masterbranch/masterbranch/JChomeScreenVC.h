@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MMDrawerController.h"
 
-@interface JChomeScreenVC : UIViewController
+
+@interface JChomeScreenVC : MMDrawerController
 
 @property (strong, nonatomic) UIWindow *window;
 
