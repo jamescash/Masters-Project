@@ -24,24 +24,38 @@
 
 @implementation JCSocailStreamController{
     
- 
-    int instagramEndpointsMethodCounter;
+   int instagramEndpointsMethodCounter;
 }
 
-- (void)viewDidLoad
-{
+-(instancetype)initWithTitle:(eventObject *)currentevet{
     
-   
-
-    [super viewDidLoad];
-    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:self.currentevent];
+    
+    self = [super init];
+    if (self)
+    {
+    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:currentevet];
     self.JCHttpFacade.JCHttpFacadedelegate = self;
-
+    
     self.tableView.estimatedRowHeight = 200;
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
+    }
+    return self;
     
-    
+};
+
+
+- (void)viewDidLoad
+{
+//    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:self.currentevent];
+//    self.JCHttpFacade.JCHttpFacadedelegate = self;
+//    
+//    self.tableView.estimatedRowHeight = 200;
+//    self.tableView.fd_debugLogEnabled = NO;
+//    self.cellHeightCacheEnabled = YES;
+   
+    [super viewDidLoad];
+  
 }
 
 
@@ -51,32 +65,15 @@
     self.feedEntitySections = [[NSMutableArray alloc]init];
     [self.feedEntitySections addObject:instaresults];
     
-   
-    dispatch_async(dispatch_get_main_queue(), ^{
+       dispatch_async(dispatch_get_main_queue(), ^{
 
            [self.tableView reloadData];
     });
 
+
+
+
 }
-
-
-//        NSDictionary *LatLong = [[NSDictionary alloc]init];
-//        LatLong = self.currentevent.LatLong;
-//        
-//        NSString *latitude = LatLong[@"lat"];
-//        NSString *Longditude = LatLong [@"long"];
-//        
-//        InstaEndpoint1 = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=50&client_id=d767827366a74edca4bece00bcc8a42c",latitude,Longditude];
-//        NSLog(@"searched by event currently happening (geo fence endpoint)");
-//        
-//       
-//        [self connectToInstagramWithCorrectEndPoint:InstaEndpoint1 then:^{
-//            self.feedEntitySections = @[].mutableCopy;
-//            [self.feedEntitySections addObject:self.prototypeEntitiesFromJSON.mutableCopy];
-//          
-//            [self.tableView reloadData];
-//        
-//        }];
 
 
 

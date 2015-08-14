@@ -70,9 +70,6 @@
             }
         };
         
-        
-        
-        
     }
     return self;
 }
@@ -108,11 +105,10 @@
                 
                 NSMutableArray *events = [[NSMutableArray alloc]init];
                 
-                
+                //TODO had a crash here for some reason 
                 [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];
-                    
                     if (event != nil){
                         [events addObject:event];
                     }
