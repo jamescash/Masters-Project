@@ -9,6 +9,8 @@
 #import "NavigtionViewController.h"
 #import "UIViewController+MMDrawerController.h"
 
+#import "MMDrawerBarButtonItem.h"
+
 
 @interface NavigtionViewController ()
 
@@ -25,5 +27,46 @@
         return UIStatusBarStyleDefault;
     }
 }
+
+
+//-(void)viewDidLoad:(BOOL)animated{
+    
+//    
+//    NSLog(@"nAV BAR DID LOAD");
+//    
+//    UIColor * barColor = [UIColor
+//                          colorWithRed:247.0/255.0
+//                          green:249.0/255.0
+//                          blue:250.0/255.0
+//                          alpha:1.0];
+//    self.navigationBar.barTintColor = barColor;
+//    //[self.navigationBar setBarTintColor:barColor];
+//    [self.view.layer setCornerRadius:10.0f];
+//    self.title = @"PreAmp";
+//    
+//    [self setupLeftMenuButton];
+
+
+
+//};
+
+//-(void)setupLeftMenuButton{
+//    
+//    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self.navigationBar action:@selector(leftDrawerButtonPress:)];
+//    
+//    //MMDrawerBarButtonItem *left = [self]
+//    
+//    self.navigationItem.leftBarButtonItem = leftDrawerButton;
+//    
+//    
+//    //[self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+//}
+//
+//
+//
+//-(void)leftDrawerButtonPress:(id)sender{
+//    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+//    
+//}
 
 @end

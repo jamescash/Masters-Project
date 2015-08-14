@@ -10,6 +10,9 @@
 //framworks for the hamburgermenu
 #import "MMDrawerController.h"
 
+
+
+
 //#import "MMExampleCenterTableViewController.h"
 //#import "MMExampleLeftSideDrawerViewController.h"
 
@@ -33,7 +36,7 @@
 @interface JChomeScreenVC ()
 
 @property (nonatomic,strong) MMDrawerController * drawerController;
-@property (nonatomic,strong) NavigtionViewController *centerVC;
+//@property (nonatomic,strong) NavigtionViewController *centerVC;
 
 
 @end
@@ -44,36 +47,39 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    
-
+     if (!self.drawerController) {
+        
         MapView *center = [[MapView alloc]init];
-    
         center.MapViewDelegate = self;
     
         //Iinit left side menue
-        JCSocailStreamController *left = [[JCSocailStreamController alloc]init];
+        UIViewController *left = [[UIViewController alloc]init];
         
         //creat the top nav bars and add them to the super VC'S
-        _centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
-    
+        UINavigationController *centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
         UINavigationController * leftVC = [[NavigtionViewController alloc] initWithRootViewController:left];
         
         //init drawer ontroler class with my ViewControllers
-        self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:self.centerVC leftDrawerViewController:leftVC];
+        self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:centerVC leftDrawerViewController:leftVC];
         [self.drawerController setShowsShadow:YES];
+    
         //[self.drawerController setRestorationIdentifier:@"MMDrawer"];
         [self.drawerController setMaximumLeftDrawerWidth:200.0];
         [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
         [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-        [self.view addSubview:self.drawerController.view];
     
+        [self.view addSubview:self.drawerController.view];
+    }
+    
+    [self.view addSubview:self.drawerController.view];
+
 }
 
 -(void)userDidSelectAnnotation:(eventObject *)currentevent{
     
      //NSLog(@"performSuge");
     
-    //[self performSegueWithIdentifier:@"socialStream" sender:currentevent];
+    [self performSegueWithIdentifier:@"socialStream" sender:currentevent];
     
     //JCSocailStreamController *socialStream = [[JCSocailStreamController alloc]initWithTitle:currentevent];
     //[self.centerVC pushViewController:socialStream animated:YES];
@@ -88,22 +94,26 @@
     
     if ([segue.identifier isEqualToString:@"socialStream"])
     {
-        eventObject *currentevent = [[eventObject alloc]init];
-        currentevent = sender;
         
-        JCSocailStreamController *jc = [segue destinationViewController];
-        jc.currentevent = currentevent;
-    
+        UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
+       
+        JCSocailStreamController *jc = [navController viewControllers][0];
+        jc.JCSocailStreamControllerDelegate = self;
+        jc.currentevent = sender;
+ 
     }
 }
 
+-(void)SocialStreamViewControllerDidSelectDone:(JCSocailStreamController *)controller{
+    
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 
+};
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
-
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -120,5 +130,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
 
 @end

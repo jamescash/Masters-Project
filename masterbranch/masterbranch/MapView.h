@@ -10,7 +10,6 @@
 #import "eventObject.h"
 #import "Annotation.h"
 #import "JCSocailStreamController.h"
-#import "JCssHappeningLater.h"
 #import "JCEventBuilder.h"
 
 //This is the superclass viewcontroler for any views that are part of the slideout side menu
