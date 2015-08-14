@@ -11,15 +11,9 @@
 		891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */; };
 		891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238001B40360E00E7C6CA /* JCSocailStreamController.m */; };
 		891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */; };
-		8912380D1B4178AE00E7C6CA /* JCssHappeningLater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8912380C1B4178AE00E7C6CA /* JCssHappeningLater.m */; };
-		891238111B41A9C100E7C6CA /* JChappeningLaterHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238101B41A9C000E7C6CA /* JChappeningLaterHeader.m */; };
-		891238141B41F27800E7C6CA /* JChappeningLaterSS.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238131B41F27800E7C6CA /* JChappeningLaterSS.m */; };
-		891238241B42C44D00E7C6CA /* JCssHeaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238231B42C44D00E7C6CA /* JCssHeaderController.m */; };
-		891238271B42C5FF00E7C6CA /* JCssHeadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238261B42C5FF00E7C6CA /* JCssHeadObject.m */; };
 		8924A9511B56D103007FB71C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */; };
 		8924A9531B56D99C007FB71C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */; };
 		8924A9551B56D9B1007FB71C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */; };
-		8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */; };
 		8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */; };
 		8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A97A1B6A3D55007FB71C /* JCHttpFacade.m */; };
 		8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8924A98A1B721B26007FB71C /* JCEventBuilder.m */; };
@@ -84,21 +78,9 @@
 		891238001B40360E00E7C6CA /* JCSocailStreamController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSocailStreamController.m; sourceTree = "<group>"; };
 		891238071B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDTemplateLayoutCell.h"; sourceTree = "<group>"; };
 		891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
-		8912380B1B4178AE00E7C6CA /* JCssHappeningLater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCssHappeningLater.h; sourceTree = "<group>"; };
-		8912380C1B4178AE00E7C6CA /* JCssHappeningLater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHappeningLater.m; sourceTree = "<group>"; };
-		8912380F1B41A9C000E7C6CA /* JChappeningLaterHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JChappeningLaterHeader.h; path = ../JChappeningLaterHeader.h; sourceTree = "<group>"; };
-		891238101B41A9C000E7C6CA /* JChappeningLaterHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JChappeningLaterHeader.m; path = ../JChappeningLaterHeader.m; sourceTree = "<group>"; };
-		891238121B41F27800E7C6CA /* JChappeningLaterSS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JChappeningLaterSS.h; sourceTree = "<group>"; };
-		891238131B41F27800E7C6CA /* JChappeningLaterSS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JChappeningLaterSS.m; sourceTree = "<group>"; };
-		891238221B42C44D00E7C6CA /* JCssHeaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCssHeaderController.h; sourceTree = "<group>"; };
-		891238231B42C44D00E7C6CA /* JCssHeaderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHeaderController.m; sourceTree = "<group>"; };
-		891238251B42C5FF00E7C6CA /* JCssHeadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCssHeadObject.h; sourceTree = "<group>"; };
-		891238261B42C5FF00E7C6CA /* JCssHeadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCssHeadObject.m; sourceTree = "<group>"; };
 		8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		8924A95A1B63A152007FB71C /* JCEndpointConstructor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCEndpointConstructor.h; sourceTree = "<group>"; };
-		8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCEndpointConstructor.m; sourceTree = "<group>"; };
 		8924A9731B6A3CC0007FB71C /* JCHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHTTPClient.h; sourceTree = "<group>"; };
 		8924A9741B6A3CC0007FB71C /* JCHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHTTPClient.m; sourceTree = "<group>"; };
 		8924A9791B6A3D55007FB71C /* JCHttpFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCHttpFacade.h; path = ../JCHttpFacade.h; sourceTree = "<group>"; };
@@ -241,28 +223,11 @@
 			name = controler;
 			sourceTree = "<group>";
 		};
-		891237F61B400A0100E7C6CA /* JCSocailStream */ = {
-			isa = PBXGroup;
-			children = (
-				891238191B42B65C00E7C6CA /* SocialStream */,
-			);
-			name = JCSocailStream;
-			sourceTree = "<group>";
-		};
-		891237F71B400A2400E7C6CA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				8924A9591B63A107007FB71C /* EndPointConstructor */,
-				8924A9561B63A05F007FB71C /* custom cell */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		891237F81B400A3700E7C6CA /* TableViewcontroler */ = {
 			isa = PBXGroup;
 			children = (
-				891237FF1B40360E00E7C6CA /* JCSocailStreamController.h */,
-				891238001B40360E00E7C6CA /* JCSocailStreamController.m */,
+				89EEAB881B7DF9A60053290C /* controller */,
+				8924A9561B63A05F007FB71C /* custom cell */,
 			);
 			name = TableViewcontroler;
 			sourceTree = "<group>";
@@ -276,71 +241,12 @@
 			name = FDTemplateLayoutCell;
 			sourceTree = "<group>";
 		};
-		891238151B42B41D00E7C6CA /* HeaderCard */ = {
-			isa = PBXGroup;
-			children = (
-				891238161B42B5B000E7C6CA /* controler */,
-				891238171B42B5BE00E7C6CA /* model */,
-			);
-			name = HeaderCard;
-			sourceTree = "<group>";
-		};
-		891238161B42B5B000E7C6CA /* controler */ = {
-			isa = PBXGroup;
-			children = (
-				891238121B41F27800E7C6CA /* JChappeningLaterSS.h */,
-				891238131B41F27800E7C6CA /* JChappeningLaterSS.m */,
-				891238221B42C44D00E7C6CA /* JCssHeaderController.h */,
-				891238231B42C44D00E7C6CA /* JCssHeaderController.m */,
-			);
-			name = controler;
-			sourceTree = "<group>";
-		};
-		891238171B42B5BE00E7C6CA /* model */ = {
-			isa = PBXGroup;
-			children = (
-				8912380F1B41A9C000E7C6CA /* JChappeningLaterHeader.h */,
-				891238101B41A9C000E7C6CA /* JChappeningLaterHeader.m */,
-				891238251B42C5FF00E7C6CA /* JCssHeadObject.h */,
-				891238261B42C5FF00E7C6CA /* JCssHeadObject.m */,
-			);
-			name = model;
-			sourceTree = "<group>";
-		};
 		891238181B42B60C00E7C6CA /* SocailStreamTableView */ = {
 			isa = PBXGroup;
 			children = (
 				891237F81B400A3700E7C6CA /* TableViewcontroler */,
-				891237F71B400A2400E7C6CA /* Model */,
 			);
 			name = SocailStreamTableView;
-			sourceTree = "<group>";
-		};
-		891238191B42B65C00E7C6CA /* SocialStream */ = {
-			isa = PBXGroup;
-			children = (
-				8912381A1B42B67300E7C6CA /* controler */,
-				8912381B1B42B68000E7C6CA /* model */,
-			);
-			name = SocialStream;
-			sourceTree = "<group>";
-		};
-		8912381A1B42B67300E7C6CA /* controler */ = {
-			isa = PBXGroup;
-			children = (
-				8912380B1B4178AE00E7C6CA /* JCssHappeningLater.h */,
-				8912380C1B4178AE00E7C6CA /* JCssHappeningLater.m */,
-			);
-			name = controler;
-			sourceTree = "<group>";
-		};
-		8912381B1B42B68000E7C6CA /* model */ = {
-			isa = PBXGroup;
-			children = (
-				891238151B42B41D00E7C6CA /* HeaderCard */,
-				891238181B42B60C00E7C6CA /* SocailStreamTableView */,
-			);
-			name = model;
 			sourceTree = "<group>";
 		};
 		8924A9561B63A05F007FB71C /* custom cell */ = {
@@ -348,7 +254,6 @@
 			children = (
 				8912380A1B40372B00E7C6CA /* FDTemplateLayoutCell */,
 				8924A9571B63A06C007FB71C /* controler */,
-				8924A9581B63A07E007FB71C /* model */,
 			);
 			name = "custom cell";
 			sourceTree = "<group>";
@@ -360,22 +265,6 @@
 				891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */,
 			);
 			name = controler;
-			sourceTree = "<group>";
-		};
-		8924A9581B63A07E007FB71C /* model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = model;
-			sourceTree = "<group>";
-		};
-		8924A9591B63A107007FB71C /* EndPointConstructor */ = {
-			isa = PBXGroup;
-			children = (
-				8924A95A1B63A152007FB71C /* JCEndpointConstructor.h */,
-				8924A95B1B63A152007FB71C /* JCEndpointConstructor.m */,
-			);
-			name = EndPointConstructor;
 			sourceTree = "<group>";
 		};
 		8924A9721B6A3C6A007FB71C /* SocialStreamAPI */ = {
@@ -439,17 +328,30 @@
 		89B216C21B24419100A3ACDF /* utillities */ = {
 			isa = PBXGroup;
 			children = (
+				89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */,
+				89F51DE11B1E1B39004E9055 /* Main.storyboard */,
 				89F51DE41B1E1B39004E9055 /* Images.xcassets */,
 				89F51DDB1B1E1B39004E9055 /* AppDelegate.h */,
 				89F51DDC1B1E1B39004E9055 /* AppDelegate.m */,
 			);
 			name = utillities;
+			path = masterbranch;
+			sourceTree = "<group>";
+		};
+		89EEAB881B7DF9A60053290C /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				891237FF1B40360E00E7C6CA /* JCSocailStreamController.h */,
+				891238001B40360E00E7C6CA /* JCSocailStreamController.m */,
+			);
+			name = controller;
 			sourceTree = "<group>";
 		};
 		89F51DCB1B1E1B39004E9055 = {
 			isa = PBXGroup;
 			children = (
 				89F51DD61B1E1B39004E9055 /* masterbranch */,
+				89B216C21B24419100A3ACDF /* utillities */,
 				89F51DF01B1E1B3A004E9055 /* masterbranchTests */,
 				89F51DD51B1E1B39004E9055 /* Products */,
 				00A97242DE4980B90530AAED /* Pods */,
@@ -473,11 +375,8 @@
 				898FA8911B752A7B000AEAB1 /* LoginScreenVC */,
 				8924A9881B72192D007FB71C /* EventObjectAPI  */,
 				8924A9721B6A3C6A007FB71C /* SocialStreamAPI */,
-				89B216C21B24419100A3ACDF /* utillities */,
+				891238181B42B60C00E7C6CA /* SocailStreamTableView */,
 				891237F21B3FFDAB00E7C6CA /* JCMapView */,
-				891237F61B400A0100E7C6CA /* JCSocailStream */,
-				89F51DE11B1E1B39004E9055 /* Main.storyboard */,
-				89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */,
 				89F51DD71B1E1B39004E9055 /* Supporting Files */,
 			);
 			path = masterbranch;
@@ -678,26 +577,20 @@
 				891237FB1B400ADB00E7C6CA /* JCFeedObject.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				8980B9A11B77714900DC9EF7 /* VCbaseSildeMenu.m in Sources */,
-				891238141B41F27800E7C6CA /* JChappeningLaterSS.m in Sources */,
-				891238241B42C44D00E7C6CA /* JCssHeaderController.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
-				8912380D1B4178AE00E7C6CA /* JCssHappeningLater.m in Sources */,
 				8980B9A71B77A0CE00DC9EF7 /* NavigtionViewController.m in Sources */,
-				8924A95C1B63A152007FB71C /* JCEndpointConstructor.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
-				891238271B42C5FF00E7C6CA /* JCssHeadObject.m in Sources */,
 				892E40F11B766FF700B60275 /* JCloginVC.m in Sources */,
 				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
-				891238111B41A9C100E7C6CA /* JChappeningLaterHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

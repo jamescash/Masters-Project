@@ -27,32 +27,31 @@
    int instagramEndpointsMethodCounter;
 }
 
--(instancetype)initWithTitle:(eventObject *)currentevet{
-    
-    
-    self = [super init];
-    if (self)
-    {
-    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:currentevet];
+
+
+
+- (void)viewDidLoad
+{
+    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:self.currentevent];
     self.JCHttpFacade.JCHttpFacadedelegate = self;
     
     self.tableView.estimatedRowHeight = 200;
     self.tableView.fd_debugLogEnabled = NO;
     self.cellHeightCacheEnabled = YES;
-    }
-    return self;
     
-};
-
-
-- (void)viewDidLoad
-{
-//    self.JCHttpFacade = [[JCHttpFacade alloc]initWithEvent:self.currentevent];
-//    self.JCHttpFacade.JCHttpFacadedelegate = self;
+    
+    
+//    [self setupLeftMenuButton];
 //    
-//    self.tableView.estimatedRowHeight = 200;
-//    self.tableView.fd_debugLogEnabled = NO;
-//    self.cellHeightCacheEnabled = YES;
+//    UIColor * barColor = [UIColor
+//                          colorWithRed:247.0/255.0
+//                          green:249.0/255.0
+//                          blue:250.0/255.0
+//                          alpha:1.0];
+//    
+//    [self.navigationController.navigationBar setBarTintColor:barColor];
+//    [self.navigationController.view.layer setCornerRadius:10.0f];
+//    self.navigationController.title = @"PreAmp";
    
     [super viewDidLoad];
   
@@ -74,12 +73,6 @@
 
 
 }
-
-
-
-
-
-
 
 #pragma mark - UITableViewDataSource
 //The amount of array objects added to the array feedEntitySections determins the amount
@@ -152,7 +145,27 @@
 }
 
 
+#pragma UInavigationBar
 
+- (IBAction)NavBarBackButton:(id)sender {
+    
+    [self.JCSocailStreamControllerDelegate SocialStreamViewControllerDidSelectDone:self];
+};
+
+//-(void)setupLeftMenuButton{
+//    
+//    //MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+//    
+//    
+//    [self.navigationItem setLeftBarButtonItem:UIButtonTypeCustom animated:YES];
+//}
+
+
+
+//-(void)leftDrawerButtonPress:(id)sender{
+//    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+//    
+//}
 
 //#pragma mark - Actions
 //
@@ -362,5 +375,6 @@
 //
 //
 //};
+
 
 @end

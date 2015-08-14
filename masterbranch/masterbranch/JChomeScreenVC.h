@@ -13,7 +13,7 @@
 
 
 
-@interface JChomeScreenVC : UIViewController <MapViewDelegate>
+@interface JChomeScreenVC : UIViewController <MapViewDelegate,JCSocailStreamControllerDelegate>
 
 
 

@@ -70,9 +70,6 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     annotations = [[NSMutableArray alloc]init];
     self.MkMapViewOutLet = [[MKMapView alloc] initWithFrame:self.view.bounds];
     [self.MkMapViewOutLet setDelegate:self];
-   
-
-    
     [self.view addSubview:self.MkMapViewOutLet];
     
     //go to bandsintown and build a single array of parsed events
@@ -229,32 +226,12 @@ CLLocationCoordinate2D location;
 {
      Annotation *currentannoation = view.annotation;
     
-    
-   // UIViewController* ViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    
     [self.MapViewDelegate userDidSelectAnnotation:currentannoation.currentEvent];
     
-    //JCSocailStreamController *socialstream = [[JCSocailStreamController alloc]initWithTitle:currentannoation.currentEvent];
 
-    //[self presentViewController:socialstream animated:YES completion:nil];
-    
-    //[[UIStoryboard storyboardWithName:@"storyboard name" bundle:nil] instantiateViewControllerWithIdentifier:@"vc identifier"];
-
-    //[self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-   
-    if ([segue.identifier isEqualToString:@"socialStream"])
-    {
-        eventObject *currentevent = [[eventObject alloc]init];
-        currentevent = sender;
-       
-        JCssHappeningLater *jc = [segue destinationViewController];
-        jc.currentevent = currentevent;
-    }
-}
+
 
 
 

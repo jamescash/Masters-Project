@@ -9,13 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "eventObject.h"
 #import "JCHttpFacade.h"
-#import "JCEndpointConstructor.h"
+
+
+@protocol JCSocailStreamControllerDelegate;
+@class JCSocailStreamControllerDelegate;
+
 
 @interface JCSocailStreamController : UITableViewController <JCHttpFacadedelegate>;
-@property (nonatomic,strong) JCEndpointConstructor *JCEndpointdelegate;
 @property (nonatomic) eventObject *currentevent;
-- (instancetype)initWithTitle:(eventObject*)currentevet;
+@property (nonatomic, weak) id <JCSocailStreamControllerDelegate> JCSocailStreamControllerDelegate;
+- (IBAction)NavBarBackButton:(id)sender;
 @end
 
 
+@protocol JCSocailStreamControllerDelegate <NSObject>
+- (void)SocialStreamViewControllerDidSelectDone:(JCSocailStreamController *)controller;
+@end
 
