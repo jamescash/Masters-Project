@@ -16,17 +16,14 @@
 //This is the superclass viewcontroler for any views that are part of the slideout side menu
 #import "VCbaseSildeMenu.h"
 
-
-
-
-
-
+@protocol MapViewDelegate;
 
 @interface MapView : VCbaseSildeMenu <MKMapViewDelegate,JCEventBuildereDlegate>
-
 @property (strong, nonatomic) MKMapView *MkMapViewOutLet;
-
 @property (nonatomic) NSString *url;
+@property (strong, nonatomic) id<MapViewDelegate>MapViewDelegate;
+@end
 
-
+@protocol MapViewDelegate <NSObject>
+-(void)userDidSelectAnnotation:(eventObject*) currentevent;
 @end

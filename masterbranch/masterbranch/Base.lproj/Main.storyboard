@@ -50,7 +50,6 @@
                     <navigationItem key="navigationItem" title="Gigs happening today" id="yul-rm-31m"/>
                     <connections>
                         <outlet property="MkMapViewOutLet" destination="K9W-Ha-F5r" id="jUY-9s-6xz"/>
-                        <segue destination="wY7-9p-k8S" kind="show" identifier="socialStream" id="a5i-cl-vjX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7H0-k9-SDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -62,7 +61,7 @@
             <objects>
                 <tableViewController id="vHF-aI-j1s" customClass="JCSocailStreamController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="205" sectionHeaderHeight="22" sectionFooterHeight="22" id="bRD-R2-LGn">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="450"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -147,7 +146,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="52d-Fi-OZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4917" y="225"/>
+            <point key="canvasLocation" x="4945" y="-793"/>
         </scene>
         <!--Chome ScreenVC-->
         <scene sceneID="Iug-Oz-AvN">
@@ -162,10 +161,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="vHF-aI-j1s" kind="custom" identifier="socialStream" id="hAW-ha-BO9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lQe-vb-9fM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4229" y="-785"/>
+            <point key="canvasLocation" x="4205" y="-793"/>
         </scene>
         <!--Css Happening Later-->
         <scene sceneID="8ul-JM-hck">
@@ -181,15 +183,9 @@
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6s8-Nn-LND">
                                 <rect key="frame" x="0.0" y="150" width="600" height="450"/>
-                                <connections>
-                                    <segue destination="vHF-aI-j1s" kind="embed" identifier="happeningRightNowTable" id="h1a-GE-4YU"/>
-                                </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tA7-ra-pWX">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
-                                <connections>
-                                    <segue destination="2Bv-KV-cOB" kind="embed" identifier="happeningRightNowHead" id="iFI-h4-uAy"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -211,7 +207,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbu-lT-53q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4143" y="13"/>
+            <point key="canvasLocation" x="4935" y="-1491"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="8a4-g9-YUD">
@@ -229,7 +225,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3gI-bo-adL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5178" y="-871"/>
+            <point key="canvasLocation" x="2710" y="-785"/>
         </scene>
         <!--Css Header Controller-->
         <scene sceneID="bI9-Rl-Cbg">
@@ -240,7 +236,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wz9-KS-74c"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="4ob-cg-XFx">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -248,7 +244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5qU-m7-3IR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4917" y="-204"/>
+            <point key="canvasLocation" x="5723" y="-1078"/>
         </scene>
     </scenes>
 </document>

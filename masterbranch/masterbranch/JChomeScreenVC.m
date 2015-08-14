@@ -26,8 +26,14 @@
 //loging screen
 #import "JCloginVC.h"
 
+
+#import "JCSocailStreamController.h"
+
+
 @interface JChomeScreenVC ()
+
 @property (nonatomic,strong) MMDrawerController * drawerController;
+@property (nonatomic,strong) NavigtionViewController *centerVC;
 
 
 @end
@@ -39,97 +45,62 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     
-    //if (![PFUser currentUser]) { // No user logged in
-        
-     //   JCloginVC *logingVC = [[JCloginVC alloc]init];
-        
-//        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//        
-//        [self.window setRootViewController:logingVC];
-//        
-//        [self.window makeKeyAndVisible];
-        
-        //[self presentViewController:logingVC animated:YES completion:nil];
-        
-        
-    //}else{
-        
-        //Setting Up the RootViewControler
-        //Initiating centerVC
+
         MapView *center = [[MapView alloc]init];
-        
+    
+        center.MapViewDelegate = self;
+    
         //Iinit left side menue
         JCSocailStreamController *left = [[JCSocailStreamController alloc]init];
         
         //creat the top nav bars and add them to the super VC'S
-        UINavigationController * centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
+        _centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
+    
         UINavigationController * leftVC = [[NavigtionViewController alloc] initWithRootViewController:left];
         
         //init drawer ontroler class with my ViewControllers
-        self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:centerVC leftDrawerViewController:leftVC];
-        
+        self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:self.centerVC leftDrawerViewController:leftVC];
         [self.drawerController setShowsShadow:YES];
         //[self.drawerController setRestorationIdentifier:@"MMDrawer"];
         [self.drawerController setMaximumLeftDrawerWidth:200.0];
         [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
         [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-        
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        
-        [self.window setRootViewController:self.drawerController];
-        
-        [self.window makeKeyAndVisible];
-       // [PFUser logOut];
-        
-  //  }
-    
+        [self.view addSubview:self.drawerController.view];
     
 }
 
-- (void)viewDidLoad {
+-(void)userDidSelectAnnotation:(eventObject *)currentevent{
     
-    [super viewDidLoad];
+     //NSLog(@"performSuge");
     
+    //[self performSegueWithIdentifier:@"socialStream" sender:currentevent];
     
+    //JCSocailStreamController *socialStream = [[JCSocailStreamController alloc]initWithTitle:currentevent];
+    //[self.centerVC pushViewController:socialStream animated:YES];
 //    
-//   if (![PFUser currentUser]) { // No user logged in
-//       
-//       JCloginVC *logingVC = [[JCloginVC alloc]init];
-//       
-//       [self presentViewController:logingVC animated:YES completion:nil];
-//   
-//   
-//   }else{
-//
-//    //Setting Up the RootViewControler
-//    //Initiating centerVC
-//    MapView *center = [[MapView alloc]init];
 //    
-//    //Iinit left side menue
-//    JCSocailStreamController *left = [[JCSocailStreamController alloc]init];
-//    
-//    //creat the top nav bars and add them to the super VC'S
-//    UINavigationController * centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
-//    UINavigationController * leftVC = [[NavigtionViewController alloc] initWithRootViewController:left];
-//    
-//    //init drawer ontroler class with my ViewControllers
-//    self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:centerVC leftDrawerViewController:leftVC];
-//    
-//    [self.drawerController setShowsShadow:YES];
-//    //[self.drawerController setRestorationIdentifier:@"MMDrawer"];
-//    [self.drawerController setMaximumLeftDrawerWidth:200.0];
-//    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
-//    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-//   
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//
-//    [self.window setRootViewController:self.drawerController];
-//    
-//    [self.window makeKeyAndVisible];
-//    [PFUser logOut];
-//
-//    }
+//    [self.centerVC presentViewController:socialStream animated:YES completion:nil];
 
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if ([segue.identifier isEqualToString:@"socialStream"])
+    {
+        eventObject *currentevent = [[eventObject alloc]init];
+        currentevent = sender;
+        
+        JCSocailStreamController *jc = [segue destinationViewController];
+        jc.currentevent = currentevent;
+    
+    }
+}
+
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
 }
 
 

@@ -42,6 +42,9 @@
        [PFTwitterUtils initializeWithConsumerKey:@"8eEctMqLZ8QScpfLDZRVT5ZTq" consumerSecret:@"s7lK6v39rxaAvPagEjs7breEsvDJzwRFdqLaVQASBEg8JeOOGk"];
         
         self.logInViewController = [[PFLogInViewController alloc] init];
+    
+        //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PreAmp.png"]];
+        //self.logInViewController.logInView.logo = imageView;
         [self.logInViewController setDelegate:self]; // Set ourselves as the delegate
         [self.logInViewController setFacebookPermissions:@[ @"user_about_me", @"user_birthday", @"user_location"]];
         [self.logInViewController setFields:PFLogInFieldsUsernameAndPassword | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsLogInButton |PFLogInFieldsFacebook |PFLogInFieldsTwitter];
@@ -50,18 +53,15 @@
         // Create the sign up view controller
         PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
         [signUpViewController setDelegate:self]; // Set ourselves as the delegate
-        
+        //signUpViewController.signUpView.logo = imageView;
 
-        
+    
         // Assign our sign up controller to be displayed from the login controller
         [self.logInViewController setSignUpController:signUpViewController];
     
     
         [self presentViewController:self.logInViewController animated:YES completion:NULL];
         
-        
-
-    
 }
 
 
@@ -69,8 +69,6 @@
 
 -(void)logInViewController:(PFLogInViewController * __nonnull)logInController didLogInUser:(PFUser * __nonnull)user{
    
-    
-
     AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
     
     appDelegateTemp.window.rootViewController =  [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreen"];

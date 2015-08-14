@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NavigtionViewController.h"
 #import "MMDrawerController.h"
+#import "MapView.h"
 
 
-@interface JChomeScreenVC : MMDrawerController
 
-@property (strong, nonatomic) UIWindow *window;
+@interface JChomeScreenVC : UIViewController <MapViewDelegate>
+
 
 
 @end

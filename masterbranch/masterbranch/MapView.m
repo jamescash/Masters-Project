@@ -15,6 +15,8 @@
 
 //#import "MMNavigationController.h"
 
+#import "JCSocailStreamController.h"
+
 
 
 
@@ -227,7 +229,18 @@ CLLocationCoordinate2D location;
 {
      Annotation *currentannoation = view.annotation;
     
-     [self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
+    
+   // UIViewController* ViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    
+    [self.MapViewDelegate userDidSelectAnnotation:currentannoation.currentEvent];
+    
+    //JCSocailStreamController *socialstream = [[JCSocailStreamController alloc]initWithTitle:currentannoation.currentEvent];
+
+    //[self presentViewController:socialstream animated:YES completion:nil];
+    
+    //[[UIStoryboard storyboardWithName:@"storyboard name" bundle:nil] instantiateViewControllerWithIdentifier:@"vc identifier"];
+
+    //[self performSegueWithIdentifier:@"socialStream" sender:currentannoation.currentEvent];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
