@@ -7,12 +7,15 @@
 //
 
 #import "JCSearchPage.h"
-#import "JCSearchPageHTTPClient.h"
+#import "eventObject.h"
+
 
 
 @interface JCSearchPage ()
 
 @property (nonatomic,strong) JCSearchPageHTTPClient *searchclient;
+@property (nonatomic,strong) NSArray *searchResults;
+
 
 @end
 
@@ -22,12 +25,7 @@
     [super viewDidLoad];
     self.SearchBar.delegate = self;
     
-    //[self getArtistUpComingEvents:artistNameEncodedRequest];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,33 +35,65 @@
 
 #pragma mark - Table view data source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 0;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 0;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return self.searchResults.count;
+    
+    
+}
 
-/*
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.searchResults[section] count];
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
-    // Configure the cell...
+    //creat a cell from the class JCsocialStreamCell and give the the reuse identifier FDFeedCell
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultsCell" forIndexPath:indexPath];
     
+    //call the configurecell method on that cell
+    //[self configureCell:cell atIndexPath:indexPath];
+    
+    eventObject *event = self.searchResults[indexPath.section][indexPath.row];
+    
+    cell.textLabel.text = event.eventTitle;
+    
+    cell.detailTextLabel.text = event.country;
+    
+    //insert that cell
     return cell;
 }
-*/
+
+
+#pragma SearchHTTPdelegatMethods
+
+-(void)searchResultsGathered:(NSMutableArray *)searchResults{
+    
+    self.searchResults = searchResults;
+    
+
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.SearchResultsTable reloadData];
+
+        
+    });
+    
+    
+
+};
+
 
 #pragma searchbarDelagateMethods
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
     _searchclient = [[JCSearchPageHTTPClient alloc]initWithArtistName:searchBar.text];
+    self.searchclient.JCSearchPageHTTPClientdelegate = self;
+    [searchBar resignFirstResponder];
 }
 
 

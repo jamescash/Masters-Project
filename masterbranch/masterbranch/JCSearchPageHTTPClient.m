@@ -13,10 +13,13 @@
 @interface JCSearchPageHTTPClient ()
 
 @property (nonatomic,strong) NSMutableArray *paresedSearchResults;
+@property (nonatomic,strong) NSMutableArray *StructedSearchResults;
 
 @end
 
-@implementation JCSearchPageHTTPClient
+@implementation JCSearchPageHTTPClient{
+    int switchCounter;
+}
 
 
 
@@ -27,6 +30,7 @@
     if (self) {
         
         _paresedSearchResults = [[NSMutableArray alloc]init];
+        _StructedSearchResults = [[NSMutableArray alloc]init];
             NSString *artistNameEncodedRequest = [artistName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
         
         [self getmbidNumberfor:artistNameEncodedRequest];
@@ -144,20 +148,9 @@
                         
                         [fullArrayOfSearchResults addObject:event];
 
-                        
-                        //if ([event.country isEqualToString:@"Ireland"]) {
-//                            
-//                            [InIreland addObject:event];
-//
-//                        } else if (event.DistanceFromIreland < 500) {
-//                            [CloseToIreland addObject:event];
-//                        
-//                        }else{
-//                            
-//                            [EverythingElse addObject:event];
-//                        }
                      }
                 }];
+                
                 
                 
                 
@@ -178,71 +171,63 @@
                  NSMutableArray *TopClosest = [[NSMutableArray alloc]init];
                  NSMutableArray *EverythingElse = [[NSMutableArray alloc]init];
                 
-                 for (eventObject *obj in SearchResultsSortedInDistanceFromIreland) {
-                
-                     int counter = 0;
-                     
-                     
-                     if ([obj.country isEqualToString:@"Ireland"]) {
-                    
-                         [InIreland addObject:obj];
-                      }
-                 
+                switchCounter = 0;
 
-                     switch (counter) {
-                         case 0 :
-                             NSLog(@"first loop");
-                             break;
-                         case 1:
-                             NSLog(@"second loop");
-                             break;
-                         case 3:
-                             NSLog(@"third loop");
-                             break;
-                         case 4:
-                             NSLog(@"fourth loop");
-                             break;
-                         case 5:
-                             NSLog(@"5th loop");
-                             break;
-                         default:
-                             NSLog(@"Unknown operator.");
-                             break;
-                     }
+                
+                    for (eventObject *obj in SearchResultsSortedInDistanceFromIreland) {
+                
+                        if ([obj.country isEqualToString:@"Ireland"]) {
+                    
+                            [InIreland addObject:obj];
+                        }
                  
-                     counter ++;
+                        switch (switchCounter) {
+                            case 0 :
+                                [TopClosest addObject:obj];
+                                break;
+                            case 1:
+                                [TopClosest addObject:obj];
+                                break;
+                            case 3:
+                                [TopClosest addObject:obj];
+                                break;
+                            case 4:
+                                [TopClosest addObject:obj];
+                                break;
+                            case 5:
+                                [TopClosest addObject:obj];
+                                break;
+                            default:
+                                [EverythingElse addObject:obj];
+                                break;
+                        }
                  
+                     switchCounter++;
+                 
+                 }//end of for every obj in sorted by distance from ireland array
+                
+                //build 2d array to determin the sections of the table View
+                
+                if ([InIreland count] != 0) {
+                    [self.StructedSearchResults addObject:InIreland];
+
+                }
+                if ([TopClosest count] != 0) {
+                    [self.StructedSearchResults addObject:TopClosest];
+
+                }
+                
+                if ([EverythingElse count] != 0) {
+                    [self.StructedSearchResults addObject:EverythingElse];
                  }
                 
                 
                 
-                //2d array to determin the sections in the table View
-//                if ([InIreland count] != 0) {
-//                    [self.paresedSearchResults addObject:InIreland];
-//
-//                }
-//                
-//                if ([CloseToIreland count] != 0) {
-//                    [self.paresedSearchResults addObject:CloseToIreland];
-//
-//                }
-//                
-//                if ([EverythingElse count] != 0) {
-//                    [self.paresedSearchResults addObject:EverythingElse];
-//
-//                }
+                [self.JCSearchPageHTTPClientdelegate searchResultsGathered:self.StructedSearchResults];
                 
-                
-                
-                //NSLog(@"%@",self.paresedSearchResults );
-                
-                // counterForRunningDeligation ++;
-                // [self considerRunningDeligation];
                 
             }
            
-            
-            
             
         }
         

@@ -7,17 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCSearchPageHTTPClient.h"
+
 
 @protocol JCSearchPageDelegate;
 @class JCSearchPageDelegate;
 
 
 
-@interface JCSearchPage : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate>
+@interface JCSearchPage : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate>
 
 @property (nonatomic,weak) id <JCSearchPageDelegate>JCSearchPageDelegate;
 @property (weak, nonatomic) IBOutlet UISearchBar *SearchBar;
 - (IBAction)UserSelectedDone:(id)sender;
+@property (strong, nonatomic) IBOutlet UITableView *SearchResultsTable;
 
 @end
 

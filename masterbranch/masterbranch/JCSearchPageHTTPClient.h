@@ -8,9 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+
+@protocol JCSearchPageHTTPClientdelegate;
+
+
 @interface JCSearchPageHTTPClient : NSObject
 
 - (id)initWithArtistName:(NSString*)artistName;
 
+@property (strong, nonatomic) id<JCSearchPageHTTPClientdelegate>JCSearchPageHTTPClientdelegate;
+
+@end
+
+@protocol JCSearchPageHTTPClientdelegate <NSObject>
+
+-(void)searchResultsGathered:(NSMutableArray*)searchResults;
 
 @end
