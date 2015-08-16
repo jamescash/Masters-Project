@@ -10,10 +10,11 @@
 #import "NavigtionViewController.h"
 #import "MMDrawerController.h"
 #import "MapView.h"
+#import "JCSearchPage.h"
 
 
 
-@interface JChomeScreenVC : UIViewController <MapViewDelegate,JCSocailStreamControllerDelegate>
+@interface JChomeScreenVC : UIViewController <JCSearchPageDelegate, MapViewDelegate,JCSocailStreamControllerDelegate>
 
 
 

@@ -26,6 +26,9 @@
 @property (nonatomic) UIImageView *coverpic;
 @property (nonatomic) NSString *InstaTimeStamp;
 @property (nonatomic) NSString *imageUrl;
+@property (nonatomic) NSString *country;
+@property (nonatomic) int DistanceFromIreland;
+
 
 
 

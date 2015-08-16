@@ -9,13 +9,6 @@
 #import "JChomeScreenVC.h"
 //framworks for the hamburgermenu
 #import "MMDrawerController.h"
-
-
-
-
-//#import "MMExampleCenterTableViewController.h"
-//#import "MMExampleLeftSideDrawerViewController.h"
-
 #import "MMDrawerVisualState.h"
 //#import "MMExampleDrawerVisualStateManager.h"
 
@@ -36,8 +29,7 @@
 @interface JChomeScreenVC ()
 
 @property (nonatomic,strong) MMDrawerController * drawerController;
-//@property (nonatomic,strong) NavigtionViewController *centerVC;
-
+@property (nonatomic,strong) UINavigationController *centerVC;
 
 @end
 
@@ -56,11 +48,15 @@
         UIViewController *left = [[UIViewController alloc]init];
         
         //creat the top nav bars and add them to the super VC'S
-        UINavigationController *centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
+         _centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
+        
+       
+         
+
         UINavigationController * leftVC = [[NavigtionViewController alloc] initWithRootViewController:left];
         
         //init drawer ontroler class with my ViewControllers
-        self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:centerVC leftDrawerViewController:leftVC];
+        self.drawerController = [[MMDrawerController alloc]initWithCenterViewController:self.centerVC leftDrawerViewController:leftVC];
         [self.drawerController setShowsShadow:YES];
     
         //[self.drawerController setRestorationIdentifier:@"MMDrawer"];
@@ -75,21 +71,29 @@
 
 }
 
+
+
+
+#pragma DelegateMethods
+
+
 -(void)userDidSelectAnnotation:(eventObject *)currentevent{
     
-     //NSLog(@"performSuge");
-    
     [self performSegueWithIdentifier:@"socialStream" sender:currentevent];
-    
-    //JCSocailStreamController *socialStream = [[JCSocailStreamController alloc]initWithTitle:currentevent];
-    //[self.centerVC pushViewController:socialStream animated:YES];
-//    
-//    
-//    [self.centerVC presentViewController:socialStream animated:YES completion:nil];
-
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+
+-(void)userDidSelectSearchIcon{
+    
+    [self performSegueWithIdentifier:@"ShowSearchPage" sender:nil];
+    
+};
+
+
+
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
     if ([segue.identifier isEqualToString:@"socialStream"])
@@ -102,14 +106,42 @@
         jc.currentevent = sender;
  
     }
+    
+    if ([segue.identifier isEqualToString:@"ShowSearchPage"]) {
+        
+       
+        UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
+        
+        JCSearchPage *jc = [navController viewControllers][0];
+        jc.JCSearchPageDelegate = self;
+    
+    };
+    
 }
+
+-(void)JCSearchPageDidSelectDone:(JCSearchPage *)controller{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+};
+
 
 -(void)SocialStreamViewControllerDidSelectDone:(JCSocailStreamController *)controller{
     
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

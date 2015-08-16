@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
+
 
 
 @interface EventObjectParser : NSObject
@@ -30,7 +32,9 @@
 
 -(UIImageView*)makeThumbNail: (NSData*) pictureData;
 
+-(int)DistanceFromIreland: (CLLocation*)eventLocation;
 
++ (EventObjectParser*)sharedInstance;
 
 
 @end

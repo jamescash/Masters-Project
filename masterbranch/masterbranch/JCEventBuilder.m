@@ -13,8 +13,6 @@
     EventObjectParser *formatter;
     NSMutableArray *paresedEvents;
     int counterForRunningDeligation;
-    
-    
 };
 
 
@@ -94,15 +92,10 @@
          
         
             if ([JSONresults count]== 0 ) {
-                
-               // NSLog(@"there was no events in %@ today %@",countyName,date);
                 counterForRunningDeligation ++;
                 [self considerRunningDeligation];
-
             }
             else {
-                
-                
                 NSMutableArray *events = [[NSMutableArray alloc]init];
                 
                 //TODO had a crash here for some reason 
@@ -119,9 +112,6 @@
                 
                 counterForRunningDeligation ++;
                 [self considerRunningDeligation];
-
-
-                
             }
         }
         
@@ -135,18 +125,13 @@
     if (counterForRunningDeligation == ([countysInIreland count]*2)) {
         
         [self.delegate LoadMapView];
-        
     }
-    
-    
 };
 
 
 - (NSArray*)getEvent
 {
-    NSLog(@"%@",paresedEvents);
-
-    return paresedEvents;
+   return paresedEvents;
 }
 
 

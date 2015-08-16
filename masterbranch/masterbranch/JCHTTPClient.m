@@ -39,7 +39,7 @@
             
             NSLog(@"JCHTTPClient initiated with event title %@",curentEvent.eventTitle);
             
-           NSString *latLong = [NSString stringWithFormat:@"%@,%@",[curentEvent.LatLong valueForKey:@"lat"],[curentEvent.LatLong valueForKey:@"long"]];
+            NSString *latLong = [NSString stringWithFormat:@"%@,%@",[curentEvent.LatLong valueForKey:@"lat"],[curentEvent.LatLong valueForKey:@"long"]];
             
             //insta places media
             [self getInstaPlaceIDwithFbPlaceID:curentEvent.venueName location:latLong];

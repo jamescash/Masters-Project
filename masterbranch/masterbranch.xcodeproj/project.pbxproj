@@ -11,6 +11,7 @@
 		891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891237FD1B400C0700E7C6CA /* JCsocialStreamCell.m */; };
 		891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238001B40360E00E7C6CA /* JCSocailStreamController.m */; };
 		891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */; };
+		8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8917A4491B7F6517004E2948 /* JCSearchPage.m */; };
 		8924A9511B56D103007FB71C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */; };
 		8924A9531B56D99C007FB71C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */; };
 		8924A9551B56D9B1007FB71C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */; };
@@ -22,6 +23,7 @@
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
 		8936A64A1B2336B100748803 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6491B2336B100748803 /* Annotation.m */; };
+		8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */; };
 		8980B9A11B77714900DC9EF7 /* VCbaseSildeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */; };
 		8980B9A71B77A0CE00DC9EF7 /* NavigtionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A61B77A0CE00DC9EF7 /* NavigtionViewController.m */; };
 		8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A91B78020300DC9EF7 /* JChomeScreenVC.m */; };
@@ -78,6 +80,8 @@
 		891238001B40360E00E7C6CA /* JCSocailStreamController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSocailStreamController.m; sourceTree = "<group>"; };
 		891238071B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDTemplateLayoutCell.h"; sourceTree = "<group>"; };
 		891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
+		8917A4481B7F6517004E2948 /* JCSearchPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPage.h; sourceTree = "<group>"; };
+		8917A4491B7F6517004E2948 /* JCSearchPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPage.m; sourceTree = "<group>"; };
 		8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -95,6 +99,8 @@
 		8936A6461B23351A00748803 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8936A6481B2336B100748803 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
 		8936A6491B2336B100748803 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		8954EBBF1B80A97C00BBA658 /* JCSearchPageHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageHTTPClient.h; sourceTree = "<group>"; };
+		8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageHTTPClient.m; sourceTree = "<group>"; };
 		8980B99F1B77714900DC9EF7 /* VCbaseSildeMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCbaseSildeMenu.h; sourceTree = "<group>"; };
 		8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCbaseSildeMenu.m; sourceTree = "<group>"; };
 		8980B9A51B77A0CE00DC9EF7 /* NavigtionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigtionViewController.h; sourceTree = "<group>"; };
@@ -249,6 +255,17 @@
 			name = SocailStreamTableView;
 			sourceTree = "<group>";
 		};
+		8917A4471B7F64E6004E2948 /* SearchPageControler */ = {
+			isa = PBXGroup;
+			children = (
+				8917A4481B7F6517004E2948 /* JCSearchPage.h */,
+				8917A4491B7F6517004E2948 /* JCSearchPage.m */,
+				8954EBBF1B80A97C00BBA658 /* JCSearchPageHTTPClient.h */,
+				8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */,
+			);
+			name = SearchPageControler;
+			sourceTree = "<group>";
+		};
 		8924A9561B63A05F007FB71C /* custom cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +388,7 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				8917A4471B7F64E6004E2948 /* SearchPageControler */,
 				8980B99E1B7770FD00DC9EF7 /* BaseViewContorlers */,
 				898FA8911B752A7B000AEAB1 /* LoginScreenVC */,
 				8924A9881B72192D007FB71C /* EventObjectAPI  */,
@@ -587,9 +605,11 @@
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
+				8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
 				892E40F11B766FF700B60275 /* JCloginVC.m in Sources */,
 				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
+				8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -729,6 +749,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -749,6 +770,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

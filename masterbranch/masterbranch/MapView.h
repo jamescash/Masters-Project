@@ -17,12 +17,16 @@
 
 @protocol MapViewDelegate;
 
-@interface MapView : VCbaseSildeMenu <MKMapViewDelegate,JCEventBuildereDlegate>
+@interface MapView : VCbaseSildeMenu <MKMapViewDelegate,JCEventBuildereDlegate,UISearchBarDelegate>
 @property (strong, nonatomic) MKMapView *MkMapViewOutLet;
 @property (nonatomic) NSString *url;
 @property (strong, nonatomic) id<MapViewDelegate>MapViewDelegate;
+
+
+
 @end
 
 @protocol MapViewDelegate <NSObject>
 -(void)userDidSelectAnnotation:(eventObject*) currentevent;
+-(void)userDidSelectSearchIcon;
 @end

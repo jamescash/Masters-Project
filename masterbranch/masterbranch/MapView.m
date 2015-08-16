@@ -35,8 +35,9 @@
     JCEventBuilder *eventbuilder;
     NSMutableArray *annotations;
     UIActivityIndicatorView *av;
-    
-}
+    //UISearchBar *searchBar;
+   
+};
 
 @end
 
@@ -46,19 +47,18 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    //work around for nav bar
-    self.navigationController.navigationBar.translucent = NO;
+    //work around for nav bar bug
+    //self.navigationController.navigationBar.translucent = NO;
 
-    
-//close any open annotations befoure the view opens again
-for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotations]) {
+        //close any open annotations befoure the view opens again
+        for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotations]) {
         [self.MkMapViewOutLet deselectAnnotation:(id <MKAnnotation>)annotation animated:NO];
     }
 };
 
 
 -(void)viewDidAppear:(BOOL)animated{
-    self.navigationController.navigationBar.translucent = YES;
+    //self.navigationController.navigationBar.translucent = YES;
 
 };
 
@@ -67,14 +67,17 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     
 
     [super viewDidLoad];
+    
     annotations = [[NSMutableArray alloc]init];
     self.MkMapViewOutLet = [[MKMapView alloc] initWithFrame:self.view.bounds];
     [self.MkMapViewOutLet setDelegate:self];
     [self.view addSubview:self.MkMapViewOutLet];
     
     //go to bandsintown and build a single array of parsed events
+    //this is the entry point to a facade API i designed to deal with the event getting and building
     eventbuilder  = [JCEventBuilder sharedInstance];
     eventbuilder.delegate = self;
+    
     
     //add a loading wheel for user feedback
     av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -96,18 +99,12 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
    
     [self.navigationController.navigationBar setBarTintColor:barColor];
     [self.navigationController.view.layer setCornerRadius:10.0f];
-     self.navigationController.title = @"PreAmp";
-    
- 
-
-    
     
 }//end of view did load
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 //delegate method thats called when all the events are laoded and parsed into the main array
 -(void)LoadMapView{
@@ -126,14 +123,6 @@ for (NSObject<MKAnnotation> *annotation in [self.MkMapViewOutLet selectedAnnotat
     });
 
 }
-
-
-
-
-
-
-
-
 
 -(void)buildannotations:(NSArray*)arrayofgigs{
   
@@ -232,18 +221,16 @@ CLLocationCoordinate2D location;
 }
 
 
-
-
-
-
 -(void)setupLeftMenuButton{
     
     MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-   
     
+ 
     [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
-}
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
 
+}
 
 
 -(void)leftDrawerButtonPress:(id)sender{
@@ -251,6 +238,12 @@ CLLocationCoordinate2D location;
     
 }
 
+
+-(void)serchbuttonPressed:(id)sender {
+
+    [self.MapViewDelegate userDidSelectSearchIcon];
+ 
+ };
 
 
 
