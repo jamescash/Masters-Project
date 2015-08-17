@@ -24,6 +24,7 @@
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
 		8936A64A1B2336B100748803 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6491B2336B100748803 /* Annotation.m */; };
 		8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */; };
+		8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC011B827CD400BBA658 /* JCleftSlideOutVC.m */; };
 		8980B9A11B77714900DC9EF7 /* VCbaseSildeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */; };
 		8980B9A71B77A0CE00DC9EF7 /* NavigtionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A61B77A0CE00DC9EF7 /* NavigtionViewController.m */; };
 		8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A91B78020300DC9EF7 /* JChomeScreenVC.m */; };
@@ -101,6 +102,8 @@
 		8936A6491B2336B100748803 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		8954EBBF1B80A97C00BBA658 /* JCSearchPageHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageHTTPClient.h; sourceTree = "<group>"; };
 		8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageHTTPClient.m; sourceTree = "<group>"; };
+		8954EC001B827CD400BBA658 /* JCleftSlideOutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCleftSlideOutVC.h; sourceTree = "<group>"; };
+		8954EC011B827CD400BBA658 /* JCleftSlideOutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCleftSlideOutVC.m; sourceTree = "<group>"; };
 		8980B99F1B77714900DC9EF7 /* VCbaseSildeMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCbaseSildeMenu.h; sourceTree = "<group>"; };
 		8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCbaseSildeMenu.m; sourceTree = "<group>"; };
 		8980B9A51B77A0CE00DC9EF7 /* NavigtionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigtionViewController.h; sourceTree = "<group>"; };
@@ -319,15 +322,17 @@
 			name = BaseViewContorlers;
 			sourceTree = "<group>";
 		};
-		898FA8911B752A7B000AEAB1 /* LoginScreenVC */ = {
+		898FA8911B752A7B000AEAB1 /* MainViewControlers */ = {
 			isa = PBXGroup;
 			children = (
 				892E40EF1B766FF700B60275 /* JCloginVC.h */,
 				892E40F01B766FF700B60275 /* JCloginVC.m */,
 				8980B9A81B78020300DC9EF7 /* JChomeScreenVC.h */,
 				8980B9A91B78020300DC9EF7 /* JChomeScreenVC.m */,
+				8954EC001B827CD400BBA658 /* JCleftSlideOutVC.h */,
+				8954EC011B827CD400BBA658 /* JCleftSlideOutVC.m */,
 			);
-			name = LoginScreenVC;
+			name = MainViewControlers;
 			sourceTree = "<group>";
 		};
 		898FA8B51B764BE7000AEAB1 /* parse */ = {
@@ -390,7 +395,7 @@
 			children = (
 				8917A4471B7F64E6004E2948 /* SearchPageControler */,
 				8980B99E1B7770FD00DC9EF7 /* BaseViewContorlers */,
-				898FA8911B752A7B000AEAB1 /* LoginScreenVC */,
+				898FA8911B752A7B000AEAB1 /* MainViewControlers */,
 				8924A9881B72192D007FB71C /* EventObjectAPI  */,
 				8924A9721B6A3C6A007FB71C /* SocialStreamAPI */,
 				891238181B42B60C00E7C6CA /* SocailStreamTableView */,
@@ -611,6 +616,7 @@
 				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
 				8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
+				8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

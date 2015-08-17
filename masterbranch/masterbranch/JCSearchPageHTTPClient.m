@@ -208,18 +208,18 @@
                 
                 //build 2d array to determin the sections of the table View
                 
-                if ([InIreland count] != 0) {
+               // if ([InIreland count] != 0) {
                     [self.StructedSearchResults addObject:InIreland];
 
-                }
-                if ([TopClosest count] != 0) {
+               // }
+               // if ([TopClosest count] != 0) {
                     [self.StructedSearchResults addObject:TopClosest];
 
-                }
+              //  }
                 
-                if ([EverythingElse count] != 0) {
+              //  if ([EverythingElse count] != 0) {
                     [self.StructedSearchResults addObject:EverythingElse];
-                 }
+              //   }
                 
                 
                 

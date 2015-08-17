@@ -42,6 +42,27 @@
     
 }
 
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionName;
+    switch (section)
+    {
+        case 0:
+            sectionName = @"Gigs in Ireland";
+            break;
+        case 1:
+            sectionName = @"Top 5 closest gigs to Ireland";
+            break;
+        case 2:
+            sectionName = @"Everything Else";
+            break;
+        default:
+            break;
+    }
+    return sectionName;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.searchResults[section] count];
 }
@@ -99,6 +120,7 @@
 
 - (IBAction)UserSelectedDone:(id)sender {
 
+    [self.SearchBar resignFirstResponder];
     [self.JCSearchPageDelegate JCSearchPageDidSelectDone:self];
 }
 @end

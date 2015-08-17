@@ -23,6 +23,10 @@
 #import "JCloginVC.h"
 
 
+//left slide out VC for hambugermenu
+#import "JCleftSlideOutVC.h"
+
+
 #import "JCSocailStreamController.h"
 
 
@@ -45,7 +49,7 @@
         center.MapViewDelegate = self;
     
         //Iinit left side menue
-        UIViewController *left = [[UIViewController alloc]init];
+        JCleftSlideOutVC *left = [[JCleftSlideOutVC alloc]init];
         
         //creat the top nav bars and add them to the super VC'S
          _centerVC = [[NavigtionViewController alloc] initWithRootViewController:center];
