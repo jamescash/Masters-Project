@@ -8,6 +8,14 @@
 
 #import "JCEventBuilder.h"
 
+@interface JCEventBuilder ()
+
+@property (nonatomic,strong) NSMutableArray *happeningNow;
+@property (nonatomic,strong) NSMutableArray *happeningLater;
+@property (nonatomic,strong) NSMutableArray *happenedLastNight;
+
+@end
+
 @implementation JCEventBuilder{
     NSArray *countysInIreland;
     EventObjectParser *formatter;
@@ -17,7 +25,7 @@
 };
 
 
-//make sure this class is a sinleton 
+//make sure this class is a sinleton so all major downloads only happen once 
 + (JCEventBuilder*)sharedInstance
 {
     // 1
@@ -33,6 +41,8 @@
     return _sharedInstance;
 }
 
+
+
 - (id)init
 {
     self = [super init];
@@ -42,13 +52,18 @@
         counterForRunningDeligation = 0;
         countysInIreland = [[NSArray alloc]init];
         formatter = [[EventObjectParser alloc]init];
+        _happenedLastNight = [[NSMutableArray alloc]init];
+        _happeningLater = [[NSMutableArray alloc]init];
+        _happeningNow = [[NSMutableArray alloc]init];
         
+  
         
+//        
         countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
                              @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
                              ,@"Louth,Ireland",@"Roscommon,Ireland",@"Longford,Ireland",@"Claregalway,Ireland",@"Tipperary,Ireland",@"Limerick,Ireland",@"Wexford,Ireland",@"Waterford,Ireland",@"Kerrykeel,Ireland"];
-
-        
+//
+//        countysInIreland = @[@"Belfast,United+Kingdom"];
         
         NSDate *now = [NSDate date];
         NSString *todaysDate = [formatter formatDateForAPIcall:now];
@@ -85,6 +100,7 @@
             NSLog(@"api call didnt work to bandsintown with %@",error);
             counterForRunningDeligation ++;
             [self considerRunningDeligation];
+            return;
 
             
         }else {
@@ -95,68 +111,90 @@
             if ([JSONresults count]== 0 ) {
                 counterForRunningDeligation ++;
                 [self considerRunningDeligation];
+                return;
+            
+            }  else if ([JSONresults count] == 1) {
+                
+                //this is a work around I had to do to fix a bug that was cuasing a crash
+                NSDictionary *errorCheking = [self indexKeyedDictionaryFromArray:JSONresults];
+                if ([[errorCheking objectForKey:@"objectOne"] isEqual: @"errors"]) {
+                    NSLog(@"Unknown Event Object");
+                    counterForRunningDeligation ++;
+                    [self considerRunningDeligation];
+                    return;
+                }
+                
             }
-            else {
+            
+            
+            if ([JSONresults count] > 0) {
+          
                 
-                //TODO change the structure of paresed events array so its a 2D array for sections in the collection view 
-                //NSMutableArray *events = [[NSMutableArray alloc]init];
                 
-                NSMutableArray *happeningNow = [[NSMutableArray alloc]init];
-                NSMutableArray *happeningLater = [[NSMutableArray alloc]init];
-                NSMutableArray *happenedLastNight = [[NSMutableArray alloc]init];
-                
-                //TODO had a crash here for some reason 
                 [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];
                     if (event != nil){
                        
-                        if ([event.status isEqualToString:@"alreadyHappened"]) {
-                           
-                            [happenedLastNight addObject:event];
-                        }
                         
-                        if ([event.status isEqualToString:@"happeningLater"]) {
-                            [happeningLater addObject:event];
-                        }
+                    if ([event.status isEqualToString:@"alreadyHappened"]) {
                         
-                        if ([event.status isEqualToString:@"currentlyhappening"]) {
-                            [happeningNow addObject:event];
-                        }
-                        
-                        
-                        //[events addObject:event];
+                      [self.happenedLastNight addObject:event];
                     }
-                }];
-                
-                
-                collectionViewData = @{@"Last Night":happenedLastNight,@"Coming up Tonight":happeningLater,@"Curently Happening":happeningNow};
-                
-                //[paresedEvents addObjectsFromArray:events];
-                
-                counterForRunningDeligation ++;
+                        
+                    if ([event.status isEqualToString:@"happeningLater"]) {
+                    
+                      [self.happeningLater addObject:event];
+                    }
+                        
+                 if ([event.status isEqualToString:@"currentlyhappening"]) {
+                     
+                    [self.happeningNow addObject:event];
+                       }
+                    
+                     }
+                    
+                        
+            }];//end of enum using block loop
+               
+                 counterForRunningDeligation ++;
                 [self considerRunningDeligation];
-            }
-        }
+           
+            }//end of statment where JSON is parsed
+       
+       }//end of statment where JSON is parsed
         
-    }];
+  }];//end of NSURL send asyn request
     
 };//end of GetEvntJSON
 
 
--(void)considerRunningDeligation{
-    
-    if (counterForRunningDeligation == ([countysInIreland count]*2)) {
-        
-        [self.delegate LoadMapView];
-    }
-};
+
 
 
 - (NSDictionary*)getEvent
 {
    return collectionViewData;
 }
+
+- (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array
+{
+    id objectInstance;
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    for (objectInstance in array)
+        [mutableDictionary setObject:objectInstance forKey:@"objectOne"];
+    
+    return mutableDictionary;
+}
+
+-(void)considerRunningDeligation{
+    
+    if (counterForRunningDeligation == ([countysInIreland count]*2)) {
+        
+        collectionViewData = @{@"Last Night":self.happenedLastNight,@"Coming up Tonight":self.happeningLater,@"Curently Happening":self.happeningNow};
+        [self.delegate LoadMapView];
+    }
+};
 
 
 

@@ -27,6 +27,12 @@
 		8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC011B827CD400BBA658 /* JCleftSlideOutVC.m */; };
 		8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC061B837B3600BBA658 /* JCHappeningTonightVC.m */; };
 		8954EC101B85EE1400BBA658 /* JCHomeMainScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC0F1B85EE1400BBA658 /* JCHomeMainScreenVC.m */; };
+		8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC151B873BA800BBA658 /* JCCustomCollectionCell.m */; };
+		8954EC191B874E3000BBA658 /* JCPhotoDownLoadRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC181B874E3000BBA658 /* JCPhotoDownLoadRecord.m */; };
+		8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC1B1B874EAA00BBA658 /* JCPendingOperations.m */; };
+		8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC1E1B874F9600BBA658 /* JCImageDownLoader.m */; };
+		8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC211B87526000BBA658 /* JCPhotoFiltering.m */; };
+		8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC241B87796F00BBA658 /* JCURLRetriever.m */; };
 		8980B9A11B77714900DC9EF7 /* VCbaseSildeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */; };
 		8980B9A71B77A0CE00DC9EF7 /* NavigtionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A61B77A0CE00DC9EF7 /* NavigtionViewController.m */; };
 		8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A91B78020300DC9EF7 /* JChomeScreenVC.m */; };
@@ -110,6 +116,18 @@
 		8954EC061B837B3600BBA658 /* JCHappeningTonightVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHappeningTonightVC.m; sourceTree = "<group>"; };
 		8954EC0E1B85EE1400BBA658 /* JCHomeMainScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHomeMainScreenVC.h; sourceTree = "<group>"; };
 		8954EC0F1B85EE1400BBA658 /* JCHomeMainScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHomeMainScreenVC.m; sourceTree = "<group>"; };
+		8954EC141B873BA800BBA658 /* JCCustomCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCustomCollectionCell.h; sourceTree = "<group>"; };
+		8954EC151B873BA800BBA658 /* JCCustomCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCustomCollectionCell.m; sourceTree = "<group>"; };
+		8954EC171B874E3000BBA658 /* JCPhotoDownLoadRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCPhotoDownLoadRecord.h; sourceTree = "<group>"; };
+		8954EC181B874E3000BBA658 /* JCPhotoDownLoadRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCPhotoDownLoadRecord.m; sourceTree = "<group>"; };
+		8954EC1A1B874EAA00BBA658 /* JCPendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCPendingOperations.h; sourceTree = "<group>"; };
+		8954EC1B1B874EAA00BBA658 /* JCPendingOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCPendingOperations.m; sourceTree = "<group>"; };
+		8954EC1D1B874F9600BBA658 /* JCImageDownLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCImageDownLoader.h; sourceTree = "<group>"; };
+		8954EC1E1B874F9600BBA658 /* JCImageDownLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCImageDownLoader.m; sourceTree = "<group>"; };
+		8954EC201B87526000BBA658 /* JCPhotoFiltering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCPhotoFiltering.h; sourceTree = "<group>"; };
+		8954EC211B87526000BBA658 /* JCPhotoFiltering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCPhotoFiltering.m; sourceTree = "<group>"; };
+		8954EC231B87796F00BBA658 /* JCURLRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCURLRetriever.h; sourceTree = "<group>"; };
+		8954EC241B87796F00BBA658 /* JCURLRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCURLRetriever.m; sourceTree = "<group>"; };
 		8980B99F1B77714900DC9EF7 /* VCbaseSildeMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCbaseSildeMenu.h; sourceTree = "<group>"; };
 		8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCbaseSildeMenu.m; sourceTree = "<group>"; };
 		8980B9A51B77A0CE00DC9EF7 /* NavigtionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigtionViewController.h; sourceTree = "<group>"; };
@@ -214,8 +232,6 @@
 			children = (
 				891237F51B3FFDE100E7C6CA /* controler */,
 				891237F31B3FFDBE00E7C6CA /* model */,
-				8954EC0E1B85EE1400BBA658 /* JCHomeMainScreenVC.h */,
-				8954EC0F1B85EE1400BBA658 /* JCHomeMainScreenVC.m */,
 			);
 			name = JCMapView;
 			sourceTree = "<group>";
@@ -316,6 +332,16 @@
 				8924A98A1B721B26007FB71C /* JCEventBuilder.m */,
 				89F51DFD1B1E1C49004E9055 /* eventObject.h */,
 				89F51DFE1B1E1C49004E9055 /* eventObject.m */,
+				8954EC171B874E3000BBA658 /* JCPhotoDownLoadRecord.h */,
+				8954EC181B874E3000BBA658 /* JCPhotoDownLoadRecord.m */,
+				8954EC1A1B874EAA00BBA658 /* JCPendingOperations.h */,
+				8954EC1B1B874EAA00BBA658 /* JCPendingOperations.m */,
+				8954EC1D1B874F9600BBA658 /* JCImageDownLoader.h */,
+				8954EC1E1B874F9600BBA658 /* JCImageDownLoader.m */,
+				8954EC201B87526000BBA658 /* JCPhotoFiltering.h */,
+				8954EC211B87526000BBA658 /* JCPhotoFiltering.m */,
+				8954EC231B87796F00BBA658 /* JCURLRetriever.h */,
+				8954EC241B87796F00BBA658 /* JCURLRetriever.m */,
 			);
 			name = "EventObjectAPI ";
 			sourceTree = "<group>";
@@ -327,6 +353,33 @@
 				8954EC061B837B3600BBA658 /* JCHappeningTonightVC.m */,
 			);
 			name = HappeningTonight;
+			sourceTree = "<group>";
+		};
+		8954EC111B873B2000BBA658 /* HomeScreenCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				8954EC121B873B3F00BBA658 /* ViewController */,
+				8954EC131B873B4F00BBA658 /* CustomCell */,
+			);
+			name = HomeScreenCollectionView;
+			sourceTree = "<group>";
+		};
+		8954EC121B873B3F00BBA658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8954EC0E1B85EE1400BBA658 /* JCHomeMainScreenVC.h */,
+				8954EC0F1B85EE1400BBA658 /* JCHomeMainScreenVC.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		8954EC131B873B4F00BBA658 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				8954EC141B873BA800BBA658 /* JCCustomCollectionCell.h */,
+				8954EC151B873BA800BBA658 /* JCCustomCollectionCell.m */,
+			);
+			name = CustomCell;
 			sourceTree = "<group>";
 		};
 		8980B99E1B7770FD00DC9EF7 /* BaseViewContorlers */ = {
@@ -411,6 +464,7 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				8954EC111B873B2000BBA658 /* HomeScreenCollectionView */,
 				891238181B42B60C00E7C6CA /* SocailStreamVC's */,
 				8917A4471B7F64E6004E2948 /* SearchPageControler */,
 				8980B99E1B7770FD00DC9EF7 /* BaseViewContorlers */,
@@ -622,17 +676,23 @@
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
+				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
+				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,
+				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
 				8980B9A71B77A0CE00DC9EF7 /* NavigtionViewController.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */,
+				8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */,
+				8954EC191B874E3000BBA658 /* JCPhotoDownLoadRecord.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
 				892E40F11B766FF700B60275 /* JCloginVC.m in Sources */,
 				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
+				8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */,
 				8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 				8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */,
