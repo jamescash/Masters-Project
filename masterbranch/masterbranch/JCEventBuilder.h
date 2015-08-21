@@ -15,7 +15,7 @@
 @interface JCEventBuilder : NSObject
 @property (nonatomic,weak) id<JCEventBuildereDlegate> delegate;
 +(JCEventBuilder*)sharedInstance;
--(NSArray*)getEvent;
+-(NSDictionary*)getEvent;
 @end
 
 

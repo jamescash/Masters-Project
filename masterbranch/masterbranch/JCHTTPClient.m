@@ -29,17 +29,17 @@
         
         if ([curentEvent.status isEqualToString:@"alreadyHappened"]) {
             
-            self.currentEvent = curentEvent;
-            self.InstaPlacesResults = [[NSArray alloc ]init];
-            self.InstaHashTagResults = [[NSArray alloc]init];
-            self.ParseTwitterResults = [[NSArray alloc]init];
+            _currentEvent = curentEvent;
+            _InstaPlacesResults = [[NSArray alloc ]init];
+            _InstaHashTagResults = [[NSArray alloc]init];
+            _ParseTwitterResults = [[NSArray alloc]init];
 
 
 
             
             NSLog(@"JCHTTPClient initiated with event title %@",curentEvent.eventTitle);
             
-           NSString *latLong = [NSString stringWithFormat:@"%@,%@",[curentEvent.LatLong valueForKey:@"lat"],[curentEvent.LatLong valueForKey:@"long"]];
+            NSString *latLong = [NSString stringWithFormat:@"%@,%@",[curentEvent.LatLong valueForKey:@"lat"],[curentEvent.LatLong valueForKey:@"long"]];
             
             //insta places media
             [self getInstaPlaceIDwithFbPlaceID:curentEvent.venueName location:latLong];

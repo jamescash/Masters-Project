@@ -8,11 +8,12 @@
 
 #import "NavigtionViewController.h"
 #import "UIViewController+MMDrawerController.h"
-
 #import "MMDrawerBarButtonItem.h"
 
 
 @interface NavigtionViewController ()
+
+
 
 @end
 
@@ -27,6 +28,25 @@
         return UIStatusBarStyleDefault;
     }
 }
+
+
+
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        // create the magnifying glass button
+       
+    }
+    return self;
+}
+
+
+
+
+
+
 
 
 //-(void)viewDidLoad:(BOOL)animated{

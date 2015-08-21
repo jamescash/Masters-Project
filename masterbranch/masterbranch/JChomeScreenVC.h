@@ -10,10 +10,21 @@
 #import "NavigtionViewController.h"
 #import "MMDrawerController.h"
 #import "MapView.h"
+#import "JCSearchPage.h"
+
+// ViewController For center screnn in homeview 
+#import "JCHomeMainScreenVC.h"
+
+
+//social stream for already happened and happening later
+#import "JCSocailStreamController.h"
 
 
 
-@interface JChomeScreenVC : UIViewController <MapViewDelegate,JCSocailStreamControllerDelegate>
+
+
+
+@interface JChomeScreenVC : UIViewController <JCSearchPageDelegate, MainScreenCollectionViewDelegate,JCSocailStreamControllerDelegate>
 
 
 

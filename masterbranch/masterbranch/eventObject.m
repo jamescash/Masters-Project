@@ -7,8 +7,21 @@
 //
 
 #import "eventObject.h"
+//#import "coreLocation.h"
+
+@interface eventObject ()
+
+@property (nonatomic,strong) EventObjectParser *pasre;
+@property (nonatomic,strong) CLLocation *aLocation;
+
+
+@end
 
 @implementation eventObject
+
+    
+    
+
 
 
 ////this method is called to get more artist info ie.cover picutre URL of a paticular artist
@@ -152,7 +165,8 @@
     if (self) {
         
         
-        EventObjectParser *pasre = [[EventObjectParser alloc]init];
+         _pasre = [EventObjectParser sharedInstance];
+        
         
         
         
@@ -191,36 +205,45 @@
                     };
                     
                 }
-                
-                
-                else {
-                    self.eventTitle = @"Some silly goose forgeot to enter event title";
+                 else {
+                    self.eventTitle = @"No event title";
                     self.InstaSearchQuery = @"error";
                     self.mbidNumber = @"empty";
                 }
                 
             }
-            
+       
             
             self.venueName = venue [@"name"];
-            self.InstaSearchQuery = [pasre makeInstagramSearch:self.eventTitle];
-            
-            
+            self.InstaSearchQuery = [self.pasre makeInstagramSearch:self.eventTitle];
             self.LatLong = @{ @"lat" : venue[@"latitude"],
                                @"long": venue[@"longitude"]
                                };
-            
+      
+        self.country = venue[@"country"];
+     
+        
             self.eventDate = object[@"datetime"];
-            
-            self.InstaTimeStamp = [pasre getUnixTimeStamp:object[@"datetime"]];
-            
-            
+            self.InstaTimeStamp = [self.pasre getUnixTimeStamp:object[@"datetime"]];
+            self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
+            self.status = [self.pasre GetEventStatus:object [@"datetime"]];
         
-            self.twitterSearchQuery = [pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
-            
-            self.status = [pasre GetEventStatus:object [@"datetime"]];
+        NSString *latitude = self.LatLong[@"lat"];
+        NSString *Long = self.LatLong[@"long"];
+      
         
-            
+
+        //if (!self.aLocation) {
+           
+            self.aLocation = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[Long doubleValue]];
+          //  NSLog(@"revers geo code");
+        self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
+
+        //}
+        
+        
+        
+        
        }
     
     return self;

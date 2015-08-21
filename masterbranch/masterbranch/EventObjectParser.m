@@ -12,6 +12,25 @@
     NSDictionary *JSONresults;
 };
 
+
+//make sure this class is a sinleton
++ (EventObjectParser*)sharedInstance
+{
+    // 1
+    static EventObjectParser *_sharedInstance = nil;
+    
+    // 2
+    static dispatch_once_t oncePredicate;
+    
+    //Use Grand Central Dispatch (GCD) to execute a block which initializes an instance of LibraryAPI. This is the essence of the Singleton design pattern: the initializer is never called again once the class has been instantiated.
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[EventObjectParser alloc] init];
+    });
+    return _sharedInstance;
+}
+
+
+
 -(NSString*)formatDateForAPIcall:(NSDate*)date{
 
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -117,7 +136,6 @@
 };//end of twitter search query maker
 
 
-
 -(NSString*)GetEventStatus: (NSString*) currentEventDate; {
     
     //identifying when the gig happened
@@ -142,6 +160,9 @@
     }else if (diff > 1){
         return @"happeningLater";
     }else {
+        
+        //return @"happeningLater";
+
         return @"currentlyhappening";
     };
 
@@ -188,6 +209,62 @@
 
 };
 
+
+-(int)DistanceFromIreland:(CLLocation*)eventLocation{
+    
+    
+   
+    
+
+    
+    NSString *Irelandslatitude = @"53.346452";
+    NSString *IrelandsLong = @"-7.844238";
+    
+    CLLocation *ireland = [[CLLocation alloc] initWithLatitude:[Irelandslatitude doubleValue] longitude:[IrelandsLong doubleValue]];
+
+    
+    CLLocationDistance meters = [eventLocation distanceFromLocation:ireland];
+    
+    //NSLog(@"%f",meters/1000);
+    
+    
+    
+     // 53.0000° N, 8.0000° W
+    
+    //CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
+
+//     [geocoder reverseGeocodeLocation:eventLocation // You can pass aLocation here instead
+//                   completionHandler:^(NSArray *placemarks, NSError *error) {
+//                       
+//                       dispatch_async(dispatch_get_main_queue(),^ {
+//                           // do stuff with placemarks on the main thread
+//                           
+//                           if (placemarks.count == 1) {
+//                               
+//                               CLPlacemark *place = [placemarks objectAtIndex:0];
+//                               
+//                               NSString *country = place.country;
+//                               
+//                               NSLog(@"%@",country);
+//                               
+//                              // NSLog(@"placemarker Full %@",placemarks);
+//                               
+//                              // NSString *zipString = [place.addressDictionary valueForKey:@"ZIP"];
+//                               
+//                               //[self performSelectorInBackground:@selector(showWeatherFor:) withObject:zipString];
+//                               
+//                           }
+//                           
+//                       });
+//                       
+//                   }];
+    
+    int KM = meters/1000;
+    
+    
+    return KM;
+};
 
 
 
