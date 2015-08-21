@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "EventObjectParser.h"
 
+#import "JCPhotoDownLoadRecord.h"
+
+
 @interface eventObject : NSObject
 
 @property (nonatomic) NSString *eventTitle;
@@ -28,6 +31,8 @@
 @property (nonatomic) NSString *imageUrl;
 @property (nonatomic) NSString *country;
 @property (nonatomic) int DistanceFromIreland;
+@property (nonatomic) JCPhotoDownLoadRecord *photoDownload; 
+
 
 
 

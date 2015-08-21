@@ -12,10 +12,20 @@
 //This is the superclass viewcontroler for any views that are part of the slideout side menu
 #import "VCbaseSildeMenu.h"
 
+
+//operation Q for downloadning images
+#import "JCImageDownLoader.h"
+
+//operation Q for filtering the images
+#import "JCPhotoFiltering.h"
+
+#import "JCURLRetriever.h"
+
+
 @protocol MainScreenCollectionViewDelegate;
 
 
-@interface JCHomeMainScreenVC : VCbaseSildeMenu  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate>
+@interface JCHomeMainScreenVC : VCbaseSildeMenu  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate>
 
 @property (strong, nonatomic) id<MainScreenCollectionViewDelegate>MainScreenCollectionViewDelegate;
 

@@ -118,7 +118,7 @@
             
             else if ([JSONresults count] == 1) {
                 
-                //this is a work around I had to do to fix a bug that was cuasing a charch
+                //this is a work around I had to do to fix a bug that was cuasing a crash
                 //If the api did not know the aritst it returns a dictionary with one error key
                 //if i did know the artist it returns an Array/ and so I have to check array that have a count
                 //of one to make sure its not an error and in order to do that I have to convert to a dictionary

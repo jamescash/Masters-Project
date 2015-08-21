@@ -22,9 +22,7 @@
     
     
 
-
-
-////this method is called to get more artist info ie.cover picutre URL of a paticular artist
+//this method is called to get more artist info ie.cover picutre URL of a paticular artist
 -(UIImageView*)getArtistInfoByName:(NSString*)artistname{
    
     
@@ -162,11 +160,13 @@
     
     
     self = [super init];
+    
     if (self) {
         
         
          _pasre = [EventObjectParser sharedInstance];
         
+        self.photoDownload = [[JCPhotoDownLoadRecord alloc]init];
         
         
         
@@ -200,15 +200,19 @@
                     
                     if (artistinfo[@"mbid"] == (id)[NSNull null]) {
                         self.mbidNumber = @"empty";
+                        self.photoDownload.artistMbid = @"error";
                     }else{
                         self.mbidNumber = artistinfo[@"mbid"];
+                        self.photoDownload.artistMbid = artistinfo[@"mbid"];
                     };
                     
                 }
                  else {
-                    self.eventTitle = @"No event title";
+                    self.eventTitle = @"error";
                     self.InstaSearchQuery = @"error";
                     self.mbidNumber = @"empty";
+                    self.photoDownload.artistMbid = @"error";
+                    self.photoDownload.name = @"error";
                 }
                 
             }
@@ -216,6 +220,8 @@
             
             self.venueName = venue [@"name"];
             self.InstaSearchQuery = [self.pasre makeInstagramSearch:self.eventTitle];
+            self.photoDownload.name = self.InstaSearchQuery;
+
             self.LatLong = @{ @"lat" : venue[@"latitude"],
                                @"long": venue[@"longitude"]
                                };
@@ -239,8 +245,6 @@
           //  NSLog(@"revers geo code");
         self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
 
-        //}
-        
         
         
         
