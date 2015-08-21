@@ -11,8 +11,9 @@
 @implementation JCEventBuilder{
     NSArray *countysInIreland;
     EventObjectParser *formatter;
-    NSMutableArray *paresedEvents;
+    //NSMutableArray *paresedEvents;
     int counterForRunningDeligation;
+    NSDictionary *collectionViewData;
 };
 
 
@@ -37,7 +38,7 @@
     self = [super init];
     if (self) {
       
-        paresedEvents = [[NSMutableArray alloc]init];
+       // paresedEvents = [[NSMutableArray alloc]init];
         counterForRunningDeligation = 0;
         countysInIreland = [[NSArray alloc]init];
         formatter = [[EventObjectParser alloc]init];
@@ -96,19 +97,42 @@
                 [self considerRunningDeligation];
             }
             else {
-                NSMutableArray *events = [[NSMutableArray alloc]init];
+                
+                //TODO change the structure of paresed events array so its a 2D array for sections in the collection view 
+                //NSMutableArray *events = [[NSMutableArray alloc]init];
+                
+                NSMutableArray *happeningNow = [[NSMutableArray alloc]init];
+                NSMutableArray *happeningLater = [[NSMutableArray alloc]init];
+                NSMutableArray *happenedLastNight = [[NSMutableArray alloc]init];
                 
                 //TODO had a crash here for some reason 
                 [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];
                     if (event != nil){
-                        [events addObject:event];
+                       
+                        if ([event.status isEqualToString:@"alreadyHappened"]) {
+                           
+                            [happenedLastNight addObject:event];
+                        }
+                        
+                        if ([event.status isEqualToString:@"happeningLater"]) {
+                            [happeningLater addObject:event];
+                        }
+                        
+                        if ([event.status isEqualToString:@"currentlyhappening"]) {
+                            [happeningNow addObject:event];
+                        }
+                        
+                        
+                        //[events addObject:event];
                     }
                 }];
                 
                 
-                [paresedEvents addObjectsFromArray:events];
+                collectionViewData = @{@"Last Night":happenedLastNight,@"Coming up Tonight":happeningLater,@"Curently Happening":happeningNow};
+                
+                //[paresedEvents addObjectsFromArray:events];
                 
                 counterForRunningDeligation ++;
                 [self considerRunningDeligation];
@@ -129,10 +153,12 @@
 };
 
 
-- (NSArray*)getEvent
+- (NSDictionary*)getEvent
 {
-   return paresedEvents;
+   return collectionViewData;
 }
+
+
 
 
 @end

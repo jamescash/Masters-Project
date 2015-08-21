@@ -17,7 +17,6 @@
 
 
 //#import <QuartzCore/QuartzCore.h>
-#import "MapView.h"
 
 //loging screen
 #import "JCloginVC.h"
@@ -27,8 +26,7 @@
 #import "JCleftSlideOutVC.h"
 
 
-#import "JCSocailStreamController.h"
-
+#import "JCHappeningTonightVC.h"
 
 @interface JChomeScreenVC ()
 
@@ -45,8 +43,8 @@
     
      if (!self.drawerController) {
         
-        MapView *center = [[MapView alloc]init];
-        center.MapViewDelegate = self;
+        JCHomeMainScreenVC *center = [[JCHomeMainScreenVC alloc]init];
+        center.MainScreenCollectionViewDelegate = self;
     
         //Iinit left side menue
         JCleftSlideOutVC *left = [[JCleftSlideOutVC alloc]init];
@@ -83,7 +81,17 @@
 
 -(void)userDidSelectAnnotation:(eventObject *)currentevent{
     
-    [self performSegueWithIdentifier:@"socialStream" sender:currentevent];
+    
+    if ([currentevent.status isEqualToString:@"alreadyHappened"]) {
+        [self performSegueWithIdentifier:@"socialStream" sender:currentevent];
+    }
+    
+    if ([currentevent.status isEqualToString:@"happeningLater"]) {
+       
+        [self performSegueWithIdentifier:@"ShowSocialStreamHappiningLater" sender:currentevent];
+
+    }
+    
 }
 
 
@@ -113,13 +121,24 @@
     
     if ([segue.identifier isEqualToString:@"ShowSearchPage"]) {
         
-       
-        UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
+       UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         
         JCSearchPage *jc = [navController viewControllers][0];
         jc.JCSearchPageDelegate = self;
     
-    };
+    }
+    
+    if ([segue.identifier isEqualToString:@"ShowSocialStreamHappiningLater"]) {
+        
+        UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
+        
+        JCHappeningTonightVC *jc = [navController viewControllers][0];
+       
+        jc.currentEvent = sender;
+        
+        // jc.JCSearchPageDelegate = self;
+    }
+    
     
 }
 

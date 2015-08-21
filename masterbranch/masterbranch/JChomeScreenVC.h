@@ -12,9 +12,19 @@
 #import "MapView.h"
 #import "JCSearchPage.h"
 
+// ViewController For center screnn in homeview 
+#import "JCHomeMainScreenVC.h"
 
 
-@interface JChomeScreenVC : UIViewController <JCSearchPageDelegate, MapViewDelegate,JCSocailStreamControllerDelegate>
+//social stream for already happened and happening later
+#import "JCSocailStreamController.h"
+
+
+
+
+
+
+@interface JChomeScreenVC : UIViewController <JCSearchPageDelegate, MainScreenCollectionViewDelegate,JCSocailStreamControllerDelegate>
 
 
 

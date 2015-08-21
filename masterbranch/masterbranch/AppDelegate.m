@@ -90,7 +90,7 @@
 
     if ([PFUser currentUser])
     {
-        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreen"];
+        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"];
        // [PFUser logOut];
     }
     else

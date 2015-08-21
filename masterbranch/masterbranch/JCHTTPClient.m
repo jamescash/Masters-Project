@@ -29,10 +29,10 @@
         
         if ([curentEvent.status isEqualToString:@"alreadyHappened"]) {
             
-            self.currentEvent = curentEvent;
-            self.InstaPlacesResults = [[NSArray alloc ]init];
-            self.InstaHashTagResults = [[NSArray alloc]init];
-            self.ParseTwitterResults = [[NSArray alloc]init];
+            _currentEvent = curentEvent;
+            _InstaPlacesResults = [[NSArray alloc ]init];
+            _InstaHashTagResults = [[NSArray alloc]init];
+            _ParseTwitterResults = [[NSArray alloc]init];
 
 
 
