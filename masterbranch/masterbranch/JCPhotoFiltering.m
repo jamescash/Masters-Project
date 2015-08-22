@@ -68,9 +68,12 @@
     if (self.isCancelled)
         return nil;
     
+    //CISepiaTone
+    //TODO turn back on filter but change it to suite our needs
+    
     UIImage *sepiaImage = nil;
     CIContext *context = [CIContext contextWithOptions:nil];
-    CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:0.8], nil];
+    CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:0.8], nil];
     CIImage *outputImage = [filter outputImage];
     
     if (self.isCancelled)
