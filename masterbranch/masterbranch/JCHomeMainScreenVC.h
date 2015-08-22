@@ -10,7 +10,6 @@
 //API facade for building array for bandsintown event objects
 #import "JCEventBuilder.h"
 //This is the superclass viewcontroler for any views that are part of the slideout side menu
-#import "VCbaseSildeMenu.h"
 
 
 //operation Q for downloadning images
@@ -33,7 +32,7 @@
 @protocol MainScreenCollectionViewDelegate;
 
 
-@interface JCHomeMainScreenVC : VCbaseSildeMenu  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSearchPageDelegate,JCSocailStreamControllerDelegate,JCHappeningTonightVCDelegate>
+@interface JCHomeMainScreenVC : UIViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSearchPageDelegate,JCSocailStreamControllerDelegate,JCHappeningTonightVCDelegate>
 
 @property (strong, nonatomic) id<MainScreenCollectionViewDelegate>MainScreenCollectionViewDelegate;
 
