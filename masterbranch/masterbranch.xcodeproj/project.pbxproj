@@ -33,6 +33,7 @@
 		8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC1E1B874F9600BBA658 /* JCImageDownLoader.m */; };
 		8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC211B87526000BBA658 /* JCPhotoFiltering.m */; };
 		8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC241B87796F00BBA658 /* JCURLRetriever.m */; };
+		8954EC2E1B8885D700BBA658 /* JCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC2D1B8885D700BBA658 /* JCMainViewController.m */; };
 		8980B9A11B77714900DC9EF7 /* VCbaseSildeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */; };
 		8980B9A71B77A0CE00DC9EF7 /* NavigtionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A61B77A0CE00DC9EF7 /* NavigtionViewController.m */; };
 		8980B9AA1B78020300DC9EF7 /* JChomeScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8980B9A91B78020300DC9EF7 /* JChomeScreenVC.m */; };
@@ -128,6 +129,8 @@
 		8954EC211B87526000BBA658 /* JCPhotoFiltering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCPhotoFiltering.m; sourceTree = "<group>"; };
 		8954EC231B87796F00BBA658 /* JCURLRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCURLRetriever.h; sourceTree = "<group>"; };
 		8954EC241B87796F00BBA658 /* JCURLRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCURLRetriever.m; sourceTree = "<group>"; };
+		8954EC2C1B8885D700BBA658 /* JCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCMainViewController.h; path = ../../../JCMainViewController.h; sourceTree = "<group>"; };
+		8954EC2D1B8885D700BBA658 /* JCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCMainViewController.m; path = ../../../JCMainViewController.m; sourceTree = "<group>"; };
 		8980B99F1B77714900DC9EF7 /* VCbaseSildeMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCbaseSildeMenu.h; sourceTree = "<group>"; };
 		8980B9A01B77714900DC9EF7 /* VCbaseSildeMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCbaseSildeMenu.m; sourceTree = "<group>"; };
 		8980B9A51B77A0CE00DC9EF7 /* NavigtionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigtionViewController.h; sourceTree = "<group>"; };
@@ -464,6 +467,8 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				8954EC2C1B8885D700BBA658 /* JCMainViewController.h */,
+				8954EC2D1B8885D700BBA658 /* JCMainViewController.m */,
 				8954EC111B873B2000BBA658 /* HomeScreenCollectionView */,
 				891238181B42B60C00E7C6CA /* SocailStreamVC's */,
 				8917A4471B7F64E6004E2948 /* SearchPageControler */,
@@ -675,6 +680,7 @@
 				8980B9A11B77714900DC9EF7 /* VCbaseSildeMenu.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				8936A64A1B2336B100748803 /* Annotation.m in Sources */,
+				8954EC2E1B8885D700BBA658 /* JCMainViewController.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,

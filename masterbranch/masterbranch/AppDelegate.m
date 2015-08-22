@@ -87,19 +87,19 @@
 //    
 //    [self.window setRootViewController:self.drawerController];
     // [PFUser logOut];
-
-    if ([PFUser currentUser])
-    {
-        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"];
-       // [PFUser logOut];
-    }
-    else
-    {
-        UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        self.window.rootViewController = rootController;
-        //[PFUser logOut];
-
-    }
+//
+//    if ([PFUser currentUser])
+//    {
+//        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
+//       // [PFUser logOut];
+//    }
+//    else
+//    {
+//        UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+//        self.window.rootViewController = rootController;
+//        //[PFUser logOut];
+//
+//    }
     
     
     

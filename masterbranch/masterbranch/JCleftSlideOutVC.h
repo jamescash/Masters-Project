@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RESideMenu.h"
 
-@interface JCleftSlideOutVC : UIViewController
+
+@interface JCleftSlideOutVC : UIViewController<UITableViewDataSource, UITableViewDelegate, RESideMenuDelegate>
 
 @end
