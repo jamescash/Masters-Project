@@ -7,7 +7,6 @@
 //
 
 #import "JCloginVC.h"
-#import "JChomeScreenVC.h"
 #import "AppDelegate.h"
 
 
