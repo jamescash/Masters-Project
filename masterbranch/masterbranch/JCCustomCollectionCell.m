@@ -9,5 +9,13 @@
 #import "JCCustomCollectionCell.h"
 
 @implementation JCCustomCollectionCell
-
+//- (instancetype)init
+//{
+//    self = [super init];
+//    if (self) {
+//        
+//        [self addSubview:self.MainImageView];
+//    }
+//    return self;
+//}
 @end

@@ -8,12 +8,8 @@
 
 #import "JCHomeMainScreenVC.h"
 //top buttons in the nav bar
-#import "MMDrawerBarButtonItem.h"
-//framework for moving leftside viewcontroler
-#import "UIViewController+MMDrawerController.h"
 //So I can call a segue to this VC
-#import "JCSocailStreamController.h"
-//#import "MMDrawerController.h"
+
 #import <QuartzCore/QuartzCore.h>
 //Customised Cell class for collection view
 #import "JCCustomCollectionCell.h"
@@ -21,6 +17,8 @@
 #import "JCPhotoDownLoadRecord.h"
 #import "JCPendingOperations.h"
 
+//class for colection view header
+#import "JCCollectionViewHeaders.h"
 
 //AF netwroking
 #import "AFNetworking/AFNetworking.h"
@@ -58,6 +56,8 @@
     [super viewDidLoad];
     
     if (!self.eventbuilder) {
+        
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
         
         self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
         self.allEevent = [[NSDictionary alloc]init];
@@ -127,19 +127,9 @@
    
     eventObject *event = [self.allEevent[key] objectAtIndex:indexPath.row];
     
-   // if ([event isKindOfClass:[eventObject class]]) {
-       
-        
-        JCPhotoDownLoadRecord *aRecord = event.photoDownload;
+    JCPhotoDownLoadRecord *aRecord = event.photoDownload;
 
-   // }else {
-   //     return cell;
-   // }
-    
-  
-    //JCPhotoDownLoadRecord *aRecord = self.aRecord;
-    // 3
-    
+
     
     
     if (aRecord.hasImage) {
@@ -173,66 +163,65 @@
 
 }
 
-/*- (UICollectionReusableView *)collectionView:
- (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
- {
- return [[UICollectionReusableView alloc] init];
- }*/
 
 
 
 #pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    // TODO: Select Item
+
+- (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+   
+    JCCollectionViewHeaders *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
+                                         UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionViewHeader" forIndexPath:indexPath];
+   
+     NSString *text = self.KeysOfAllEventsDictionary[indexPath.section];
+    
+     [headerView setHeaderText:text];
+    
+     return headerView;
 }
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Deselect item
+
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    
+    [self PerformNavigationForItemAtIndex:indexPath];
+    
 }
+
+
+
+//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//}
 
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 // 1
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    //NSString *searchTerm = self.KeysOfAllEventsDictionary[indexPath.section];
-    
-    //eventObject *event = self.allEevent[searchTerm][indexPath.row];
-    
-    // CGSize retval = photo.thumbnail.size.width > 0 ? photo.thumbnail.size : CGSizeMake(100, 100);
-   
-    CGFloat cellLeg = (self.collectionView.frame.size.width/2) - 5;
-    return CGSizeMake(cellLeg,cellLeg);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    
+//    //NSString *searchTerm = self.KeysOfAllEventsDictionary[indexPath.section];
+//    
+//    //eventObject *event = self.allEevent[searchTerm][indexPath.row];
+//    
+//    // CGSize retval = photo.thumbnail.size.width > 0 ? photo.thumbnail.size : CGSizeMake(100, 100);
+//   
+//    CGFloat cellLeg = (self.collectionView.frame.size.width/2) - 5;
+//    return CGSizeMake(cellLeg,cellLeg);
+//}
+//
+//// 3
+//- (UIEdgeInsets)collectionView:
+//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+//    
+//    return UIEdgeInsetsMake(5, 5, 5, 5);
+//}
 
-// 3
-- (UIEdgeInsets)collectionView:
-(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    
-    return UIEdgeInsetsMake(5, 5, 5, 5);
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 #pragma Aysnc Downlaod Operations
-
-
-
-
-
-
-
-
-
 
 
 - (void)startOperationsForPhotoRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
@@ -307,7 +296,7 @@
 }
 
 //
-#pragma mark - ImageDownloader delegate
+#pragma mark - Downloader delegate
 
 
 -(void)JCURLRetrieverDidFinish:(JCURLRetriever *)downloader{
@@ -333,9 +322,6 @@
 }
 
 - (void)imageDownloaderDidFinish:(JCImageDownLoader *)downloader {
-    
-    NSLog(@"Image downlaoded");
-    
     
     
     // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
@@ -366,10 +352,6 @@
     [self.pendingOperations.downloadsInProgress removeObjectForKey:indexPath];
 }
 
-
-#pragma mark - ImageFiltration delegate
-
-
 - (void)imageFiltrationDidFinish:(JCPhotoFiltering *)filtration {
     NSIndexPath *indexPath = filtration.indexPathInTableView;
    
@@ -387,6 +369,9 @@
 }
 
 
+
+//TODO implement fine tunning here so that imagees only load when they are needed
+//http://www.raywenderlich.com/19788/how-to-use-nsoperations-and-nsoperationqueues
 //#pragma mark - UIScrollView delegate
 //
 //- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -469,28 +454,73 @@
 
 
 
-//-(void)setupLeftMenuButton{
-//    
-//    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-//    
-//    
-//    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
-//    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
-//    
 //}
 
-//
-//-(void)leftDrawerButtonPress:(id)sender{
-//    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
-//    
-//}
+#pragma Navigation
+
+-(void)PerformNavigationForItemAtIndex: (NSIndexPath*)index{
+    
+    
+    NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:index.section];
+    eventObject *currentEvent = [self.allEevent[key] objectAtIndex:index.row];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+
+  
+    
+    
+    if ([currentEvent.status isEqualToString:@"alreadyHappened"]||[currentEvent.status isEqualToString:@"currentlyhappening"]) {
+       
+         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"AlreadyHappenedSocialStreamNav"];
+        
+        JCSocailStreamController *jc = [myVC viewControllers][0];
+        jc.JCSocailStreamControllerDelegate = self;
+        jc.currentevent = currentEvent;
+        [self presentViewController:myVC animated:YES completion:nil];
+    }
+   
+    if ([currentEvent.status isEqualToString:@"happeningLater"]) {
+        
+        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
+        JCHappeningTonightVC *DVC = [myVC viewControllers][0];
+        DVC.JCHappeningTonightVCDelegate = self;
+        DVC.currentEvent = currentEvent;
+        [self presentViewController:myVC animated:YES completion:nil];
+    }
+    
+    
+    
+    
+}
+
+-(void)serchbuttonPressed:(id)sender {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"SearchPageNavController"];
+    
+
+    JCSearchPage *searchdelage = [myVC viewControllers][0];
+    
+    searchdelage.JCSearchPageDelegate = self;
+    [self presentViewController:myVC animated:YES completion:nil];
+}
+
+-(void)JCSearchPageDidSelectDone:(JCSearchPage *)controller{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+};
+
+-(void)SocialStreamViewControllerDidSelectDone:(JCSocailStreamController *)controller{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+    
+}
+
+-(void)JCHappeningTonightDidSelectDone:(JCHappeningTonightVC *)controller{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
-//-(void)serchbuttonPressed:(id)sender {
-//    
-//    [self.MainScreenCollectionViewDelegate userDidSelectSearchIcon];
-//    
-//};
 
 @end
