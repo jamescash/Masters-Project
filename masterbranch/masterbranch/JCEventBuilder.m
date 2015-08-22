@@ -191,7 +191,9 @@
     
     if (counterForRunningDeligation == ([countysInIreland count]*2)) {
         
-        collectionViewData = @{@"Last Night":self.happenedLastNight,@"Coming up Tonight":self.happeningLater,@"Curently Happening":self.happeningNow};
+
+        collectionViewData = @{@"Curently Happening":self.happeningNow,@"Coming up Tonight":self.happeningLater,@"Last Night":self.happenedLastNight};
+        
         [self.delegate LoadMapView];
     }
 };

@@ -9,7 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "eventObject.h"
 
+
+@protocol JCHappeningTonightVCDelegate;
+//@class JCHappeningTonightVCDelegate;
+
+
 @interface JCHappeningTonightVC : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic,strong)eventObject *currentEvent;
+
+@property (nonatomic, weak) id <JCHappeningTonightVCDelegate> JCHappeningTonightVCDelegate;
+
+@end
+
+@protocol JCHappeningTonightVCDelegate <NSObject>
+- (void)JCHappeningTonightDidSelectDone:(JCHappeningTonightVC *)controller;
 @end

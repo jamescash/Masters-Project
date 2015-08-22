@@ -10,10 +10,14 @@
 
 @interface JCHappeningTonightVC ()
 @property (weak, nonatomic) IBOutlet UITableView *TableView;
-
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIImageView *blurredImageView;
 @property (nonatomic, assign) CGFloat screenHeight;
+
+
+- (IBAction)BackButton:(id)sender;
+
+
 
 @end
 
@@ -128,14 +132,18 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//// In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    // Get the new view controller using [segue destinationViewController].
+//    // Pass the selected object to the new view controller.
+//}
 
+
+- (IBAction)BackButton:(id)sender {
+    
+    [self.JCHappeningTonightVCDelegate JCHappeningTonightDidSelectDone:self];
+}
 @end

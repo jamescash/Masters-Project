@@ -11,9 +11,7 @@
 
 
 @protocol JCSearchPageDelegate;
-@class JCSearchPageDelegate;
-
-
+//@class JCSearchPageDelegate;
 
 @interface JCSearchPage : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate>
 

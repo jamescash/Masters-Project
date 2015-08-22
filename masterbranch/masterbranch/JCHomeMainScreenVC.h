@@ -21,11 +21,19 @@
 
 #import "JCURLRetriever.h"
 
+#import "JCSearchPage.h"
+
+#import "JCSocailStreamController.h"
+
+#import "JCHappeningTonightVC.h"
+
+
+
 
 @protocol MainScreenCollectionViewDelegate;
 
 
-@interface JCHomeMainScreenVC : VCbaseSildeMenu  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate>
+@interface JCHomeMainScreenVC : VCbaseSildeMenu  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSearchPageDelegate,JCSocailStreamControllerDelegate,JCHappeningTonightVCDelegate>
 
 @property (strong, nonatomic) id<MainScreenCollectionViewDelegate>MainScreenCollectionViewDelegate;
 
