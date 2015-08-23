@@ -56,6 +56,7 @@
 		89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AD3BA81B3C1BC00004CAE4 /* EventObjectParser.m */; };
 		89AD3BAB1B3C8F490004CAE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89AD3BAA1B3C8F490004CAE4 /* UIKit.framework */; };
 		89AE1C521B88DAE30055DB3D /* JCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE1C511B88DAE30055DB3D /* JCMainViewController.m */; };
+		89AE1C551B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE1C541B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m */; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -151,6 +152,8 @@
 		89AD3BAA1B3C8F490004CAE4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89AE1C501B88DAE30055DB3D /* JCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMainViewController.h; sourceTree = "<group>"; };
 		89AE1C511B88DAE30055DB3D /* JCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMainViewController.m; sourceTree = "<group>"; };
+		89AE1C531B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHappeningTonightHeaderVC.h; sourceTree = "<group>"; };
+		89AE1C541B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHappeningTonightHeaderVC.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* masterbranch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = masterbranch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -341,8 +344,8 @@
 		8954EC041B837AF800BBA658 /* HappeningTonight */ = {
 			isa = PBXGroup;
 			children = (
-				8954EC051B837B3600BBA658 /* JCHappeningTonightVC.h */,
-				8954EC061B837B3600BBA658 /* JCHappeningTonightVC.m */,
+				89AE1C571B89EBD70055DB3D /* headerVC */,
+				89AE1C561B89EBC20055DB3D /* MainVc */,
 			);
 			name = HappeningTonight;
 			sourceTree = "<group>";
@@ -439,6 +442,24 @@
 				898FA8951B76413B000AEAB1 /* Parse.framework */,
 			);
 			name = parse;
+			sourceTree = "<group>";
+		};
+		89AE1C561B89EBC20055DB3D /* MainVc */ = {
+			isa = PBXGroup;
+			children = (
+				8954EC051B837B3600BBA658 /* JCHappeningTonightVC.h */,
+				8954EC061B837B3600BBA658 /* JCHappeningTonightVC.m */,
+			);
+			name = MainVc;
+			sourceTree = "<group>";
+		};
+		89AE1C571B89EBD70055DB3D /* headerVC */ = {
+			isa = PBXGroup;
+			children = (
+				89AE1C531B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.h */,
+				89AE1C541B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m */,
+			);
+			name = headerVC;
 			sourceTree = "<group>";
 		};
 		89B216C21B24419100A3ACDF /* utillities */ = {
@@ -704,6 +725,7 @@
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89AE1C521B88DAE30055DB3D /* JCMainViewController.m in Sources */,
+				89AE1C551B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,

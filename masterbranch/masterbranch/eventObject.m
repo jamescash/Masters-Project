@@ -163,7 +163,8 @@
     
     if (self) {
         
-        
+        //TODO assign the event object a uniqe so I can use it to romove resultes from the serch array when
+        //they match with a switch statment 
          _pasre = [EventObjectParser sharedInstance];
         
         self.photoDownload = [[JCPhotoDownLoadRecord alloc]init];
@@ -186,6 +187,7 @@
                     NSDictionary *artistinfo = artists [i];
                     self.artistNames = [[NSMutableArray alloc]init];
                     [self.artistNames addObject:artistinfo[@"name"]];
+                    self.CellTitle = artistinfo[@"name"];
                     //NSLog(@"%@",event.artistNames);
                     i++;
                 }
@@ -208,6 +210,7 @@
                     
                 }
                  else {
+                     self.CellTitle = @"error";
                     self.eventTitle = @"error";
                     self.InstaSearchQuery = @"error";
                     self.mbidNumber = @"empty";
@@ -226,7 +229,7 @@
                                @"long": venue[@"longitude"]
                                };
       
-        self.country = venue[@"country"];
+            self.country = venue[@"country"];
      
         
             self.eventDate = object[@"datetime"];
@@ -234,16 +237,16 @@
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
             self.status = [self.pasre GetEventStatus:object [@"datetime"]];
         
-        NSString *latitude = self.LatLong[@"lat"];
-        NSString *Long = self.LatLong[@"long"];
+       
+            NSString *latitude = self.LatLong[@"lat"];
+            NSString *Long = self.LatLong[@"long"];
       
         
 
-        //if (!self.aLocation) {
-           
+        
             self.aLocation = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[Long doubleValue]];
-          //  NSLog(@"revers geo code");
-        self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
+            //NSLog(@"revers geo code");
+            self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
 
         
         

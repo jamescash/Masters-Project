@@ -59,11 +59,11 @@
   
         
 //        
-        countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
-                             @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
-                             ,@"Louth,Ireland",@"Roscommon,Ireland",@"Longford,Ireland",@"Claregalway,Ireland",@"Tipperary,Ireland",@"Limerick,Ireland",@"Wexford,Ireland",@"Waterford,Ireland",@"Kerrykeel,Ireland"];
-//
-//        countysInIreland = @[@"Belfast,United+Kingdom"];
+      //  countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
+                             //@"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
+            //                 ,@"Louth,Ireland",@"Roscommon,Ireland",@"Longford,Ireland",@"Claregalway,Ireland",@"Tipperary,Ireland",@"Limerick,Ireland",@"Wexford,Ireland",@"Waterford,Ireland",@"Kerrykeel,Ireland"];
+      
+        countysInIreland = @[@"Dublin,Ireland"];
         
         NSDate *now = [NSDate date];
         NSString *todaysDate = [formatter formatDateForAPIcall:now];
@@ -138,8 +138,8 @@
                        
                         
                     if ([event.status isEqualToString:@"alreadyHappened"]) {
-                        
-                      [self.happenedLastNight addObject:event];
+                       //TODO uncomment this, its commented just for testing
+                      //[self.happenedLastNight addObject:event];
                     }
                         
                     if ([event.status isEqualToString:@"happeningLater"]) {
@@ -148,8 +148,8 @@
                     }
                         
                  if ([event.status isEqualToString:@"currentlyhappening"]) {
-                     
-                    [self.happeningNow addObject:event];
+                     //TODO uncomment this, its commented just for testing
+                     //[self.happeningNow addObject:event];
                        }
                     
                      }

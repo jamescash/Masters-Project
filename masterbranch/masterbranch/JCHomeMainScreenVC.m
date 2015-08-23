@@ -136,13 +136,15 @@
         
       //  [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         cell.MainImageView.image = aRecord.image;
-        //cell.textLabel.text = aRecord.name;
+        [cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:35]];
+        cell.CellTitle.text = @"";
         
     }
     // 4
     else if (aRecord.isFailed) {
       //  [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         cell.MainImageView.image = [UIImage imageNamed:@"Failed.png"];
+        cell.CellTitle.text = @"";
        // cell.textLabel.text = @"Failed to load";
         
     }
@@ -151,7 +153,8 @@
         
        // [((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
         cell.MainImageView.image = [UIImage imageNamed:@"Placeholder.png"];
-        // cell.textLabel.text = @"";
+         cell.CellTitle.text = @"";
+        
         //if (!cv.dragging && !cv.decelerating) {
            
             [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
@@ -199,26 +202,29 @@
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
-// 1
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    
-//    //NSString *searchTerm = self.KeysOfAllEventsDictionary[indexPath.section];
-//    
-//    //eventObject *event = self.allEevent[searchTerm][indexPath.row];
-//    
-//    // CGSize retval = photo.thumbnail.size.width > 0 ? photo.thumbnail.size : CGSizeMake(100, 100);
-//   
-//    CGFloat cellLeg = (self.collectionView.frame.size.width/2) - 5;
-//    return CGSizeMake(cellLeg,cellLeg);
-//}
-//
-//// 3
-//- (UIEdgeInsets)collectionView:
-//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-//    
-//    return UIEdgeInsetsMake(5, 5, 5, 5);
-//}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    //NSString *searchTerm = self.KeysOfAllEventsDictionary[indexPath.section];
+    
+    //eventObject *event = self.allEevent[searchTerm][indexPath.row];
+    
+    // CGSize retval = photo.thumbnail.size.width > 0 ? photo.thumbnail.size : CGSizeMake(100, 100);
+   
+    CGFloat cellLeg = (self.collectionView.frame.size.width/2);
+    
+    
+    return CGSizeMake(cellLeg,cellLeg);
+}
+
+
+// 3
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    
+    return UIEdgeInsetsMake(5, 0, 0, 0);
+}
 
 
 #pragma Aysnc Downlaod Operations

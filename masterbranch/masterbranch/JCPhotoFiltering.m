@@ -73,7 +73,17 @@
     
     UIImage *sepiaImage = nil;
     CIContext *context = [CIContext contextWithOptions:nil];
-    CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:0.8], nil];
+//    CIFilter *filter = [CIFilter filterWithName:@"CIVignette" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:1.0], nil];
+  
+    CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey,inputImage,nil];
+
+    
+    //CIPhotoEffectNoir
+    //CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectNoir" keysAndValues: kCIInputImageKey,inputImage,nil];
+    
+    //TODO need to add second filter
+    //CIFilter *secondFilter = [CIFilter filterWithName:@"CIDiscBlur" keysAndValues: kCIInputImageKey, inputImage,@"inputRadius",[NSNumber numberWithFloat:8.0], nil];
+    
     CIImage *outputImage = [filter outputImage];
     
     if (self.isCancelled)

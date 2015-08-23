@@ -10,5 +10,6 @@
 
 @interface JCCustomCollectionCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *MainImageView;
+@property (weak, nonatomic) IBOutlet UILabel *CellTitle;
 
 @end

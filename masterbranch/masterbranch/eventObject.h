@@ -31,7 +31,8 @@
 @property (nonatomic) NSString *imageUrl;
 @property (nonatomic) NSString *country;
 @property (nonatomic) int DistanceFromIreland;
-@property (nonatomic) JCPhotoDownLoadRecord *photoDownload; 
+@property (nonatomic) JCPhotoDownLoadRecord *photoDownload;
+@property (nonatomic) NSString *CellTitle;
 
 
 
