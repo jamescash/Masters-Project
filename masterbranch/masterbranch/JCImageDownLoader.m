@@ -37,18 +37,18 @@
     @autoreleasepool {
         
        
-        NSLog(@"JCimagedownloader downloading with URL %@",self.photoRecord.URL);
+        //NSLog(@"JCimagedownloader downloading with URL %@",self.photoRecord.URL);
         
         if (self.isCancelled)
             return;
         
        
         if (self.photoRecord.URL == nil) {
-            NSLog(@"That was a nil URL inside Photo Downloader");
+            //NSLog(@"That was a nil URL inside Photo Downloader");
             self.photoRecord.failed = YES;
         }else{
        
-            NSLog(@"%@ contents of the URL",self.photoRecord.URL);
+            //NSLog(@"%@ contents of the URL",self.photoRecord.URL);
             self.imageData = [[NSData alloc] initWithContentsOfURL:self.photoRecord.URL];
 
         }

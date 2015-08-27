@@ -39,192 +39,405 @@
         }
         
 
-        //TODO add more image nets here to that all request for users are filled with an image url 
+        if (![self.photoRecord.artistMbid  isEqual: @"error"]) {
+           
+            
+            //self.photoRecord.URL = [self getimageURLFromEchoNestWithMBID];
+
+            self.photoRecord.URL = [self getimageURLfromBandsintownwithartistMBID];
+
+        }
+       
         
-        NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=PreAmp1",self.photoRecord.name];
+         if ((self.photoRecord.URL == nil)) {
+             
+             //self.photoRecord.URL = [self getimageURLFromEchoNestWithArtistName];
+
+             
+            self.photoRecord.URL = [self getimageURLfromBandsintownwithartistName];
+         }
         
-        NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
-        NSURLResponse * response = nil;
-        NSError * error = nil;
-        NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
-                                              returningResponse:&response
-                                                          error:&error];
         
-        if (self.isCancelled) {
-            self.photoRecord.URL = nil;
-            return;
+        if ((self.photoRecord.URL == nil)&&![self.photoRecord.artistMbid  isEqual: @"error"]) {
+           
+            
+            //self.photoRecord.URL = [self getimageURLfromBandsintownwithartistMBID];
+
+            
+            self.photoRecord.URL = [self getimageURLFromEchoNestWithMBID];
+
+
         }
         
         
-        if (error == nil)
-        {
-            NSDictionary *jsonData = [[NSDictionary alloc]init];
-            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        if ((self.photoRecord.URL == nil)) {
             
+            //self.photoRecord.URL = [self getimageURLfromBandsintownwithartistName];
+
+
+            self.photoRecord.URL = [self getimageURLFromEchoNestWithArtistName];
+
+
+        }
         
-            if ([jsonData count]== 0 ) {
-                
-                if (self.isCancelled) {
-                    self.photoRecord.URL = nil;
-                    return;
-                }
-                
-                NSLog(@"No info for that artist seched by name");
-                self.photoRecord.failed = YES;
-                self.photoRecord.URL = nil;
-                
-                }
         
-            if (jsonData[@"errors"]) {
-                if (self.isCancelled) {
-                    self.photoRecord.URL = nil;
-                    return;
-                }
-                NSString *error = jsonData[@"errors"];
-                NSLog(@"unkown artist picture %@",error);
-                self.photoRecord.failed = YES;
-                self.photoRecord.URL = nil;
-                
-                }
-        
-            if ([jsonData count] != 0) {
-                
-                if (self.isCancelled) {
-                    self.photoRecord.URL = nil;
-                    return;
-                }
-                //NSString *coverpicURL;
-                NSString *imageUrl = jsonData [@"thumb_url"];
-                
-                NSURL *url = [NSURL URLWithString:imageUrl];
-                
-                NSLog(@"%@ photo URL URL operation Q ",imageUrl);
-                
-                self.photoRecord.URL = url;
-                
-            }
-        
-        }else{
-            if (self.isCancelled) {
-                self.photoRecord.URL = nil;
-                return;
-            }
-            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name");
-            
+        if ((self.photoRecord.URL == nil)) {
             self.photoRecord.failed = YES;
-            self.photoRecord.URL = nil;
-            
-            
+            NSLog(@"couldnt find image for %@ and MBID %@",self.photoRecord.name,self.photoRecord.artistMbid);
+        
         }
-        if (self.isCancelled) {
-            self.photoRecord.URL = nil;
-            return;
-        }
-      
-        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JCURLRetrieverDidFinish:) withObject:self waitUntilDone:NO];
+        
+        
+    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JCURLRetrieverDidFinish:) withObject:self waitUntilDone:NO];
+
+        
+        
+        //TODO add more image nets here to that all request for users are filled with an image url
+        
 
     
     }
 }
 
-//-(void)getArtistInfoByName:(NSString*)artistname{
-//    
-//    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-//
-//    
-//    if (self.isCancelled) {
-//        return;
-//    }
-//    
-//    
-//    //conect to the endpoint with the artist name and get artist JSON
-//    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=PreAmp1",artistname];
-//    NSURL *url = [NSURL URLWithString:endpoint];
-//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-//        
-////        [NSURLConnection sendSynchronousRequest:[[NSURLRequest alloc]initWithURL:url] returningResponse:(NSURLResponse *response) error:(NSError *error)];
-//        
-//        
-//        if (error) {
-//            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name");
-//            
-//            self.photoRecord.failed = YES;
-//            self.photoRecord.URL = nil;
-//
-//            dispatch_semaphore_signal(sema);
-//
-//          
-//
-//          }else {
-//            
-//            NSDictionary *jsonData = [[NSDictionary alloc]init];
-//            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-//            
-//            if ([jsonData count]== 0 ) {
-//                
-//                if (self.isCancelled) {
-//                    return;
-//                }
-//                NSLog(@"No info for that artist seched by name");
-//                self.photoRecord.failed = YES;
-//                self.photoRecord.URL = nil;
-//
-//                dispatch_semaphore_signal(sema);
-//
-//                
-//           
-//
-//            }
-//              
-//            else {
-//                if (self.isCancelled) {
-//                    return;
-//                }
-//                
-//                //if unknown artist object comes back form API call do this
-//                if (jsonData[@"errors"]) {
-//                    NSString *error = jsonData[@"errors"];
-//                    NSLog(@"unkown artist picture %@",error);
-//                    self.photoRecord.failed = YES;
-//                    self.photoRecord.URL = nil;
-//
-//                    dispatch_semaphore_signal(sema);
-//
-//                    
-//                 
-//                    
-//                }else{
-//                    
-//                    if (self.isCancelled) {
-//                        return;
-//                    }
-//                    //NSString *coverpicURL;
-//                    NSString *imageUrl = jsonData [@"thumb_url"];
-//                    
-//                    NSURL *url = [NSURL URLWithString:imageUrl];
-//                  
-//                    NSLog(@"%@ photo URL URL operation Q ",imageUrl);
-//                    
-//                    self.photoRecord.URL = url;
-//                    dispatch_semaphore_signal(sema);
-//
-//                    
-//                    
-//                    
-//                }
-//                
-//            }
-//        }
-//    
-//    
-//        
-//    
-//    
-//    }];
-//
-//    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-//    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JCURLRetrieverDidFinish:) withObject:self waitUntilDone:NO];
-//
-//}
+//TODO make these two functions into one
+//http://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&id=musicbrainz:artist:a74b1b7f-71a5-4011-9441-d0b5e4122711&format=json&results=15&start=0&license=unknown
+
+-(NSURL*)getimageURLFromEchoNestWithMBID{
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&id=musicbrainz:artist:%@&format=json&results=15&start=0&license=unknown",self.photoRecord.artistMbid];
+    
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    if (error == nil)
+    {
+        NSDictionary *jsonData = [[NSDictionary alloc]init];
+        jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        
+        
+        if ([jsonData count]== 0 ) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            
+            NSLog(@"No info for that artist seched by mbif, ECHONEST");
+            return nil;
+            
+        }
+        
+        if ([jsonData count] != 0) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            
+            NSDictionary *response = jsonData[@"response"];
+           
+            NSDictionary *status = response[@"status"];
+            
+            int five = 5;
+            
+            NSNumber *fivee = [NSNumber numberWithInt:five];
+            
+            if ([status[@"code"] isEqualToNumber:fivee]) {
+                return nil;
+            }
+            
+            NSNumber *total = response [@"total"];
+            
+            if (total == 0) {
+                return nil;
+            }
+          
+            NSArray *images = response[@"images"];
+            
+            if (images.count == 0) {
+                return nil;
+            }
+            
+            NSDictionary *license = images[0];
+            
+            NSString *stringURL = license[@"url"];
+            
+            NSURL *url = [NSURL URLWithString:stringURL];
+            NSLog(@"GOT URL VIA MBID SEARCH ECHONEST %@",stringURL);
+            
+            
+            return url;
+            
+        }
+        
+    }else{
+        if (self.isCancelled) {
+            return nil;
+        }
+        NSLog(@"JSON ERROR adding coverpicture URL artsit search with MBID ECHO NEST");
+        
+    }
+    
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    return nil;
+    
+}
+
+-(NSURL*)getimageURLFromEchoNestWithArtistName{
+    
+    
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&format=json&results=15&&name=%@&start=0&license=unknown",self.photoRecord.name];
+    
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    if (error == nil)
+    {
+        NSDictionary *jsonData = [[NSDictionary alloc]init];
+        jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        
+        
+        if ([jsonData count]== 0 ) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            
+            NSLog(@"No info for that artist seched by name, ECHONEST");
+            return nil;
+            
+        }
+
+        if ([jsonData count] != 0) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            
+            NSDictionary *response = jsonData[@"response"];
+
+            NSDictionary *status = response[@"status"];
+            
+            
+            int five = 5;
+            
+            NSNumber *fivee = [NSNumber numberWithInt:five];
+            
+            if ([status[@"code"] isEqualToNumber:fivee]) {
+                return nil;
+            }
+       
+
+            NSNumber *total = response [@"total"];
+            
+            if (total == 0) {
+                return nil;
+            }
+            
+            NSArray *images = response[@"images"];
+            
+            if (images.count == 0) {
+                return nil;
+            }
+            NSDictionary *license = images[0];
+            
+            NSString *stringURL = license[@"url"];
+            
+            NSURL *url = [NSURL URLWithString:stringURL];
+            NSLog(@"GOT URL VIA NAME SEARCH ECHONEST %@",stringURL);
+
+            
+            return url;
+            
+        }
+        
+    }else{
+        if (self.isCancelled) {
+            return nil;
+        }
+        NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST");
+        
+      }
+    
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    return nil;
+    
+}
+
+-(NSURL*)getimageURLfromBandsintownwithartistName{
+    
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=PreAmpImageUrl",self.photoRecord.name];
+    
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    if (error == nil)
+    {
+        NSDictionary *jsonData = [[NSDictionary alloc]init];
+        jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        
+        
+        if ([jsonData count]== 0 ) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            
+            NSLog(@"No info for that artist seched by name BANDSINTOWN");
+            return nil;
+            
+        }
+        
+        if (jsonData[@"errors"]) {
+            if (self.isCancelled) {
+                return nil;
+            }
+            NSString *error = jsonData[@"errors"];
+            NSLog(@"unkown artist picture %@",error);
+            return nil;
+            
+        }
+        
+        if ([jsonData count] != 0) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            //NSString *coverpicURL;
+            NSString *imageUrl = jsonData [@"thumb_url"];
+            
+            NSURL *url = [NSURL URLWithString:imageUrl];
+            NSLog(@"GOT URL VIA NAME SEARCH BANDSINTOW %@",imageUrl);
+
+            return url;
+            
+        }
+        
+    }else{
+        if (self.isCancelled) {
+            return nil;
+        }
+        NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN");
+       }
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    return nil;
+
+
+}
+
+-(NSURL*)getimageURLfromBandsintownwithartistMBID{
+    
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=PreAmpImageUrl",self.photoRecord.artistMbid];
+    
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    if (error == nil)
+    {
+        NSDictionary *jsonData = [[NSDictionary alloc]init];
+        jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        
+        
+        if ([jsonData count]== 0 ) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            
+            NSLog(@"No info for that artist seched by MBID BANDSINTOWN");
+            return nil;
+            
+        }
+        
+        if (jsonData[@"errors"]) {
+            if (self.isCancelled) {
+                return nil;
+            }
+            NSString *error = jsonData[@"errors"];
+            NSLog(@"unkown artist picture %@",error);
+            return nil;
+            
+        }
+        
+        if ([jsonData count] != 0) {
+            
+            if (self.isCancelled) {
+                return nil;
+            }
+            NSString *imageUrl = jsonData [@"thumb_url"];
+            
+            NSURL *url = [NSURL URLWithString:imageUrl];
+            
+            NSLog(@"GOT URL VIA MBID %@",imageUrl);
+            
+            return url;
+            
+        }
+        
+    }else{
+        if (self.isCancelled) {
+            return nil;
+        }
+        NSLog(@"JSON ERROR adding coverpicture URL artsit search with MBID BANDSINTOWN");
+    }
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    
+    return nil;
+    
+    
+    
+}
 
 @end

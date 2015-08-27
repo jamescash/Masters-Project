@@ -64,6 +64,7 @@
 		89F51DE81B1E1B39004E9055 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */; };
 		89F51DF41B1E1B3A004E9055 /* masterbranchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DF31B1E1B3A004E9055 /* masterbranchTests.m */; };
 		89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DFE1B1E1C49004E9055 /* eventObject.m */; };
+		89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */; };
 		B7D653584F290407A38AEB0C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CE333BC4A7D5998398F1E4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -167,6 +168,8 @@
 		89F51DF31B1E1B3A004E9055 /* masterbranchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = masterbranchTests.m; sourceTree = "<group>"; };
 		89F51DFD1B1E1C49004E9055 /* eventObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eventObject.h; sourceTree = "<group>"; };
 		89F51DFE1B1E1C49004E9055 /* eventObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eventObject.m; sourceTree = "<group>"; };
+		89FAA90C1B8D044F00012ED5 /* JCSearchPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageCell.h; sourceTree = "<group>"; };
+		89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageCell.m; sourceTree = "<group>"; };
 		D5A44FE04C659A5BA0157526 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -285,6 +288,8 @@
 				8917A4491B7F6517004E2948 /* JCSearchPage.m */,
 				8954EBBF1B80A97C00BBA658 /* JCSearchPageHTTPClient.h */,
 				8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */,
+				89FAA90C1B8D044F00012ED5 /* JCSearchPageCell.h */,
+				89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */,
 			);
 			name = SearchPageControler;
 			sourceTree = "<group>";
@@ -721,6 +726,7 @@
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,
+				89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
