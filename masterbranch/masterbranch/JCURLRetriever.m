@@ -13,7 +13,9 @@
 @property (nonatomic, readwrite, strong) JCPhotoDownLoadRecord *photoRecord;
 @end
 
-@implementation JCURLRetriever
+@implementation JCURLRetriever{
+    BOOL Log;
+}
 
 #pragma mark - Life Cycle
 
@@ -23,6 +25,7 @@
         self.delegate = theDelegate;
         self.indexPathInTableView = indexPath;
         self.photoRecord = record;
+        Log = NO;
     }
     return self;
 }
@@ -83,7 +86,13 @@
         
         if ((self.photoRecord.URL == nil)) {
             self.photoRecord.failed = YES;
-            NSLog(@"couldnt find image for %@ and MBID %@",self.photoRecord.name,self.photoRecord.artistMbid);
+           
+            if (Log) {
+               
+                NSLog(@"couldnt find image for %@ and MBID %@",self.photoRecord.name,self.photoRecord.artistMbid);
+
+            };
+            
         
         }
         
@@ -130,9 +139,12 @@
                 return nil;
             }
             
+            if (Log) {
+
             NSLog(@"No info for that artist seched by mbif, ECHONEST");
             return nil;
-            
+            }
+       
         }
         
         if ([jsonData count] != 0) {
@@ -170,8 +182,10 @@
             NSString *stringURL = license[@"url"];
             
             NSURL *url = [NSURL URLWithString:stringURL];
+           
+            if (Log) {
             NSLog(@"GOT URL VIA MBID SEARCH ECHONEST %@",stringURL);
-            
+            }
             
             return url;
             
@@ -181,8 +195,10 @@
         if (self.isCancelled) {
             return nil;
         }
+        if (Log) {
+
         NSLog(@"JSON ERROR adding coverpicture URL artsit search with MBID ECHO NEST");
-        
+        }
     }
     
     if (self.isCancelled) {
@@ -216,17 +232,18 @@
     {
         NSDictionary *jsonData = [[NSDictionary alloc]init];
         jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-        
+       
+        if (self.isCancelled) {
+            return nil;
+        }
         
         if ([jsonData count]== 0 ) {
             
-            if (self.isCancelled) {
-                return nil;
+            if (Log) {
+             NSLog(@"No info for that artist seched by name, ECHONEST");
             }
-            
-            NSLog(@"No info for that artist seched by name, ECHONEST");
             return nil;
-            
+
         }
 
         if ([jsonData count] != 0) {
@@ -265,8 +282,9 @@
             NSString *stringURL = license[@"url"];
             
             NSURL *url = [NSURL URLWithString:stringURL];
-            NSLog(@"GOT URL VIA NAME SEARCH ECHONEST %@",stringURL);
-
+            if (Log) {
+                NSLog(@"GOT URL VIA NAME SEARCH ECHONEST %@",stringURL);
+            }
             
             return url;
             
@@ -276,8 +294,9 @@
         if (self.isCancelled) {
             return nil;
         }
-        NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST");
-        
+        if (Log) {
+            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST");
+        }
       }
     
     if (self.isCancelled) {
@@ -311,14 +330,17 @@
         NSDictionary *jsonData = [[NSDictionary alloc]init];
         jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
         
+        if (self.isCancelled) {
+            return nil;
+        }
         
         if ([jsonData count]== 0 ) {
             
-            if (self.isCancelled) {
-                return nil;
-            }
+           
             
-            NSLog(@"No info for that artist seched by name BANDSINTOWN");
+                if (Log) {
+                NSLog(@"No info for that artist seched by name BANDSINTOWN");
+                }
             return nil;
             
         }
@@ -328,7 +350,9 @@
                 return nil;
             }
             NSString *error = jsonData[@"errors"];
-            NSLog(@"unkown artist picture %@",error);
+                if (Log) {
+                NSLog(@"unkown artist picture %@",error);
+                }
             return nil;
             
         }
@@ -338,12 +362,13 @@
             if (self.isCancelled) {
                 return nil;
             }
-            //NSString *coverpicURL;
-            NSString *imageUrl = jsonData [@"thumb_url"];
+            
+            NSString *imageUrl = jsonData [@"image_url"];
             
             NSURL *url = [NSURL URLWithString:imageUrl];
-            NSLog(@"GOT URL VIA NAME SEARCH BANDSINTOW %@",imageUrl);
-
+                if (Log) {
+                NSLog(@"GOT URL VIA NAME SEARCH BANDSINTOW %@",imageUrl);
+                }
             return url;
             
         }
@@ -352,7 +377,9 @@
         if (self.isCancelled) {
             return nil;
         }
-        NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN");
+            if (Log) {
+            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN");
+            }
        }
     if (self.isCancelled) {
         return nil;
@@ -392,8 +419,9 @@
             if (self.isCancelled) {
                 return nil;
             }
-            
-            NSLog(@"No info for that artist seched by MBID BANDSINTOWN");
+                if (Log) {
+                NSLog(@"No info for that artist seched by MBID BANDSINTOWN");
+                }
             return nil;
             
         }
@@ -403,7 +431,9 @@
                 return nil;
             }
             NSString *error = jsonData[@"errors"];
-            NSLog(@"unkown artist picture %@",error);
+                if (Log) {
+                    NSLog(@"unkown artist picture %@",error);
+                }
             return nil;
             
         }
@@ -413,12 +443,13 @@
             if (self.isCancelled) {
                 return nil;
             }
-            NSString *imageUrl = jsonData [@"thumb_url"];
+            NSString *imageUrl = jsonData [@"image_url"];
             
             NSURL *url = [NSURL URLWithString:imageUrl];
             
-            NSLog(@"GOT URL VIA MBID %@",imageUrl);
-            
+            if (Log) {
+             NSLog(@"GOT URL VIA MBID %@",imageUrl);
+            }
             return url;
             
         }
@@ -427,7 +458,9 @@
         if (self.isCancelled) {
             return nil;
         }
-        NSLog(@"JSON ERROR adding coverpicture URL artsit search with MBID BANDSINTOWN");
+        if (Log) {
+         NSLog(@"JSON ERROR adding coverpicture URL artsit search with MBID BANDSINTOWN");
+        }
     }
     if (self.isCancelled) {
         return nil;

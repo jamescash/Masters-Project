@@ -35,14 +35,6 @@
 @property (nonatomic) NSString *CellTitle;
 
 
-
-
-
--(UIImageView*)getArtistInfoByName:(NSString*)artistname;
-
--(UIImageView*)getArtistInfoByMbidNumuber:(NSString*)mbidNumber;
-
-
 - (id)initWithTitle:(NSDictionary *)dictionary;
 
 @end

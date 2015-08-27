@@ -8,9 +8,12 @@
 
 #import "JCHappeningTonightHeaderVC.h"
 
+
 @interface JCHappeningTonightHeaderVC ()
 @property (weak, nonatomic) IBOutlet UIView *test;
 @property (weak, nonatomic) IBOutlet UILabel *testlable;
+@property (weak, nonatomic) IBOutlet UITextView *AristINformationTextFiled;
+@property (weak, nonatomic) IBOutlet MKMapView *EventLocation;
 
 //@property (weak, nonatomic) IBOutlet UILabel *testlable;
 

@@ -32,12 +32,12 @@
     
 
     self.screenHeight = [UIScreen mainScreen].bounds.size.height;
-    
-    //TODO make this be a UIImage
+    NSLog(@"%f",[UIScreen mainScreen].bounds.size.height);
+    NSLog(@"%f",[UIScreen mainScreen].bounds.size.width);
+
     
     self.backgroundImageView.image = self.currentEvent.photoDownload.image;
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-    //[self.view addSubview:self.backgroundImageView];
     
     
     //self.blurredImageView = [[UIImageView alloc] init];
@@ -46,48 +46,14 @@
     //[self.blurredImageView setImageToBlur:background blurRadius:10 completionBlock:nil];
     //[self.view addSubview:self.blurredImageView];
     
-    // 4
-    //self.TableView = [[UITableView alloc] init];
     self.TableView.backgroundColor = [UIColor clearColor];
-    self.TableView.delegate = self;
-    self.TableView.dataSource = self;
-    self.TableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.2];
+    self.TableView.separatorColor = [UIColor colorWithWhite:1 alpha:1];
     self.TableView.pagingEnabled = YES;
-    //[self.view addSubview:self.TableView];
-    
-    CGRect headerFrame = [[UIScreen mainScreen] bounds];
-    UIView *header = [[UIView alloc] initWithFrame:headerFrame];
-    header.backgroundColor = [UIColor clearColor];
-    
-    UIViewController *HeaderView =[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCHappeningTonightHeader"];
-    
-    [self addChildViewController:HeaderView];
-    
-    HeaderView.view.frame = headerFrame;
-    
-    [header addSubview:HeaderView.view];
-    
-    [HeaderView didMoveToParentViewController:self];
-    
-    
-    
-    self.TableView.tableHeaderView = header;
-    
-    
-  
-    
-    
-    
-    
+
 }
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    //CGRect bounds = self.view.bounds;
-    
-    //self.backgroundImageView.frame = bounds;
-    //self.blurredImageView.frame = bounds;
-    //self.TableView.frame = bounds;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,7 +71,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return 10;
 }
 
 
@@ -124,18 +90,16 @@
     cell.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.textColor = [UIColor whiteColor];
-    
-    // TODO: Setup the cell
-    
+    cell.textLabel.text = @"Test";
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Determine cell height based on screen
-    return 44;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    // TODO: Determine cell height based on screen
+//    return 44;
+//}
 
 
 
