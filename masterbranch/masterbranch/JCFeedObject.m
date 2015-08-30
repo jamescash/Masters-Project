@@ -23,9 +23,9 @@
         double mediatimestampval =  [dictionary[@"created_time"] doubleValue];
         double eventstartTimeStamp = [currentEvent.InstaTimeStamp doubleValue];
 
-        if (mediatimestampval<eventstartTimeStamp) {
-            return nil;
-        }
+        //if (mediatimestampval<eventstartTimeStamp) {
+        //    return nil;
+        //}
         
         
         NSDictionary *caption = dictionary [@"caption"];
@@ -74,7 +74,6 @@
         NSString *tweetText = dictionary[@"text"];
         
         if ([tweetText rangeOfString:@"RT"].location == NSNotFound) {
-           // NSLog(@"No bad tweet");
             
         } else {
             return nil;

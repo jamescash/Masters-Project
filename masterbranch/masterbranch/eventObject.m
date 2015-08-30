@@ -10,151 +10,11 @@
 //#import "coreLocation.h"
 
 @interface eventObject ()
-
 @property (nonatomic,strong) EventObjectParser *pasre;
 @property (nonatomic,strong) CLLocation *aLocation;
-
-
 @end
 
 @implementation eventObject
-
-    
-    
-
-//this method is called to get more artist info ie.cover picutre URL of a paticular artist
--(UIImageView*)getArtistInfoByName:(NSString*)artistname{
-   
-    
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    EventObjectParser *parser = [[EventObjectParser alloc]init];
-
-
-    
-    //conect to the endpoint with the artist name and get artist JSON
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=YOUR_APP_ID",artistname];
-    NSURL *url = [NSURL URLWithString:endpoint];
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-       
-        if (error) {
-            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name");
-            dispatch_semaphore_signal(sema);
-
-
-
-
-        }else {
-            
-            NSDictionary *jsonData = [[NSDictionary alloc]init];
-            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            
-            if ([jsonData count]== 0 ) {
-                NSLog(@"No info for that artist seched by name");
-                dispatch_semaphore_signal(sema);
-
-              
-            }
-            else {
-                
-                //if unknown artist object comes back form API call do this
-                if (jsonData[@"errors"]) {
-                    NSString *error = jsonData[@"errors"];
-                    NSLog(@"unkown artist picture %@",error);
-                    dispatch_semaphore_signal(sema);
-
-
-                }else{
-                    //NSString *coverpicURL;
-                    self.imageUrl = jsonData [@"thumb_url"];
-                    dispatch_semaphore_signal(sema);
-
-                    
-                }
-                
-            }
-        }
-    }];
-
-    
-    
-    
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-   
-    
-    
-    NSString *pictureurl =self.imageUrl;
-    
-    NSURL *pic = [NSURL URLWithString:pictureurl];
-    
-    NSData *data = [NSData dataWithContentsOfURL:pic];
-    
-    
-    return [parser makeThumbNail:data];
-
-    
-    
-    
-};
-//work the same as the above method exept it just searchs by MBID number
--(UIImageView*)getArtistInfoByMbidNumuber:(NSString *)mbidNumber{
-    
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    EventObjectParser *parser = [[EventObjectParser alloc]init];
-
-    
-    
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=YOUR_APP_ID",mbidNumber];
-    NSURL *url = [NSURL URLWithString:endpoint];
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        if (error) {
-            NSLog(@"JSON error mbid number didnt work");
-            dispatch_semaphore_signal(sema);
-
-
-        }else {
-            
-            
-            NSDictionary *jsonData = [[NSDictionary alloc]init];
-            jsonData  = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            
-            if ([jsonData count]== 0 ) {
-                NSLog(@"No info for that artist via mbid api call");
-                dispatch_semaphore_signal(sema);
-
-
-
-
-            }
-            else {
-                
-                
-                self.imageUrl = jsonData [@"thumb_url"];
-                
-                dispatch_semaphore_signal(sema);
-
-             }
-        }
-        
-    }];
-    
-    
-    
-  
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-    
-    NSString *pictureurl =self.imageUrl;
-    
-    NSURL *pic = [NSURL URLWithString:pictureurl];
-    NSData *data = [NSData dataWithContentsOfURL:pic];
-    return [parser makeThumbNail:data];
-
-
-};
-
-
-
 
 - (id)initWithTitle:(NSDictionary *)object {
     
@@ -164,88 +24,98 @@
     if (self) {
         
         //TODO assign the event object a uniqe so I can use it to romove resultes from the serch array when
-        //they match with a switch statment 
+        //they match with a switch statment
+        
+        //Made the parse call a shared instance so its only initiated once to save memory
          _pasre = [EventObjectParser sharedInstance];
         
-        self.photoDownload = [[JCPhotoDownLoadRecord alloc]init];
         
-        
+         //Make a new photoDownload for every event
+         self.photoDownload = [[JCPhotoDownLoadRecord alloc]init];
+         self.artistNames = [[NSMutableArray alloc]init];
+
         
             NSDictionary *artistdic = object [@"artists"];
+            //Array contaning a dictionarry with all the artsit at the event
             NSArray *artists = object [@"artists"];
+            //Dictionary contain artist info
+            NSDictionary *artistinfo = artists [0];
+            //dictionart contaning all the venue infrmation
             NSDictionary *venue = object [@"venue"];
             
-            //if it has one or more artist parse into concert
             //while loop and i counter to itterate each sningle artist in returened json event
             if ([artistdic count] > 1 ) {
                 
                 self.eventType = @"concert";
-                self.eventTitle = venue [@"name"];
+                self.eventTitle = artistinfo[@"name"];
                 
-                int i = 0;
-                while ( i < [artistdic count] ){
-                    NSDictionary *artistinfo = artists [i];
-                    self.artistNames = [[NSMutableArray alloc]init];
-                    [self.artistNames addObject:artistinfo[@"name"]];
-                    self.CellTitle = artistinfo[@"name"];
-                    //NSLog(@"%@",event.artistNames);
-                    i++;
-                }
+                    int i = 0;
+                        while ( i < [artistdic count] ){
+                            [self.artistNames addObject:artistinfo[@"name"]];
+                            //self.CellTitle = artistinfo[@"name"];
+                        
+                            //Take the first most popular artist infor for displaying event pictures
+                            if (i==0) {
+                                if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                                    self.mbidNumber = @"empty";
+                                    self.photoDownload.artistMbid = @"error";
+                                }else{
+                                    self.mbidNumber = artistinfo[@"mbid"];
+                                    self.photoDownload.artistMbid = self.mbidNumber;
+                                };
+                            };
+                        
+                            i++;
+
+                        }
+                    }else{
+                        //self.eventType = @"single";
                 
-            }else{
-                self.eventType = @"single";
-                NSArray *artists = object [@"artists"];
-                
+               //NSArray *artists = object [@"artists"];
                 if ([artists count]>0) {
-                    NSDictionary *artistinfo = artists [0];
+                    self.eventType = @"single";
                     self.eventTitle = artistinfo[@"name"];
                     
-                    if (artistinfo[@"mbid"] == (id)[NSNull null]) {
-                        self.mbidNumber = @"empty";
-                        self.photoDownload.artistMbid = @"error";
-                    }else{
-                        self.mbidNumber = artistinfo[@"mbid"];
-                        self.photoDownload.artistMbid = artistinfo[@"mbid"];
-                    };
+                        if (artistinfo[@"mbid"] == (id)[NSNull null]) {
+                            self.mbidNumber = @"empty";
+                            self.photoDownload.artistMbid = @"error";
+                        }else{
+                            self.mbidNumber = artistinfo[@"mbid"];
+                            self.photoDownload.artistMbid = self.mbidNumber;
+                        };
                     
-                }
-                 else {
-                     self.CellTitle = @"error";
+                }else {
+                    self.CellTitle = @"error";
                     self.eventTitle = @"error";
                     self.InstaSearchQuery = @"error";
                     self.mbidNumber = @"empty";
                     self.photoDownload.artistMbid = @"error";
                     self.photoDownload.name = @"error";
                 }
-                
-            }
+             }
        
-            
+        
             self.venueName = venue [@"name"];
             self.InstaSearchQuery = [self.pasre makeInstagramSearch:self.eventTitle];
             self.photoDownload.name = self.InstaSearchQuery;
-
             self.LatLong = @{ @"lat" : venue[@"latitude"],
                                @"long": venue[@"longitude"]
                                };
-      
             self.country = venue[@"country"];
-     
-        
+            self.county = venue[@"city"];
             self.eventDate = object[@"datetime"];
             self.InstaTimeStamp = [self.pasre getUnixTimeStamp:object[@"datetime"]];
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
+        
             self.status = [self.pasre GetEventStatus:object [@"datetime"]];
         
-       
+        
+            //Go off and calulate the distance from Ireland
+            //TODO add an if statment around this so it only calculate form the search results it unsed infromation on
+            //the homescreen events
             NSString *latitude = self.LatLong[@"lat"];
             NSString *Long = self.LatLong[@"long"];
-      
-        
-
-        
             self.aLocation = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[Long doubleValue]];
-            //NSLog(@"revers geo code");
             self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
 
         

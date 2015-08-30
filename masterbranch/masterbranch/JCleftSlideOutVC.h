@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "RESideMenu.h"
+#import <Parse/Parse.h>
 
+
+@protocol JCleftSlideOutVCDelegat;
 
 @interface JCleftSlideOutVC : UIViewController<UITableViewDataSource, UITableViewDelegate, RESideMenuDelegate>
+@property (strong,nonatomic) id <JCleftSlideOutVCDelegat>JCleftSlideOutVCDelegat;
+@end
 
+@protocol JCleftSlideOutVCDelegat <NSObject>
+-(void)UserSelectedLogOut;
 @end

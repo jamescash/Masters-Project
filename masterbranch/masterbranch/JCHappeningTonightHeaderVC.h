@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
+#import "eventObject.h"
+#import "JCAnnotation.h"
+@interface JCHappeningTonightHeaderVC : UIViewController <MKMapViewDelegate>
 
-@interface JCHappeningTonightHeaderVC : UIViewController
+@property (nonatomic,strong) eventObject *currentEvent;
 
 @end

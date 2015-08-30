@@ -15,7 +15,9 @@
 @property (nonatomic,strong) NSData *imageData;
 @end
 
-@implementation JCImageDownLoader
+@implementation JCImageDownLoader{
+    BOOL log;
+}
 
 #pragma mark - Life Cycle
 
@@ -25,6 +27,7 @@
         self.delegate = theDelegate;
         self.indexPathInTableView = indexPath;
         self.photoRecord = record;
+        log = NO;
     }
     return self;
 }
@@ -44,14 +47,14 @@
         
        
         if (self.photoRecord.URL == nil) {
-            //NSLog(@"That was a nil URL inside Photo Downloader");
+            if (log) {
+                NSLog(@"Image downloader didnt recive URL isFiled = YES");
+                };
             self.photoRecord.failed = YES;
         }else{
-       
-            //NSLog(@"%@ contents of the URL",self.photoRecord.URL);
+            //download the image
             self.imageData = [[NSData alloc] initWithContentsOfURL:self.photoRecord.URL];
-
-        }
+         }
         
 
         
@@ -66,6 +69,9 @@
         }
         else {
             self.photoRecord.failed = YES;
+            if (log) {
+                NSLog(@"Image downloader didnt recive URL isFiled = YES");
+            };
         }
         
         self.imageData = nil;

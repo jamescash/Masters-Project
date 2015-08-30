@@ -12,14 +12,13 @@
 
 @property (nonatomic,strong) NSMutableArray *happeningNow;
 @property (nonatomic,strong) NSMutableArray *happeningLater;
-@property (nonatomic,strong) NSMutableArray *happenedLastNight;
+//@property (nonatomic,strong) NSMutableArray *happenedLastNight;
 
 @end
 
 @implementation JCEventBuilder{
     NSArray *countysInIreland;
     EventObjectParser *formatter;
-    //NSMutableArray *paresedEvents;
     int counterForRunningDeligation;
     NSDictionary *collectionViewData;
 };
@@ -48,17 +47,15 @@
     self = [super init];
     if (self) {
       
-       // paresedEvents = [[NSMutableArray alloc]init];
         counterForRunningDeligation = 0;
         countysInIreland = [[NSArray alloc]init];
         formatter = [[EventObjectParser alloc]init];
-        _happenedLastNight = [[NSMutableArray alloc]init];
+        //_happenedLastNight = [[NSMutableArray alloc]init]; //removing events that happened last night due to API rate limit
         _happeningLater = [[NSMutableArray alloc]init];
         _happeningNow = [[NSMutableArray alloc]init];
         
   
         
-//        
         countysInIreland = @[@"Dublin,Ireland",@"Cork,Ireland",@"Galway,Ireland",@"Belfast,United+Kingdom",@"Kildare,Ireland",@"Carlow,Ireland",@"Kilkenny,Ireland",
                              @"Donegal,Ireland",@"Mayo,Ireland",@"Sligo,Ireland",@"Derry,Ireland",@"Cavan,Ireland",@"Leitrim,Ireland",@"Monaghan,Ireland"
                              ,@"Louth,Ireland",@"Roscommon,Ireland",@"Longford,Ireland",@"Claregalway,Ireland",@"Tipperary,Ireland",@"Limerick,Ireland",@"Wexford,Ireland",@"Waterford,Ireland",@"Kerrykeel,Ireland"];
@@ -67,22 +64,17 @@
         
         NSDate *now = [NSDate date];
         NSString *todaysDate = [formatter formatDateForAPIcall:now];
-        NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
-        NSString *yesterdaysDate = [formatter formatDateForAPIcall:yesterday];
-        NSArray *dates = @[todaysDate,yesterdaysDate];
+        //NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow: -(60.0f*60.0f*24.0f)];
+        //NSString *yesterdaysDate = [formatter formatDateForAPIcall:yesterday];
+        //NSArray *dates = @[todaysDate,yesterdaysDate];
         
        
-        
-        
-        for (NSString *theDate in dates) {
+        //for (NSString *theDate in dates) {
             
             for (NSString *countyName in countysInIreland) {
-                
-                [self GetEventJSON:countyName dateObject:theDate];
-                
-
+               [self GetEventJSON:countyName dateObject:todaysDate];
             }
-        };
+       // };
         
     }
     return self;
@@ -113,7 +105,7 @@
                 [self considerRunningDeligation];
                 return;
             
-            }  else if ([JSONresults count] == 1) {
+            } else if ([JSONresults count] == 1) {
                 
                 //this is a work around I had to do to fix a bug that was cuasing a crash
                 NSDictionary *errorCheking = [self indexKeyedDictionaryFromArray:JSONresults];
@@ -128,34 +120,29 @@
             
             
             if ([JSONresults count] > 0) {
-          
-                
-                
-                [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+               [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];
                     if (event != nil){
-                       
                         
-                    if ([event.status isEqualToString:@"alreadyHappened"]) {
-                       //TODO uncomment this, its commented just for testing
-                      [self.happenedLastNight addObject:event];
-                    }
+                        {
+                        //Removing already happened gigs from our app due to API rate limit
+//                    if ([event.status isEqualToString:@"alreadyHappened"]) {
+//                       //TODO uncomment this, its commented just for testing
+//                      [self.happenedLastNight addObject:event];
+//                    }
+                        }
                         
                     if ([event.status isEqualToString:@"happeningLater"]) {
-                    
-                      [self.happeningLater addObject:event];
-                    }
+                        [self.happeningLater addObject:event];
+                      }
                         
-                 if ([event.status isEqualToString:@"currentlyhappening"]) {
-                     //TODO uncomment this, its commented just for testing
-                     [self.happeningNow addObject:event];
+                    if ([event.status isEqualToString:@"currentlyhappening"]) {
+                        [self.happeningNow addObject:event];
                        }
                     
                      }
-                    
-                        
-            }];//end of enum using block loop
+               }];//end of enum using block loop
                
                  counterForRunningDeligation ++;
                 [self considerRunningDeligation];
@@ -189,16 +176,32 @@
 
 -(void)considerRunningDeligation{
     
-    if (counterForRunningDeligation == ([countysInIreland count]*2)) {
+    if (counterForRunningDeligation == [countysInIreland count]) {
         
-
-        collectionViewData = @{@"Curently Happening":self.happeningNow,@"Coming up Tonight":self.happeningLater,@"Last Night":self.happenedLastNight};
+        NSArray *FilteredHappeningLater = [self RemoveDuplicatsfromArray:self.happeningLater];
+        NSArray *FilteredHappeninfNow = [self RemoveDuplicatsfromArray:self.happeningNow];
+        
+        collectionViewData = @{@"Curently Happening":FilteredHappeninfNow,@"Coming up Tonight":FilteredHappeningLater};
         
         [self.delegate LoadMapView];
     }
 };
 
+-(NSArray*)RemoveDuplicatsfromArray: (NSMutableArray*) originalArray{
+    
 
+    NSMutableSet *existingNames = [NSMutableSet set];
+    NSMutableArray *filteredArray = [NSMutableArray array];
+    for (id object in originalArray) {
+        if (![existingNames containsObject:[object venueName]]) {
+            [existingNames addObject:[object venueName]];
+            [filteredArray addObject:object];
+        }
+    }
+
+    return filteredArray;
+
+};
 
 
 @end

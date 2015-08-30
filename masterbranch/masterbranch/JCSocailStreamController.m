@@ -40,6 +40,10 @@
     self.cellHeightCacheEnabled = YES;
     
     
+    self.navigationItem.title = self.currentevent.eventTitle;
+    self.navigationItem.prompt = self.currentevent.venueName;
+    
+    
     
 //    [self setupLeftMenuButton];
 //    

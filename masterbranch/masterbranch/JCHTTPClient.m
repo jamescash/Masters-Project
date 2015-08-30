@@ -27,7 +27,7 @@
     self = [super init];
     if (self) {
         
-        if ([curentEvent.status isEqualToString:@"alreadyHappened"]) {
+        if ([curentEvent.status isEqualToString:@"alreadyHappened"]||@"currentlyhappening") {
             
             _currentEvent = curentEvent;
             _InstaPlacesResults = [[NSArray alloc ]init];
@@ -244,9 +244,9 @@
                 
                 
                 NSURL *requestAPI = [NSURL URLWithString:@"https://api.twitter.com/1.1/search/tweets.json"];
-                NSDictionary *peramiters = @{@"count" : @"30",
+                NSDictionary *peramiters = @{@"count" : @"10",
                                              @"q" :twittersearchquery,
-                                             @"filter_level": @"medium",
+                                             @"filter_level": @"high",
                                              @"result_type": @"recent",
                                              };
                 
@@ -272,18 +272,13 @@
                         
                         
                         [results enumerateObjectsUsingBlock:^(id obj,NSUInteger idx,BOOL *stop){
-                            
                             JCFeedObject *cellModel = [[JCFeedObject alloc]initWithTwitterDic:obj];
                             
                             
                             if (cellModel != nil){
-                                     
                                      [entities addObject:cellModel];
-
-                                 }
-                            
-                        
-                        }];
+                                    }
+                           }];
                      
                         //NSLog(@"%@",twittersearchquery);
                         self.ParseTwitterResults = entities;

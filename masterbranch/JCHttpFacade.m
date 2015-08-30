@@ -33,7 +33,6 @@
         considerDeligation1 = NO;
         considerDeligation2 = NO;
         considerDeligation3 = NO;
-
         
         self.socialStreamData = [[NSMutableArray alloc]init];
         self.JCHTTPClient = [[JCHTTPClient alloc]initWithEvent:currentevent];
