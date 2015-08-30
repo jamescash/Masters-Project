@@ -22,7 +22,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+     JCleftSlideOutVC *leftSlideOut = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
+    leftSlideOut.JCleftSlideOutVCDelegat = self;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,31 +79,20 @@
 
 -(void)logInViewController:(PFLogInViewController * __nonnull)logInController didLogInUser:(PFUser * __nonnull)user{
    
-//    [self performSegueWithIdentifier:@"ShowHomeScreen" sender:nil];
-//    
-//    
-//    
+//
+    NSLog(@"User logged in");
+   
     AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
     
-    appDelegateTemp.window.rootViewController =  [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreen"];
+    
+    appDelegateTemp.window.rootViewController =  [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
  
 
 }
 
 
 
-#pragma mark - Navigation
 
-//// In a storyboard-based application, you will often want to do a little preparation before navigation
-//    - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//        
-//        if ([segue.identifier isEqualToString:@"ShowHomeScreen"])
-//        {
-//        
-//            JChomeScreenVC *jc = [segue destinationViewController];
-//            
-//        }
-//    }
 
 
 @end

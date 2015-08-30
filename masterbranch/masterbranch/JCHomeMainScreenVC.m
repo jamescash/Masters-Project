@@ -138,15 +138,15 @@
         cell.MainImageView.image = aRecord.image;
         cell.MainImageView.contentMode = UIViewContentModeScaleAspectFill;
         [cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        cell.CellTitle.text = event.eventTitle;
+        cell.CellTitle.text = @"";
         //[cell.CellTitle sizeToFit];
         
     }
     // 4
     else if (aRecord.isFailed) {
         //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
-        cell.MainImageView.image = [UIImage imageNamed:@"Failed.png"];
-        cell.CellTitle.text = @"Filed";
+        //cell.MainImageView.image = [UIImage imageNamed:@"Failed.png"];
+        cell.CellTitle.text = @"";
         
     }
     // 5
@@ -154,7 +154,8 @@
         
         //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
         cell.MainImageView.image = [UIImage imageNamed:@"Placeholder.png"];
-        cell.CellTitle.text = @"";
+        [cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
+        cell.CellTitle.text = @"Loading..";
         
         //if (!cv.dragging && !cv.decelerating) {
            

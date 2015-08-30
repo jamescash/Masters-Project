@@ -8,6 +8,8 @@
 
 #import "JCSearchPage.h"
 #import "eventObject.h"
+#import "JCSearchPageCell.h"
+
 
 
 
@@ -15,6 +17,10 @@
 
 @property (nonatomic,strong) JCSearchPageHTTPClient *searchclient;
 @property (nonatomic,strong) NSArray *searchResults;
+@property (weak, nonatomic) IBOutlet UISearchBar *SearchBar;
+- (IBAction)UserSelectedDone:(id)sender;
+@property (strong, nonatomic) IBOutlet UITableView *SearchResultsTable;
+@property (weak, nonatomic) IBOutlet UIImageView *BackGroundImage;
 
 
 @end
@@ -71,16 +77,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //creat a cell from the class JCsocialStreamCell and give the the reuse identifier FDFeedCell
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultsCell" forIndexPath:indexPath];
+    JCSearchPageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultsCell" forIndexPath:indexPath];
     
     //call the configurecell method on that cell
     //[self configureCell:cell atIndexPath:indexPath];
     
     eventObject *event = self.searchResults[indexPath.section][indexPath.row];
     
-    cell.textLabel.text = event.eventTitle;
+    cell.titleLabel.text = event.eventTitle;
     
-    cell.detailTextLabel.text = event.country;
+    
+    NSString *subtitle = [NSString stringWithFormat:@"%@ - %@, Distance from Irelnad %dkm",event.county,event.country,event.DistanceFromIreland];
+    
+    cell.subtitleLabel.text = subtitle;
+    
     
     //insert that cell
     return cell;

@@ -30,6 +30,7 @@
 @property (nonatomic) NSString *InstaTimeStamp;
 @property (nonatomic) NSString *imageUrl;
 @property (nonatomic) NSString *country;
+@property (nonatomic) NSString *county;
 @property (nonatomic) int DistanceFromIreland;
 @property (nonatomic) JCPhotoDownLoadRecord *photoDownload;
 @property (nonatomic) NSString *CellTitle;

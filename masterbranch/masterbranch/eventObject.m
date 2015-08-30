@@ -102,6 +102,7 @@
                                @"long": venue[@"longitude"]
                                };
             self.country = venue[@"country"];
+            self.county = venue[@"city"];
             self.eventDate = object[@"datetime"];
             self.InstaTimeStamp = [self.pasre getUnixTimeStamp:object[@"datetime"]];
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];

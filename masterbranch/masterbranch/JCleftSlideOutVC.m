@@ -9,6 +9,8 @@
 #import "JCleftSlideOutVC.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "AppDelegate.h"
+
 
 @interface JCleftSlideOutVC ()
 @property (strong, readwrite, nonatomic) UITableView *tableView;
@@ -112,9 +114,28 @@
           //                                               animated:YES];
          //   [self.sideMenuViewController hideMenuViewController];
           //  break;
+        case 4:
+            NSLog(@"User Logged out delgation method engaged");
+            
+            [self UserSelectedLogOut];
+            break;
         default:
             break;
     }
+}
+
+-(void)UserSelectedLogOut{
+    
+    NSLog(@"User Logged Out");
+    
+    [PFUser logOut];
+    
+    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
+    
+    
+    UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegateTemp.window.rootViewController = rootController;
+    
 }
 
 #pragma mark UITableView Datasource
@@ -144,7 +165,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        cell.textLabel.textColor = [UIColor blackColor];
+        cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
     }

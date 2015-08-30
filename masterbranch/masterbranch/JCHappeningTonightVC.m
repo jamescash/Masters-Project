@@ -13,6 +13,7 @@
 @interface JCHappeningTonightVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (strong, nonatomic) IBOutlet UITableView *TableView;
+@property (weak, nonatomic) IBOutlet UIView *TableViewHeaderVC;
 
 //@property (nonatomic, strong) UIImageView *blurredImageView;
 @property (nonatomic, assign) CGFloat screenHeight;
@@ -29,13 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-
     self.screenHeight = [UIScreen mainScreen].bounds.size.height;
-    NSLog(@"%f",[UIScreen mainScreen].bounds.size.height);
-    NSLog(@"%f",[UIScreen mainScreen].bounds.size.width);
-
-    
     self.backgroundImageView.image = self.currentEvent.photoDownload.image;
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     
@@ -49,11 +44,45 @@
     self.TableView.backgroundColor = [UIColor clearColor];
     self.TableView.separatorColor = [UIColor colorWithWhite:1 alpha:1];
     self.TableView.pagingEnabled = YES;
+    
+ 
+//    JCHappeningTonightHeaderVC *Header =[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCHappeningTonightHeader"];
+//    
+//    [self displayContentController:Header];
+//    
+//    Header.ArtistNameAndVenue.text = @"Test";
+//    Header.EventLoactionLable.text = @"TEST";
+    
+    //self.TableViewHeaderVC = Header.view;
+    
+   // [self performSegueWithIdentifier:@"tableviewheader" sender:nil];
 
 }
+
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSString * segueName = segue.identifier;
+    if ([segueName isEqualToString: @"tableviewheader"]) {
+        
+        
+        JCHappeningTonightHeaderVC * childViewController = (JCHappeningTonightHeaderVC *) [segue destinationViewController];
+        
+        childViewController.currentEvent = self.currentEvent;
+    }
+}
+
+- (void) displayContentController: (UIViewController*) content;
+{
+    [self addChildViewController:content];
+    //content.view.frame = [[UIScreen mainScreen]bounds]; // 2
+    //[self.TableViewHeaderVC addSubview:content.view];
+    [content didMoveToParentViewController:self];// 3
+}
+
+
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    
 }
 
 - (void)didReceiveMemoryWarning {
