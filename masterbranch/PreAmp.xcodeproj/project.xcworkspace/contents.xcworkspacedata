@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:masterbranch.xcodeproj">
+      location = "self:/Users/jamescash/Desktop/Masters-Project/masterbranch/PreAmp.xcodeproj">
    </FileRef>
 </Workspace>
