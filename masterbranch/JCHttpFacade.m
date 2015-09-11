@@ -69,7 +69,7 @@
     if ([keyPath isEqualToString:@"InstaHashTagResults"]){
         
             [self.socialStreamData addObjectsFromArray:self.JCHTTPClient.InstaHashTagResults];
-            NSLog(@" %d InstaHashTagResults added to social stream array",[self.JCHTTPClient.InstaHashTagResults count]);
+            NSLog(@" %lu InstaHashTagResults added to social stream array",(unsigned long)[self.JCHTTPClient.InstaHashTagResults count]);
             considerDeligation1 = YES;
         
      }
@@ -78,7 +78,7 @@
 
             [self.socialStreamData addObjectsFromArray:self.JCHTTPClient.InstaPlacesResults];
             considerDeligation2 = YES;
-            NSLog(@"%d InstaPlacesResults added to social stream array", [self.JCHTTPClient.InstaPlacesResults count]);
+            NSLog(@"%lu InstaPlacesResults added to social stream array", (unsigned long)[self.JCHTTPClient.InstaPlacesResults count]);
 
      
     }
@@ -88,7 +88,7 @@
         
             [self.socialStreamData addObjectsFromArray:self.JCHTTPClient.ParseTwitterResults];
             considerDeligation3 = YES;
-            NSLog(@"%d Twitter added to social stream array",[self.JCHTTPClient.ParseTwitterResults count]);
+            NSLog(@"%lu Twitter added to social stream array",(unsigned long)[self.JCHTTPClient.ParseTwitterResults count]);
 
             
         
