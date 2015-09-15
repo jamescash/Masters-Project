@@ -443,6 +443,24 @@
             </objects>
             <point key="canvasLocation" x="5046" y="-937"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Nn8-LL-Lv9">
+            <objects>
+                <viewController storyboardIdentifier="ProfilePage" id="8AU-LJ-mmR" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="x4h-0N-miS"/>
+                        <viewControllerLayoutGuide type="bottom" id="L6k-wD-WDq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eS1-Uk-lX5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dgl-5s-VVz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4301" y="-243"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="gPi-6x-fgR">
             <objects>

@@ -23,6 +23,8 @@
 //AF netwroking
 #import "AFNetworking/AFNetworking.h"
 
+//backend
+
 //#define kDatasourceURLString @"https://sites.google.com/site/soheilsstudio/tutorials/nsoperationsampleproject/ClassicPhotosDictionary.plist"
 
 @interface JCHomeMainScreenVC ()
@@ -55,20 +57,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!self.eventbuilder) {
+    
+    
+         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
+    
+    
+   // if (self.allEevent != 0) {
+        NSLog(@"%d self.eventbuilder true",[self.allEevent count]);
         
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
+      //  [self.collectionView reloadData];
+    //}
+    
+    
+    //if (!self.eventbuilder) {
         
         self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
         self.allEevent = [[NSDictionary alloc]init];
-        
         
         //go to bandsintown and build a single array of parsed events
         //this is the entry point to a facade API i designed to deal with the event getting and building
         _eventbuilder  = [JCEventBuilder sharedInstance];
         _eventbuilder.delegate = self;
-    }
+    //}
 
+//
+   
     
     
 }
@@ -82,8 +95,12 @@
 //delegate method thats called when all the events are laoded and parsed into the main array
 -(void)LoadMapView{
     
+
     NSLog(@"Delgation method in homescreen VC should only be called once");
     self.allEevent = [self.eventbuilder getEvent];
+    
+    NSLog(@"%d in load mapview",[self.allEevent count]);
+
     self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
     //make sure the realod is done on the main thred becuse it is a UI change
      dispatch_async(dispatch_get_main_queue(), ^{

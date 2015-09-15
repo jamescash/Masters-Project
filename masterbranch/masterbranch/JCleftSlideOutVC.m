@@ -105,18 +105,18 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
         case 0:
-            //[self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
-                                                     //    animated:YES];
+            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
+                                                         animated:YES];
             [self.sideMenuViewController hideMenuViewController];
             break;
-      //  case 1:
-          //  [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"secondViewController"]]
-          //                                               animated:YES];
-         //   [self.sideMenuViewController hideMenuViewController];
-          //  break;
-        case 4:
+       //Bring the center view cintroller to the center screen
+        case 1:
+         [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"ProfilePage"]]
+                                                         animated:YES];
+          [self.sideMenuViewController hideMenuViewController];
+            break;
+        case 3:
             NSLog(@"User Logged out delgation method engaged");
-            
             [self UserSelectedLogOut];
             break;
         default:
@@ -125,17 +125,11 @@
 }
 
 -(void)UserSelectedLogOut{
-    
     NSLog(@"User Logged Out");
-    
     [PFUser logOut];
-    
     AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
-    
-    
     UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
     appDelegateTemp.window.rootViewController = rootController;
-    
 }
 
 #pragma mark UITableView Datasource
@@ -152,7 +146,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -170,8 +164,8 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"Home", @"Calendar", @"Profile", @"Settings", @"Log Out"];
-    NSArray *images = @[@"IconHome", @"IconCalendar", @"IconProfile", @"IconSettings", @"IconEmpty"];
+    NSArray *titles = @[@"Home", @"Profile", @"Settings", @"Log Out"];
+    NSArray *images = @[@"IconHome", @"IconProfile", @"IconSettings", @"IconEmpty"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     

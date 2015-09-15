@@ -87,7 +87,7 @@
     cell.titleLabel.text = event.eventTitle;
     
     
-    NSString *subtitle = [NSString stringWithFormat:@"%@ - %@, Distance from Irelnad %dkm",event.county,event.country,event.DistanceFromIreland];
+    NSString *subtitle = [NSString stringWithFormat:@"%@ - %@, Distance from Ireland %dkm",event.county,event.country,event.DistanceFromIreland];
     
     cell.subtitleLabel.text = subtitle;
     
