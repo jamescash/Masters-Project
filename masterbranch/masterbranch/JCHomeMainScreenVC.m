@@ -22,16 +22,21 @@
 
 //AF netwroking
 #import "AFNetworking/AFNetworking.h"
+//main app delaget
+
+
+//backend
 
 //#define kDatasourceURLString @"https://sites.google.com/site/soheilsstudio/tutorials/nsoperationsampleproject/ClassicPhotosDictionary.plist"
 
 @interface JCHomeMainScreenVC ()
-@property (nonatomic,strong) JCEventBuilder *eventbuilder;
+//@property (nonatomic,strong) JCEventBuilder *eventbuilder;
 @property (nonatomic,strong) NSDictionary *allEevent;
 @property (nonatomic,strong) NSArray *KeysOfAllEventsDictionary;
 @property(nonatomic, weak) IBOutlet UICollectionView *collectionView;
 //Keep track of all the image downloads for homescreen
 @property (nonatomic, strong) JCPendingOperations *pendingOperations;
+
 
 //@property (nonatomic, strong) JCPhotoDownLoadRecord *aRecord;
 
@@ -55,44 +60,72 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!self.eventbuilder) {
-        
+    
+    
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
-        
+    
+    
         self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
         self.allEevent = [[NSDictionary alloc]init];
-        
-        
-        //go to bandsintown and build a single array of parsed events
-        //this is the entry point to a facade API i designed to deal with the event getting and building
-        _eventbuilder  = [JCEventBuilder sharedInstance];
-        _eventbuilder.delegate = self;
+    
+    
+    //Load the array of all events created in the app delegate. It was created here so it stays constant
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.AppDelegateDelegat = self;
+    self.allEevent  = appDelegate.allEevent;
+    //if there is no events wait for the main app delate callback, other wise they have already been created so
+    //just go ahead and realod the collection view.
+    if ([self.allEevent count] != 0) {
+        [self AllEventsLoaded];
     }
-
+    
+   
+    
     
     
 }
 
 
-- (void)didReceiveMemoryWarning {
+-(void)AllEventsLoaded{
+    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.allEevent  = appDelegate.allEevent;
+    
+    NSLog(@"%lu all events count in JChomePage",(unsigned long)[self.allEevent count]);
+    
+    self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+            [self.collectionView reloadData];
+        
+        });
+    
+}
+
+-(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 //delegate method thats called when all the events are laoded and parsed into the main array
--(void)LoadMapView{
-    
-    NSLog(@"Delgation method in homescreen VC should only be called once");
-    self.allEevent = [self.eventbuilder getEvent];
-    self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
-    //make sure the realod is done on the main thred becuse it is a UI change
-     dispatch_async(dispatch_get_main_queue(), ^{
-         
-         [self.collectionView reloadData];
-        
-   });
-    
-}
+//-(void)LoadMapView{
+//    
+//
+//    NSLog(@"Delgation method in homescreen VC should only be called once");
+//    self.allEevent = [self.eventbuilder getEvent];
+//    
+//    NSLog(@"%d in load mapview",[self.allEevent count]);
+//
+//    self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
+//    //make sure the realod is done on the main thred becuse it is a UI change
+//     dispatch_async(dispatch_get_main_queue(), ^{
+//         
+//         [self.collectionView reloadData];
+//        
+//   });
+//    
+//}
 
 
 #pragma mark - UICollectionView Datasource
@@ -103,7 +136,9 @@
     
         NSString *searchTerm = self.KeysOfAllEventsDictionary[section];
     
+    
         return [self.allEevent[searchTerm] count];
+    
 
 }
 

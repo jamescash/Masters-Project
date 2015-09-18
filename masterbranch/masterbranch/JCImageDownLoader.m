@@ -79,6 +79,8 @@
         if (self.isCancelled)
             return;
         
+        //TODO what caused a crash here ?
+        
         [(NSObject *)self.delegate performSelectorOnMainThread:@selector(imageDownloaderDidFinish:) withObject:self waitUntilDone:NO];
         
     }

@@ -18,10 +18,9 @@
 
 
 
+
 @interface AppDelegate ()
-
-//@property (nonatomic,strong) MMDrawerController * drawerController;
-
+@property (nonatomic,strong) JCEventBuilder *eventbuilder;
 @end
 
 @implementation AppDelegate
@@ -43,10 +42,13 @@
         UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
         self.window.rootViewController = rootController;
         //[PFUser logOut];
-
     }
     
-  //  JCleftSlideOutVC *leftSlideOut = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
+    _eventbuilder  = [JCEventBuilder sharedInstance];
+    _eventbuilder.delegate = self;
+    
+    
+    //JCleftSlideOutVC *leftSlideOut = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
     
   
     
@@ -88,6 +90,13 @@
                                                           openURL:url
                                                 sourceApplication:sourceApplication
                                                        annotation:annotation];
+}
+
+
+-(void)LoadMapView{
+    NSLog(@"AllEvnts array created in app delegate");
+    self.allEevent = [self.eventbuilder getEvent];
+    [self.AppDelegateDelegat AllEventsLoaded];
 }
 
 
