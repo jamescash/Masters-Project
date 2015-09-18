@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
-@interface JCProfilePage : UIViewController
+@interface JCProfilePage : UIViewController <UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic,strong) PFRelation *FriendRelations;
 
 @end

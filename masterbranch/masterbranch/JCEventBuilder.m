@@ -83,7 +83,7 @@
 -(void)GetEventJSON: (NSString*)countyName dateObject:(NSString*)date {
     
     //connet to the BandsinTown API get all events from the area on todays date
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=preamp&date=%@,%@&location=%@",date,date,countyName];
+    NSString *endpoint = [NSString stringWithFormat:@"https://api.bandsintown.com/events/search.json?api_version=2.0&app_id=preamp&date=%@,%@&location=%@",date,date,countyName];
     
     NSURL *url = [NSURL URLWithString:endpoint];
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {

@@ -113,7 +113,7 @@
 
 -(NSURL*)getimageURLFromEchoNestWithMBID{
     
-    NSString *endpoint = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&id=musicbrainz:artist:%@&format=json&results=15&start=0&license=unknown",self.photoRecord.artistMbid];
+    NSString *endpoint = [NSString stringWithFormat:@"https://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&id=musicbrainz:artist:%@&format=json&results=15&start=0&license=unknown",self.photoRecord.artistMbid];
     
     NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
     NSURLResponse * response = nil;
@@ -214,7 +214,7 @@
     
     
     
-    NSString *endpoint = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&format=json&results=15&&name=%@&start=0&license=unknown",self.photoRecord.name];
+    NSString *endpoint = [NSString stringWithFormat:@"https://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&format=json&results=15&&name=%@&start=0&license=unknown",self.photoRecord.name];
     
     NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
     NSURLResponse * response = nil;
@@ -311,7 +311,7 @@
 -(NSURL*)getimageURLfromBandsintownwithartistName{
     
     
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=PreAmpImageUrl",self.photoRecord.name];
+    NSString *endpoint = [NSString stringWithFormat:@"https://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=PreAmpImageUrl",self.photoRecord.name];
     
     NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
     NSURLResponse * response = nil;
@@ -394,7 +394,7 @@
 -(NSURL*)getimageURLfromBandsintownwithartistMBID{
     
     
-    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=PreAmpImageUrl",self.photoRecord.artistMbid];
+    NSString *endpoint = [NSString stringWithFormat:@"https://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=PreAmpImageUrl",self.photoRecord.artistMbid];
     
     NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
     NSURLResponse * response = nil;

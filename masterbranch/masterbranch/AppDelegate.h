@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+//API facade for building array for bandsintown event objects
+#import "JCEventBuilder.h"
+
+@protocol AppDelegateDelegat;
 
 
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+@interface AppDelegate : UIResponder <UIApplicationDelegate,JCEventBuildereDlegate>
 @property (strong, nonatomic) UIWindow *window;
-
-
+@property (strong, nonatomic) NSDictionary *allEevent;
+@property (strong,nonatomic) id <AppDelegateDelegat>AppDelegateDelegat;
 @end
 
+@protocol AppDelegateDelegat <NSObject>
+-(void)AllEventsLoaded;
+@end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 //API facade for building array for bandsintown event objects
-#import "JCEventBuilder.h"
+//#import "JCEventBuilder.h"
 //This is the superclass viewcontroler for any views that are part of the slideout side menu
 
 
@@ -26,13 +26,17 @@
 
 #import "JCHappeningTonightVC.h"
 
+//To access the Allevents Array
+#import "AppDelegate.h"
+
+
 
 
 
 @protocol MainScreenCollectionViewDelegate;
 
 
-@interface JCHomeMainScreenVC : UIViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,JCEventBuildereDlegate,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSearchPageDelegate,JCSocailStreamControllerDelegate,JCHappeningTonightVCDelegate>
+@interface JCHomeMainScreenVC : UIViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSearchPageDelegate,JCSocailStreamControllerDelegate,JCHappeningTonightVCDelegate,AppDelegateDelegat>
 
 @property (strong, nonatomic) id<MainScreenCollectionViewDelegate>MainScreenCollectionViewDelegate;
 
