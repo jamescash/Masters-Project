@@ -84,23 +84,16 @@ CLLocationCoordinate2D location;
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-
-    NSString * segueName = segue.identifier;
+     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"SelectFriends"]) {
         
-        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"SelectFriendsNav"];
         
-        JCSelectFriends *jc = [myVC viewControllers][0];
+        UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
+        JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
+        //pass the senderVC a referance to the current event that need to be sent 
+        SelectFreindsVC.currentEvent = self.currentEvent;
         
-        
-        //JCSelectFriends *jc = (JCSelectFriends*)segue.destinationViewController;
-
-        //TODO pass the event object
-        
-        jc.currentEvent = self.currentEvent;
-        
-        NSLog(@"%@",jc.currentEvent.eventTitle);
+        NSLog(@"%@",SelectFreindsVC.currentEvent.eventTitle);
         
     }
     

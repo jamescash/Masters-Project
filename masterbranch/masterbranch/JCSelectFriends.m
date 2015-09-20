@@ -51,20 +51,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
-    
-    PFUser *user = [self.MyFriends objectAtIndex:indexPath.row];
-    cell.textLabel.text = user.username;
-    
-    if ([self.recipents containsObject:user.objectId]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
-    return cell;
+        
+        PFUser *user = [self.MyFriends objectAtIndex:indexPath.row];
+        cell.textLabel.text = user.username;
+        
+        if ([self.recipents containsObject:user.objectId]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }else {
+            
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+        return cell;
 }
 
 
@@ -131,7 +131,6 @@
         
         //Seems like we have an event object lets upload it then dismiss the VC
         [self uploadMessage];
-        [self.recipents removeAllObjects];
         [self dismissViewControllerAnimated:YES completion:nil];
       }
     
@@ -140,8 +139,56 @@
 
 -(void)uploadMessage{
     
-    //Upload the file
-    //Upload message detatils
+    NSData *fileData;
+    NSString *fileName;
+    NSString *fileType;
+    
+    
+    fileData = UIImagePNGRepresentation(self.currentEvent.photoDownload.image);
+    fileName = @"image.png";
+    fileType = @"EventImage";
+                                         
+    PFFile *file = [PFFile fileWithName:fileName data:fileData];
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        //chaning the two asynrons upplaods to parse so users dont have to wait and only the second one happens if the first one
+        //is sucesful
+        
+        
+        if (error) {
+            //show alert view
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"An error oh shit!" message:@"Please try sending that message again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+            [self.recipents removeAllObjects];
+
+            [alert show];
+        }else{
+            //file saved sucessfully now lets link it with a PFobject so we can send it
+            PFObject *message = [PFObject objectWithClassName:@"Messages"];
+            [message setObject:file forKey:@"file"];
+            [message setObject:fileType forKey:@"fileType"];
+            [message setObject:self.recipents forKey:@"recipientIds"];
+            [message setObject:[[PFUser currentUser]objectId] forKey:@"senderId"];
+            [message setObject:[[PFUser currentUser]username] forKey:@"senderName"];
+            [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+               
+                if (error) {
+                    //show alert view
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"An error oh shit!" message:@"Please try sending that message again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                    [alert show];
+                }else{
+                    
+                    //sent to reipents so now remove them all to start with a blank slate the next time
+                    [self.recipents removeAllObjects];
+
+                    NSLog(@"Message sent to parse sucessfully");
+                }
+           
+            }];
+            
+        }
+    
+    
+    }];
     
     
     
