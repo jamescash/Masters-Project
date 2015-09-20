@@ -11,6 +11,5 @@
 
 @interface JCProfilePage : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,strong) PFRelation *FriendRelations;
 
 @end

@@ -11,5 +11,6 @@
 @interface JCAddFriendsVC : UITableViewController
 
 @property (nonatomic,strong) NSArray* AllUsers;
+@property (nonatomic,strong) NSMutableArray *Friends;
 
 @end

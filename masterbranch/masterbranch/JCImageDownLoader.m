@@ -80,6 +80,7 @@
             return;
         
         //TODO what caused a crash here ?
+        //CRASH
         
         [(NSObject *)self.delegate performSelectorOnMainThread:@selector(imageDownloaderDidFinish:) withObject:self waitUntilDone:NO];
         

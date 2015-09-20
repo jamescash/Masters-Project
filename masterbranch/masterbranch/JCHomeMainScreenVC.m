@@ -90,9 +90,6 @@
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.allEevent  = appDelegate.allEevent;
-    
-    NSLog(@"%lu all events count in JChomePage",(unsigned long)[self.allEevent count]);
-    
     self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -108,24 +105,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-//delegate method thats called when all the events are laoded and parsed into the main array
-//-(void)LoadMapView{
-//    
-//
-//    NSLog(@"Delgation method in homescreen VC should only be called once");
-//    self.allEevent = [self.eventbuilder getEvent];
-//    
-//    NSLog(@"%d in load mapview",[self.allEevent count]);
-//
-//    self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
-//    //make sure the realod is done on the main thred becuse it is a UI change
-//     dispatch_async(dispatch_get_main_queue(), ^{
-//         
-//         [self.collectionView reloadData];
-//        
-//   });
-//    
-//}
+
 
 
 #pragma mark - UICollectionView Datasource
@@ -512,15 +492,27 @@
     
     
     if ([currentEvent.status isEqualToString:@"alreadyHappened"]||[currentEvent.status isEqualToString:@"currentlyhappening"]) {
-       
-         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"AlreadyHappenedSocialStreamNav"];
+//       
+//         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"AlreadyHappenedSocialStreamNav"];
+//        
+//        JCSocailStreamController *jc = [myVC viewControllers][0];
+//        jc.JCSocailStreamControllerDelegate = self;
+//        jc.currentevent = currentEvent;
+//        [self presentViewController:myVC animated:YES completion:nil];
         
-        JCSocailStreamController *jc = [myVC viewControllers][0];
-        jc.JCSocailStreamControllerDelegate = self;
-        jc.currentevent = currentEvent;
+        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
+        JCHappeningTonightVC *DVC = [myVC viewControllers][0];
+        DVC.JCHappeningTonightVCDelegate = self;
+        DVC.currentEvent = currentEvent;
         [self presentViewController:myVC animated:YES completion:nil];
-    }
+        
    
+    
+    
+    }
+  
+    
+    
     if ([currentEvent.status isEqualToString:@"happeningLater"]) {
         
         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];

@@ -10,8 +10,18 @@
 #import <MapKit/MapKit.h>
 #import "eventObject.h"
 #import "JCAnnotation.h"
+
+
+
+
+@protocol JCHappeningTonightHearderVCDelegate;
+
+
 @interface JCHappeningTonightHeaderVC : UIViewController <MKMapViewDelegate>
-
 @property (nonatomic,strong) eventObject *currentEvent;
+@property (nonatomic, weak) id <JCHappeningTonightHearderVCDelegate> JCHappeningTonightHearderVCDelegate;
+@end
 
+@protocol JCHappeningTonightHearderVCDelegate <NSObject>
+- (void)DidSelectInviteFriend;
 @end
