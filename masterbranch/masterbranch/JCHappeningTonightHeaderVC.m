@@ -7,11 +7,13 @@
 //
 
 #import "JCHappeningTonightHeaderVC.h"
+#import "JCSelectFriends.h"
+
 
 
 @interface JCHappeningTonightHeaderVC ()
 
-
+- (IBAction)SendMessage:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *topBackGround;
 @property (weak, nonatomic) IBOutlet MKMapView *EventLocation;
 @property (weak, nonatomic) IBOutlet UILabel *ArtistNameAndVenue;
@@ -60,7 +62,6 @@
 
 CLLocationCoordinate2D location;
 
-    //for (eventObject *event in arrayofgigs) {
 
         NSString *latitude = self.currentEvent.LatLong[@"lat"];
         NSString *Long = self.currentEvent.LatLong[@"long"];
@@ -68,24 +69,40 @@ CLLocationCoordinate2D location;
         location.longitude = [Long doubleValue];
         self.eventannotation = [[JCAnnotation alloc]init];
         self.eventannotation.coordinate = location;
-        //ann.title = event.eventTitle;
-        //ann.subtitle = event.venueName;
-        //ann.currentEvent = event;
-        //ann.status = event.status;
-        //[annotations addObject:ann];
-    // }
+   
 }
 
 
+#pragma - Buttons
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)SendMessage:(id)sender {
+    
+    
+    
 }
-*/
 
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+
+    NSString * segueName = segue.identifier;
+    if ([segueName isEqualToString: @"SelectFriends"]) {
+        
+        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"SelectFriendsNav"];
+        
+        JCSelectFriends *jc = [myVC viewControllers][0];
+        
+        
+        //JCSelectFriends *jc = (JCSelectFriends*)segue.destinationViewController;
+
+        //TODO pass the event object
+        
+        jc.currentEvent = self.currentEvent;
+        
+        NSLog(@"%@",jc.currentEvent.eventTitle);
+        
+    }
+    
+}
 @end

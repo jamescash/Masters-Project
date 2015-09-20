@@ -11,7 +11,7 @@
 
 @interface JCAddFriendsVC ()
 @property (nonatomic,strong)PFUser *CurrentUser;
-
+-(BOOL)IsFriend:(PFUser*) user;
 @end
 
 @implementation JCAddFriendsVC
@@ -29,9 +29,7 @@
             NSLog(@"Error getting PFusers %@ %@",error,error.userInfo);
         }
         else {
-            
             self.AllUsers = objects;
-            //NSLog(@"%@",self.AllUsers);
             [self.tableView reloadData];
         }
         
@@ -66,31 +64,73 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseID forIndexPath:indexPath];
     
     PFUser *user = [self.AllUsers objectAtIndex:indexPath.row];
-   
     cell.textLabel.text = user.username;
+    
+    if ([self IsFriend:user]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }else{
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }
 
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    PFRelation *FriendsRelation = [self.CurrentUser relationForKey:@"FriendsRelation"];
+
+    
+   //if user tapped is a friend add them, else remove them
     PFUser *user = [self.AllUsers objectAtIndex:indexPath.row];
-    [FriendsRelation addObject:user];
+    PFRelation *FriendsRelation = [self.CurrentUser relationForKey:@"FriendsRelation"];
+
+    
+    if ([self IsFriend:user]) {
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        for (PFUser *firend in self.Friends){
+            
+            if ( [firend.objectId isEqualToString:user.objectId] ) {
+                [self.Friends removeObject:firend];
+                 break;
+            }
+        
+            [FriendsRelation removeObject:user];
+        }
+    }else{
+           
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [self.Friends addObject:user];
+            [FriendsRelation addObject:user];
+           
+       }
+    
     [self.CurrentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error){
             
-            NSLog(@"error saving friend relation %@",error);
+            NSLog(@"error saving friend relation delete friend %@",error);
         }
-      
     }];
+    
 }
 
+
+#pragma - MyMethods
+
+-(BOOL)IsFriend:(PFUser *)user{
+    
+    for (PFUser *firend in self.Friends){
+        
+        if ( [firend.objectId isEqualToString:user.objectId] ) {
+            return YES;
+            }
+    }
+    
+    return NO;
+}
 
 #pragma mark - Navigation
 

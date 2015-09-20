@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "eventObject.h"
+#import "JCHappeningTonightHeaderVC.h"
+
 
 
 @protocol JCHappeningTonightVCDelegate;
-//@class JCHappeningTonightVCDelegate;
 
 
 @interface JCHappeningTonightVC : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>

@@ -7,7 +7,6 @@
 //
 
 #import "JCHappeningTonightVC.h"
-#import "JCHappeningTonightHeaderVC.h"
 
 
 @interface JCHappeningTonightVC ()
@@ -45,19 +44,11 @@
     self.TableView.separatorColor = [UIColor colorWithWhite:1 alpha:1];
     self.TableView.pagingEnabled = YES;
     
- 
-//    JCHappeningTonightHeaderVC *Header =[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCHappeningTonightHeader"];
-//    
-//    [self displayContentController:Header];
-//    
-//    Header.ArtistNameAndVenue.text = @"Test";
-//    Header.EventLoactionLable.text = @"TEST";
-    
-    //self.TableViewHeaderVC = Header.view;
-    
-   // [self performSegueWithIdentifier:@"tableviewheader" sender:nil];
+
 
 }
+
+
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -65,11 +56,11 @@
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"tableviewheader"]) {
         
-        
         JCHappeningTonightHeaderVC * childViewController = (JCHappeningTonightHeaderVC *) [segue destinationViewController];
-        
         childViewController.currentEvent = self.currentEvent;
+        childViewController.JCHappeningTonightHearderVCDelegate = self;
     }
+
 }
 
 - (void) displayContentController: (UIViewController*) content;
@@ -174,6 +165,7 @@
 //    // Get the new view controller using [segue destinationViewController].
 //    // Pass the selected object to the new view controller.
 //}
+
 
 
 - (IBAction)BackButton:(id)sender {

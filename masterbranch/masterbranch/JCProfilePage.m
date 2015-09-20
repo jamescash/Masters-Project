@@ -7,36 +7,43 @@
 //
 
 #import "JCProfilePage.h"
+#import "JCAddFriendsVC.h"
+
 
 @interface JCProfilePage ()
 @property (weak, nonatomic) IBOutlet UITableView *FriendsList;
 @property (nonatomic,strong) NSArray *MyFriends;
+@property (nonatomic,strong) PFRelation *FriendRelations;
+
 @end
 
 @implementation JCProfilePage
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-     self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
-     PFQuery *query  = [self.FriendRelations query];
-    [query orderByAscending:@"username"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
     
-        if (error) {
-            NSLog(@"Error coming form insode get my firends relations %@",error);
-            [self.FriendsList reloadData];
-        }
-        
-        self.MyFriends = objects;
-        
-    }];
-
+    [super viewDidLoad];
+    
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    [self getMyFriends];
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"AddFriends"]){
+        //Pass list of friends to add freinds VC so it knows who's alrealdy your friends3
+        JCAddFriendsVC *addfirendsPage = (JCAddFriendsVC*)segue.destinationViewController;
+        addfirendsPage.Friends = [NSMutableArray arrayWithArray:self.MyFriends];
+        
+    }
+};
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
     return 1;
 }
 
@@ -60,6 +67,26 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma - Helper Methods
+
+-(void)getMyFriends{
+    
+    
+    self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
+    PFQuery *query  = [self.FriendRelations query];
+    [query orderByAscending:@"username"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error coming form insode get my firends relations %@",error);
+        }
+        
+        self.MyFriends = objects;
+        [self.FriendsList reloadData];
+        
+    }];
 }
 
 

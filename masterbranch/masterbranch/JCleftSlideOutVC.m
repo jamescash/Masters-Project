@@ -115,7 +115,12 @@
                                                          animated:YES];
           [self.sideMenuViewController hideMenuViewController];
             break;
-        case 3:
+        case 2:
+            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"JCInbox"]]
+                                                         animated:YES];
+            [self.sideMenuViewController hideMenuViewController];
+            break;
+        case 4:
             NSLog(@"User Logged out delgation method engaged");
             [self UserSelectedLogOut];
             break;
@@ -146,7 +151,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -164,8 +169,8 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"Home", @"Profile", @"Settings", @"Log Out"];
-    NSArray *images = @[@"IconHome", @"IconProfile", @"IconSettings", @"IconEmpty"];
+    NSArray *titles = @[@"Home", @"Profile",@"Inbox", @"Settings", @"Log Out"];
+    NSArray *images = @[@"IconHome", @"IconProfile",@"IconEmpty", @"IconSettings", @"IconEmpty"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     
