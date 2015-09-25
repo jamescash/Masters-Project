@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "RESideMenu.h"
+#import <Parse/Parse.h>
+
 
 //https://github.com/romaonthego/RESideMenu - source of RESideMenu
 @interface JCMainViewController : RESideMenu <RESideMenuDelegate>

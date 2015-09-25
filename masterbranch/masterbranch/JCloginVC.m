@@ -8,7 +8,6 @@
 
 #import "JCloginVC.h"
 #import "AppDelegate.h"
-#import "JCSignUp.h"
 
 
 
@@ -51,6 +50,8 @@
 
 - (IBAction)login:(id)sender {
     
+    //TODO resign first responder for testfields in login view controller
+    
 NSString *userName = [self.userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 NSString *password = [self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -67,27 +68,29 @@ NSString *password = [self.passwordField.text stringByTrimmingCharactersInSet:[N
                  UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Gerr okay" otherButtonTitles:nil];
                 [alert show];
             }else{
-                
                 NSLog(@"Logged in");
                 [self dismissViewControllerAnimated:YES completion:nil];
-                
-            
-            }
-        
-        
-        }];
-        
-        
-        
-    }
-    
-    
-    
+               }
+            }];
+     }
 }
 
 
 
+-(void)UserSignedUp{
+    NSLog(@"User Signed Up");
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([segue.identifier isEqualToString:@"showSignUp"]) {
+        JCSignUp *DVC = segue.destinationViewController;
+        DVC.JCSignUpVCDelegat = self;
+    }
+    
+}
 
 //-(void)logInViewController:(PFLogInViewController * __nonnull)logInController didLogInUser:(PFUser * __nonnull)user{
 //       

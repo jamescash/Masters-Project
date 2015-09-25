@@ -11,11 +11,16 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "AppDelegate.h"
 #import "JCHomeMainScreenVC.h"
+#import <Parse/Parse.h>
+
 
 
 
 @interface JCleftSlideOutVC ()
-@property (strong, readwrite, nonatomic) UITableView *tableView;
+//@property (strong, readwrite, nonatomic) UITableView *tableView;
+@property (strong,readwrite,nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) PFUser *currentUser;
+@property (weak, nonatomic) IBOutlet UILabel *friends;
 
 @end
 
@@ -24,26 +29,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    self.tableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - 54 * 5) / 2.0f, self.view.frame.size.width, 54 * 5) style:UITableViewStylePlain];
-        tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
-        tableView.delegate = self;
-        tableView.dataSource = self;
-        tableView.opaque = NO;
-        tableView.backgroundColor = [UIColor clearColor];
-        tableView.backgroundView = nil;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.bounces = NO;
-        tableView.scrollsToTop = NO;
-        tableView;
-    });
-    [self.view addSubview:self.tableView];
+    self.currentUser = [PFUser currentUser];
     
     
+        //set up taleview
+        self.tableView.opaque = NO;
+        self.tableView.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundView = nil;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView.bounces = NO;
+        self.tableView.scrollsToTop = NO;
     
-    //[self loadData];
-   
+    self.friends.userInteractionEnabled = YES;
+    self.numberOfArtistFollowing.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tapGesture =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberOfFriendsLableTap)];
+    
+    [self.numberOfFriends addGestureRecognizer:tapGesture];
+    [self.friends addGestureRecognizer:tapGesture];
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+//    NSLog(@"%@",[self.currentUser objectForKey:@"username"]);
+//    
+//    PFFile *imageFile = self.currentUser[@"profilePicture"];
+//    
+//    NSLog(@"%@",[imageFile description]);
+//    
+//    [imageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+//        if (!error && imageData)
+//        {
+//            //If there was no error with the internet request and some kind of data was returned, use that data to form the profile image with the handy method of UIImage.
+//            
+//            //Set the image view to the image with the data returned from Parse.
+//            NSLog(@"Profile image returned");
+//            self.profilePicture.image = [UIImage imageWithData:imageData];
+//        }
+//        else
+//        {
+//            //Use Ben Jakuben's easy to read error printing technique.
+//            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+//        }
+//    }];
+//    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,17 +96,17 @@
             [self.sideMenuViewController hideMenuViewController];
             break;
        //Bring the center view cintroller to the center screen
+        //case 1:
+         //[self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"ProfilePage"]]
+           //                                              animated:YES];
+          //[self.sideMenuViewController hideMenuViewController];
+           // break;
         case 1:
-         [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"ProfilePage"]]
-                                                         animated:YES];
-          [self.sideMenuViewController hideMenuViewController];
-            break;
-        case 2:
             [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"JCInbox"]]
                                                          animated:YES];
             [self.sideMenuViewController hideMenuViewController];
             break;
-        case 4:
+        case 3:
             NSLog(@"User Logged out delgation method engaged");
             [self UserSelectedLogOut];
             break;
@@ -110,7 +141,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,8 +159,8 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"Home", @"Profile",@"Inbox", @"Settings", @"Log Out"];
-    NSArray *images = @[@"IconHome", @"IconProfile",@"IconEmpty", @"IconSettings", @"IconEmpty"];
+    NSArray *titles = @[@"Home",@"Inbox", @"Settings", @"Log Out"];
+    NSArray *images = @[@"IconHome",@"IconEmpty", @"IconSettings", @"IconEmpty"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     
@@ -185,4 +216,18 @@
 //}
 
 
+- (void)numberOfFriendsLableTap {
+    
+    NSLog(@"Lable tapped");
+    
+    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"ProfilePage"]]
+                                                 animated:YES];
+    [self.sideMenuViewController hideMenuViewController];
+    
+}
+
+- (IBAction)numberOfArtistFollowing:(id)sender {
+    
+    
+}
 @end

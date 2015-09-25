@@ -11,11 +11,13 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import "JCleftSlideOutVC.h"
+#import "JCSignUp.h"
 
 
 
 
-@interface JCloginVC : UIViewController <PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>//,JCleftSlideOutVCDelegat>
+
+@interface JCloginVC : UIViewController <JCSignUpVCDelegat>//,JCleftSlideOutVCDelegat>
 
 
 @end

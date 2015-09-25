@@ -8,12 +8,18 @@
 
 #import "JCMainViewController.h"
 #import "JCleftSlideOutVC.h"
+//so we can acsess the count of friends
+#import "JCProfilePage.h"
+
 
 @interface JCMainViewController ()
+@property (nonatomic,strong) PFRelation *FriendRelations;
+
 
 @end
 
 @implementation JCMainViewController
+
 
 
 - (void)viewDidLoad {
@@ -43,10 +49,42 @@
 
 #pragma mark RESideMenu Delegate
 
-- (void)sideMenu:(RESideMenu *)sideMenu willShowMenuViewController:(UIViewController *)menuViewController
+- (void)sideMenu:(RESideMenu *)sideMenu willShowMenuViewController:(JCleftSlideOutVC *)menuViewController
 {
-    //NSLog(@"willShowMenuViewController: %@", NSStringFromClass([menuViewController class]));
+    PFUser *currentUser = [PFUser currentUser];
+    PFFile *imageFile = currentUser[@"profilePicture"];
+    menuViewController.userName.text = currentUser.username;
+
+    //get friends count
+    self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
+    PFQuery *query  = [self.FriendRelations query];
+    [query orderByAscending:@"username"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+        }
+        
+        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%d",[objects count]];
+        
+    }];
+    
+    
+    //get profile picture
+    [imageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error && imageData){
+          menuViewController.profilePicture.image = [UIImage imageWithData:imageData];
+        
+        }else{
+            
+            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+        }
+    
+     }];
+    
 }
+
+
 
 - (void)sideMenu:(RESideMenu *)sideMenu didShowMenuViewController:(UIViewController *)menuViewController
 {
@@ -71,5 +109,11 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+-(void)getMyFriendscount{
+    
+   
+    
+}
 
 @end

@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JCSignUp : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITextFieldDelegate>
+@protocol JCSignUpVCDelegat;
 
+
+@interface JCSignUp : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITextFieldDelegate>
+@property (strong,nonatomic) id <JCSignUpVCDelegat>JCSignUpVCDelegat;
+
+@end
+
+@protocol JCSignUpVCDelegat <NSObject>
+-(void)UserSignedUp;
 @end

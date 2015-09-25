@@ -15,6 +15,17 @@
 
 @interface JCleftSlideOutVC : UIViewController<UITableViewDataSource, UITableViewDelegate, RESideMenuDelegate>
 @property (strong,nonatomic) id <JCleftSlideOutVCDelegat>JCleftSlideOutVCDelegat;
+@property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
+//- (IBAction)numberOfFriends:(id)sender;
+//- (IBAction)numberOfArtistFollowing:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfArtistFollowing;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfFriends;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *userName;
+
+
+
 @end
 
 @protocol JCleftSlideOutVCDelegat <NSObject>
