@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
-@interface JCInbox : UIViewController
+
+@interface JCInbox : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @end

@@ -32,17 +32,18 @@
     [Parse setApplicationId:@"e4CcwucLU3XKRPK93IeXLwzTsnKeT7Zoe7j5bJ0K" clientKey:@"akXPOHN6GDWrUD9EVwbTQ9jF7HfmZ5wsmFIXBYA9"];
     
     
-    if ([PFUser currentUser])
-    {
+    //if ([PFUser currentUser])
+    //{
         self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
-        //[PFUser logOut];
-    }
-    else
-    {
-        UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        self.window.rootViewController = rootController;
-        //[PFUser logOut];
-    }
+    
+    //[PFUser logOut];
+    //}
+//    else
+//    {
+//        UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+//        self.window.rootViewController = rootController;
+//        //[PFUser logOut];
+//    }
     
     _eventbuilder  = [JCEventBuilder sharedInstance];
     _eventbuilder.delegate = self;
@@ -94,7 +95,8 @@
 
 
 -(void)LoadMapView{
-    NSLog(@"AllEvnts array created in app delegate");
+    
+    //NSLog(@"AllEvnts array created in app delegate");
     self.allEevent = [self.eventbuilder getEvent];
     [self.AppDelegateDelegat AllEventsLoaded];
 }

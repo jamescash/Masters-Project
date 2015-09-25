@@ -23,6 +23,8 @@
 //AF netwroking
 #import "AFNetworking/AFNetworking.h"
 //main app delaget
+//parse backend to check if users logged in or not
+#import <Parse/Parse.h>
 
 
 //backend
@@ -37,6 +39,7 @@
 //Keep track of all the image downloads for homescreen
 @property (nonatomic, strong) JCPendingOperations *pendingOperations;
 
+- (IBAction)FollowArtist:(id)sender;
 
 //@property (nonatomic, strong) JCPhotoDownLoadRecord *aRecord;
 
@@ -55,18 +58,31 @@
     return _pendingOperations;
 }
 
+- (IBAction)FollowArtist:(id)sender {
+    
+    
+}
+
 
 #pragma ViewLoadingPoints
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     
+    NSLog(@"users name %@ ",[[PFUser currentUser]username]);
     
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
+    
+    PFUser *currentUser = [PFUser currentUser];
+    if (currentUser == nil){
+        [self performSegueWithIdentifier:@"showLogin" sender:self];
+    }
+    
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
     
     
-        self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
-        self.allEevent = [[NSDictionary alloc]init];
+    self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
+    self.allEevent = [[NSDictionary alloc]init];
     
     
     //Load the array of all events created in the app delegate. It was created here so it stays constant
@@ -79,12 +95,7 @@
         [self AllEventsLoaded];
     }
     
-   
-    
-    
-    
 }
-
 
 -(void)AllEventsLoaded{
     
@@ -105,11 +116,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
-
 #pragma mark - UICollectionView Datasource
-
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
     
@@ -183,9 +190,6 @@
 
 }
 
-
-
-
 #pragma mark - UICollectionViewDelegate
 
 - (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -203,18 +207,11 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
     [self PerformNavigationForItemAtIndex:indexPath];
     
 }
 
-
-
-//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//}
 
 
 #pragma mark – UICollectionViewDelegateFlowLayout
@@ -492,7 +489,9 @@
     
     
     if ([currentEvent.status isEqualToString:@"alreadyHappened"]||[currentEvent.status isEqualToString:@"currentlyhappening"]) {
-//       
+        
+        //TODO uncomment this so social stream shows up again
+        
 //         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"AlreadyHappenedSocialStreamNav"];
 //        
 //        JCSocailStreamController *jc = [myVC viewControllers][0];

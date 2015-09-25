@@ -73,6 +73,10 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
+    
+        
+    
+    
     return cell;
 }
 
@@ -85,6 +89,8 @@
     
    //if user tapped is a friend add them, else remove them
     PFUser *user = [self.AllUsers objectAtIndex:indexPath.row];
+    
+    //if relation for the current key doesnt exist on parse it will be created otherwise the existing one is is returned
     PFRelation *FriendsRelation = [self.CurrentUser relationForKey:@"FriendsRelation"];
 
     
