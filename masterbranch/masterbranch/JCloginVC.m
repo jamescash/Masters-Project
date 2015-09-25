@@ -23,15 +23,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-     JCleftSlideOutVC *leftSlideOut = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
-    leftSlideOut.JCleftSlideOutVCDelegat = self;
-    
 
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -71,44 +67,43 @@
     
          //self.view = self.logInViewController.view;
     
+    PFUser *currentUser = [PFUser currentUser];
+    
+    if (currentUser == nil) {
+      
         [self presentViewController:self.logInViewController animated:YES completion:NULL];
+
+    }else{
         
+        [self dismissViewControllerAnimated:YES completion:nil];
+
+    }
+    
+    
 }
 
-- (void)_loginWithFacebook {
-    
-    
-    // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
-    
-    // Login PFUser using Facebook
-    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-        if (!user) {
-            NSLog(@"Uh oh. The user cancelled the Facebook login.");
-        } else if (user.isNew) {
-            NSLog(@"User signed up and logged in through Facebook!");
-        } else {
-            NSLog(@"User logged in through Facebook!");
-        }
-    }];
-}
+//- (void)_loginWithFacebook {
+//    
+//    
+//    // Set permissions required from the facebook user account
+//    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+//    
+//    // Login PFUser using Facebook
+//    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+//        if (!user) {
+//            NSLog(@"Uh oh. The user cancelled the Facebook login.");
+//        } else if (user.isNew) {
+//            NSLog(@"User signed up and logged in through Facebook!");
+//        } else {
+//            NSLog(@"User logged in through Facebook!");
+//        }
+//    }];
+//}
 
 
 -(void)logInViewController:(PFLogInViewController * __nonnull)logInController didLogInUser:(PFUser * __nonnull)user{
-   
-//
-    NSLog(@"User logged in");
-    
-    
-   
-    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
-    
-    appDelegateTemp.window.rootViewController =  [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
-    
-    
-    //user.UserSocialNetworkName = @"This Is A test";
- 
-
+       
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

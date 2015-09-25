@@ -10,6 +10,8 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "AppDelegate.h"
+#import "JCHomeMainScreenVC.h"
+
 
 
 @interface JCleftSlideOutVC ()
@@ -132,9 +134,27 @@
 -(void)UserSelectedLogOut{
     NSLog(@"User Logged Out");
     [PFUser logOut];
-    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
-    UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    appDelegateTemp.window.rootViewController = rootController;
+    
+    
+  
+    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
+                                                 animated:YES];
+    [self.sideMenuViewController hideMenuViewController];
+
+    
+//      JCHomeMainScreenVC* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"];
+//    
+//    [rootController logUserOut];
+    
+   // [self.sideMenuViewController hideMenuViewController];
+    
+    
+//    AppDelegate *appDelegateTemp = [[UIApplication sharedApplication]delegate];
+//    UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+//    appDelegateTemp.window.rootViewController = rootController;
+    
+    
+    
 }
 
 #pragma mark UITableView Datasource

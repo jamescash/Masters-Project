@@ -62,6 +62,7 @@
 		89D88ECC1BADD68A002286FD /* JCInbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ECB1BADD68A002286FD /* JCInbox.m */; settings = {ASSET_TAGS = (); }; };
 		89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ECF1BADED1A002286FD /* JCSelectFriends.m */; settings = {ASSET_TAGS = (); }; };
 		89D88ED31BAF1A0F002286FD /* JCInboxDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */; settings = {ASSET_TAGS = (); }; };
+		89D88ED71BB052D6002286FD /* JChomeScreenNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */; settings = {ASSET_TAGS = (); }; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -170,6 +171,8 @@
 		89D88ECF1BADED1A002286FD /* JCSelectFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSelectFriends.m; sourceTree = "<group>"; };
 		89D88ED11BAF1A0F002286FD /* JCInboxDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCInboxDetail.h; sourceTree = "<group>"; };
 		89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCInboxDetail.m; sourceTree = "<group>"; };
+		89D88ED51BB052D6002286FD /* JChomeScreenNavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JChomeScreenNavVC.h; sourceTree = "<group>"; };
+		89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JChomeScreenNavVC.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* PreAmp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreAmp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -368,6 +371,7 @@
 		8954EC111B873B2000BBA658 /* HomeScreenVC */ = {
 			isa = PBXGroup;
 			children = (
+				89D88ED41BB0529F002286FD /* HomescreenNavVC */,
 				8917A4471B7F64E6004E2948 /* SearchPageControler */,
 				891238181B42B60C00E7C6CA /* SocailStreamVC's */,
 				8954EC321B88940B00BBA658 /* RootViewController */,
@@ -515,6 +519,15 @@
 				89D88ECF1BADED1A002286FD /* JCSelectFriends.m */,
 			);
 			name = SelectFriendsToSend;
+			sourceTree = "<group>";
+		};
+		89D88ED41BB0529F002286FD /* HomescreenNavVC */ = {
+			isa = PBXGroup;
+			children = (
+				89D88ED51BB052D6002286FD /* JChomeScreenNavVC.h */,
+				89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */,
+			);
+			name = HomescreenNavVC;
 			sourceTree = "<group>";
 		};
 		89EEAB881B7DF9A60053290C /* controller */ = {
@@ -787,6 +800,7 @@
 				89AE1C521B88DAE30055DB3D /* JCMainViewController.m in Sources */,
 				89D88ECC1BADD68A002286FD /* JCInbox.m in Sources */,
 				89AE1C551B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m in Sources */,
+				89D88ED71BB052D6002286FD /* JChomeScreenNavVC.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
