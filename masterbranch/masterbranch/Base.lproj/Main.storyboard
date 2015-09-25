@@ -421,7 +421,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LZm-E0-lwk">
-                                                    <rect key="frame" x="37" y="122" width="86" height="30"/>
+                                                    <rect key="frame" x="37" y="113" width="86" height="30"/>
                                                     <state key="normal" title="Follow Artist"/>
                                                     <connections>
                                                         <action selector="FollowArtist:" destination="aRS-gx-cUc" eventType="touchUpInside" id="WO1-RU-twg"/>
