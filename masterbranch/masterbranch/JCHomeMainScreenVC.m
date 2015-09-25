@@ -74,6 +74,8 @@
     
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser == nil){
+        //[self.view.window.rootViewController performSegueWithIdentifier:@"showLogin" sender:self];
+
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
     

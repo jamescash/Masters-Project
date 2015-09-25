@@ -53,6 +53,7 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
     
+    //TODO crash caused here EXC_BAD_ACCESS
     NSDate *returndate = [dateFormat dateFromString:dateformatted];
     
     // NSDate *UNIX = [[NSDate alloc]init]

@@ -81,6 +81,8 @@
         
         //TODO what caused a crash here ?
         //CRASH
+        //something to do with the life cycle I think
+        //Bad access to the main thread becuase the main thread does be busy
         
         [(NSObject *)self.delegate performSelectorOnMainThread:@selector(imageDownloaderDidFinish:) withObject:self waitUntilDone:NO];
         

@@ -63,6 +63,7 @@
 		89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ECF1BADED1A002286FD /* JCSelectFriends.m */; settings = {ASSET_TAGS = (); }; };
 		89D88ED31BAF1A0F002286FD /* JCInboxDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */; settings = {ASSET_TAGS = (); }; };
 		89D88ED71BB052D6002286FD /* JChomeScreenNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */; settings = {ASSET_TAGS = (); }; };
+		89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EDA1BB55950002286FD /* JCSignUp.m */; settings = {ASSET_TAGS = (); }; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -173,6 +174,8 @@
 		89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCInboxDetail.m; sourceTree = "<group>"; };
 		89D88ED51BB052D6002286FD /* JChomeScreenNavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JChomeScreenNavVC.h; sourceTree = "<group>"; };
 		89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JChomeScreenNavVC.m; sourceTree = "<group>"; };
+		89D88ED91BB55950002286FD /* JCSignUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSignUp.h; sourceTree = "<group>"; };
+		89D88EDA1BB55950002286FD /* JCSignUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSignUp.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* PreAmp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreAmp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -423,6 +426,7 @@
 			children = (
 				892E40EF1B766FF700B60275 /* JCloginVC.h */,
 				892E40F01B766FF700B60275 /* JCloginVC.m */,
+				89D88ED81BB5592E002286FD /* SignUp */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -528,6 +532,15 @@
 				89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */,
 			);
 			name = HomescreenNavVC;
+			sourceTree = "<group>";
+		};
+		89D88ED81BB5592E002286FD /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				89D88ED91BB55950002286FD /* JCSignUp.h */,
+				89D88EDA1BB55950002286FD /* JCSignUp.m */,
+			);
+			name = SignUp;
 			sourceTree = "<group>";
 		};
 		89EEAB881B7DF9A60053290C /* controller */ = {
@@ -793,6 +806,7 @@
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,
 				89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */,
+				89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				895AECAE1BA87D7A001D27E3 /* JCProfilePage.m in Sources */,
