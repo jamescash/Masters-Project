@@ -16,10 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
-    NSLog(@"%@",[self.message description]);
-
-    
 
     PFFile *imageFile = [self.message objectForKey:@"file"];
     NSURL *imageFileURL = [[NSURL alloc]initWithString:imageFile.url];

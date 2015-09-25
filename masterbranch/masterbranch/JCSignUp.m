@@ -91,7 +91,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
         
         
         //first resize the profile pic and uplaod that
-        static const CGSize size = {320, 480};
+        static const CGSize size = {110, 240};
         UIImage *newImage = [self imageWithImage:self.profileImage scaledToSize:size];
         fileData = UIImagePNGRepresentation(newImage);
         fileName = @"profileImage.png";
@@ -120,6 +120,8 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
                         [alert show];
                     }else{
                         NSLog(@"User sucessfully sigend up");
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        [self.JCSignUpVCDelegat UserSignedUp];
                     }
                     
                     

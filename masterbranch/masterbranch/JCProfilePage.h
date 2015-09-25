@@ -10,6 +10,4 @@
 #import <Parse/Parse.h>
 
 @interface JCProfilePage : UIViewController <UITableViewDataSource,UITableViewDelegate>
-
-
 @end
