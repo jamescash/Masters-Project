@@ -244,6 +244,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
 }
 
 -(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
+    //TODO Implement propr resign first preponder on this screen
     [self.userNameField resignFirstResponder];
     [self.emailField resignFirstResponder];
     [self.passwordField resignFirstResponder];

@@ -122,10 +122,6 @@
     if (self.currentEvent == nil) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Try again!" message:@"Ooops something went wrong" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
         [alert show];
-        
-        
-        NSLog(@"%@ SENDER BUTTION",self.currentEvent.eventTitle);
-        
         [self dismissViewControllerAnimated:YES completion:nil];
     }else {
         
@@ -173,7 +169,7 @@
                
                 if (error) {
                     //show alert view
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"An error oh shit!" message:@"Please try sending that message again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh shit!" message:@"Please try sending that message again there was an error" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                     [alert show];
                 }else{
                     
