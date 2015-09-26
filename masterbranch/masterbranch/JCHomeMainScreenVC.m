@@ -9,14 +9,12 @@
 #import "JCHomeMainScreenVC.h"
 //top buttons in the nav bar
 //So I can call a segue to this VC
-
 #import <QuartzCore/QuartzCore.h>
 //Customised Cell class for collection view
 #import "JCCustomCollectionCell.h"
 //Imports for asyn download and filtration of homescreen Images
 #import "JCPhotoDownLoadRecord.h"
 #import "JCPendingOperations.h"
-
 //class for colection view header
 #import "JCCollectionViewHeaders.h"
 
@@ -39,8 +37,6 @@
 //Keep track of all the image downloads for homescreen
 @property (nonatomic, strong) JCPendingOperations *pendingOperations;
 
-- (IBAction)FollowArtist:(id)sender;
-
 //@property (nonatomic, strong) JCPhotoDownLoadRecord *aRecord;
 
 
@@ -58,24 +54,15 @@
     return _pendingOperations;
 }
 
-- (IBAction)FollowArtist:(id)sender {
-    
-    
-}
+
 
 
 #pragma ViewLoadingPoints
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    NSLog(@"users name %@ ",[[PFUser currentUser]username]);
-    
-    
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser == nil){
-        //[self.view.window.rootViewController performSegueWithIdentifier:@"showLogin" sender:self];
-
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
     
@@ -100,15 +87,14 @@
 }
 
 -(void)AllEventsLoaded{
-    
+    //we got the call back form app delage saying the array of event was made so lets take a copy and
+    //display it
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.allEevent  = appDelegate.allEevent;
     self.KeysOfAllEventsDictionary = [self.allEevent allKeys];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-        
-            [self.collectionView reloadData];
-        
+         [self.collectionView reloadData];
         });
     
 }
@@ -122,19 +108,13 @@
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
     
-    
-        NSString *searchTerm = self.KeysOfAllEventsDictionary[section];
-    
-    
-        return [self.allEevent[searchTerm] count];
-    
-
+      NSString *searchTerm = self.KeysOfAllEventsDictionary[section];
+      return [self.allEevent[searchTerm] count];
 }
 
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    
-     return [self.KeysOfAllEventsDictionary count];
+    return [self.KeysOfAllEventsDictionary count];
 }
 
 
@@ -147,22 +127,17 @@
     }
     
     NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
-
-   
     eventObject *event = [self.allEevent[key] objectAtIndex:indexPath.row];
-    
     JCPhotoDownLoadRecord *aRecord = event.photoDownload;
 
-
-    
-    
     if (aRecord.hasImage) {
         
-      //  [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
+        //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         cell.MainImageView.image = aRecord.image;
         cell.MainImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        cell.CellTitle.text = @"";
+        //[cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
+        cell.CellTitle.text = event.eventTitle;
+        cell.venue.text = event.venueName;
         //[cell.CellTitle sizeToFit];
         
     }
@@ -178,14 +153,12 @@
         
         //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
         cell.MainImageView.image = [UIImage imageNamed:@"Placeholder.png"];
-        [cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
+        //[cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
         cell.CellTitle.text = @"Loading..";
         
         //if (!cv.dragging && !cv.decelerating) {
-           
-            [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
-
-        //}
+           [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
+         //}
         
     }
     return cell;

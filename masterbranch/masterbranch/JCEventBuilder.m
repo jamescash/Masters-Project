@@ -24,7 +24,7 @@
 };
 
 
-//make sure this class is a sinleton so all major downloads only happen once 
+//make sure this class is a sinleton so all major downloads only happen once at launch
 + (JCEventBuilder*)sharedInstance
 {
     // 1
