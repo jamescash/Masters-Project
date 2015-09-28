@@ -65,6 +65,10 @@
 		89D88ED71BB052D6002286FD /* JChomeScreenNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88ED61BB052D6002286FD /* JChomeScreenNavVC.m */; settings = {ASSET_TAGS = (); }; };
 		89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EDA1BB55950002286FD /* JCSignUp.m */; settings = {ASSET_TAGS = (); }; };
 		89D88EDF1BB730DA002286FD /* MLVignetteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EDE1BB730D9002286FD /* MLVignetteView.m */; settings = {ASSET_TAGS = (); }; };
+		89D88EE31BB8152B002286FD /* JCFollowingArtistVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EE21BB8152B002286FD /* JCFollowingArtistVC.m */; settings = {ASSET_TAGS = (); }; };
+		89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EE91BB97A4F002286FD /* JCDatePickerView.m */; settings = {ASSET_TAGS = (); }; };
+		89D88EED1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EEC1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m */; settings = {ASSET_TAGS = (); }; };
+		89D88EF01BB9840C002286FD /* JCDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EEF1BB9840C002286FD /* JCDatePickerDayCell.m */; settings = {ASSET_TAGS = (); }; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -179,6 +183,14 @@
 		89D88EDA1BB55950002286FD /* JCSignUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSignUp.m; sourceTree = "<group>"; };
 		89D88EDD1BB730D9002286FD /* MLVignetteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLVignetteView.h; sourceTree = "<group>"; };
 		89D88EDE1BB730D9002286FD /* MLVignetteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLVignetteView.m; sourceTree = "<group>"; };
+		89D88EE11BB8152B002286FD /* JCFollowingArtistVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCFollowingArtistVC.h; sourceTree = "<group>"; };
+		89D88EE21BB8152B002286FD /* JCFollowingArtistVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCFollowingArtistVC.m; sourceTree = "<group>"; };
+		89D88EE81BB97A4F002286FD /* JCDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDatePickerView.h; sourceTree = "<group>"; };
+		89D88EE91BB97A4F002286FD /* JCDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDatePickerView.m; sourceTree = "<group>"; };
+		89D88EEB1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDatePickerDaysOfWeekView.h; sourceTree = "<group>"; };
+		89D88EEC1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDatePickerDaysOfWeekView.m; sourceTree = "<group>"; };
+		89D88EEE1BB9840C002286FD /* JCDatePickerDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDatePickerDayCell.h; sourceTree = "<group>"; };
+		89D88EEF1BB9840C002286FD /* JCDatePickerDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDatePickerDayCell.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* PreAmp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreAmp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -452,7 +464,7 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
-		895AECA81BA87BA2001D27E3 /* ProfilePage */ = {
+		895AECA81BA87BA2001D27E3 /* MyFriendsPage */ = {
 			isa = PBXGroup;
 			children = (
 				895AECAC1BA87D7A001D27E3 /* JCProfilePage.h */,
@@ -460,7 +472,7 @@
 				89D88EC61BACAFA2002286FD /* JCAddFriendsVC.h */,
 				89D88EC71BACAFA2002286FD /* JCAddFriendsVC.m */,
 			);
-			name = ProfilePage;
+			name = MyFriendsPage;
 			sourceTree = "<group>";
 		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
@@ -555,6 +567,28 @@
 			name = ImageFilter;
 			sourceTree = "<group>";
 		};
+		89D88EE01BB814E4002286FD /* MyArtistPage */ = {
+			isa = PBXGroup;
+			children = (
+				89D88EE11BB8152B002286FD /* JCFollowingArtistVC.h */,
+				89D88EE21BB8152B002286FD /* JCFollowingArtistVC.m */,
+			);
+			name = MyArtistPage;
+			sourceTree = "<group>";
+		};
+		89D88EE41BB972DD002286FD /* calander view */ = {
+			isa = PBXGroup;
+			children = (
+				89D88EE81BB97A4F002286FD /* JCDatePickerView.h */,
+				89D88EE91BB97A4F002286FD /* JCDatePickerView.m */,
+				89D88EEB1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.h */,
+				89D88EEC1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m */,
+				89D88EEE1BB9840C002286FD /* JCDatePickerDayCell.h */,
+				89D88EEF1BB9840C002286FD /* JCDatePickerDayCell.m */,
+			);
+			name = "calander view";
+			sourceTree = "<group>";
+		};
 		89EEAB881B7DF9A60053290C /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -588,10 +622,12 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				89D88EE41BB972DD002286FD /* calander view */,
+				89D88EE01BB814E4002286FD /* MyArtistPage */,
 				89D88EDC1BB730B9002286FD /* ImageFilter */,
 				89D88EC91BADD65F002286FD /* InboxVC */,
 				8954EC311B8893F500BBA658 /* Login */,
-				895AECA81BA87BA2001D27E3 /* ProfilePage */,
+				895AECA81BA87BA2001D27E3 /* MyFriendsPage */,
 				8954EC111B873B2000BBA658 /* HomeScreenVC */,
 				8924A9881B72192D007FB71C /* EventObjectAPI  */,
 				8924A9721B6A3C6A007FB71C /* SocialStreamAPI */,
@@ -814,13 +850,16 @@
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				89D88EC81BACAFA2002286FD /* JCAddFriendsVC.m in Sources */,
+				89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,
 				89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */,
+				89D88EED1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m in Sources */,
 				89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
+				89D88EF01BB9840C002286FD /* JCDatePickerDayCell.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				895AECAE1BA87D7A001D27E3 /* JCProfilePage.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
@@ -833,6 +872,7 @@
 				8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */,
+				89D88EE31BB8152B002286FD /* JCFollowingArtistVC.m in Sources */,
 				8954EC191B874E3000BBA658 /* JCPhotoDownLoadRecord.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
 				892E40F11B766FF700B60275 /* JCloginVC.m in Sources */,

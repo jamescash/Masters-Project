@@ -14,6 +14,8 @@
 
 @interface JCMainViewController ()
 @property (nonatomic,strong) PFRelation *FriendRelations;
+@property (nonatomic,strong) PFRelation *artistRelations;
+
 
 
 @end
@@ -58,7 +60,6 @@
     //get friends count
     self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
     PFQuery *query  = [self.FriendRelations query];
-    [query orderByAscending:@"username"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
@@ -81,6 +82,20 @@
         }
     
      }];
+    
+    //get artist count
+    self.artistRelations = [[PFUser currentUser] objectForKey:@"ArtistRelation"];
+    PFQuery *artistquery  = [self.artistRelations query];
+    [artistquery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+        }
+        
+        menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[objects count]];
+        
+    }];
+    
     
 }
 

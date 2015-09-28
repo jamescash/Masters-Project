@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 
 
+
 @interface JCInbox : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @end

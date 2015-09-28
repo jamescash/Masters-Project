@@ -81,10 +81,12 @@
         
         if (error) {
             NSLog(@"Error coming form insode get my firends relations %@",error);
-        }
+        }else{
         
         self.MyFriends = objects;
         [self.FriendsList reloadData];
+            
+        }
         
     }];
     
