@@ -8,6 +8,7 @@
 
 #import "JCHappeningTonightHeaderVC.h"
 #import "JCSelectFriends.h"
+#import "JCSearchPageHTTPClient.h"
 
 
 
@@ -21,12 +22,16 @@
 @property (nonatomic,strong) PFUser *currentUser;
 - (IBAction)followArtist:(id)sender;
 @property (strong,nonatomic) JCAnnotation *eventannotation;
+@property (nonatomic,strong) JCSearchPageHTTPClient *searchUpcomingGigs;
 @end
 
 @implementation JCHappeningTonightHeaderVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    self.searchUpcomingGigs = [[JCSearchPageHTTPClient alloc]init];
     
     self.ArtistNameAndVenue.text = self.currentEvent.eventTitle;
     NSString *eventlocation = [NSString stringWithFormat:@"%@ - %@",self.currentEvent.venueName,self.currentEvent.county];
@@ -121,15 +126,44 @@ CLLocationCoordinate2D location;
     PFFile *file = [PFFile fileWithName:fileName data:fileData];
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         
-        //chaning the two asynrons upplaods to parse so users dont have to wait and only the second one happens if the first one
+        //chaning the two asynrons upplaods to parse so users doesnt have to wait and only the second one happens if the first one
         //is sucesful
-        
         
         if (error) {
             //show alert view
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error :(" message:@"Please try to follow that artist again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
             [alert show];
         }else{
+            
+           
+            
+            
+            //getind the upcoming gigs for that artist
+            //TODO chin this api call save json results as a file and add it as a relation to the artist object
+            
+            [self.searchUpcomingGigs GetJsonForArtistUpcomingEvents:self.currentEvent.eventTitle andArtistMbid:self.currentEvent.mbidNumber completionblock:^(NSError *error, NSArray *response) {
+               
+                if (error) {
+                    NSLog(@"%@",error);
+                }else{
+                    NSLog(@"%@",response);
+                }
+                
+            }];
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             NSLog(@"event title %@", self.currentEvent.eventTitle);
             
@@ -153,7 +187,8 @@ CLLocationCoordinate2D location;
                     
                     NSLog(@"artist saved");
                     [sender setTitle:@"Following" forState:UIControlStateNormal];
-            PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
+            
+                    PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
                     [ArtistRelation addObject:artist];
                     
                     
@@ -187,4 +222,6 @@ CLLocationCoordinate2D location;
     UIGraphicsEndImageContext();
     return newImage;
 }
+
+
 @end

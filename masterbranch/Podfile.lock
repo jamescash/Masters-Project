@@ -21,13 +21,16 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - RESideMenu (4.0.7)
+  - RSDayFlow (1.2.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - RESideMenu (~> 4.0.7)
+  - RSDayFlow
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
+  RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60
 
 COCOAPODS: 0.37.2

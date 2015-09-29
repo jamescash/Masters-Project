@@ -61,12 +61,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFUser *currentUser = [PFUser currentUser];
-    if (currentUser == nil){
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
-    }
+    //the cloud is doing the heavy lifting
+//    [PFCloud callFunctionInBackground:@"httpRequest" withParameters:nil block:^(id  _Nullable object, NSError * _Nullable error) {
+//
+//        if (error) {
+//            NSLog(@"%@",error);
+//        }else{
+//            
+//            NSLog(@"%@",object);
+//        }
+//    
+//    }];
     
 
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
     
     

@@ -35,6 +35,11 @@
         
         [self getmbidNumberfor:artistNameEncodedRequest];
         
+        //1. try get artist MBID number from echonest to get better search reults from Bandsintown
+        //2. if no mbid number just search by artist name
+        //3. If mbid search by artist name and mbid number
+
+        
         
     }
     return self;
@@ -53,14 +58,9 @@
         
         if (error) {
             NSLog(@"error coming from echo nest, get mbid API call %@",error);
-            //self.InstaPlacesResults = @[];
-            
         } else {
             
             NSDictionary *echoNestResults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-            
-            
-            
             NSDictionary *reponse = echoNestResults[@"response"];
             NSArray *artist = reponse[@"artists"];
             
@@ -78,8 +78,8 @@
             NSDictionary *foreign_idsHammerdown = foreign_ids[0];
             NSString *foreign_id = foreign_idsHammerdown[@"foreign_id"];
             NSString *mbid = [foreign_id stringByReplacingOccurrencesOfString:@"musicbrainz:artist:" withString:@""];
-
-                NSLog(@"%@ mbid found",mbid);
+            NSLog(@"%@ mbid found",mbid);
+            
                 [self getArtistUpComingEvents:artistname andMbidNumber:mbid];
         
             }
@@ -98,14 +98,11 @@
     NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@/events.json?artist_id=mbid_%@&api_version=2.0&app_id=PreAmp",artistname,mbidNumber];
     
     NSURL *url = [NSURL URLWithString:endpoint];
-    
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+   [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
             NSLog(@"error coming from bandsintown get artist upcoming events API call %@",error);
-            //self.InstaPlacesResults = @[];
-            
-        } else {
+        }else{
             
             NSArray *JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             
@@ -137,21 +134,17 @@
                 
                 NSMutableArray *fullArrayOfSearchResults = [[NSMutableArray alloc]init];
              
-         
-                
                 //TODO add this bug fix logic to other API calls to stop crashed
                 [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    
+                    //create event objects from the JSON results
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];
                     
                     if (event != nil){
-                        
+                        //cheack to so if we didnt kill that event object in any other class's
+                        //then add it to the array
                         [fullArrayOfSearchResults addObject:event];
-
-                     }
+                    }
                 }];
-                
-                
                 
                 
                 [self.paresedSearchResults addObjectsFromArray:fullArrayOfSearchResults];
@@ -236,8 +229,115 @@
 };
 
 
+-(void)GetJsonForArtistUpcomingEvents:(NSString *)artistname andArtistMbid:(NSString *)mbidNumber completionblock:(void (^)(NSError *, NSArray *))finishedGateringJson {
+    
+   
+    
+    NSString *artistNameEncodedRequest = [artistname stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    
+    NSLog(@"mbid number %@",mbidNumber);
+    NSLog(@"artist name %@",artistNameEncodedRequest);
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@/events.json?artist_id=mbid_%@&api_version=2.0&app_id=PreAmp",artistNameEncodedRequest,mbidNumber];
+    
+    NSURL *url = [NSURL URLWithString:endpoint];
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            NSLog(@"error coming from bandsintown get artist upcoming events API call %@",error);
+            finishedGateringJson(error,nil);
+
+            
+        }else{
+            
+            NSArray *JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
+            if ([JSONresults count]== 0 ) {
+                NSLog(@"no upcoming events found");
+      
+                finishedGateringJson(error,JSONresults);
+                return;
+                
+            }
+            
+            else if ([JSONresults count] == 1) {
+                
+                //this is a work around I had to do to fix a bug that was cuasing a crash
+                //If the api did not know the aritst it returns a dictionary with one error key
+                //if i did know the artist it returns an Array/ and so I have to check array that have a count
+                //of one to make sure its not an error and in order to do that I have to convert to a dictionary
+                //becuse all results are cast to an ARRAY
+                
+                NSDictionary *errorCheking = [self indexKeyedDictionaryFromArray:JSONresults];
+                
+                if ([[errorCheking objectForKey:@"objectOne"] isEqual: @"errors"]) {
+                    NSLog(@"Unknown Artists");
+                    
+                    NSDictionary *userInfo = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Operation was unsuccessful.", nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The operation timed out.", nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                               };
+//                    NSError *error = [NSError errorWithDomain:error
+//                                                         code:-57
+//                                                     userInfo:userInfo];
+                    
+                    NSError *error = [NSError errorWithDomain:@"error" code:500 userInfo:userInfo];
+                    
+                    
+                    finishedGateringJson(error,nil);
+                    return;
+                }
+                
+            }
+            
+            if ([JSONresults count]>0) {
+                
+                //NSMutableArray *fullArrayOfSearchResults = [[NSMutableArray alloc]init];
+                //TODO add this bug fix logic to other API calls to stop crashed
+//                [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//                    //create event objects from the JSON results
+//                    eventObject *event = [[eventObject alloc]initWithTitle:obj];
+//                    
+//                    if (event != nil){
+//                        //cheack to so if we didnt kill that event object in any other class's
+//                        //then add it to the array
+//                        [fullArrayOfSearchResults addObject:event];
+//                        
+//                    }
+//                }];
+
+                finishedGateringJson(error,JSONresults);
+            }
+    
+        }
+        
+    }];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    NSError *error = nil;
+    NSString *sucsess = @"sucsess";
+    
+    finishedGateringJson(error,sucsess);
+    
+    
+    
+}
+
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array
 {
+    //this is a bug fix 
     id objectInstance;
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     for (objectInstance in array)

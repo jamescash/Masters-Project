@@ -19,6 +19,7 @@
 //- (IBAction)numberOfFriends:(id)sender;
 //- (IBAction)numberOfArtistFollowing:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfArtistFollowing;
+
 @property (weak, nonatomic) IBOutlet UILabel *numberOfFriends;
 
 

@@ -30,8 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.SearchBar.delegate = self;
-    
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,10 +40,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return self.searchResults.count;
-    
-    
 }
 
 
@@ -83,7 +78,6 @@
     //[self configureCell:cell atIndexPath:indexPath];
     
     eventObject *event = self.searchResults[indexPath.section][indexPath.row];
-    
     cell.titleLabel.text = event.eventTitle;
     
     
@@ -103,15 +97,9 @@
     
     self.searchResults = searchResults;
     
-
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
+     dispatch_async(dispatch_get_main_queue(), ^{
         [self.SearchResultsTable reloadData];
-
-        
-    });
+     });
     
     
 
@@ -122,6 +110,7 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
+    //when the user clicks seacrh alloc init the search HTTPCline with the search trem 
     _searchclient = [[JCSearchPageHTTPClient alloc]initWithArtistName:searchBar.text];
     self.searchclient.JCSearchPageHTTPClientdelegate = self;
     [searchBar resignFirstResponder];

@@ -20,7 +20,9 @@
 //@property (strong, readwrite, nonatomic) UITableView *tableView;
 @property (strong,readwrite,nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) PFUser *currentUser;
+//Friends lable
 @property (weak, nonatomic) IBOutlet UILabel *friends;
+@property (weak, nonatomic) IBOutlet UILabel *artist;
 
 @end
 
@@ -40,14 +42,28 @@
         self.tableView.bounces = NO;
         self.tableView.scrollsToTop = NO;
     
+    //Make the labes tapabul for number for friends
+    //TODO make the number lable work
     self.friends.userInteractionEnabled = YES;
-    self.numberOfArtistFollowing.userInteractionEnabled = YES;
-    
+    self.numberOfFriends.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapGesture =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberOfFriendsLableTap)];
-    
     [self.numberOfFriends addGestureRecognizer:tapGesture];
     [self.friends addGestureRecognizer:tapGesture];
+    
+    
+    //Make artist lable tapabul
+    self.artist.userInteractionEnabled = YES;
+    self.numberOfArtistFollowing.userInteractionEnabled = YES;
+    UITapGestureRecognizer *artisttapped =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberOfArtistLableTap)];
+    [self.numberOfArtistFollowing addGestureRecognizer:artisttapped];
+    [self.artist addGestureRecognizer:artisttapped];
+    
+    
+    
+    
+    
 
 }
 
@@ -218,7 +234,6 @@
 
 - (void)numberOfFriendsLableTap {
     
-    NSLog(@"Lable tapped");
     
     [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"ProfilePage"]]
                                                  animated:YES];
@@ -226,8 +241,16 @@
     
 }
 
-- (IBAction)numberOfArtistFollowing:(id)sender {
+- (void)numberOfArtistLableTap {
+
+    NSLog(@"Lable tapped");
     
-    
+    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"followingArtist"]]
+                                                 animated:YES];
+    [self.sideMenuViewController hideMenuViewController];
+
+
 }
+
+
 @end
