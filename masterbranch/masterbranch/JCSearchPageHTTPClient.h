@@ -15,13 +15,17 @@
 @interface JCSearchPageHTTPClient : NSObject
 
 - (id)initWithArtistName:(NSString*)artistName;
-
 @property (strong, nonatomic) id<JCSearchPageHTTPClientdelegate>JCSearchPageHTTPClientdelegate;
 
+
+-(void)GetJsonForArtistUpcomingEvents:(NSString*) artistName andArtistMbid : (NSString*) mbidNumner completionblock:(void(^)(NSError* error,NSArray* response))finishedGateringJson;
+
+
+
+
+//- (void)someMethodThatTakesABlock:(returnType (^)(parameterTypes))blockName;
 @end
 
 @protocol JCSearchPageHTTPClientdelegate <NSObject>
-
 -(void)searchResultsGathered:(NSMutableArray*)searchResults;
-
 @end

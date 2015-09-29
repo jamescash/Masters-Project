@@ -612,7 +612,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kkJ-24-Fmq" customClass="MLVignetteView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                                    <rect key="frame" x="-1" y="-1" width="159" height="159"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Venue" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92m-d6-miB">
                                                     <rect key="frame" x="8" y="133" width="144" height="19"/>
@@ -642,18 +642,18 @@
                                         </view>
                                         <color key="backgroundColor" white="0.91190378289473684" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leading" id="1QO-Yk-tfK"/>
+                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leading" constant="-1" id="1QO-Yk-tfK"/>
                                             <constraint firstItem="92m-d6-miB" firstAttribute="trailing" secondItem="yEk-gm-96b" secondAttribute="trailingMargin" id="4nW-BI-nTD"/>
                                             <constraint firstItem="92m-d6-miB" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" id="68q-aw-0Kc"/>
                                             <constraint firstItem="czb-9A-Wfl" firstAttribute="top" secondItem="yEk-gm-96b" secondAttribute="topMargin" constant="98" id="DRa-cD-cRe"/>
-                                            <constraint firstAttribute="bottom" secondItem="kkJ-24-Fmq" secondAttribute="bottom" id="Ixp-8A-6I9"/>
+                                            <constraint firstAttribute="bottom" secondItem="kkJ-24-Fmq" secondAttribute="bottom" constant="2" id="Ixp-8A-6I9"/>
                                             <constraint firstItem="czb-9A-Wfl" firstAttribute="trailing" secondItem="yEk-gm-96b" secondAttribute="trailingMargin" id="VTI-G3-pAE"/>
                                             <constraint firstItem="92m-d6-miB" firstAttribute="top" secondItem="czb-9A-Wfl" secondAttribute="bottom" constant="8" id="aYE-tB-4EG"/>
-                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="top" secondItem="yEk-gm-96b" secondAttribute="top" id="dO6-pq-bhd"/>
+                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="top" secondItem="yEk-gm-96b" secondAttribute="top" constant="-1" id="dO6-pq-bhd"/>
                                             <constraint firstItem="92m-d6-miB" firstAttribute="bottom" secondItem="yEk-gm-96b" secondAttribute="bottomMargin" id="fOX-hA-rgZ"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="czb-9A-Wfl" secondAttribute="bottom" constant="14" id="wFe-sZ-5zb"/>
                                             <constraint firstItem="czb-9A-Wfl" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" id="yfF-BC-UNs"/>
-                                            <constraint firstAttribute="trailing" secondItem="kkJ-24-Fmq" secondAttribute="trailing" id="zqA-MK-oqT"/>
+                                            <constraint firstAttribute="trailing" secondItem="kkJ-24-Fmq" secondAttribute="trailing" constant="2" id="zqA-MK-oqT"/>
                                         </constraints>
                                         <size key="customSize" width="160" height="160"/>
                                         <variation key="default">
