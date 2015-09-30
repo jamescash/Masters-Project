@@ -59,6 +59,7 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
     
+    //TODO need to add definsive code around PFuser the make sure it is not nill 
     //only look at the recipent list and where selfs id is equaled that means this message was meant for me
     [query whereKey:@"recipientIds" equalTo:[[PFUser currentUser] objectId]];
     //order messages via createed at
@@ -79,7 +80,6 @@
 #pragma - TableView
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
     return 1;
 }
 
@@ -115,6 +115,10 @@
 // Returns YES if the date should be highlighted or NO if it should not.
 - (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date
 {
+    
+    
+    
+    
     return YES;
 }
 
