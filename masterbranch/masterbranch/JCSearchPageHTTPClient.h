@@ -18,7 +18,7 @@
 @property (strong, nonatomic) id<JCSearchPageHTTPClientdelegate>JCSearchPageHTTPClientdelegate;
 
 
--(void)GetJsonForArtistUpcomingEvents:(NSString*) artistName andArtistMbid : (NSString*) mbidNumner completionblock:(void(^)(NSError* error,NSArray* response))finishedGateringJson;
+-(void)GetJsonForArtistUpcomingEvents:(NSString*) artistName andArtistMbid : (NSString*) mbidNumner completionblock:(void(^)(NSError* error,NSData* response))finishedGateringJson;
 
 
 

@@ -229,7 +229,7 @@
 };
 
 
--(void)GetJsonForArtistUpcomingEvents:(NSString *)artistname andArtistMbid:(NSString *)mbidNumber completionblock:(void (^)(NSError *, NSArray *))finishedGateringJson {
+-(void)GetJsonForArtistUpcomingEvents:(NSString *)artistname andArtistMbid:(NSString *)mbidNumber completionblock:(void (^)(NSError *, NSData*))finishedGateringJson {
     
    
     
@@ -255,7 +255,7 @@
             if ([JSONresults count]== 0 ) {
                 NSLog(@"no upcoming events found");
       
-                finishedGateringJson(error,JSONresults);
+                finishedGateringJson(error,data);
                 return;
                 
             }
@@ -278,9 +278,7 @@
                                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The operation timed out.", nil),
                                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                                };
-//                    NSError *error = [NSError errorWithDomain:error
-//                                                         code:-57
-//                                                     userInfo:userInfo];
+
                     
                     NSError *error = [NSError errorWithDomain:@"error" code:500 userInfo:userInfo];
                     
@@ -289,25 +287,10 @@
                     return;
                 }
                 
-            }
+              }
             
             if ([JSONresults count]>0) {
-                
-                //NSMutableArray *fullArrayOfSearchResults = [[NSMutableArray alloc]init];
-                //TODO add this bug fix logic to other API calls to stop crashed
-//                [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//                    //create event objects from the JSON results
-//                    eventObject *event = [[eventObject alloc]initWithTitle:obj];
-//                    
-//                    if (event != nil){
-//                        //cheack to so if we didnt kill that event object in any other class's
-//                        //then add it to the array
-//                        [fullArrayOfSearchResults addObject:event];
-//                        
-//                    }
-//                }];
-
-                finishedGateringJson(error,JSONresults);
+                 finishedGateringJson(error,data);
             }
     
         }
@@ -326,10 +309,10 @@
     
     
     
-    NSError *error = nil;
-    NSString *sucsess = @"sucsess";
+    //NSError *error = nil;
+    //NSString *sucsess = @"sucsess";
     
-    finishedGateringJson(error,sucsess);
+    //finishedGateringJson(error,sucsess);
     
     
     
