@@ -9,6 +9,16 @@
 #import "JCDatePickerView.h"
 #import "JCDatePickerDaysOfWeekView.h"
 #import "JCDatePickerDayCell.h"
+#import "JCDatePickerCollectionView.h"
+
+
+@interface JCDatePickerView ()
+
+
+
+
+@end
+
 
 
 
@@ -22,6 +32,18 @@
 }
 */
 
+//- (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath{
+//    //[super dateForCellAtIndexPath:nil];
+//    
+//    
+//}
+
+-(Class)collectionViewClass{
+    [super collectionViewClass];
+    return [JCDatePickerCollectionView class];
+}
+
+
 -(Class)daysOfWeekViewClass{
     [super daysOfWeekViewClass];
     return [JCDatePickerDaysOfWeekView class];
@@ -32,6 +54,20 @@
     [super dayCellClass];
     return [JCDatePickerDayCell class];
 }
+
+
+
+
+
+//-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+//};
+
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    NSLog(@"%@",self.fromDate);
+//    NSLog(@"%@",self.toDate);
+//}
+
+
 
 
 @end

@@ -126,8 +126,9 @@ CLLocationCoordinate2D location;
         }else{
 
             if ([objects count]>0) {
-                //that artist exist so add it as a reation the current user
+                //that artist exist so add it as a reation the current user.
                 PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
+                //add the artist to the users relation.
                 [ArtistRelation addObject:objects[0]];
                 [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     if (error){
@@ -189,29 +190,40 @@ CLLocationCoordinate2D location;
             
             //getind the upcoming gigs for that artist from cusomtom made class
             //TODO chin this api call save json results as a file and add it as a relation to the artist object
+//            
+//            [self.searchUpcomingGigs GetJsonForArtistUpcomingEvents:self.currentEvent.eventTitle andArtistMbid:self.currentEvent.mbidNumber completionblock:^(NSError *error, NSData *response) {
             
-            [self.searchUpcomingGigs GetJsonForArtistUpcomingEvents:self.currentEvent.eventTitle andArtistMbid:self.currentEvent.mbidNumber completionblock:^(NSError *error, NSData *response) {
-                
-                if (error) {
-                    NSLog(@"Error: %@ %@", error, [error localizedDescription]);
-                    
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error :(" message:@"Please try to follow that artist again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
-                    [alert show];
-                }else{
-                    
+//                if (error) {
+//                    NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+//                    
+//                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error :(" message:@"Please try to follow that artist again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+//                    [alert show];
+//                }else{
+            
                     
                     
-                    NSString *jsonString = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+//                    NSString *jsonString = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
                     
                     
                             
                             PFObject *artist = [PFObject objectWithClassName:@"Artist"];
                             [artist setObject:file forKey:@"atistImage"];
-                            //[artist setObject:upcomingGigs forKey:@"upcomingGigs"];
-                            [artist setObject:jsonString forKey:@"upcomingGigs"];
+                            //[artist setObject:jsonString forKey:@"upcomingGigs"];
                             [artist setObject:self.currentEvent.eventTitle forKey:@"artistName"];
                             [artist setObject:self.currentEvent.mbidNumber forKey:@"mbidNumber"];
-                            [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    
+//                     [PFCloud callFunctionInBackground:@"SaveArtistUpcomingGigsRelation"
+//                                       withParameters:@{@"ID":artist.objectId}
+//                                                block:^(NSString *result, NSError *error) {
+//                                                    if (!error) {
+//                                                        // result is @"Hello world!"
+//                                                    
+//                                                     }
+//                                                }];
+            
+                    
+                    
+                        [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                                 
                                 if (error) {
                                     
@@ -247,9 +259,9 @@ CLLocationCoordinate2D location;
                         
                     //}];//saving JSON file in backround
                     
-                }//search for upcoming gigs if/else
+               // }//search for upcoming gigs if/else
                 
-            }];//searh for upcoming gigs call
+            //}];//searh for upcoming gigs call
             
         }//save image file to backend if/else
         

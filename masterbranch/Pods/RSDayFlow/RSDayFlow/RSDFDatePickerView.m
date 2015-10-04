@@ -46,12 +46,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, assign) NSUInteger daysInWeek;
 @property (nonatomic, readonly, strong) NSDate *selectedDate;
 
-// From and to date are the currently displayed dates in the calendar
-// These values change in infinite scrolling mode
-@property (nonatomic, readonly, strong) NSDate *fromDate;
-@property (nonatomic, readonly, strong) NSDate *toDate;
 
-// start and end date are date limits displayed in the calendar (No infinite scrolling)
+
+//start and end date are date limits displayed in the calendar (No infinite scrolling)
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
@@ -655,6 +652,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     cell.date = cellPickerDate;
     cell.dateLabel.text = [NSString stringWithFormat:@"%tu", cellPickerDate.day];
     
+    
+    
     RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
     cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
     
@@ -913,5 +912,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     }
 }
+
+
 
 @end

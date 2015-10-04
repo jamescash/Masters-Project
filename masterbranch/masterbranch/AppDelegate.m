@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+
 //FBSDKiOS loggin
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -21,6 +22,7 @@
 
 @interface AppDelegate ()
 @property (nonatomic,strong) JCEventBuilder *eventbuilder;
+
 @end
 
 @implementation AppDelegate

@@ -8,7 +8,7 @@
 
 #import "RSDFDatePickerView.h"
 
-@interface JCDatePickerView : RSDFDatePickerView 
+@interface JCDatePickerView : RSDFDatePickerView <UIScrollViewDelegate>
 
 
 

@@ -65,17 +65,6 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     
-    //the cloud is doing the heavy lifting
-    //    [PFCloud callFunctionInBackground:@"httpRequest" withParameters:nil block:^(id  _Nullable object, NSError * _Nullable error) {
-    //
-    //        if (error) {
-    //            NSLog(@"error %@",error);
-    //        }else{
-    //
-    //            NSLog(@" response %@",object);
-    //        }
-    //
-    //    }];
     
     
     if (![PFUser currentUser]) {

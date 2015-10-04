@@ -13,6 +13,13 @@
 
 //my one
 #import "JCDatePickerView.h"
+#import <Parse/Parse.h>
+#import "JCParseQuerys.h"
+#import <UIKit/UIKit.h>
+
+
+
+
 
 
 
@@ -20,19 +27,50 @@
 @interface JCInbox ()<RSDFDatePickerViewDelegate,RSDFDatePickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *receivedMessages;
 @property (nonatomic,strong) NSArray *messages;
+@property (nonatomic,strong) NSArray *myArtist;
+
 @property (nonatomic,strong) PFObject *selectedMessage;
 
 //calender view
-@property (weak, nonatomic) IBOutlet UIView *UIviewCallender;
+@property (nonatomic,strong)JCDatePickerView *datePickerView;
+@property (nonatomic,strong) JCParseQuerys *JCParseQuery;
+@property (nonatomic,strong) NSMutableArray *UpcomingGigDates;
+@property (nonatomic,strong) NSSet *dateSet;
 
+@property (nonatomic,strong) UIImage *testImage;
 
 @end
 
-@implementation JCInbox
+@implementation JCInbox{
+    int UpcomingGigsLoopCounter;
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //self.testImage = [self shouldResizeImage:[UIImage imageNamed:@"artist.png"]];
+
+    _JCParseQuery = [JCParseQuerys sharedInstance];
+    
+    
+    [self.JCParseQuery getMyAtritsUpComingGigs:^(NSError *error, NSMutableArray *response) {
+        self.UpcomingGigDates = [[NSMutableArray alloc]init];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+        for (id event in response) {
+            NSString *objectdate = [event objectForKey:@"datetime"];
+            NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+            NSDate *date = [dateFormat dateFromString:dateformatted];
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
+            NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
+            NSDate *FormattedDate = [calendar dateFromComponents:dateComponents];
+            [self.UpcomingGigDates addObject:FormattedDate];
+           }
+         self.dateSet = [NSSet setWithArray:self.UpcomingGigDates];
+        [self.datePickerView reloadData];
+    }];
     
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -41,10 +79,11 @@
     
     
     //creat the calender view and add it to them main view hierchy
-    JCDatePickerView *datePickerView = [[JCDatePickerView alloc] initWithFrame: CGRectMake(0.0f,self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height/2)];
-    datePickerView.delegate = self;
-    datePickerView.dataSource = self;
-    [self.view addSubview:datePickerView];
+    
+    self.datePickerView = [[JCDatePickerView alloc] initWithFrame: CGRectMake(0.0f,self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height/2)];
+    self.datePickerView.delegate = self;
+    self.datePickerView.dataSource = self;
+    [self.view addSubview:self.datePickerView];
     
 }
 
@@ -57,23 +96,7 @@
     [super viewDidAppear:animated];
 
 
-    PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
     
-    //TODO need to add definsive code around PFuser the make sure it is not nill 
-    //only look at the recipent list and where selfs id is equaled that means this message was meant for me
-    [query whereKey:@"recipientIds" equalTo:[[PFUser currentUser] objectId]];
-    //order messages via createed at
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@ error receving messages",error);
-        }else{
-            NSLog(@"we found messages");
-            self.messages = objects;
-            [self.receivedMessages reloadData];
-            NSLog(@"recived %lu messages",(unsigned long)[self.messages count]);
-        }
-    }];
     
 }
 
@@ -116,9 +139,6 @@
 - (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date
 {
     
-    
-    
-    
     return YES;
 }
 
@@ -139,25 +159,22 @@
 // Returns YES if the date should be marked or NO if it should not.
 - (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date
 {
-    // The date is an `NSDate` object without time components.
-    // So, we need to use dates without time components.
     
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
-    
-    NSDateComponents *todayComponents = [calendar components:unitFlags fromDate:[NSDate date]];
-    NSDate *today = [calendar dateFromComponents:todayComponents];
-    
-    return [date isEqual:today];
+    if ([self.dateSet containsObject:date])
+    {
+        return YES;
+    }else{
+       return NO;
+    }
 }
 
 // Returns the color of the default mark image for the specified date.
 - (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date
 {
     if (arc4random() % 2 == 0) {
-        return [UIColor grayColor];
+        return [UIColor yellowColor];
     } else {
-        return [UIColor greenColor];
+        return [UIColor purpleColor];
     }
 }
 
@@ -165,11 +182,27 @@
 - (UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date
 {
     if (arc4random() % 2 == 0) {
-        return [UIImage imageNamed:@"img_gray_mark"];
+        return self.testImage;
     } else {
-        return [UIImage imageNamed:@"img_green_mark"];
+        return self.testImage;
     }
 }
+
+
+#pragma - Helper Methods
+
+- (UIImage*)shouldResizeImage:(UIImage *)anImage {
+    
+    UIImage *thumbnail = [UIImage imageWithCGImage:(__bridge CGImageRef _Nonnull)(anImage)
+                                             scale:0.2
+                                       orientation:anImage.imageOrientation];
+    return thumbnail;
+}
+
+
+
+
+
 
 
 @end
