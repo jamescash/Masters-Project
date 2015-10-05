@@ -17,15 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    PFFile *imageFile = [self.message objectForKey:@"file"];
-    NSURL *imageFileURL = [[NSURL alloc]initWithString:imageFile.url];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageFileURL];
-    self.ImageView.image = [UIImage imageWithData:imageData];
-    self.ImageView.contentMode = UIViewContentModeScaleAspectFill;
+   
     
-    NSString *senderName = [self.message objectForKey:@"senderName"];
-    NSString *title = [NSString stringWithFormat:@"sent from: %@",senderName];
-    self.navigationItem.title = title;
+    
     
 
 }

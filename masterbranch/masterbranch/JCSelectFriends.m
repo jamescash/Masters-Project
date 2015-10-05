@@ -7,12 +7,21 @@
 //
 
 #import "JCSelectFriends.h"
+#import "JCParseQuerys.h"
+#import "UIImage+Resize.h"
+
+
 
 @interface JCSelectFriends ()
 
 @property (nonatomic,strong) NSArray *MyFriends;
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) NSMutableArray *recipents;
+
+//classes
+@property (nonatomic,strong) JCParseQuerys *JCParseQuery;
+
+
 
 //actions
 - (IBAction)CancleButton:(id)sender;
@@ -27,7 +36,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Select Friends";
-    [self getMyFriends];
+
+    
+    _JCParseQuery = [JCParseQuerys sharedInstance];
+
+    [self.JCParseQuery getMyFriends:^(NSError *error, NSArray *response) {
+        
+        self.MyFriends = response;
+        [self.tableView reloadData];
+
+        
+    }];
+    
+    
+    
     self.recipents = [[NSMutableArray alloc]init];
     
     
@@ -90,23 +112,6 @@
 
 
 
--(void)getMyFriends{
-    
-     self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
-    PFQuery *query  = [self.FriendRelations query];
-    [query orderByAscending:@"username"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        
-        if (error) {
-            NSLog(@"Error coming form insode get my firends relations %@",error);
-        }
-        
-        self.MyFriends = objects;
-        [self.tableView reloadData];
-        
-    }];
-}
-
 
 
 - (IBAction)CancleButton:(id)sender {
@@ -126,25 +131,40 @@
     }else {
         
         //Seems like we have an event object lets upload it then dismiss the VC
-        [self uploadMessage];
+        [self creatInvite];
         [self dismissViewControllerAnimated:YES completion:nil];
       }
     
 }
 
 
--(void)uploadMessage{
+-(void)creatInvite {
+    
+    
+    //In the middel of saving UserEvent
+    
+    //1. Just created a photo resize class
+    
+    //1. event photo
+    //2. save userEvent
+    //3. Save user activity
+    //4. Upload and create NSNotification
+    
+    // going to try sending and story at full res to see what its like, we will need full res images to make the events UI work well
+    //static const CGSize thumbnialSize = {110, 240};
+    
+    //UIImage *EventThumbnail = [self.currentEvent.photoDownload.image resizedImageToSize:thumbnialSize];
     
     NSData *fileData;
     NSString *fileName;
     NSString *fileType;
-    
     
     fileData = UIImagePNGRepresentation(self.currentEvent.photoDownload.image);
     fileName = @"image.png";
     fileType = @"EventImage";
                                          
     PFFile *file = [PFFile fileWithName:fileName data:fileData];
+    
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         
         //chaning the two asynrons upplaods to parse so users dont have to wait and only the second one happens if the first one
@@ -159,34 +179,45 @@
             [alert show];
         }else{
             //file saved sucessfully now lets link it with a PFobject so we can send it
-            PFObject *message = [PFObject objectWithClassName:@"Messages"];
-            [message setObject:file forKey:@"file"];
-            [message setObject:fileType forKey:@"fileType"];
-            [message setObject:self.recipents forKey:@"recipientIds"];
-            [message setObject:[[PFUser currentUser]objectId] forKey:@"senderId"];
-            [message setObject:[[PFUser currentUser]username] forKey:@"senderName"];
-            [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            PFObject *UserEvent = [PFObject objectWithClassName:@"UserEvent"];
+            [UserEvent setObject:file forKey:@"eventPhoto"];
+            [UserEvent setObject:self.currentEvent.eventTitle forKey:@"eventTitle"];
+            [UserEvent setObject:[[PFUser currentUser]username] forKey:@"eventHostName"];
+            [UserEvent setObject:self.currentEvent.eventDate forKey:@"eventDate"];
+            [UserEvent setObject:self.currentEvent.venueName forKey:@"eventVenue"];
+            [UserEvent setObject:[[PFUser currentUser]objectId] forKey:@"eventHostId"];
+            //create users going and user not going + who has tickets
+            [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                
                 if (error) {
                     //show alert view
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh shit!" message:@"Please try sending that message again there was an error" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                     [alert show];
                 }else{
+                    //now the event is saved lets make an activity
+                    PFObject *activity = [PFObject objectWithClassName:@"Activity"];
+                    [activity setObject:[PFUser currentUser] forKey:@"fromUser"];
+                    [activity setObject:self.recipents forKey:@"toUser"];
+                    [activity setObject:@"userEvent" forKey:@"type"];
+                    [activity setObject:UserEvent forKey:@"relatedObject"];
+                    [activity setObject:UserEvent.objectId forKey:@"relatedObjectId"];
                     
-                    //sent to reipents so now remove them all to start with a blank slate the next time
-                    [self.recipents removeAllObjects];
-
-                    NSLog(@"Message sent to parse sucessfully");
-                }
+                    
+                    [activity saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                        
+                        //sent to reipents so now remove them all to start with a blank slate the next time
+                        [self.recipents removeAllObjects];
+                        
+                        NSLog(@"Event saved to parse sucessfully");
+                        
+                    }];
+                    
+                 }
            
             }];
             
         }
     
-    
-    }];
-    
-    
-    
-}
+     }];
+ }
 @end

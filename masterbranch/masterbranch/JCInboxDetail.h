@@ -11,5 +11,5 @@
 
 
 @interface JCInboxDetail : UIViewController
-@property (nonatomic,strong) PFObject *message;
+@property (nonatomic,strong) PFObject *userEvent;
 @end

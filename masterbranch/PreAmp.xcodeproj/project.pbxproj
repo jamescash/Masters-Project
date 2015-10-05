@@ -71,6 +71,7 @@
 		89D88EF01BB9840C002286FD /* JCDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EEF1BB9840C002286FD /* JCDatePickerDayCell.m */; settings = {ASSET_TAGS = (); }; };
 		89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EF21BBD1E85002286FD /* JCDatePickerCollectionView.m */; settings = {ASSET_TAGS = (); }; };
 		89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC5951BC04C4500E926A0 /* JCParseQuerys.m */; settings = {ASSET_TAGS = (); }; };
+		89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */; settings = {ASSET_TAGS = (); }; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -197,6 +198,8 @@
 		89D88EF21BBD1E85002286FD /* JCDatePickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDatePickerCollectionView.m; sourceTree = "<group>"; };
 		89DCC5941BC04C4500E926A0 /* JCParseQuerys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCParseQuerys.h; sourceTree = "<group>"; };
 		89DCC5951BC04C4500E926A0 /* JCParseQuerys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCParseQuerys.m; sourceTree = "<group>"; };
+		89DCC5991BC1483900E926A0 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* PreAmp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreAmp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -425,7 +428,6 @@
 		8954EC2F1B8893C600BBA658 /* Center CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				89D88EDC1BB730B9002286FD /* ImageFilter */,
 				8954EC331B88A45C00BBA658 /* Headers */,
 				8954EC121B873B3F00BBA658 /* ViewController */,
 				8954EC131B873B4F00BBA658 /* CustomCell */,
@@ -617,6 +619,28 @@
 			name = ParseQuerys;
 			sourceTree = "<group>";
 		};
+		89DCC5971BC1464900E926A0 /* HelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				89DCC5931BC04C1100E926A0 /* ParseQuerys */,
+				89DCC5981BC1469800E926A0 /* ImageResizing */,
+				891237F21B3FFDAB00E7C6CA /* JCMapView */,
+				8924A9721B6A3C6A007FB71C /* SocialStreamAPI */,
+				8924A9881B72192D007FB71C /* EventObjectAPI  */,
+				89D88EDC1BB730B9002286FD /* ImageFilter */,
+			);
+			name = HelperClasses;
+			sourceTree = "<group>";
+		};
+		89DCC5981BC1469800E926A0 /* ImageResizing */ = {
+			isa = PBXGroup;
+			children = (
+				89DCC5991BC1483900E926A0 /* UIImage+Resize.h */,
+				89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */,
+			);
+			name = ImageResizing;
+			sourceTree = "<group>";
+		};
 		89EEAB881B7DF9A60053290C /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,14 +674,11 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
-				89DCC5931BC04C1100E926A0 /* ParseQuerys */,
+				89DCC5971BC1464900E926A0 /* HelperClasses */,
 				8954EC301B8893DB00BBA658 /* HambergeMenuVC */,
 				89D88EC91BADD65F002286FD /* MusicDiary */,
 				8954EC311B8893F500BBA658 /* Login */,
 				8954EC111B873B2000BBA658 /* HomeScreenVC */,
-				8924A9881B72192D007FB71C /* EventObjectAPI  */,
-				8924A9721B6A3C6A007FB71C /* SocialStreamAPI */,
-				891237F21B3FFDAB00E7C6CA /* JCMapView */,
 				89F51DD71B1E1B39004E9055 /* Supporting Files */,
 			);
 			path = masterbranch;
@@ -910,6 +931,7 @@
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 				89D88ED31BAF1A0F002286FD /* JCInboxDetail.m in Sources */,
 				8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */,
+				89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */,
 				8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */,
 				89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */,
 			);

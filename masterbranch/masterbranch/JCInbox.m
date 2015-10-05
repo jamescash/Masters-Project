@@ -26,10 +26,10 @@
 
 @interface JCInbox ()<RSDFDatePickerViewDelegate,RSDFDatePickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *receivedMessages;
-@property (nonatomic,strong) NSArray *messages;
+@property (nonatomic,strong) NSArray *myInvites;
 @property (nonatomic,strong) NSArray *myArtist;
 
-@property (nonatomic,strong) PFObject *selectedMessage;
+@property (nonatomic,strong) PFObject *selectedInvite;
 
 //calender view
 @property (nonatomic,strong)JCDatePickerView *datePickerView;
@@ -79,11 +79,18 @@
     
     
     //creat the calender view and add it to them main view hierchy
-    
     self.datePickerView = [[JCDatePickerView alloc] initWithFrame: CGRectMake(0.0f,self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height/2)];
     self.datePickerView.delegate = self;
     self.datePickerView.dataSource = self;
     [self.view addSubview:self.datePickerView];
+    
+    
+    [self.JCParseQuery getMyInvites:^(NSError *error, NSArray *response) {
+        
+        self.myInvites = response;
+        [self.receivedMessages reloadData];
+    }];
+    
     
 }
 
@@ -108,20 +115,25 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return self.messages.count;
+    return self.myInvites.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"forIndexPath:indexPath];
-    PFObject *message = [self.messages objectAtIndex:indexPath.row];
-    cell.textLabel.text = [message objectForKey:@"senderName"];
+    PFObject *eventInvite = [self.myInvites objectAtIndex:indexPath.row];
     
+    cell.textLabel.text = [eventInvite objectForKey:@"eventHostName"];
+    
+    PFFile *imageFile = [eventInvite objectForKey:@"eventPhoto"];
+    NSURL *imageFileURL = [[NSURL alloc]initWithString:imageFile.url];
+    NSData *imageData = [NSData dataWithContentsOfURL:imageFileURL];
+    cell.imageView.image = [UIImage imageWithData:imageData];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    self.selectedMessage = [self.messages objectAtIndex:indexPath.row];
+    self.selectedInvite = [self.myInvites objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"showDetailedView" sender:self];
 }
 
@@ -129,7 +141,7 @@
     
     if ([segue.identifier isEqualToString:@"showDetailedView"]) {
             JCInboxDetail *destinationVC = (JCInboxDetail*) segue.destinationViewController;
-            destinationVC.message = self.selectedMessage;
+            destinationVC.userEvent = self.selectedInvite;
      }
 }
 
