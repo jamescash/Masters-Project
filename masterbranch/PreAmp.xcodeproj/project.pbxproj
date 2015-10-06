@@ -35,6 +35,10 @@
 		8954EC361B88A49000BBA658 /* JCCollectionViewHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC351B88A49000BBA658 /* JCCollectionViewHeaders.m */; };
 		895AECA71BA72B48001D27E3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895AECA61BA72B48001D27E3 /* StoreKit.framework */; };
 		895AECAE1BA87D7A001D27E3 /* JCProfilePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 895AECAD1BA87D7A001D27E3 /* JCProfilePage.m */; };
+		897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 897280D71BC3386F00569648 /* HeaderViewWithImage.m */; settings = {ASSET_TAGS = (); }; };
+		897280DD1BC3386F00569648 /* HeaderViewWithImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897280D81BC3386F00569648 /* HeaderViewWithImage.xib */; settings = {ASSET_TAGS = (); }; };
+		897280DE1BC3386F00569648 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897280DA1BC3386F00569648 /* HeaderView.m */; settings = {ASSET_TAGS = (); }; };
+		897280DF1BC3386F00569648 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897280DB1BC3386F00569648 /* HeaderView.xib */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
 		898FA89A1B7641A3000AEAB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */; };
 		898FA89C1B7641B9000AEAB1 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */; };
@@ -72,6 +76,7 @@
 		89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EF21BBD1E85002286FD /* JCDatePickerCollectionView.m */; settings = {ASSET_TAGS = (); }; };
 		89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC5951BC04C4500E926A0 /* JCParseQuerys.m */; settings = {ASSET_TAGS = (); }; };
 		89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */; settings = {ASSET_TAGS = (); }; };
+		89DCC5A01BC2B64E00E926A0 /* JCGigInvitesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC59F1BC2B64E00E926A0 /* JCGigInvitesVC.m */; settings = {ASSET_TAGS = (); }; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE11B1E1B39004E9055 /* Main.storyboard */; };
@@ -146,6 +151,12 @@
 		895AECA61BA72B48001D27E3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		895AECAC1BA87D7A001D27E3 /* JCProfilePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCProfilePage.h; sourceTree = "<group>"; };
 		895AECAD1BA87D7A001D27E3 /* JCProfilePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCProfilePage.m; sourceTree = "<group>"; };
+		897280D61BC3386F00569648 /* HeaderViewWithImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderViewWithImage.h; sourceTree = "<group>"; };
+		897280D71BC3386F00569648 /* HeaderViewWithImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderViewWithImage.m; sourceTree = "<group>"; };
+		897280D81BC3386F00569648 /* HeaderViewWithImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderViewWithImage.xib; sourceTree = "<group>"; };
+		897280D91BC3386F00569648 /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
+		897280DA1BC3386F00569648 /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
+		897280DB1BC3386F00569648 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		898FA8971B76418A000AEAB1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
@@ -200,6 +211,8 @@
 		89DCC5951BC04C4500E926A0 /* JCParseQuerys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCParseQuerys.m; sourceTree = "<group>"; };
 		89DCC5991BC1483900E926A0 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		89DCC59E1BC2B64E00E926A0 /* JCGigInvitesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGigInvitesVC.h; sourceTree = "<group>"; };
+		89DCC59F1BC2B64E00E926A0 /* JCGigInvitesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGigInvitesVC.m; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* PreAmp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreAmp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -484,6 +497,37 @@
 			name = MyFriendsPage;
 			sourceTree = "<group>";
 		};
+		897280C51BC3063800569648 /* FirstScreen */ = {
+			isa = PBXGroup;
+			children = (
+				89DCC59E1BC2B64E00E926A0 /* JCGigInvitesVC.h */,
+				89DCC59F1BC2B64E00E926A0 /* JCGigInvitesVC.m */,
+			);
+			name = FirstScreen;
+			sourceTree = "<group>";
+		};
+		897280C61BC3073D00569648 /* DetailedVC */ = {
+			isa = PBXGroup;
+			children = (
+				89D88ED11BAF1A0F002286FD /* JCInboxDetail.h */,
+				89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */,
+			);
+			name = DetailedVC;
+			sourceTree = "<group>";
+		};
+		897280E01BC3387B00569648 /* HeaderHelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				897280D61BC3386F00569648 /* HeaderViewWithImage.h */,
+				897280D71BC3386F00569648 /* HeaderViewWithImage.m */,
+				897280D81BC3386F00569648 /* HeaderViewWithImage.xib */,
+				897280D91BC3386F00569648 /* HeaderView.h */,
+				897280DA1BC3386F00569648 /* HeaderView.m */,
+				897280DB1BC3386F00569648 /* HeaderView.xib */,
+			);
+			name = HeaderHelperClasses;
+			sourceTree = "<group>";
+		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,8 +579,6 @@
 				89D88EE41BB972DD002286FD /* calander view */,
 				89D88ECA1BADD68A002286FD /* JCInbox.h */,
 				89D88ECB1BADD68A002286FD /* JCInbox.m */,
-				89D88ED11BAF1A0F002286FD /* JCInboxDetail.h */,
-				89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */,
 			);
 			name = MusicDiary;
 			sourceTree = "<group>";
@@ -641,6 +683,16 @@
 			name = ImageResizing;
 			sourceTree = "<group>";
 		};
+		89DCC59D1BC2B62400E926A0 /* Gig Invites */ = {
+			isa = PBXGroup;
+			children = (
+				897280E01BC3387B00569648 /* HeaderHelperClasses */,
+				897280C61BC3073D00569648 /* DetailedVC */,
+				897280C51BC3063800569648 /* FirstScreen */,
+			);
+			name = "Gig Invites";
+			sourceTree = "<group>";
+		};
 		89EEAB881B7DF9A60053290C /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -674,6 +726,7 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				89DCC59D1BC2B62400E926A0 /* Gig Invites */,
 				89DCC5971BC1464900E926A0 /* HelperClasses */,
 				8954EC301B8893DB00BBA658 /* HambergeMenuVC */,
 				89D88EC91BADD65F002286FD /* MusicDiary */,
@@ -838,8 +891,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				89F51DE31B1E1B39004E9055 /* Main.storyboard in Resources */,
+				897280DF1BC3386F00569648 /* HeaderView.xib in Resources */,
 				89F51DE81B1E1B39004E9055 /* LaunchScreen.xib in Resources */,
 				89F51DE51B1E1B39004E9055 /* Images.xcassets in Resources */,
+				897280DD1BC3386F00569648 /* HeaderViewWithImage.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +956,7 @@
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
+				897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */,
 				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,
 				89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */,
 				89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */,
@@ -908,6 +964,7 @@
 				89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */,
 				89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
+				89DCC5A01BC2B64E00E926A0 /* JCGigInvitesVC.m in Sources */,
 				89D88EF01BB9840C002286FD /* JCDatePickerDayCell.m in Sources */,
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				895AECAE1BA87D7A001D27E3 /* JCProfilePage.m in Sources */,
@@ -931,6 +988,7 @@
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
 				89D88ED31BAF1A0F002286FD /* JCInboxDetail.m in Sources */,
 				8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */,
+				897280DE1BC3386F00569648 /* HeaderView.m in Sources */,
 				89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */,
 				8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */,
 				89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */,

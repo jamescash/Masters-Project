@@ -25,11 +25,8 @@
 
 
 @interface JCInbox ()<RSDFDatePickerViewDelegate,RSDFDatePickerViewDataSource>
-@property (weak, nonatomic) IBOutlet UITableView *receivedMessages;
-@property (nonatomic,strong) NSArray *myInvites;
 @property (nonatomic,strong) NSArray *myArtist;
 
-@property (nonatomic,strong) PFObject *selectedInvite;
 
 //calender view
 @property (nonatomic,strong)JCDatePickerView *datePickerView;
@@ -85,11 +82,6 @@
     [self.view addSubview:self.datePickerView];
     
     
-    [self.JCParseQuery getMyInvites:^(NSError *error, NSArray *response) {
-        
-        self.myInvites = response;
-        [self.receivedMessages reloadData];
-    }];
     
     
 }
@@ -107,43 +99,6 @@
     
 }
 
-#pragma - TableView
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return self.myInvites.count;
-}
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"forIndexPath:indexPath];
-    PFObject *eventInvite = [self.myInvites objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = [eventInvite objectForKey:@"eventHostName"];
-    
-    PFFile *imageFile = [eventInvite objectForKey:@"eventPhoto"];
-    NSURL *imageFileURL = [[NSURL alloc]initWithString:imageFile.url];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageFileURL];
-    cell.imageView.image = [UIImage imageWithData:imageData];
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    self.selectedInvite = [self.myInvites objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:@"showDetailedView" sender:self];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if ([segue.identifier isEqualToString:@"showDetailedView"]) {
-            JCInboxDetail *destinationVC = (JCInboxDetail*) segue.destinationViewController;
-            destinationVC.userEvent = self.selectedInvite;
-     }
-}
 
 #pragma - Calender Delagets
 

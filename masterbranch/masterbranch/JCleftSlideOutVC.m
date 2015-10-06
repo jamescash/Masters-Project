@@ -122,6 +122,11 @@
                                                          animated:YES];
             [self.sideMenuViewController hideMenuViewController];
             break;
+        case 2:
+            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"JCGigInvitesVC"]]
+                                                         animated:YES];
+            [self.sideMenuViewController hideMenuViewController];
+            break;
         case 3:
             NSLog(@"User Logged out delgation method engaged");
             [self UserSelectedLogOut];

@@ -48,6 +48,18 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 6
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// CSStickyHeaderFlowLayout
+#define COCOAPODS_POD_AVAILABLE_CSStickyHeaderFlowLayout
+#define COCOAPODS_VERSION_MAJOR_CSStickyHeaderFlowLayout 0
+#define COCOAPODS_VERSION_MINOR_CSStickyHeaderFlowLayout 2
+#define COCOAPODS_VERSION_PATCH_CSStickyHeaderFlowLayout 10
+
+// PureLayout
+#define COCOAPODS_POD_AVAILABLE_PureLayout
+#define COCOAPODS_VERSION_MAJOR_PureLayout 3
+#define COCOAPODS_VERSION_MINOR_PureLayout 0
+#define COCOAPODS_VERSION_PATCH_PureLayout 1
+
 // RESideMenu
 #define COCOAPODS_POD_AVAILABLE_RESideMenu
 #define COCOAPODS_VERSION_MAJOR_RESideMenu 4
@@ -59,4 +71,10 @@
 #define COCOAPODS_VERSION_MAJOR_RSDayFlow 1
 #define COCOAPODS_VERSION_MINOR_RSDayFlow 2
 #define COCOAPODS_VERSION_PATCH_RSDayFlow 0
+
+// VGParallaxHeader
+#define COCOAPODS_POD_AVAILABLE_VGParallaxHeader
+#define COCOAPODS_VERSION_MAJOR_VGParallaxHeader 0
+#define COCOAPODS_VERSION_MINOR_VGParallaxHeader 0
+#define COCOAPODS_VERSION_PATCH_VGParallaxHeader 6
 
