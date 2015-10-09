@@ -196,19 +196,24 @@
                 }else{
                     //now the event is saved lets make an activity
                     PFObject *activity = [PFObject objectWithClassName:@"Activity"];
-                    [activity setObject:[PFUser currentUser] forKey:@"fromUser"];
+                    [activity setObject:[[PFUser currentUser]objectId] forKey:@"fromUser"];
                     [activity setObject:self.recipents forKey:@"toUser"];
                     [activity setObject:@"userEvent" forKey:@"type"];
-                    [activity setObject:UserEvent forKey:@"relatedObject"];
                     [activity setObject:UserEvent.objectId forKey:@"relatedObjectId"];
                     
                     
                     [activity saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                         
+                        if (error) {
+                            //show alert view
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh shit!" message:@"Please try sending that message again there was an error" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                            [alert show];
+                        }else{
                         //sent to reipents so now remove them all to start with a blank slate the next time
                         [self.recipents removeAllObjects];
                         
                         NSLog(@"Event saved to parse sucessfully");
+                        }
                         
                     }];
                     

@@ -37,9 +37,6 @@
 }
 
 //TODO if we add a artist or a friend we can add them to the mutuble array here and this is always the array we user throught the whole add
-
-
-
 -(void)getMyAtrits:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits{
     
     
@@ -61,8 +58,6 @@
              }
           }];
 }
-
-
 -(void)getMyFriends:(void (^)(NSError *, NSArray *))finishedGettingMyFriends{
     
     self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
@@ -82,7 +77,6 @@
         
     }];
 };
-
 -(void)getMyInvites:(void (^)(NSError *, NSArray *))finishedGettingMyInvites{
    
 
@@ -90,7 +84,7 @@
     PFQuery *getMtInviteActivitys = [PFQuery queryWithClassName:@"Activity"];
     [getMtInviteActivitys whereKey:@"type" equalTo:@"userEvent"];
     [getMtInviteActivitys whereKey:@"toUser" equalTo:[[PFUser currentUser]objectId]];
-    [getMtInviteActivitys orderByDescending:@"createdAt"];
+    [getMtInviteActivitys orderByAscending:@"createdAt"];
     
     [getMtInviteActivitys findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
@@ -129,7 +123,6 @@
 
     
 };
-
 -(void)getMyAtritsUpComingGigs:(void (^)(NSError*, NSMutableArray*))finishedGettingMyAtritsUpcomingGigs{
     
     
@@ -217,6 +210,94 @@
         }];
         }
      }
+
+-(void)getEventComments:(NSString *)eventiD complectionBlock:(void (^)(NSError *, NSMutableArray *))finishedgettingEventComments{
+    
+    PFQuery *getEventCommentsActivitys = [PFQuery queryWithClassName:@"Activity"];
+    [getEventCommentsActivitys whereKey:@"type" equalTo:@"userComment"];
+    [getEventCommentsActivitys whereKey:@"relatedObjectId" equalTo:eventiD];
+    [getEventCommentsActivitys orderByAscending:@"createdAt"];
+    
+    
+    [getEventCommentsActivitys findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"%@ error receving messages",error);
+            finishedgettingEventComments(error,nil);
+            
+        }else{
+        
+            NSMutableArray *commentActivitys = [[NSMutableArray alloc]init];
+            [commentActivitys addObjectsFromArray:objects];
+            
+            finishedgettingEventComments(nil,commentActivitys);
+
+           
+        }
+    
+    }];
+    
+    
+    
+}
+
+
+//posting
+-(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock: (void(^)(NSError* error))finishedsavingComment{
+    
+    
+    NSString *commentText = [userInfo objectForKey:@"comment"];
+    NSString *eventId = [userInfo objectForKey:@"eventId"];
+    
+    if (commentText && commentText.length != 0) {
+        //create and save photo caption
+        PFObject *comment = [PFObject objectWithClassName:@"Activity"];
+        [comment setObject:@"userComment" forKey:@"type"];
+        [comment setObject:[[PFUser currentUser]objectId] forKey:@"fromUser"];
+        [comment setObject:eventId forKey:@"relatedObjectId"];
+        [comment setObject:commentText forKey:@"content"];
+        
+        PFACL *ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+        [ACL setPublicReadAccess:YES];
+        comment.ACL = ACL;
+        
+        
+        [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            
+            if (error) {
+                
+                finishedsavingComment(error);
+            }else{
+                
+                finishedsavingComment(nil);
+                NSLog(@"comment posted");
+            }
+        }];
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

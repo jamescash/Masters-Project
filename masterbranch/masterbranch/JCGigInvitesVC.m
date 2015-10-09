@@ -35,6 +35,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
     self.JCParseQuery = [JCParseQuerys sharedInstance];
     
     [self.JCParseQuery getMyInvites:^(NSError *error, NSArray *response) {

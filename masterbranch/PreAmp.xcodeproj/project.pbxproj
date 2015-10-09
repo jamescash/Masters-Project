@@ -39,6 +39,7 @@
 		897280DD1BC3386F00569648 /* HeaderViewWithImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897280D81BC3386F00569648 /* HeaderViewWithImage.xib */; settings = {ASSET_TAGS = (); }; };
 		897280DE1BC3386F00569648 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897280DA1BC3386F00569648 /* HeaderView.m */; settings = {ASSET_TAGS = (); }; };
 		897280DF1BC3386F00569648 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897280DB1BC3386F00569648 /* HeaderView.xib */; settings = {ASSET_TAGS = (); }; };
+		897281621BC553FF00569648 /* JCCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897281611BC553FF00569648 /* JCCommentCell.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
 		898FA89A1B7641A3000AEAB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */; };
 		898FA89C1B7641B9000AEAB1 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */; };
@@ -157,6 +158,8 @@
 		897280D91BC3386F00569648 /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
 		897280DA1BC3386F00569648 /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
 		897280DB1BC3386F00569648 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
+		897281601BC553FF00569648 /* JCCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCommentCell.h; sourceTree = "<group>"; };
+		897281611BC553FF00569648 /* JCCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCommentCell.m; sourceTree = "<group>"; };
 		898FA8971B76418A000AEAB1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
@@ -497,25 +500,26 @@
 			name = MyFriendsPage;
 			sourceTree = "<group>";
 		};
-		897280C51BC3063800569648 /* FirstScreen */ = {
+		897280C51BC3063800569648 /* InboxScreen */ = {
 			isa = PBXGroup;
 			children = (
 				89DCC59E1BC2B64E00E926A0 /* JCGigInvitesVC.h */,
 				89DCC59F1BC2B64E00E926A0 /* JCGigInvitesVC.m */,
 			);
-			name = FirstScreen;
+			name = InboxScreen;
 			sourceTree = "<group>";
 		};
-		897280C61BC3073D00569648 /* DetailedVC */ = {
+		897280C61BC3073D00569648 /* UserEventsPage */ = {
 			isa = PBXGroup;
 			children = (
+				8972815F1BC553D200569648 /* CustomUIClasses */,
 				89D88ED11BAF1A0F002286FD /* JCInboxDetail.h */,
 				89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */,
 			);
-			name = DetailedVC;
+			name = UserEventsPage;
 			sourceTree = "<group>";
 		};
-		897280E01BC3387B00569648 /* HeaderHelperClasses */ = {
+		897280E01BC3387B00569648 /* UserEventsPageParallaxHead */ = {
 			isa = PBXGroup;
 			children = (
 				897280D61BC3386F00569648 /* HeaderViewWithImage.h */,
@@ -525,7 +529,16 @@
 				897280DA1BC3386F00569648 /* HeaderView.m */,
 				897280DB1BC3386F00569648 /* HeaderView.xib */,
 			);
-			name = HeaderHelperClasses;
+			name = UserEventsPageParallaxHead;
+			sourceTree = "<group>";
+		};
+		8972815F1BC553D200569648 /* CustomUIClasses */ = {
+			isa = PBXGroup;
+			children = (
+				897281601BC553FF00569648 /* JCCommentCell.h */,
+				897281611BC553FF00569648 /* JCCommentCell.m */,
+			);
+			name = CustomUIClasses;
 			sourceTree = "<group>";
 		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
@@ -686,9 +699,9 @@
 		89DCC59D1BC2B62400E926A0 /* Gig Invites */ = {
 			isa = PBXGroup;
 			children = (
-				897280E01BC3387B00569648 /* HeaderHelperClasses */,
-				897280C61BC3073D00569648 /* DetailedVC */,
-				897280C51BC3063800569648 /* FirstScreen */,
+				897280E01BC3387B00569648 /* UserEventsPageParallaxHead */,
+				897280C61BC3073D00569648 /* UserEventsPage */,
+				897280C51BC3063800569648 /* InboxScreen */,
 			);
 			name = "Gig Invites";
 			sourceTree = "<group>";
@@ -955,6 +968,7 @@
 				89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
+				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */,
 				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,

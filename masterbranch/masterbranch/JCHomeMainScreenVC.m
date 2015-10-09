@@ -60,13 +60,10 @@
 #pragma ViewLoadingPoints
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
-//    self.navigationController.navigationBar.translucent = YES;
+
     
     
-    
+    //show login screen if users not logged in
     if (![PFUser currentUser]) {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
@@ -78,7 +75,6 @@
     
     self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
     self.allEevent = [[NSDictionary alloc]init];
-    
     
     //Load the array of all events created in the app delegate. It was created here so it stays constant
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -227,18 +223,14 @@
 
 - (void)startOperationsForPhotoRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
     
-    // 2
    
+    
     if (!record.hasURL) {
         [self startURLDownloading:record atIndexPath:indexPath];
     }
     
-    
-    
     if (!record.hasImage) {
-        
         [self startImageDownloadingForRecord:record atIndexPath:indexPath];
-        
     }
     
     if (!record.isFiltered) {
@@ -248,9 +240,8 @@
 
 
 - (void)startURLDownloading:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-    // 1
+
     if (![self.pendingOperations.URLRetrieversInProgress.allKeys containsObject:indexPath]) {
-        
         
         JCURLRetriever *URLGetter = [[JCURLRetriever alloc] initWithPhotoRecord:record atIndexPath:indexPath delegate:self];
         [self.pendingOperations.URLRetrieversInProgress setObject:URLGetter forKey:indexPath];
@@ -260,7 +251,7 @@
 
 
 - (void)startImageDownloadingForRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-    // 1
+
     if (![self.pendingOperations.downloadsInProgress.allKeys containsObject:indexPath]) {
         
         // 2

@@ -12,7 +12,7 @@
 
 
 
-@interface JCInboxDetail : UIViewController
+@interface JCInboxDetail : UIViewController <UITextFieldDelegate,UITextViewDelegate>
 @property (nonatomic,strong) PFObject *userEvent;
 @property (nonatomic,strong) UIImage *selectedInviteImage;
 
