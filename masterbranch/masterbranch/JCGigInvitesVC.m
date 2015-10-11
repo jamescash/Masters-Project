@@ -10,6 +10,9 @@
 #import <Parse/Parse.h>
 #import "JCParseQuerys.h"
 #import "JCInboxDetail.h"
+#import "JCEventInviteCell.h"
+
+
 
 
 
@@ -21,6 +24,7 @@
 @property (nonatomic,strong) PFObject *selectedInvite;
 @property (nonatomic,strong) UIImage *selectedInviteImage;
 @property (nonatomic,strong) NSArray *myInvites;
+@property (nonatomic,strong) NSMutableArray *imageFiles;
 
 //classes
 @property (nonatomic,strong) JCParseQuerys *JCParseQuery;
@@ -38,13 +42,20 @@
     
     
     self.JCParseQuery = [JCParseQuerys sharedInstance];
+    self.imageFiles = [[NSMutableArray alloc]init];
     
     [self.JCParseQuery getMyInvites:^(NSError *error, NSArray *response) {
         
         self.myInvites = response;
+    
+    //creat an arrray of images so we can download them asyn
+    for (PFObject *event in response) {
+           PFFile *imageFile = [event objectForKey:@"eventPhoto"];
+          [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
+        }
+    
         [self.MyGigInvitesTable reloadData];
     }];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,30 +71,40 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
     return self.myInvites.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"forIndexPath:indexPath];
-    PFObject *eventInvite = [self.myInvites objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = [eventInvite objectForKey:@"eventHostName"];
+    JCEventInviteCell *cell = [tableView dequeueReusableCellWithIdentifier:@"eventInviteCell"forIndexPath:indexPath];
+    //PFObject *eventInvite = [self.myInvites objectAtIndex:indexPath.row];
+    //cell.textLabel.text = [eventInvite objectForKey:@"eventHostName"];
     
-    PFFile *imageFile = [eventInvite objectForKey:@"eventPhoto"];
-    NSURL *imageFileURL = [[NSURL alloc]initWithString:imageFile.url];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageFileURL];
-    //add it to a class property so we can pass it to the events page Class
-    cell.imageView.image = [UIImage imageWithData:imageData];
+    UIImage *eventImage = self.imageFiles[indexPath.row][@"image"];
+
+    if (eventImage) {
+        cell.BackRoundImage.image = eventImage;
+        cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+    }else {
+        cell.BackRoundImage.image = [UIImage imageNamed:@"Placeholder.png"];
+        cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+
+        [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
+            if (!error) {
+                [self.MyGigInvitesTable reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+        }];
+       }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     self.selectedInvite = [self.myInvites objectAtIndex:indexPath.row];
-    UITableViewCell *cellatindex = [[UITableViewCell alloc]init];
+    JCEventInviteCell *cellatindex = [[JCEventInviteCell alloc]init];
     cellatindex = [tableView cellForRowAtIndexPath:indexPath];
-    self.selectedInviteImage = cellatindex.imageView.image;
+    self.selectedInviteImage = cellatindex.BackRoundImage.image;
     [self performSegueWithIdentifier:@"showEvent" sender:self];
  
     
@@ -91,12 +112,50 @@
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-        
     if ([segue.identifier isEqualToString:@"showEvent"]) {
         JCInboxDetail *destinationVC = (JCInboxDetail*) segue.destinationViewController;
         destinationVC.userEvent = self.selectedInvite;
         destinationVC.selectedInviteImage = self.selectedInviteImage;
     }
 }
+
+
+
+- (void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
+    
+    // if we fetched already, just return it via the completion block
+    UIImage *existingImage = self.imageFiles[indexPath.row][@"image"];
+    
+    if (existingImage){
+       completion(existingImage, nil);
+    }
+    
+    PFFile *pfFile = self.imageFiles[indexPath.row][@"pfFile"];
+    
+    
+    [pfFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error) {
+            UIImage *eventImage = [UIImage imageWithData:imageData];
+            self.imageFiles[indexPath.row][@"image"] = eventImage;
+            completion(eventImage, nil);
+        } else {
+            completion(nil, error);
+        }
+    }];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

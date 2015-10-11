@@ -21,6 +21,7 @@
 //UIElements
 @property (weak, nonatomic) IBOutlet UIView *addCommentView;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewVC;
+@property (weak, nonatomic) IBOutlet UIView *tableviewFooter;
 @property (weak, nonatomic) IBOutlet UITextView *addCommentTextfield;
 - (IBAction)postComment:(id)sender;
 
@@ -51,7 +52,6 @@
     self.addCommentTextfield.layer.cornerRadius = 5.0f;
     self.addCommentTextfield.layer.borderWidth = 1.0f;
     self.addCommentTextfield.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    
     //Init parse backend class
     self.parseQuerys = [JCParseQuerys sharedInstance];
     self.eventId = self.userEvent.objectId;
@@ -207,7 +207,11 @@
     CGRect rawFrame      = [value CGRectValue];
     CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
     
-    [self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
+    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
+    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:keyboardFrame.size.height];
+    [self replaceConstraintOnView:self.view withIdentifiyer:@"footerHeight" withConstant:keyboardFrame.size.height];
+
+    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
 
     [self.view addGestureRecognizer:tapRecognizer];
 
@@ -222,25 +226,45 @@
 
 -(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
     [self.addCommentTextfield resignFirstResponder];
-    [self replaceConstraintOnView:self.view withConstant:0];
+    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
 
 }
 
 
 #pragma mark - Helper Methods -  Animation
 
-
-- (void)replaceConstraintOnView:(UIView *)view withConstant:(float)constant
-{
+- (void)replaceConstraintOnView:(UIView *)view withIdentifiyer: (NSString*)Identifyer withConstant:(float)constant{
     
-        [self.view.constraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *constraint, NSUInteger idx, BOOL *stop) {
-        //animating the constrain for the text field
-        if ([constraint.identifier isEqualToString:@"TextFieldBottomLayout"]) {
+    
+    [self.view.constraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *constraint, NSUInteger idx, BOOL *stop) {
+        // animating the constrain for the text field
+        if ([constraint.identifier isEqualToString:Identifyer]) {
             constraint.constant = constant;
             [self animateConstraints];
         };
-       }];
+        
+        
+    }];
 }
+
+//
+//- (void)replaceConstraintOnView:(UIView *)view withConstant:(float)constant
+//{
+//    
+//        [self.view.constraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *constraint, NSUInteger idx, BOOL *stop) {
+//         // animating the constrain for the text field
+//        if ([constraint.identifier isEqualToString:@"TextFieldBottomLayout"]) {
+//            constraint.constant = constant;
+//            [self animateConstraints];
+//        };
+//            
+//        if ([constraint.identifier isEqualToString:@"footerHeight"]) {
+//                constraint.constant = constant;
+//                [self animateConstraints];
+//        };
+//     }];
+//}
+
 
 - (void)animateConstraints
 {
@@ -251,14 +275,7 @@
 }
 
 
-
-
-
-
-- (IBAction)postComment:(id)sender {
-    
-    
-   
+-(IBAction)postComment:(id)sender {
     
     //Trim comment and save it in a dictionary
     NSDictionary *userInfo = [NSDictionary dictionary];
@@ -293,10 +310,10 @@
        
     }
 
-    self.addCommentTextfield.textColor = [UIColor lightGrayColor];
-    self.addCommentTextfield.text = @"Add comment here...";
+     self.addCommentTextfield.textColor = [UIColor lightGrayColor];
+     self.addCommentTextfield.text = @"Add comment here...";
     [self.addCommentTextfield resignFirstResponder];
-    [self replaceConstraintOnView:self.view withConstant:0];
+    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
 
 
 
@@ -308,10 +325,7 @@
     
     [self.parseQuerys getEventComments:self.eventId complectionBlock:^(NSError *error, NSMutableArray *response) {
         
-        
         self.userCommentActivies = response;
-        
-        
         dispatch_async(dispatch_get_main_queue(), ^{
            [self.tableViewVC reloadData];
         });

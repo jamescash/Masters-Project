@@ -15,9 +15,7 @@
 
 //Pares is the framwork for our database
 #import <Parse/Parse.h>
-
-
-
+#import <ParseUI/ParseUI.h>
 
 
 @interface AppDelegate ()
@@ -34,7 +32,7 @@
     
     
     [Parse setApplicationId:@"e4CcwucLU3XKRPK93IeXLwzTsnKeT7Zoe7j5bJ0K" clientKey:@"akXPOHN6GDWrUD9EVwbTQ9jF7HfmZ5wsmFIXBYA9"];
-    
+    [PFImageView class];
     
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
                                                     UIUserNotificationTypeBadge |

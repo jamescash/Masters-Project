@@ -130,8 +130,12 @@
     
     NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
     eventObject *event = [self.allEevent[key] objectAtIndex:indexPath.row];
+    
+    //acesss the photo download object of that current event
+    
     JCPhotoDownLoadRecord *aRecord = event.photoDownload;
 
+    //check if it has an image 
     if (aRecord.hasImage) {
         
         //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
@@ -204,8 +208,6 @@
     // CGSize retval = photo.thumbnail.size.width > 0 ? photo.thumbnail.size : CGSizeMake(100, 100);
    
     CGFloat cellLeg = (self.collectionView.frame.size.width/2);
-    
-    
     return CGSizeMake(cellLeg,cellLeg);
 }
 
@@ -293,8 +295,6 @@
 
 -(void)JCURLRetrieverDidFinish:(JCURLRetriever *)downloader{
     
-    
-    
     NSIndexPath *indexPath = downloader.indexPathInTableView;
     
     JCPhotoDownLoadRecord *theRecord = downloader.photoRecord;
@@ -317,7 +317,6 @@
     
     
     // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
-    
     NSIndexPath *indexPath = downloader.indexPathInTableView;
     
     // 2: Get hold of the PhotoRecord instance.

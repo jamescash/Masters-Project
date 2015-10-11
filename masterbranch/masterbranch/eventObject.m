@@ -82,6 +82,8 @@
                             self.photoDownload.artistMbid = @"error";
                         }else{
                             self.mbidNumber = artistinfo[@"mbid"];
+                            //TODO is making self.mbidNumber = to photodownload ringht here?
+
                             self.photoDownload.artistMbid = self.mbidNumber;
                         };
                     

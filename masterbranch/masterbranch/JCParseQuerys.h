@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
+#import "eventObject.h"
 
 @interface JCParseQuerys : NSObject
 
@@ -16,7 +18,6 @@
 
 //Querys to the backend
 -(void)getEventComments:(NSString*) eventiD complectionBlock:(void(^)(NSError* error,NSMutableArray* response))finishedgettingEventComments;
-//going to look into parse tableview
 -(void)getMyAtrits:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits;
 -(void)getMyAtritsUpComingGigs:(void(^)(NSError* error,NSMutableArray*response))finishedGettingMyAtritsUpcomingGigs;
 -(void)getMyFriends:(void(^)(NSError* error,NSArray* response))finishedGettingMyFriends;
@@ -24,6 +25,10 @@
 
 //Saving to the backend
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock:(void(^)(NSError* error))finishedsavingComment;
+-(void)creatUserEvent:(eventObject*)eventObject invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent;
+//Async Iamge Downloader for tableView
+//-(void)DownloadImageFile:(PFFile*)imagefile atIndexPath:(NSIndexPath*)indexPath completionBlock:(void(^)(NSIndexPath*indexPath,UIImage* image))finishedDownloadingImage;
+
 
 
 @property (nonatomic,strong) NSArray* MyArtist;

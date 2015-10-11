@@ -7,7 +7,6 @@
 //
 
 #import "JCParseQuerys.h"
-#import <Parse/Parse.h>
 
 
 @interface JCParseQuerys ()
@@ -35,6 +34,8 @@
     });
     return _sharedInstance;
 }
+
+//TODO add in an alert for when there an error time out or when theres that parse DNS issue
 
 //TODO if we add a artist or a friend we can add them to the mutuble array here and this is always the array we user throught the whole add
 -(void)getMyAtrits:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits{
@@ -81,45 +82,47 @@
    
 
     
-    PFQuery *getMtInviteActivitys = [PFQuery queryWithClassName:@"Activity"];
-    [getMtInviteActivitys whereKey:@"type" equalTo:@"userEvent"];
-    [getMtInviteActivitys whereKey:@"toUser" equalTo:[[PFUser currentUser]objectId]];
-    [getMtInviteActivitys orderByAscending:@"createdAt"];
+    //PFQuery *getMtInviteActivitys = [PFQuery queryWithClassName:@"Activity"];
+    //[getMtInviteActivitys whereKey:@"type" equalTo:@"userEvent"];
+    //[getMtInviteActivitys whereKey:@"toUser" equalTo:[[PFUser currentUser]objectId]];
+    //[getMtInviteActivitys orderByAscending:@"createdAt"];
     
-    [getMtInviteActivitys findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    //[getMtInviteActivitys findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
-                if (error) {
-                        NSLog(@"%@ error receving messages",error);
-                        finishedGettingMyInvites(error,nil);
+               // if (error) {
+                    //    NSLog(@"%@ error receving messages",error);
+                    //    finishedGettingMyInvites(error,nil);
             
-                    }else{
-                        NSMutableArray *eventIds = [[NSMutableArray alloc]init];
-                        
+                    //}else{
+                     //   NSMutableArray *eventIds = [[NSMutableArray alloc]init];
+                     //
                         //get all the ids of the events
-                        for (PFObject *activity in objects) {
-                            [eventIds addObject:[activity objectForKey:@"relatedObjectId"]];
-                         };
+                      //  for (PFObject *activity in objects) {
+                       //     [eventIds addObject:[activity objectForKey:@"relatedObjectId"]];
+                       //  };
                         
                         PFQuery *getMyInvites = [PFQuery queryWithClassName:@"UserEvent"];
-                        [getMyInvites whereKey:@"objectId" containedIn:eventIds];
+                        [getMyInvites whereKey:@"invited" equalTo:[[PFUser currentUser]objectId]];
+                        [getMyInvites orderByDescending:@"createdAt"];
+    
+    
                         
-                        
-                        if (error) {
-                            NSLog(@"%@ error receving messages",error);
-                            finishedGettingMyInvites(error,nil);
+                        //if (error) {
+                        //    NSLog(@"%@ error receving messages",error);
+                          //  finishedGettingMyInvites(error,nil);
                             
-                        }else{
+                        //}else{
                         
                           [getMyInvites findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) { self.MyInvties = [[NSArray alloc]init];
                                 self.MyInvties = objects;
                                 finishedGettingMyInvites(nil,objects);
                              }];
-                        }
+                        //}
                         
-                    }
+                    //}
 
         
-    }];
+    //}];
 
     
 };
@@ -210,7 +213,6 @@
         }];
         }
      }
-
 -(void)getEventComments:(NSString *)eventiD complectionBlock:(void (^)(NSError *, NSMutableArray *))finishedgettingEventComments{
     
     PFQuery *getEventCommentsActivitys = [PFQuery queryWithClassName:@"Activity"];
@@ -240,6 +242,10 @@
     
     
 }
+
+
+
+
 
 
 //posting
@@ -276,7 +282,69 @@
     }
     
 }
+-(void)creatUserEvent:(eventObject*)currentEvent invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent{
+    
+    
+    //In the middel of saving UserEvent
+    
+    //1. event photo
+    //2. save userEvent
+    //3. Save user activity
+    //4. Upload and create NSNotification
+    
+    // going to try sending and story at full res to see what its like, we will need full res images to make the events UI work well
+    //static const CGSize thumbnialSize = {110, 240};
+    
+    //UIImage *EventThumbnail = [self.currentEvent.photoDownload.image resizedImageToSize:thumbnialSize];
+    
+    NSData *fileData;
+    NSString *fileName;
+    NSString *fileType;
+    
+    fileData = UIImagePNGRepresentation(currentEvent.photoDownload.image);
+    fileName = @"image.png";
+    fileType = @"EventImage";
+    
+    PFFile *file = [PFFile fileWithName:fileName data:fileData];
+    
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        //chaning the two asynrons upplaods to parse so users dont have to wait and only the second one happens if the first one
+        //is sucesful
+        
+        
+        if (error) {
+           
+            finishedCreatingUserEvent(error);
+            
+        }else{
+            //file saved sucessfully now lets link it with a PFobject so we can send it
+            PFObject *UserEvent = [PFObject objectWithClassName:@"UserEvent"];
+            [UserEvent setObject:file forKey:@"eventPhoto"];
+            [UserEvent setObject:currentEvent.eventTitle forKey:@"eventTitle"];
+            [UserEvent setObject:[[PFUser currentUser]username] forKey:@"eventHostName"];
+            [UserEvent setObject:currentEvent.eventDate forKey:@"eventDate"];
+            [UserEvent setObject:currentEvent.venueName forKey:@"eventVenue"];
+            [UserEvent setObject:[[PFUser currentUser]objectId] forKey:@"eventHostId"];
+            [UserEvent setObject:recipientIds forKey:@"invited"];
+            //create users going and user not going + who has tickets
+            [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                if (error) {
+                    finishedCreatingUserEvent(error);
 
+                }else{
+                    finishedCreatingUserEvent(nil);
+                }
+                
+            }];
+            
+        }
+        
+    }];
+    
+    
+}
 
 
 
