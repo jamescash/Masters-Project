@@ -62,6 +62,9 @@
 		89AD3BAB1B3C8F490004CAE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89AD3BAA1B3C8F490004CAE4 /* UIKit.framework */; };
 		89AE1C521B88DAE30055DB3D /* JCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE1C511B88DAE30055DB3D /* JCMainViewController.m */; };
 		89AE1C551B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE1C541B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m */; };
+		89B376CE1BCAF7CC006231A7 /* JCMusicDiaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B376CD1BCAF7CC006231A7 /* JCMusicDiaryCell.m */; settings = {ASSET_TAGS = (); }; };
+		89B376D11BCC10F5006231A7 /* JCDatePickerLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B376D01BCC10F5006231A7 /* JCDatePickerLayout.m */; settings = {ASSET_TAGS = (); }; };
+		89BA5EA61BCD2DC90049DC8D /* JCMusicDiaryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BA5EA51BCD2DC90049DC8D /* JCMusicDiaryObject.m */; settings = {ASSET_TAGS = (); }; };
 		89BDB1A11BCA666C00ECD8BA /* JCMusicDiaryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDB1A01BCA666C00ECD8BA /* JCMusicDiaryVC.m */; settings = {ASSET_TAGS = (); }; };
 		89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDB1A41BCA72E300ECD8BA /* JCMusicDiaryHeader.m */; settings = {ASSET_TAGS = (); }; };
 		89D88EBA1BAC9E84002286FD /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D88EB41BAC9E84002286FD /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
@@ -193,6 +196,12 @@
 		89AE1C511B88DAE30055DB3D /* JCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMainViewController.m; sourceTree = "<group>"; };
 		89AE1C531B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHappeningTonightHeaderVC.h; sourceTree = "<group>"; };
 		89AE1C541B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHappeningTonightHeaderVC.m; sourceTree = "<group>"; };
+		89B376CC1BCAF7CC006231A7 /* JCMusicDiaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryCell.h; sourceTree = "<group>"; };
+		89B376CD1BCAF7CC006231A7 /* JCMusicDiaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryCell.m; sourceTree = "<group>"; };
+		89B376CF1BCC10F5006231A7 /* JCDatePickerLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDatePickerLayout.h; sourceTree = "<group>"; };
+		89B376D01BCC10F5006231A7 /* JCDatePickerLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDatePickerLayout.m; sourceTree = "<group>"; };
+		89BA5EA41BCD2DC90049DC8D /* JCMusicDiaryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryObject.h; sourceTree = "<group>"; };
+		89BA5EA51BCD2DC90049DC8D /* JCMusicDiaryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryObject.m; sourceTree = "<group>"; };
 		89BDB19F1BCA666C00ECD8BA /* JCMusicDiaryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryVC.h; sourceTree = "<group>"; };
 		89BDB1A01BCA666C00ECD8BA /* JCMusicDiaryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryVC.m; sourceTree = "<group>"; };
 		89BDB1A31BCA72E300ECD8BA /* JCMusicDiaryHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryHeader.h; sourceTree = "<group>"; };
@@ -627,6 +636,24 @@
 			path = masterbranch;
 			sourceTree = "<group>";
 		};
+		89B376CB1BCAF7A1006231A7 /* JCCell */ = {
+			isa = PBXGroup;
+			children = (
+				89B376CC1BCAF7CC006231A7 /* JCMusicDiaryCell.h */,
+				89B376CD1BCAF7CC006231A7 /* JCMusicDiaryCell.m */,
+			);
+			name = JCCell;
+			sourceTree = "<group>";
+		};
+		89BA5EA71BCD2DD90049DC8D /* DiaryObject */ = {
+			isa = PBXGroup;
+			children = (
+				89BA5EA41BCD2DC90049DC8D /* JCMusicDiaryObject.h */,
+				89BA5EA51BCD2DC90049DC8D /* JCMusicDiaryObject.m */,
+			);
+			name = DiaryObject;
+			sourceTree = "<group>";
+		};
 		89BDB19D1BCA65F300ECD8BA /* old music diary */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,6 +667,8 @@
 		89BDB19E1BCA660300ECD8BA /* Music Diary */ = {
 			isa = PBXGroup;
 			children = (
+				89BA5EA71BCD2DD90049DC8D /* DiaryObject */,
+				89B376CB1BCAF7A1006231A7 /* JCCell */,
 				89BDB1A21BCA72AB00ECD8BA /* headerView */,
 				89BDB19F1BCA666C00ECD8BA /* JCMusicDiaryVC.h */,
 				89BDB1A01BCA666C00ECD8BA /* JCMusicDiaryVC.m */,
@@ -733,6 +762,8 @@
 				89D88EEF1BB9840C002286FD /* JCDatePickerDayCell.m */,
 				89D88EF11BBD1E85002286FD /* JCDatePickerCollectionView.h */,
 				89D88EF21BBD1E85002286FD /* JCDatePickerCollectionView.m */,
+				89B376CF1BCC10F5006231A7 /* JCDatePickerLayout.h */,
+				89B376D01BCC10F5006231A7 /* JCDatePickerLayout.m */,
 			);
 			name = "calander view";
 			sourceTree = "<group>";
@@ -1056,6 +1087,7 @@
 				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */,
+				89B376D11BCC10F5006231A7 /* JCDatePickerLayout.m in Sources */,
 				8954EC161B873BA800BBA658 /* JCCustomCollectionCell.m in Sources */,
 				89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */,
 				89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */,
@@ -1067,6 +1099,7 @@
 				8924A9751B6A3CC0007FB71C /* JCHTTPClient.m in Sources */,
 				895AECAE1BA87D7A001D27E3 /* JCProfilePage.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
+				89BA5EA61BCD2DC90049DC8D /* JCMusicDiaryObject.m in Sources */,
 				89AE1C521B88DAE30055DB3D /* JCMainViewController.m in Sources */,
 				89D88EDF1BB730DA002286FD /* MLVignetteView.m in Sources */,
 				89D88ECC1BADD68A002286FD /* JCInbox.m in Sources */,
@@ -1089,6 +1122,7 @@
 				89D88ED31BAF1A0F002286FD /* JCInboxDetail.m in Sources */,
 				8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */,
 				897280DE1BC3386F00569648 /* HeaderView.m in Sources */,
+				89B376CE1BCAF7CC006231A7 /* JCMusicDiaryCell.m in Sources */,
 				89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */,
 				8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */,
 				89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */,

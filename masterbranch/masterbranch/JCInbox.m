@@ -52,6 +52,7 @@
     
     
     [self.JCParseQuery getMyAtritsUpComingGigs:^(NSError *error, NSMutableArray *response) {
+       
         self.UpcomingGigDates = [[NSMutableArray alloc]init];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
@@ -66,7 +67,12 @@
             [self.UpcomingGigDates addObject:FormattedDate];
            }
          self.dateSet = [NSSet setWithArray:self.UpcomingGigDates];
+       
+        
+        
         [self.datePickerView reloadData];
+    
+    
     }];
     
     
@@ -76,7 +82,7 @@
     
     
     //creat the calender view and add it to them main view hierchy
-    self.datePickerView = [[JCDatePickerView alloc] initWithFrame: CGRectMake(0.0f,self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height/2)];
+    self.datePickerView = [[JCDatePickerView alloc] initWithFrame: CGRectMake(0.0f,self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.datePickerView.delegate = self;
     self.datePickerView.dataSource = self;
     [self.view addSubview:self.datePickerView];

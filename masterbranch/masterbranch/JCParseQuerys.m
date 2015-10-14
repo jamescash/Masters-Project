@@ -130,7 +130,9 @@
     
     
    //TODO make this dynamic so when you fav a new artist the while thing update
-    
+ 
+    UpcomingGigsLoopCounter = 0;
+
     if (self.upComingGigsRelation) {
     
       finishedGettingMyAtritsUpcomingGigs(nil,self.MyArtistUpcomingGigs);
@@ -144,10 +146,10 @@
         UpcomingGigsLoopCounter = 0;
         
         for (PFObject *artist in self.MyArtist) {
-            UpcomingGigsLoopCounter ++;
             
             self.upComingGigsRelation = [artist objectForKey:@"upComingGigsRel"];
             PFQuery *query  = [self.upComingGigsRelation query];
+            [query orderByAscending:@"datetime"];
             [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
                 
                 if (error) {
@@ -156,6 +158,8 @@
                     
                     //NSArray *aritstUpcomingGigs = objects;
                     [self.MyArtistUpcomingGigs addObjectsFromArray:objects];
+                    UpcomingGigsLoopCounter ++;
+
                     //[self.MyArtistUpcomingGigs setObject:aritstUpcomingGigs forKey:[artist objectForKey:@"artistName"]];
                     
                     if (UpcomingGigsLoopCounter == ([self.MyArtist count])) {
@@ -172,6 +176,7 @@
     
     }else{
         //we need to go get our artist relation
+
         [self getMyAtrits:^(NSError *error, NSArray *response) {
             
             if (error) {
@@ -186,10 +191,11 @@
             UpcomingGigsLoopCounter = 0;
                 
             for (PFObject *artist in self.MyArtist) {
-            UpcomingGigsLoopCounter ++;
                 
              self.upComingGigsRelation = [artist objectForKey:@"upComingGigsRel"];
              PFQuery *query  = [self.upComingGigsRelation query];
+             [query orderByAscending:@"datetime"];
+
              [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
                  
                  if (error) {
@@ -197,10 +203,13 @@
                  }else{
                  
                      //NSArray *aritstUpcomingGigs = objects;
+                     UpcomingGigsLoopCounter ++;
                      [self.MyArtistUpcomingGigs addObjectsFromArray:objects];
                      //[self.MyArtistUpcomingGigs setObject:aritstUpcomingGigs forKey:[artist objectForKey:@"artistName"]];
              
                  if (UpcomingGigsLoopCounter == ([self.MyArtist count])) {
+                     
+
                      finishedGettingMyAtritsUpcomingGigs(nil,self.MyArtistUpcomingGigs);
                  };
                 }

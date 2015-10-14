@@ -10,4 +10,12 @@
 
 @implementation JCMusicDiaryHeader
 
+-(void)setHeaderText:(NSString *)text {
+    
+    self.month.text = text;
+    self.backgroundColor = [UIColor lightGrayColor];
+    
+    
+}
+
 @end

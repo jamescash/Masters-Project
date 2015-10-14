@@ -10,6 +10,8 @@
 #import "JCDatePickerDaysOfWeekView.h"
 #import "JCDatePickerDayCell.h"
 #import "JCDatePickerCollectionView.h"
+#import "JCDatePickerLayout.h"
+
 
 
 @interface JCDatePickerView ()
@@ -56,6 +58,11 @@
 }
 
 
+- (Class)collectionViewLayoutClass{
+    [super collectionViewLayoutClass];
+    return [JCDatePickerLayout class];
+    
+}
 
 
 

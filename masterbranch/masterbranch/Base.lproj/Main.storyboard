@@ -762,21 +762,67 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3TF-WG-FJu">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3TF-WG-FJu" customClass="JCMusicDiaryCell">
                                         <rect key="frame" x="0.0" y="114" width="125" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zoD-kg-KO3">
+                                                    <rect key="frame" x="8" y="8" width="61.5" height="67"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="56"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-zy-P37">
+                                                    <rect key="frame" x="8" y="88" width="109" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="109" id="e8g-2A-HOI"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" red="1" green="0.84549753289473684" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="KTg-zy-P37" firstAttribute="bottom" secondItem="3TF-WG-FJu" secondAttribute="bottomMargin" id="03b-Rd-CWh"/>
+                                            <constraint firstItem="zoD-kg-KO3" firstAttribute="leading" secondItem="3TF-WG-FJu" secondAttribute="leadingMargin" id="JS1-DQ-UDO"/>
+                                            <constraint firstItem="zoD-kg-KO3" firstAttribute="top" secondItem="3TF-WG-FJu" secondAttribute="topMargin" id="ZQ8-kY-TUG"/>
+                                            <constraint firstItem="KTg-zy-P37" firstAttribute="leading" secondItem="3TF-WG-FJu" secondAttribute="leadingMargin" id="g1G-a1-l4K"/>
+                                        </constraints>
                                         <size key="customSize" width="125" height="120"/>
+                                        <connections>
+                                            <outlet property="artistName" destination="KTg-zy-P37" id="v44-rw-Fpx"/>
+                                            <outlet property="monthIndex" destination="zoD-kg-KO3" id="HMV-4E-ZZ3"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewHeader" id="h9J-co-4VT" customClass="JCMusicDiaryHeader">
                                     <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAk-kW-xY4">
+                                            <rect key="frame" x="225" y="13" width="151" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="GAB-fk-Bsl"/>
+                                                <constraint firstAttribute="width" constant="151" id="dRB-vw-jR3"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                            <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="yAk-kW-xY4" firstAttribute="centerX" secondItem="h9J-co-4VT" secondAttribute="centerX" id="79o-km-o0r"/>
+                                        <constraint firstItem="yAk-kW-xY4" firstAttribute="centerY" secondItem="h9J-co-4VT" secondAttribute="centerY" id="PiX-bw-JeE"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="month" destination="yAk-kW-xY4" id="ttt-Ja-E8N"/>
+                                    </connections>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="gxI-Gj-7BX" id="eIo-kO-bjd"/>
@@ -805,7 +851,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fkG-8d-Btm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3545" y="2196"/>
+            <point key="canvasLocation" x="3765" y="1764"/>
+        </scene>
+        <!--Inbox-->
+        <scene sceneID="wtV-Ia-tWX">
+            <objects>
+                <viewController storyboardIdentifier="JCInboxold" id="goO-lf-4jw" customClass="JCInbox" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4BO-GP-bGK"/>
+                        <viewControllerLayoutGuide type="bottom" id="gBV-sP-uBF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Y6e-3o-Lpr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ebX-S8-Itc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vdt-7y-CXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3765" y="2434"/>
         </scene>
         <!--Gig InvitesVC-->
         <scene sceneID="71S-Hv-s0t">
@@ -893,7 +958,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ll-Ut-GOi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3677" y="3165"/>
+            <point key="canvasLocation" x="3617" y="3665"/>
         </scene>
         <!--Inbox Detail-->
         <scene sceneID="kLY-wa-Mjt">
@@ -1167,7 +1232,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1a-to-XC8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4461" y="3165"/>
+            <point key="canvasLocation" x="4401" y="3665"/>
         </scene>
         <!--Add FriendsVC-->
         <scene sceneID="LYM-vB-9NP">
@@ -1540,7 +1605,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="gxI-Gj-7BX" kind="relationship" relationship="rootViewController" id="ImP-O6-Vdi"/>
+                        <segue destination="gxI-Gj-7BX" kind="relationship" relationship="rootViewController" id="8yX-LN-Evg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RXK-cz-Wx0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1581,7 +1646,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ZK-RE-as8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2903" y="1478"/>
+            <point key="canvasLocation" x="2898" y="1440"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VwA-Oo-kB7">
@@ -1599,7 +1664,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eGi-sc-NoN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2919" y="3165"/>
+            <point key="canvasLocation" x="2859" y="3665"/>
         </scene>
     </scenes>
 </document>
