@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "UIScrollView+VGParallaxHeader.h"
 
 
-@interface JCInboxDetail : UIViewController
-@property (nonatomic,strong) PFObject *message;
+
+@interface JCInboxDetail : UIViewController <UITextFieldDelegate,UITextViewDelegate>
+@property (nonatomic,strong) PFObject *userEvent;
+@property (nonatomic,strong) UIImage *selectedInviteImage;
+
 @end

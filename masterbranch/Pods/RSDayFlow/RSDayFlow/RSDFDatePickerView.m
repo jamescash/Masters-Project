@@ -33,6 +33,8 @@
 #import "RSDFDatePickerDaysOfWeekView.h"
 #import "NSCalendar+RSDFAdditions.h"
 
+
+
 static NSString * const RSDFDatePickerViewMonthHeaderIdentifier = @"RSDFDatePickerViewMonthHeaderIdentifier";
 static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerViewDayCellIdentifier";
 
@@ -46,12 +48,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, assign) NSUInteger daysInWeek;
 @property (nonatomic, readonly, strong) NSDate *selectedDate;
 
-// From and to date are the currently displayed dates in the calendar
-// These values change in infinite scrolling mode
-@property (nonatomic, readonly, strong) NSDate *fromDate;
-@property (nonatomic, readonly, strong) NSDate *toDate;
 
-// start and end date are date limits displayed in the calendar (No infinite scrolling)
+
+//start and end date are date limits displayed in the calendar (No infinite scrolling)
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
@@ -375,6 +374,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)commonInitializer
 {
+    
+    
+    
     NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth) fromDate:[NSDate date]];
     NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
     
@@ -405,7 +407,27 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
                                              selector:@selector(significantTimeChange:)
                                                  name:UIApplicationSignificantTimeChangeNotification
                                                object:nil];
+
+
+
+  //ADDING NEW DATA SOURCE FOR NUMBER OF SECTIONS AND WHAT NOT
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
 
 - (NSDate *)dateByMovingToEndOfMonth:(NSDate *)date
 {
@@ -655,6 +677,11 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     cell.date = cellPickerDate;
     cell.dateLabel.text = [NSString stringWithFormat:@"%tu", cellPickerDate.day];
     
+    if ([cell.dateLabel.text isEqualToString:@"10"]||[cell.dateLabel.text isEqualToString:@"25"]) {
+        [cell setFrame:CGRectMake(0,0,0,0)];
+
+    };
+    
     RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
     cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
     
@@ -701,14 +728,30 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         }
     }
     
+   
+    //Turn cell to zero if its not in the array
+
+    
     [cell setNeedsDisplay];
+    
+    
+    
     
     return cell;
 }
 
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+                //7         
     return self.daysInWeek * [self numberOfWeeksForMonthOfDate:[self dateForFirstDayInSection:section]];
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+
+return [self.calendar components:NSCalendarUnitMonth fromDate:self.fromDate toDate:self.toDate options:0].month;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -747,10 +790,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return nil;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return [self.calendar components:NSCalendarUnitMonth fromDate:self.fromDate toDate:self.toDate options:0].month;
-}
+
 
 #pragma mark - <UICollectionViewDelegate>
 
@@ -823,8 +863,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(RSDFDatePickerCollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     return [collectionViewLayout selfItemSize];
 }
+
 
 #pragma mark - <RSDFDatePickerCollectionViewDelegate>
 
@@ -913,5 +955,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     }
 }
+
+
 
 @end

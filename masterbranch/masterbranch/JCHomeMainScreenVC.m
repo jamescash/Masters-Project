@@ -60,24 +60,10 @@
 #pragma ViewLoadingPoints
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    
-    //the cloud is doing the heavy lifting
-    //    [PFCloud callFunctionInBackground:@"httpRequest" withParameters:nil block:^(id  _Nullable object, NSError * _Nullable error) {
-    //
-    //        if (error) {
-    //            NSLog(@"error %@",error);
-    //        }else{
-    //
-    //            NSLog(@" response %@",object);
-    //        }
-    //
-    //    }];
+
     
     
+    //show login screen if users not logged in
     if (![PFUser currentUser]) {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
@@ -89,7 +75,6 @@
     
     self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
     self.allEevent = [[NSDictionary alloc]init];
-    
     
     //Load the array of all events created in the app delegate. It was created here so it stays constant
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -145,8 +130,12 @@
     
     NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
     eventObject *event = [self.allEevent[key] objectAtIndex:indexPath.row];
+    
+    //acesss the photo download object of that current event
+    
     JCPhotoDownLoadRecord *aRecord = event.photoDownload;
 
+    //check if it has an image 
     if (aRecord.hasImage) {
         
         //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
@@ -219,8 +208,6 @@
     // CGSize retval = photo.thumbnail.size.width > 0 ? photo.thumbnail.size : CGSizeMake(100, 100);
    
     CGFloat cellLeg = (self.collectionView.frame.size.width/2);
-    
-    
     return CGSizeMake(cellLeg,cellLeg);
 }
 
@@ -238,18 +225,14 @@
 
 - (void)startOperationsForPhotoRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
     
-    // 2
    
+    
     if (!record.hasURL) {
         [self startURLDownloading:record atIndexPath:indexPath];
     }
     
-    
-    
     if (!record.hasImage) {
-        
         [self startImageDownloadingForRecord:record atIndexPath:indexPath];
-        
     }
     
     if (!record.isFiltered) {
@@ -259,9 +242,8 @@
 
 
 - (void)startURLDownloading:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-    // 1
+
     if (![self.pendingOperations.URLRetrieversInProgress.allKeys containsObject:indexPath]) {
-        
         
         JCURLRetriever *URLGetter = [[JCURLRetriever alloc] initWithPhotoRecord:record atIndexPath:indexPath delegate:self];
         [self.pendingOperations.URLRetrieversInProgress setObject:URLGetter forKey:indexPath];
@@ -271,7 +253,7 @@
 
 
 - (void)startImageDownloadingForRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-    // 1
+
     if (![self.pendingOperations.downloadsInProgress.allKeys containsObject:indexPath]) {
         
         // 2
@@ -313,8 +295,6 @@
 
 -(void)JCURLRetrieverDidFinish:(JCURLRetriever *)downloader{
     
-    
-    
     NSIndexPath *indexPath = downloader.indexPathInTableView;
     
     JCPhotoDownLoadRecord *theRecord = downloader.photoRecord;
@@ -337,7 +317,6 @@
     
     
     // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
-    
     NSIndexPath *indexPath = downloader.indexPathInTableView;
     
     // 2: Get hold of the PhotoRecord instance.

@@ -39,7 +39,8 @@
             //Array contaning a dictionarry with all the artsit at the event
             NSArray *artists = object [@"artists"];
             //Dictionary contain artist info
-            NSDictionary *artistinfo = artists [0];
+            ///TODO add defensive code here if theres no artist dic at 0 the app crashes 
+             NSDictionary *artistinfo = artists [0];
             //dictionart contaning all the venue infrmation
             NSDictionary *venue = object [@"venue"];
             
@@ -81,6 +82,8 @@
                             self.photoDownload.artistMbid = @"error";
                         }else{
                             self.mbidNumber = artistinfo[@"mbid"];
+                            //TODO is making self.mbidNumber = to photodownload ringht here?
+
                             self.photoDownload.artistMbid = self.mbidNumber;
                         };
                     

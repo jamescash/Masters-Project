@@ -120,6 +120,7 @@
             
             
             if ([JSONresults count] > 0) {
+                //TODO BAD_ACCESS  CODE 1 CRASH
                [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];

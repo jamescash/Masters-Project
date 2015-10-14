@@ -11,6 +11,6 @@
 
 
 
-@interface JCInbox : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface JCInbox : UIViewController 
 
 @end

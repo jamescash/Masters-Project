@@ -7,12 +7,23 @@
 //
 
 #import "JCSelectFriends.h"
+#import "JCParseQuerys.h"
+#import "UIImage+Resize.h"
+#import "JCParseQuerys.h"
+
+
+
 
 @interface JCSelectFriends ()
 
 @property (nonatomic,strong) NSArray *MyFriends;
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) NSMutableArray *recipents;
+
+//classes
+@property (nonatomic,strong) JCParseQuerys *JCParseQuery;
+
+
 
 //actions
 - (IBAction)CancleButton:(id)sender;
@@ -27,7 +38,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Select Friends";
-    [self getMyFriends];
+
+    
+    _JCParseQuery = [JCParseQuerys sharedInstance];
+
+    [self.JCParseQuery getMyFriends:^(NSError *error, NSArray *response) {
+        
+        self.MyFriends = response;
+        [self.tableView reloadData];
+
+        
+    }];
+    
+    
+    
     self.recipents = [[NSMutableArray alloc]init];
     
     
@@ -90,23 +114,6 @@
 
 
 
--(void)getMyFriends{
-    
-     self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
-    PFQuery *query  = [self.FriendRelations query];
-    [query orderByAscending:@"username"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        
-        if (error) {
-            NSLog(@"Error coming form insode get my firends relations %@",error);
-        }
-        
-        self.MyFriends = objects;
-        [self.tableView reloadData];
-        
-    }];
-}
-
 
 
 - (IBAction)CancleButton:(id)sender {
@@ -126,67 +133,29 @@
     }else {
         
         //Seems like we have an event object lets upload it then dismiss the VC
-        [self uploadMessage];
+
+        [self.JCParseQuery creatUserEvent:self.currentEvent invitedUsers:self.recipents complectionBlock:^(NSError *error) {
+            
+            if (error) {
+                //show alert view
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"An error oh shit!" message:@"Please try sending that message again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                [self.recipents removeAllObjects];
+                
+                [alert show];
+            }else{
+                [self.recipents removeAllObjects];
+                NSLog(@"event created");
+            }
+            
+            
+        }];
+        
+        
         [self dismissViewControllerAnimated:YES completion:nil];
       }
     
 }
 
 
--(void)uploadMessage{
-    
-    NSData *fileData;
-    NSString *fileName;
-    NSString *fileType;
-    
-    
-    fileData = UIImagePNGRepresentation(self.currentEvent.photoDownload.image);
-    fileName = @"image.png";
-    fileType = @"EventImage";
-                                         
-    PFFile *file = [PFFile fileWithName:fileName data:fileData];
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        
-        //chaning the two asynrons upplaods to parse so users dont have to wait and only the second one happens if the first one
-        //is sucesful
-        
-        
-        if (error) {
-            //show alert view
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"An error oh shit!" message:@"Please try sending that message again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
-            [self.recipents removeAllObjects];
 
-            [alert show];
-        }else{
-            //file saved sucessfully now lets link it with a PFobject so we can send it
-            PFObject *message = [PFObject objectWithClassName:@"Messages"];
-            [message setObject:file forKey:@"file"];
-            [message setObject:fileType forKey:@"fileType"];
-            [message setObject:self.recipents forKey:@"recipientIds"];
-            [message setObject:[[PFUser currentUser]objectId] forKey:@"senderId"];
-            [message setObject:[[PFUser currentUser]username] forKey:@"senderName"];
-            [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-               
-                if (error) {
-                    //show alert view
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh shit!" message:@"Please try sending that message again there was an error" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
-                    [alert show];
-                }else{
-                    
-                    //sent to reipents so now remove them all to start with a blank slate the next time
-                    [self.recipents removeAllObjects];
-
-                    NSLog(@"Message sent to parse sucessfully");
-                }
-           
-            }];
-            
-        }
-    
-    
-    }];
-    
-    
-    
-}
 @end

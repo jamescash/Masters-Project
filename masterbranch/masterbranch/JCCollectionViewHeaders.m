@@ -16,11 +16,8 @@
 
 
 -(void)setHeaderText:(NSString *)text {
-   
-    self.searchLabel.text = text;
-    self.backgroundColor = [UIColor lightGrayColor];
-
-    
+   self.searchLabel.text = text;
+   self.backgroundColor = [UIColor lightGrayColor];
 }
 
 @end

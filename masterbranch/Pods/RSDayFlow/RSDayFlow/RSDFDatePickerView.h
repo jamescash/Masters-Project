@@ -79,6 +79,14 @@
 /// @name Paging Mode
 /// -----------------
 
+
+// From and to date are the currently displayed dates in the calendar
+// These values change in infinite scrolling mode
+@property (nonatomic, readonly, strong) NSDate *fromDate;
+@property (nonatomic, readonly, strong) NSDate *toDate;
+
+
+
 /**
  A Boolean value that determines whether paging is enabled for the date picker view. Default value is `NO`.
  

@@ -20,17 +20,26 @@ PODS:
   - AFNetworking/UIKit (2.6.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - CSStickyHeaderFlowLayout (0.2.10)
+  - PureLayout (3.0.1)
   - RESideMenu (4.0.7)
   - RSDayFlow (1.2.0)
+  - VGParallaxHeader (0.0.6):
+    - PureLayout
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - CSStickyHeaderFlowLayout
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
+  - VGParallaxHeader
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
+  CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
+  PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60
+  VGParallaxHeader: 1213aba58c9b0aea84f9e81ad526fde57aa4fe48
 
 COCOAPODS: 0.37.2
