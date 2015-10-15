@@ -18,9 +18,6 @@
         self.UpcomingGigDate = UpcomingGigDate;
         self.UpcomingGigObject = GigObject;
         self.dateComponents = dateComponents;
-        self.year = (NSInteger*)dateComponents.year;
-        self.month = (NSInteger*)dateComponents.month;
-        self.day = (NSInteger*)dateComponents.day;
     }
 
     return self;

@@ -40,22 +40,22 @@
     [super viewDidLoad];
     
     
-    
     self.JCParseQuery = [JCParseQuerys sharedInstance];
     self.imageFiles = [[NSMutableArray alloc]init];
     
     [self.JCParseQuery getMyInvites:^(NSError *error, NSArray *response) {
         
         self.myInvites = response;
-    
-    //creat an arrray of images so we can download them asyn
-    for (PFObject *event in response) {
-           PFFile *imageFile = [event objectForKey:@"eventPhoto"];
-          [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
-        }
-    
+        //creat an arrray of images so we can download them asyn
+        for (PFObject *event in response) {
+            
+            PFFile *imageFile = [event objectForKey:@"eventPhoto"];
+            [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
+            }
+        
         [self.MyGigInvitesTable reloadData];
     }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,7 +69,6 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.myInvites.count;
 }
@@ -100,7 +99,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     self.selectedInvite = [self.myInvites objectAtIndex:indexPath.row];
     JCEventInviteCell *cellatindex = [[JCEventInviteCell alloc]init];
     cellatindex = [tableView cellForRowAtIndexPath:indexPath];
@@ -109,9 +107,7 @@
  
     
 }
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showEvent"]) {
         JCInboxDetail *destinationVC = (JCInboxDetail*) segue.destinationViewController;
         destinationVC.userEvent = self.selectedInvite;
@@ -120,8 +116,7 @@
 }
 
 
-
-- (void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
+-(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
     
     // if we fetched already, just return it via the completion block
     UIImage *existingImage = self.imageFiles[indexPath.row][@"image"];

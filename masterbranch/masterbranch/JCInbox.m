@@ -51,29 +51,29 @@
     _JCParseQuery = [JCParseQuerys sharedInstance];
     
     
-    [self.JCParseQuery getMyAtritsUpComingGigs:^(NSError *error, NSMutableArray *response) {
-       
-        self.UpcomingGigDates = [[NSMutableArray alloc]init];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
-        for (id event in response) {
-            NSString *objectdate = [event objectForKey:@"datetime"];
-            NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-            NSDate *date = [dateFormat dateFromString:dateformatted];
-            NSCalendar *calendar = [NSCalendar currentCalendar];
-            unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
-            NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
-            NSDate *FormattedDate = [calendar dateFromComponents:dateComponents];
-            [self.UpcomingGigDates addObject:FormattedDate];
-           }
-         self.dateSet = [NSSet setWithArray:self.UpcomingGigDates];
-       
-        
-        
-        [self.datePickerView reloadData];
-    
-    
-    }];
+//    [self.JCParseQuery getMyAtritsUpComingGigs:^(NSError *error, NSMutableArray *response) {
+//       
+//        self.UpcomingGigDates = [[NSMutableArray alloc]init];
+//        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//        [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+//        for (id event in response) {
+//            NSString *objectdate = [event objectForKey:@"datetime"];
+//            NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+//            NSDate *date = [dateFormat dateFromString:dateformatted];
+//            NSCalendar *calendar = [NSCalendar currentCalendar];
+//            unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
+//            NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
+//            NSDate *FormattedDate = [calendar dateFromComponents:dateComponents];
+//            [self.UpcomingGigDates addObject:FormattedDate];
+//           }
+//         self.dateSet = [NSSet setWithArray:self.UpcomingGigDates];
+//       
+//        
+//        
+//        [self.datePickerView reloadData];
+//    
+//    
+//    }];
     
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];

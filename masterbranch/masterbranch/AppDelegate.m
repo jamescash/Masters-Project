@@ -17,9 +17,14 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
+#import "JCLocationManager.h"
+
+
 
 @interface AppDelegate ()
 @property (nonatomic,strong) JCEventBuilder *eventbuilder;
+
+
 
 @end
 
@@ -30,6 +35,7 @@
     
     // connecting to pasre our backend aand leetting parse know what app we are
     
+
     
     [Parse setApplicationId:@"e4CcwucLU3XKRPK93IeXLwzTsnKeT7Zoe7j5bJ0K" clientKey:@"akXPOHN6GDWrUD9EVwbTQ9jF7HfmZ5wsmFIXBYA9"];
     [PFImageView class];
@@ -46,8 +52,8 @@
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
     
     
-    _eventbuilder  = [JCEventBuilder sharedInstance];
-    _eventbuilder.delegate = self;
+//    _eventbuilder  = [JCEventBuilder sharedInstance];
+//    _eventbuilder.delegate = self;
     
     
     

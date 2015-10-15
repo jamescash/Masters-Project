@@ -39,8 +39,16 @@
             //Array contaning a dictionarry with all the artsit at the event
             NSArray *artists = object [@"artists"];
             //Dictionary contain artist info
+        
             ///TODO add defensive code here if theres no artist dic at 0 the app crashes 
-             NSDictionary *artistinfo = artists [0];
+            //TO parse thisJSON correctly
+                if ([artists count]==0) {
+                    NSLog(@"no artist");
+                    return nil;
+                    }
+        
+        
+            NSDictionary *artistinfo = artists [0];
             //dictionart contaning all the venue infrmation
             NSDictionary *venue = object [@"venue"];
             
