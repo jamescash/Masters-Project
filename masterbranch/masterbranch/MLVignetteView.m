@@ -49,10 +49,6 @@
   UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8];
   [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
   [vignetteLayer setLocations:@[@(0.50), @(1.0)]];
-  
-  //[[self layer] setBorderWidth:1.0f];
-  //[[self layer] setCornerRadius:8.0f];
-  //[[self layer] setMasksToBounds:YES];
   [[self layer] addSublayer:vignetteLayer];
 }
 

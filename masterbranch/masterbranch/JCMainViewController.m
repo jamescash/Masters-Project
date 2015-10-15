@@ -10,11 +10,15 @@
 #import "JCleftSlideOutVC.h"
 //so we can acsess the count of friends
 #import "JCProfilePage.h"
+#import "JCParseQuerys.h"
+
 
 
 @interface JCMainViewController ()
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) PFRelation *artistRelations;
+
+@property (nonatomic,strong) JCParseQuerys *ParseQuerys;
 
 
 
@@ -26,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.ParseQuerys = [JCParseQuerys sharedInstance];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,20 +87,28 @@
     
      }];
     
-    //get artist count
-    self.artistRelations = [[PFUser currentUser] objectForKey:@"ArtistRelation"];
-    PFQuery *artistquery  = [self.artistRelations query];
-    [artistquery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//    //get artist count
+//    self.artistRelations = [[PFUser currentUser] objectForKey:@"ArtistRelation"];
+//    PFQuery *artistquery  = [self.artistRelations query];
+//    [artistquery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//        
+//        if (error) {
+//            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+//        }
+//        
+//        menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[objects count]];
+//        
+//    }];
+    
+    [self.ParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
         
-        if (error) {
-            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
-        }
+    NSLog(@"got artist");
         
-        menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[objects count]];
-        
+    menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[response count]];
+
     }];
     
-    
+
 }
 
 

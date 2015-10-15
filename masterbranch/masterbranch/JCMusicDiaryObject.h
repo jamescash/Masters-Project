@@ -14,10 +14,7 @@
 @property(nonatomic,strong) NSDate            *UpcomingGigDate;
 @property(nonatomic,strong) PFObject          *UpcomingGigObject;
 @property(nonatomic,strong) NSDateComponents  *dateComponents;
-
-@property(nonatomic) NSInteger                *year;
-@property(nonatomic) NSInteger                *month;
-@property(nonatomic) NSInteger                *day;
+@property(nonatomic,strong) UIImage           *artistImage;
 
 - (id)initWithEvent:(NSDate*)UpcomingGigDate andDateComponents:(NSDateComponents*)dateComponents andGigObject:(PFObject*)GigObject;
 

@@ -4,3 +4,5 @@ pod 'RESideMenu', '~> 4.0.7'
 pod 'RSDayFlow'
 pod "CSStickyHeaderFlowLayout"
 pod 'VGParallaxHeader'
+pod 'MYNStickyFlowLayout'
+pod 'CCBottomRefreshControl'

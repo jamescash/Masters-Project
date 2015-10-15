@@ -16,6 +16,7 @@
 
 
 
+
 @interface JCMusicDiaryVC ()
 //properties
 @property (weak, nonatomic) IBOutlet UICollectionView *myMusicDiary;
@@ -26,11 +27,13 @@
 
 //test properties
 @property (nonatomic,strong) NSArray *MusicDiaryObjectsSortedByDate;
-@property (nonatomic,strong) NSMutableArray *MusicDiaryObjects3DSortedArray;
+@property (nonatomic,strong) NSMutableArray *MusicDiaryObjectsSortedArray;
 
 @property (nonatomic,strong) NSSet *dateSet;
 @property (nonatomic,strong) NSCalendar *calendar;
 
+//UIElements
+- (IBAction)IrelandWorld:(id)sender;
 
 
 //Classes
@@ -40,133 +43,83 @@
 
 @implementation JCMusicDiaryVC{
     NSInteger monthIndex;
+    BOOL IrelandDataLoaded;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.myMusicDiary.backgroundColor = [UIColor whiteColor];
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
-    
-    //Get upcoming gigs and store them in our data model
-    [self.JCParseQuerys getMyAtritsUpComingGigs:^(NSError *error, NSMutableArray *response) {
-    self.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    self.calendar.locale = [NSLocale currentLocale];
-    self.MusicDiaryObjects3DSortedArray = [[NSMutableArray alloc]init];
-    NSMutableArray *MusicDiaryObjectsUnsorted = [[NSMutableArray alloc]init];
-    self.MusicDiaryObjectsSortedByDate = [[NSMutableArray alloc]init];
-        
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
-       
-        
-        
-    for (PFObject *upComingGig in response) {
-            //make the NSDate First
-            NSString *objectdate = [upComingGig objectForKey:@"datetime"];
-            NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-            NSDate *date = [dateFormat dateFromString:dateformatted];
-            NSCalendar *calendar = [NSCalendar currentCalendar];
-            unsigned unitFlags = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
-            NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
-            NSDate *FormattedDate = [calendar dateFromComponents:dateComponents];
-            
-        //Then Creat The Music Diary Object
-        JCMusicDiaryObject *MusicDiaryObject = [[JCMusicDiaryObject alloc]initWithEvent:FormattedDate andDateComponents:dateComponents andGigObject:upComingGig];
-        [MusicDiaryObjectsUnsorted addObject:MusicDiaryObject];
-       
-    }
-        
-     
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"UpcomingGigDate"
-                                                     ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        self.MusicDiaryObjectsSortedByDate = [MusicDiaryObjectsUnsorted sortedArrayUsingDescriptors:sortDescriptors];
-
-        
-        NSArray *twoDArraySortedYears = [self sortArrayInto2DArrayContaningYears:self.MusicDiaryObjectsSortedByDate];
-        
-        
-        for (NSArray *year in twoDArraySortedYears) {
-            
-           NSArray *yearArraySortedintoMonths = [self sortArrayInto2DArrayContaningMonths:year];
-           
-         [self.MusicDiaryObjects3DSortedArray addObjectsFromArray:yearArraySortedintoMonths];
-        
-        
-        }
-        
-            
-        
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.myMusicDiary reloadData];
-                });
+    self.calendar =                             [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    self.calendar.locale =                      [NSLocale currentLocale];
+    self.MusicDiaryObjectsSortedArray =       [[NSMutableArray alloc]init];
+    self.MusicDiaryObjectsSortedByDate =        [[NSMutableArray alloc]init];
    
-    }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    
-
-   // int numberOfitemsinSection = 2;
-    //int numberOfMonthsinEachYearTracker;
-    //int numberOfitemsinSection = 3;
-    //int i = 1;
-
-    
-//       if (([self.MusicDiaryObjects3DSortedArray[0]count]-1) < section) {
-//            numberOfMonthsinEachYearTracker = (numberOfMonthsinEachYearTracker+([self.MusicDiaryObjects3DSortedArray[i]count]-1));
-//           
-//           if((([self.MusicDiaryObjects3DSortedArray[1]count]-1)+numberOfMonthsinEachYearTracker) > section ) {
-//            return [self.MusicDiaryObjects3DSortedArray[1][section-numberOfMonthsinEachYearTracker]count];
-//               
-//           }
-//           
-//         
-//        }else if (([self.MusicDiaryObjects3DSortedArray[0]count]-1)>section) {
-//            return [self.MusicDiaryObjects3DSortedArray[i][section]count];
-//        }
-//
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadUpcomingGigs:YES];
     
     
-    return [self.MusicDiaryObjects3DSortedArray[section]count];
 
 }
 
-- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    //Number of sections is = to the number of months from the first upcoming gig to the last upcoming gig.
-    //JCMusicDiaryObject *FirstMusicDiaryObject = [self.MusicDiaryObjectsSortedByDate objectAtIndex:0];
-   /// NSDate *formDate = [self dateWithFirstDayOfMonth:FirstMusicDiaryObject.UpcomingGigDate];
-    //JCMusicDiaryObject *lastMusicDiaryObject = [self.MusicDiaryObjectsSortedByDate lastObject];
-    //NSDate *toDate = [self dateWithFirstDayOfMonth:lastMusicDiaryObject.UpcomingGigDate];
-    
-//    int numberOfSections = 5;
-//
-//    for (int i = 0; i<[self.MusicDiaryObjects3DSortedArray count]; i++) {
-//        
-//        numberOfSections = numberOfSections + [self.MusicDiaryObjects3DSortedArray[i] count];
-//        
-//    }
-    
-    return  [self.MusicDiaryObjects3DSortedArray count];
+-(NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+    return [self.MusicDiaryObjectsSortedArray[section]count];
 }
 
+-(NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+ 
+    return  [self.MusicDiaryObjectsSortedArray count];
+}
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+-(UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JCMusicDiaryCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
    
-    NSArray *monthSection = [self.MusicDiaryObjects3DSortedArray objectAtIndex:indexPath.section];
+    NSArray *monthSection = [self.MusicDiaryObjectsSortedArray objectAtIndex:indexPath.section];
     
     JCMusicDiaryObject *objectForCellAtIndex = [monthSection objectAtIndex:indexPath.row];
-    
     PFObject *currentGig = objectForCellAtIndex.UpcomingGigObject;
     
-    NSString *themonthIndex = [NSString stringWithFormat:@"%d",objectForCellAtIndex.dateComponents.day];
-    cell.monthIndex.text = themonthIndex;
+    NSString *dayIndex = [NSString stringWithFormat:@"%ld",(long)objectForCellAtIndex.dateComponents.day];
+    
+    if (objectForCellAtIndex.artistImage) {
+        cell.backRoundImage.image = objectForCellAtIndex.artistImage;
+    }else{
+        cell.backRoundImage.image = [UIImage imageNamed:@"Placeholder.png"];
+        
+        //dispatch_async(imageLoad, ^{
+        
+            
+            [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
+                if (!error) {
+                    objectForCellAtIndex.artistImage = image;
+                    [self.MusicDiaryObjectsSortedArray[indexPath.section]replaceObjectAtIndex:indexPath.row withObject:objectForCellAtIndex];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                      [self.myMusicDiary reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
+                     });
+
+                 }else if (error){
+                    NSLog(@"%@",error);
+                }
+                
+            }];
+        
+        //});
+
+       
+        
+        
+    }
+    
+    
+    cell.monthIndex.text = dayIndex;
     cell.artistName.text = [currentGig objectForKey:@"artistName"];
     //cell.backroundImage.image = @"";
     return cell;
@@ -179,30 +132,26 @@
 
     JCMusicDiaryHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                            UICollectionElementKindSectionHeader withReuseIdentifier:@"collectionViewHeader" forIndexPath:indexPath];
-    NSArray *month = self.MusicDiaryObjects3DSortedArray[indexPath.section];
+    NSArray *month = self.MusicDiaryObjectsSortedArray[indexPath.section];
     JCMusicDiaryObject *day = month[indexPath.row];
     
-    NSString *HreaderText = [NSString stringWithFormat:@"%d ,%d",day.dateComponents.day,day.dateComponents.year];
+    NSString *HreaderText = [NSString stringWithFormat:@"%ld ,%ld",(long)day.dateComponents.month,(long)day.dateComponents.year];
     
     [headerView setHeaderText:HreaderText];
     return headerView;
 }
-
-
 #pragma mark – UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat cellLeg = ((self.myMusicDiary.frame.size.width-20)/3);
+    CGFloat cellLeg = ((self.myMusicDiary.frame.size.width/3)-1);
     return CGSizeMake(cellLeg,cellLeg);
 }
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
-    return UIEdgeInsetsMake(5, 0, 0, 0);
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
-
-
-#pragma - Calender Helper Methods 
+#pragma - Calender Helper Methods
 
 - (NSDate *)dateWithFirstDayOfMonth:(NSDate *)date
 {
@@ -211,8 +160,9 @@
     return [self.calendar dateFromComponents:dateComponents];
 }
 
-
-
+         
+#pragma - Helper Methods
+//TODO add lazy initiation to the Mutable arrays so they are only initalised as they are needed
 -(NSArray*)sortArrayInto2DArrayContaningYears:(NSArray*)ArrayToSort{
 
 
@@ -290,10 +240,9 @@
     }
     
 
+
     return ReturnArray;
 };
-
-
 
 -(NSArray*)sortArrayInto2DArrayContaningMonths:(NSArray*)ArrayToSort{
     
@@ -405,6 +354,7 @@
     if ([December count]!=0) {
         [ReturntArray addObject:December];
     }
+    
 
     return ReturntArray;
 //    self.UpcomingGigsCalander = @{@"January":January,@"February":February,@"March":March,@"April":Aplri,@"May":May,@"June":June,@"July":July,@"August":August,@"September":September,@"October":October,@"November":November,@"December":December};
@@ -412,5 +362,158 @@
 //    //build a manual array of keys to make sure they are in the right order
 //    self.UpcomingGigsCalanderKeys = @[@"January",@"February",@"March",@"April",@"May",@"June",@"July",@"August",@"September",@"October",@"November",@"December"];
 };
+
+-(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
+             
+    
+    
+            NSArray *monthSection = self.MusicDiaryObjectsSortedArray[indexPath.section];
+            JCMusicDiaryObject *diaryObject = monthSection[indexPath.row];
+    
+             // if we fetched already, just return it via the completion block
+             UIImage *existingImage = diaryObject.artistImage;
+             if (existingImage){
+                 completion(existingImage, nil);
+             }
+             
+    
+    [self.JCParseQuerys DownloadImageForArtist:[diaryObject.UpcomingGigObject objectForKey:@"artistName"] completionBlock:^(NSError *error, UIImage *image) {
+        
+        if (error) {
+            
+            completion(nil,error);
+         }else{
+
+             completion(image,nil);
+            }
+   }];
+
+    
+}
+
+
+
+
+
+
+- (IBAction)IrelandWorld:(id)sender {
+    
+    if (IrelandDataLoaded) {
+        [self emptyCollectionView];
+        [self loadUpcomingGigs:NO];
+    }else{
+        [self emptyCollectionView];
+        [self loadUpcomingGigs:YES];
+    }
+}
+
+
+-(void)emptyCollectionView{
+    
+    [self.MusicDiaryObjectsSortedArray removeAllObjects];
+    [self.myMusicDiary reloadData];
+}
+
+
+-(void)loadUpcomingGigs: (BOOL)forIrelandOnly{
+    
+
+    if (forIrelandOnly) {
+        IrelandDataLoaded = YES;
+    }else{
+        IrelandDataLoaded = NO;
+    }
+    
+    
+[self.JCParseQuerys getMyAtritsUpComingGigs:forIrelandOnly comletionblock:^(NSError *error, NSMutableArray *response) {
+    
+    
+         //self.MusicDiaryObjectsSortedArray = nil;
+
+            NSMutableArray *MusicDiaryObjectsUnsorted = [[NSMutableArray alloc]init];
+            
+            
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+            
+            
+            
+            for (PFObject *upComingGig in response) {
+                NSString *objectdate = [upComingGig objectForKey:@"datetime"];
+                NSString *dateformatted = [objectdate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+                NSDate *date = [dateFormat dateFromString:dateformatted];
+                NSCalendar *calendar = [NSCalendar currentCalendar];
+                unsigned unitFlags = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
+                NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
+                NSDate *FormattedDate = [calendar dateFromComponents:dateComponents];
+                
+                //Then Creat The Music Diary Object
+                JCMusicDiaryObject *MusicDiaryObject = [[JCMusicDiaryObject alloc]initWithEvent:FormattedDate andDateComponents:dateComponents andGigObject:upComingGig];
+                [MusicDiaryObjectsUnsorted addObject:MusicDiaryObject];
+            }
+            
+            //Sort the array by the date of upcoming gig.
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"UpcomingGigDate"
+                                                         ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            NSArray *MusicDiaryObjectsSortedByDate = [[NSMutableArray alloc]init];
+            MusicDiaryObjectsSortedByDate = [MusicDiaryObjectsUnsorted sortedArrayUsingDescriptors:sortDescriptors];
+            
+            //Then sort the array into years
+            NSArray *twoDArraySortedYears = [self sortArrayInto2DArrayContaningYears:MusicDiaryObjectsSortedByDate];
+    
+            //Data is good untill here
+    
+            //Now that we have our year seperated sort each year array into months
+            for (NSArray *year in twoDArraySortedYears) {
+                NSArray *yearArraySortedintoMonths = [self sortArrayInto2DArrayContaningMonths:year];
+                //finaly add the months to our
+                [self.MusicDiaryObjectsSortedArray addObjectsFromArray:yearArraySortedintoMonths];
+                
+            }
+            
+            //IrelandDataLoaded = YES;
+    
+    
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.myMusicDiary reloadData];
+            });
+            
+        }];
+        
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

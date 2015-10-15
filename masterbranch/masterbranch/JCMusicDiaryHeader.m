@@ -10,12 +10,22 @@
 
 @implementation JCMusicDiaryHeader
 
+
+
+
+
 -(void)setHeaderText:(NSString *)text {
     
+    //in the middle of stlying header
+    
     self.month.text = text;
-    self.backgroundColor = [UIColor lightGrayColor];
-    
-    
+    self.month.textColor = [UIColor colorWithRed:23.0f green:6.0f blue:140.0f alpha:1];
+
+    self.backgroundColor = [UIColor whiteColor];
+
+    self.layer.borderWidth = 5.0f;
+    //self.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:234.0f green:65.0f blue:150.0f alpha:1]);
+    self.layer.borderColor = [[UIColor colorWithRed:23.0f green:6.0f blue:140.0f alpha:1] CGColor];
 }
 
 @end

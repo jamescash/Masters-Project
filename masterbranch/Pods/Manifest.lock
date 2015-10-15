@@ -1,26 +1,30 @@
 PODS:
-  - AFNetworking (2.6.0):
-    - AFNetworking/NSURLConnection (= 2.6.0)
-    - AFNetworking/NSURLSession (= 2.6.0)
-    - AFNetworking/Reachability (= 2.6.0)
-    - AFNetworking/Security (= 2.6.0)
-    - AFNetworking/Serialization (= 2.6.0)
-    - AFNetworking/UIKit (= 2.6.0)
-  - AFNetworking/NSURLConnection (2.6.0):
+  - AFNetworking (2.6.1):
+    - AFNetworking/NSURLConnection (= 2.6.1)
+    - AFNetworking/NSURLSession (= 2.6.1)
+    - AFNetworking/Reachability (= 2.6.1)
+    - AFNetworking/Security (= 2.6.1)
+    - AFNetworking/Serialization (= 2.6.1)
+    - AFNetworking/UIKit (= 2.6.1)
+  - AFNetworking/NSURLConnection (2.6.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.0):
+  - AFNetworking/NSURLSession (2.6.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.0)
-  - AFNetworking/Security (2.6.0)
-  - AFNetworking/Serialization (2.6.0)
-  - AFNetworking/UIKit (2.6.0):
+  - AFNetworking/Reachability (2.6.1)
+  - AFNetworking/Security (2.6.1)
+  - AFNetworking/Serialization (2.6.1)
+  - AFNetworking/UIKit (2.6.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - CCBottomRefreshControl (0.5.1):
+    - Masonry (~> 0.6.2)
   - CSStickyHeaderFlowLayout (0.2.10)
+  - Masonry (0.6.3)
+  - MYNStickyFlowLayout (0.1.2)
   - PureLayout (3.0.1)
   - RESideMenu (4.0.7)
   - RSDayFlow (1.2.0)
@@ -29,14 +33,19 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - CCBottomRefreshControl
   - CSStickyHeaderFlowLayout
+  - MYNStickyFlowLayout
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
   - VGParallaxHeader
 
 SPEC CHECKSUMS:
-  AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
+  AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
+  Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
+  MYNStickyFlowLayout: 64d0c409bd1ad43312485c63bc82e32f038e8fbc
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60

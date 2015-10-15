@@ -46,6 +46,7 @@
 {
     self = [super init];
     if (self) {
+        
       
         counterForRunningDeligation = 0;
         countysInIreland = [[NSArray alloc]init];
