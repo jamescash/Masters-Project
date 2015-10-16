@@ -30,8 +30,12 @@
 
 //data contrller for homescreen
 #import "JCHomeScreenDataController.h"
+#import "JCleftSlideOutVC.h"
+
 
 #import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
+
+#import <TLYShyNavBar/TLYShyNavBarManager.h>
 
 //backend
 
@@ -88,6 +92,8 @@
     //self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
     //self.upComingGigsDataForCollectionView = [[NSDictionary alloc]init];
     self.dateForAPICall = [NSDate date];
+    [self addCustomButtonOnNavBar];
+
 }
 
 #pragma ViewLoadingPoints
@@ -102,13 +108,14 @@
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
     
-    
+    //self.shyNavBarManager.scrollView = self.collectionView;
+
    
     
     
 //[self.pullUpView setFrame:CGRectMake(0, [self.collectionView rectForFooterInSection:0].origin.y, [self.collectionView bounds].size.width,self.pullUpView.frame.height)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(serchbuttonPressed:)];
+  
     
 //    //[self.collectionView addInfiniteScrollingWithActionHandler:^{
 //        
@@ -188,15 +195,10 @@ return [self.collectionViewDataObject[section] count];
     //check if it has an image 
     if (aRecord.hasImage) {
         
-        //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
-        cell.MainImageView.image = aRecord.image;
-        cell.MainImageView.contentMode = UIViewContentModeScaleAspectFill;
-        //[cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        cell.CellTitle.text = event.eventTitle;
-        cell.venue.text = event.venueName;
-        //[cell.CellTitle sizeToFit];
+        //TODO mke cells tight to the right side
         
-    }
+        [cell setImage:aRecord.image andArtistNamr:event.eventTitle andVenueName:event.venueName];
+     }
     // 4
     else if (aRecord.isFailed) {
         //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
@@ -646,6 +648,49 @@ return [self.collectionViewDataObject[section] count];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
         [locationManager requestWhenInUseAuthorization];
     [locationManager startUpdatingLocation];
+}
+
+- (void)addCustomButtonOnNavBar
+{
+    
+    
+    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuButton setImage:[UIImage imageNamed:@"menuIcon.png"] forState:UIControlStateNormal];
+    [menuButton setImage:[UIImage imageNamed:@"menuIcon.png"] forState:UIControlStateHighlighted];
+    menuButton.adjustsImageWhenDisabled = NO;
+    //set the frame of the button to the size of the image (see note below)
+    menuButton.frame = CGRectMake(0, 0, 40, 40);
+    
+    [menuButton addTarget:self action:@selector(menuButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //create a UIBarButtonItem with the button as a custom view
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+    self.navigationItem.leftBarButtonItem = customBarItem;
+    
+    
+    
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [searchButton setImage:[UIImage imageNamed:@"searchIcon.png"] forState:UIControlStateNormal];
+    [searchButton setImage:[UIImage imageNamed:@"searchIcon.png"] forState:UIControlStateHighlighted];
+    searchButton.adjustsImageWhenDisabled = NO;
+    searchButton.frame = CGRectMake(0, self.collectionView.frame.size.width-40 , 40, 40);
+
+    [searchButton addTarget:self action:@selector(serchbuttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *searchbarbutton = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
+
+    
+    self.navigationItem.rightBarButtonItem = searchbarbutton;
+    
+    
+    self.navigationItem.hidesBackButton = YES;
+    
+    //self.navigationItem.leftBarButtonItem =item1;
+    
+}
+
+-(void)menuButtonPressed{
+    
+[self.sideMenuViewController presentLeftMenuViewController];
+
 }
 
 #pragma mark - CLLocationManagerDelegate
