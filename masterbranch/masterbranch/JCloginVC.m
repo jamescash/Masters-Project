@@ -69,6 +69,11 @@
                 [alert show];
             }else{
                 NSLog(@"Logged in");
+                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                currentInstallation[@"installationUser"] = [[PFUser currentUser]objectId];
+                [currentInstallation saveInBackground];
+
+
                 [self dismissViewControllerAnimated:YES completion:nil];
                }
             }];

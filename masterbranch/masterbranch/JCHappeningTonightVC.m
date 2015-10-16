@@ -59,6 +59,7 @@
         JCHappeningTonightHeaderVC * childViewController = (JCHappeningTonightHeaderVC *) [segue destinationViewController];
         childViewController.currentEvent = self.currentEvent;
         childViewController.JCHappeningTonightHearderVCDelegate = self;
+        
     }
 
 }

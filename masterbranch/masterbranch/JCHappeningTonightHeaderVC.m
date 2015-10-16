@@ -115,6 +115,8 @@ CLLocationCoordinate2D location;
     
 }
 
+
+
 - (IBAction)followArtist:(id)sender {
 
     //TODO set the button to following if the users already following the artist

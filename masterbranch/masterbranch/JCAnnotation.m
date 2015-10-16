@@ -15,8 +15,6 @@
     self = [super init];
     if (self) {
         self.coordinate = coords;
-
-
     }
     return self;
 }

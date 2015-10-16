@@ -37,6 +37,7 @@
 
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 
+
 //backend
 
 //#define kDatasourceURLString @"https://sites.google.com/site/soheilsstudio/tutorials/nsoperationsampleproject/ClassicPhotosDictionary.plist"
@@ -529,9 +530,7 @@ return [self.collectionViewDataObject[section] count];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
 
   
-    
-    
-    if ([currentEvent.status isEqualToString:@"alreadyHappened"]||[currentEvent.status isEqualToString:@"currentlyhappening"]) {
+    //if ([currentEvent.status isEqualToString:@"alreadyHappened"]||[currentEvent.status isEqualToString:@"currentlyhappening"]) {
         
         //TODO uncomment this so social stream shows up again
         
@@ -542,27 +541,24 @@ return [self.collectionViewDataObject[section] count];
 //        jc.currentevent = currentEvent;
 //        [self presentViewController:myVC animated:YES completion:nil];
         
-        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
-        JCHappeningTonightVC *DVC = [myVC viewControllers][0];
-        DVC.JCHappeningTonightVCDelegate = self;
+        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"JCGigMoreInfoNav"];
+        JCGigMoreInfoVC *DVC = [myVC viewControllers][0];
+        DVC.JCGigMoreInfoVCDelegate = self;
         DVC.currentEvent = currentEvent;
         [self presentViewController:myVC animated:YES completion:nil];
         
-   
-    
-    
-    }
+//}
   
     
     
-    if ([currentEvent.status isEqualToString:@"happeningLater"]) {
-        
-        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
-        JCHappeningTonightVC *DVC = [myVC viewControllers][0];
-        DVC.JCHappeningTonightVCDelegate = self;
-        DVC.currentEvent = currentEvent;
-        [self presentViewController:myVC animated:YES completion:nil];
-    }
+//    if ([currentEvent.status isEqualToString:@"happeningLater"]) {
+//        
+//        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
+//        JCHappeningTonightVC *DVC = [myVC viewControllers][0];
+//        DVC.JCHappeningTonightVCDelegate = self;
+//        DVC.currentEvent = currentEvent;
+//        [self presentViewController:myVC animated:YES completion:nil];
+//    }
     
     
     
@@ -594,7 +590,11 @@ return [self.collectionViewDataObject[section] count];
     
 }
 
--(void)JCHappeningTonightDidSelectDone:(JCHappeningTonightVC *)controller{
+//-(void)JCHappeningTonightDidSelectDone:(JCHappeningTonightVC *)controller{
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
+
+-(void)JCGigMoreInfoVCDidSelectDone:(JCGigMoreInfoVC *)controller{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
