@@ -12,5 +12,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *MainImageView;
 @property (weak, nonatomic) IBOutlet UILabel *CellTitle;
 @property (weak, nonatomic) IBOutlet UILabel *venue;
-
+-(void)setImage:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName;
 @end

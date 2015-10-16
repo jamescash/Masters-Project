@@ -87,24 +87,10 @@
     
      }];
     
-//    //get artist count
-//    self.artistRelations = [[PFUser currentUser] objectForKey:@"ArtistRelation"];
-//    PFQuery *artistquery  = [self.artistRelations query];
-//    [artistquery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//        
-//        if (error) {
-//            NSLog(@"Error: %@ %@", error, [error localizedDescription]);
-//        }
-//        
-//        menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[objects count]];
-//        
-//    }];
-    
+
     [self.ParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
         
-    NSLog(@"got artist");
-        
-    menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[response count]];
+     menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[response count]];
 
     }];
     
@@ -137,10 +123,6 @@
 }
 */
 
--(void)getMyFriendscount{
-    
-   
-    
-}
+
 
 @end

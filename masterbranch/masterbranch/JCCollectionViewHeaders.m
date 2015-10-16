@@ -17,7 +17,12 @@
 
 -(void)setHeaderText:(NSString *)text {
    self.searchLabel.text = text;
-   self.backgroundColor = [UIColor lightGrayColor];
+   self.searchLabel.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+   self.backgroundColor = [UIColor whiteColor];
+   //self.layer.borderColor = [[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]CGColor] ;
+   //self.layer.borderWidth = 1.0f;
+
+
 }
 
 @end

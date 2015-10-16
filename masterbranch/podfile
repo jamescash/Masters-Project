@@ -6,3 +6,4 @@ pod "CSStickyHeaderFlowLayout"
 pod 'VGParallaxHeader'
 pod 'MYNStickyFlowLayout'
 pod 'CCBottomRefreshControl'
+pod 'TLYShyNavBar'

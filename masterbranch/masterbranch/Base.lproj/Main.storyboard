@@ -564,9 +564,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rPe-nC-I1I">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="-46" width="600" height="646"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="cim-3z-Hh8" customClass="MYNStickyFlowLayout">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="cim-3z-Hh8">
                                     <size key="itemSize" width="143" height="135"/>
                                     <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -642,16 +642,16 @@
                                     <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Section Header" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWm-Ie-k1l">
-                                            <rect key="frame" x="241" y="14" width="119" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Section Headery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWm-Ie-k1l">
+                                            <rect key="frame" x="207.5" y="14" width="186" height="25"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                            <color key="textColor" red="1" green="0.61410361842105265" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="NWm-Ie-k1l" firstAttribute="centerX" secondItem="EGd-M7-avu" secondAttribute="centerX" id="C0K-Pg-nYT"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="NWm-Ie-k1l" secondAttribute="bottom" constant="7" id="RDD-Gb-IMR"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="NWm-Ie-k1l" secondAttribute="bottom" constant="3" id="RDD-Gb-IMR"/>
                                         <constraint firstItem="NWm-Ie-k1l" firstAttribute="top" secondItem="EGd-M7-avu" secondAttribute="topMargin" constant="6" id="tuQ-dr-j9G"/>
                                     </constraints>
                                     <connections>
@@ -666,7 +666,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rPe-nC-I1I" firstAttribute="top" secondItem="fVW-vI-V9U" secondAttribute="top" id="2OG-Tc-R84"/>
+                            <constraint firstItem="rPe-nC-I1I" firstAttribute="top" secondItem="fVW-vI-V9U" secondAttribute="top" constant="-46" id="2OG-Tc-R84"/>
                             <constraint firstItem="rPe-nC-I1I" firstAttribute="leading" secondItem="fVW-vI-V9U" secondAttribute="leading" id="NAE-zo-bA9"/>
                             <constraint firstAttribute="trailing" secondItem="rPe-nC-I1I" secondAttribute="trailing" id="UrK-nC-QF5"/>
                             <constraint firstItem="rPe-nC-I1I" firstAttribute="bottom" secondItem="ylL-pt-irD" secondAttribute="top" id="zwq-N3-Ag6"/>
@@ -675,7 +675,7 @@
                     <navigationItem key="navigationItem" id="oei-Mn-142">
                         <barButtonItem key="leftBarButtonItem" title="Menu" id="eaA-NW-Ole">
                             <connections>
-                                <action selector="presentLeftMenuViewController:" destination="aRS-gx-cUc" id="va1-Yf-0xO"/>
+                                <action selector="presentLeftMenuViewController:" destination="aRS-gx-cUc" id="GN4-Ke-8Su"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -686,7 +686,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qhl-oT-gew" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2885" y="-898"/>
+            <point key="canvasLocation" x="2885" y="-905"/>
         </scene>
         <!--My Friends-->
         <scene sceneID="Nn8-LL-Lv9">
@@ -739,7 +739,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dgl-5s-VVz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2927" y="605"/>
+            <point key="canvasLocation" x="2875" y="377"/>
         </scene>
         <!--Music DiaryVC-->
         <scene sceneID="Qlj-0c-t9g">

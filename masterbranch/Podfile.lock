@@ -28,6 +28,7 @@ PODS:
   - PureLayout (3.0.1)
   - RESideMenu (4.0.7)
   - RSDayFlow (1.2.0)
+  - TLYShyNavBar (0.10.0)
   - VGParallaxHeader (0.0.6):
     - PureLayout
 
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - MYNStickyFlowLayout
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
+  - TLYShyNavBar
   - VGParallaxHeader
 
 SPEC CHECKSUMS:
@@ -49,6 +51,7 @@ SPEC CHECKSUMS:
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60
+  TLYShyNavBar: e163fc16f7b0e5a8800397a8454fbd9202ba4900
   VGParallaxHeader: 1213aba58c9b0aea84f9e81ad526fde57aa4fe48
 
 COCOAPODS: 0.37.2

@@ -52,8 +52,7 @@
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
     
     
-//    _eventbuilder  = [JCEventBuilder sharedInstance];
-//    _eventbuilder.delegate = self;
+    [self customiseUi];
     
     
     
@@ -111,13 +110,23 @@
     [PFPush handlePush:userInfo];
 }
 
-
--(void)LoadMapView{
+-(void)customiseUi{
     
-    //NSLog(@"AllEvnts array created in app delegate");
-    self.allEevent = [self.eventbuilder getEvent];
-    [self.AppDelegateDelegat AllEventsLoaded];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+    [[UINavigationBar appearance] setTranslucent:YES];
+    
+    
 }
+
+
+
+//-(void)LoadMapView{
+//    
+//    //NSLog(@"AllEvnts array created in app delegate");
+//    self.allEevent = [self.eventbuilder getEvent];
+//    [self.AppDelegateDelegat AllEventsLoaded];
+//}
 
 
 @end
