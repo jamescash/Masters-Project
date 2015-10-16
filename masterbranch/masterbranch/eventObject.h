@@ -17,6 +17,7 @@
 @property (nonatomic) NSString *eventTitle;
 @property (nonatomic) NSString *coverpictureURL;
 @property (nonatomic) NSString *eventDate;
+@property (nonatomic) NSString *formattedDateTime;
 @property (nonatomic) NSString *venueName;
 @property (nonatomic) NSDictionary *LatLong;
 @property (nonatomic) NSString *twitterSearchQuery;

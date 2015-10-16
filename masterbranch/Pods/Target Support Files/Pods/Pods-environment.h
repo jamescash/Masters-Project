@@ -60,6 +60,12 @@
 #define COCOAPODS_VERSION_MINOR_CSStickyHeaderFlowLayout 2
 #define COCOAPODS_VERSION_PATCH_CSStickyHeaderFlowLayout 10
 
+// MGSwipeTableCell
+#define COCOAPODS_POD_AVAILABLE_MGSwipeTableCell
+#define COCOAPODS_VERSION_MAJOR_MGSwipeTableCell 1
+#define COCOAPODS_VERSION_MINOR_MGSwipeTableCell 5
+#define COCOAPODS_VERSION_PATCH_MGSwipeTableCell 1
+
 // MYNStickyFlowLayout
 #define COCOAPODS_POD_AVAILABLE_MYNStickyFlowLayout
 #define COCOAPODS_VERSION_MAJOR_MYNStickyFlowLayout 0

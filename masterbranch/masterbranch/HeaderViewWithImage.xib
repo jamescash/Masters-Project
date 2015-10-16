@@ -13,15 +13,10 @@
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T7I-F0-pOe">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="tintColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="My position is fixed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNj-sY-bfs">
-                    <rect key="frame" x="226" y="40" width="149" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFF-jh-pbb">
-                    <rect key="frame" x="216" y="280" width="168" height="39"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFF-jh-pbb">
+                    <rect key="frame" x="258.5" y="540.5" width="83.5" height="39.5"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="33"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -29,15 +24,19 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="TNj-sY-bfs" firstAttribute="top" secondItem="3us-ga-XSv" secondAttribute="top" constant="40" id="15F-u1-Exh"/>
                 <constraint firstItem="gFF-jh-pbb" firstAttribute="centerY" secondItem="3us-ga-XSv" secondAttribute="centerY" id="4BE-6q-oPa"/>
-                <constraint firstAttribute="centerX" secondItem="TNj-sY-bfs" secondAttribute="centerX" id="9pN-Td-yxK"/>
                 <constraint firstItem="T7I-F0-pOe" firstAttribute="top" secondItem="3us-ga-XSv" secondAttribute="top" id="V18-hw-Mil"/>
                 <constraint firstAttribute="trailing" secondItem="T7I-F0-pOe" secondAttribute="trailing" id="dvL-AQ-y4X"/>
                 <constraint firstItem="gFF-jh-pbb" firstAttribute="centerX" secondItem="3us-ga-XSv" secondAttribute="centerX" id="i0i-j7-8eN"/>
                 <constraint firstItem="T7I-F0-pOe" firstAttribute="leading" secondItem="3us-ga-XSv" secondAttribute="leading" id="io1-78-Yic"/>
                 <constraint firstAttribute="bottom" secondItem="T7I-F0-pOe" secondAttribute="bottom" id="ruq-7V-Dtu"/>
+                <constraint firstAttribute="bottom" secondItem="gFF-jh-pbb" secondAttribute="bottom" constant="20" id="yta-hS-wku"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="4BE-6q-oPa"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="ArtistName" destination="gFF-jh-pbb" id="s3h-RS-GZo"/>
                 <outlet property="HeaderImageView" destination="T7I-F0-pOe" id="Vmn-5G-qoS"/>

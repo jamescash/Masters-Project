@@ -12,7 +12,9 @@
 #import "eventObject.h"
 @interface JCHomeScreenDataController ()
 
-@property (nonatomic,strong) NSString *bandsInTownEndPoint;
+@property (nonatomic,strong) NSString *bandsInTownEventEndPoint;
+@property (nonatomic,strong) NSString *bandsInTownArtistUpcomingGigEndPoint;
+
 @property (nonatomic,strong) NSMutableArray *happeningLater;
 
 @end
@@ -27,7 +29,8 @@
 {
     self = [super init];
     if (self) {
-        self.bandsInTownEndPoint = @"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=preamp";
+        self.bandsInTownEventEndPoint = @"http://api.bandsintown.com/events/search.json?api_version=2.0&app_id=preamp";
+        self.bandsInTownArtistUpcomingGigEndPoint = @"http://api.bandsintown.com/artists/";
     }
     return self;
 }
@@ -40,12 +43,14 @@
     NSString *dateSectionForAPICall = [NSString stringWithFormat:@"&date=%@,%@",FormattedNSDateToString,FormattedNSDateToString];
     NSString *locationSectionForAPICall = [NSString stringWithFormat:@"&location=%@,%@",latitude,longditude];
     NSString *radiusSectionForAPICall = [NSString stringWithFormat:@"&radius=50"];
-    NSString *endpoint = [NSString stringWithFormat:@"%@%@%@%@",self.bandsInTownEndPoint,dateSectionForAPICall,locationSectionForAPICall,radiusSectionForAPICall];
+    NSString *endpoint = [NSString stringWithFormat:@"%@%@%@%@",self.bandsInTownEventEndPoint,dateSectionForAPICall,locationSectionForAPICall,radiusSectionForAPICall];
     
     
     AFHTTPRequestOperationManager *bandsInTownGigRequest = [AFHTTPRequestOperationManager manager];
     [bandsInTownGigRequest GET:endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
     
+        //TODO add error handeling for the reciver of the completion block here and in function bellow
+        
         
         NSMutableArray *arrayOfParsedEvents = [[NSMutableArray alloc]init];
         
@@ -53,7 +58,6 @@
             
             eventObject *event = [[eventObject alloc]initWithTitle:obj];
             if (event != nil){
-                
                 [arrayOfParsedEvents addObject:event];
              }
          }];//end of enum using block loop
@@ -70,7 +74,43 @@
     
 }
 
+//http://api.bandsintown.com/artists/"+encodedArtistName+"/events.json?artist_id=mbid_&api_version=2.0&app_id=PreAmp
 
+-(void)getUpcomingGigsForArtist:(NSString *)artist competionBlock:(void (^)(NSError *, NSArray *))finishedGettingUpcomingGigs{
+    
+
+    NSString *artistNameEncodedForWeb = [artist stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    
+    NSString *upcomingGigsEndSectionForAPICall = @"/events.json?artist_id=mbid_&api_version=2.0&app_id=PreAmp";
+    NSString *endpoint = [NSString stringWithFormat:@"%@%@%@",self.bandsInTownArtistUpcomingGigEndPoint,artistNameEncodedForWeb,upcomingGigsEndSectionForAPICall];
+    
+    AFHTTPRequestOperationManager *bandsInTownGigRequest = [AFHTTPRequestOperationManager manager];
+    [bandsInTownGigRequest GET:endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+
+        
+        NSMutableArray *arrayOfParsedEvents = [[NSMutableArray alloc]init];
+        
+        [responseObject  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            
+            eventObject *event = [[eventObject alloc]initWithTitle:obj];
+            if (event != nil){
+                
+                [arrayOfParsedEvents addObject:event];
+            }
+        }];//end of enum using block loop
+        
+        finishedGettingUpcomingGigs(nil,arrayOfParsedEvents);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        finishedGettingUpcomingGigs(error,nil);
+    }];
+    
+    
+    
+    
+}
 
 -(NSString*)formatDateForAPIcall:(NSDate*)date{
     

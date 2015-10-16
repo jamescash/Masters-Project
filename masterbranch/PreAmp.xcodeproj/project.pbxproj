@@ -22,6 +22,7 @@
 		8936A6431B23337C00748803 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8936A6421B23337C00748803 /* MapView.m */; };
 		8936A6451B23350E00748803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6441B23350E00748803 /* MapKit.framework */; };
 		8936A6471B23351A00748803 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936A6461B23351A00748803 /* CoreLocation.framework */; };
+		894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 894105081BD0FF10006BCB29 /* JCGigMoreInfoVC.m */; settings = {ASSET_TAGS = (); }; };
 		8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */; };
 		8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC011B827CD400BBA658 /* JCleftSlideOutVC.m */; };
 		8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954EC061B837B3600BBA658 /* JCHappeningTonightVC.m */; };
@@ -44,6 +45,9 @@
 		897280DE1BC3386F00569648 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897280DA1BC3386F00569648 /* HeaderView.m */; settings = {ASSET_TAGS = (); }; };
 		897280DF1BC3386F00569648 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897280DB1BC3386F00569648 /* HeaderView.xib */; settings = {ASSET_TAGS = (); }; };
 		897281621BC553FF00569648 /* JCCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897281611BC553FF00569648 /* JCCommentCell.m */; settings = {ASSET_TAGS = (); }; };
+		897780D11BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780D01BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780D31BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		897780D91BD15286006B20C3 /* JCInvteFollowHeaderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780D81BD15286006B20C3 /* JCInvteFollowHeaderVC.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
 		898FA89A1B7641A3000AEAB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */; };
 		898FA89C1B7641B9000AEAB1 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */; };
@@ -137,6 +141,8 @@
 		8936A6421B23337C00748803 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		8936A6441B23350E00748803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8936A6461B23351A00748803 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		894105071BD0FF10006BCB29 /* JCGigMoreInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGigMoreInfoVC.h; sourceTree = "<group>"; };
+		894105081BD0FF10006BCB29 /* JCGigMoreInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGigMoreInfoVC.m; sourceTree = "<group>"; };
 		8954EBBF1B80A97C00BBA658 /* JCSearchPageHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageHTTPClient.h; sourceTree = "<group>"; };
 		8954EBC01B80A97C00BBA658 /* JCSearchPageHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageHTTPClient.m; sourceTree = "<group>"; };
 		8954EC001B827CD400BBA658 /* JCleftSlideOutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCleftSlideOutVC.h; sourceTree = "<group>"; };
@@ -177,6 +183,12 @@
 		897280DB1BC3386F00569648 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		897281601BC553FF00569648 /* JCCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCommentCell.h; sourceTree = "<group>"; };
 		897281611BC553FF00569648 /* JCCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCommentCell.m; sourceTree = "<group>"; };
+		897780CF1BD1104C006B20C3 /* JCUpcomingGigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUpcomingGigTableViewCell.h; sourceTree = "<group>"; };
+		897780D01BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUpcomingGigTableViewCell.m; sourceTree = "<group>"; };
+		897780D21BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCTimeDateLocationTableViewCell.h; sourceTree = "<group>"; };
+		897780D31BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCTimeDateLocationTableViewCell.m; sourceTree = "<group>"; };
+		897780D71BD15286006B20C3 /* JCInvteFollowHeaderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCInvteFollowHeaderVC.h; sourceTree = "<group>"; };
+		897780D81BD15286006B20C3 /* JCInvteFollowHeaderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCInvteFollowHeaderVC.m; sourceTree = "<group>"; };
 		898FA8971B76418A000AEAB1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
@@ -433,9 +445,20 @@
 			name = "EventObjectAPI ";
 			sourceTree = "<group>";
 		};
+		894105061BD0FED9006BCB29 /* NewHappeningTonightVC */ = {
+			isa = PBXGroup;
+			children = (
+				897780CE1BD1101B006B20C3 /* custom views */,
+				894105071BD0FF10006BCB29 /* JCGigMoreInfoVC.h */,
+				894105081BD0FF10006BCB29 /* JCGigMoreInfoVC.m */,
+			);
+			name = NewHappeningTonightVC;
+			sourceTree = "<group>";
+		};
 		8954EC041B837AF800BBA658 /* HappeningTonight */ = {
 			isa = PBXGroup;
 			children = (
+				894105061BD0FED9006BCB29 /* NewHappeningTonightVC */,
 				89D88ECD1BADECEC002286FD /* SelectFriendsToSend */,
 				89AE1C571B89EBD70055DB3D /* headerVC */,
 				89AE1C561B89EBC20055DB3D /* MainVc */,
@@ -609,6 +632,35 @@
 				897281611BC553FF00569648 /* JCCommentCell.m */,
 			);
 			name = CustomUIClasses;
+			sourceTree = "<group>";
+		};
+		897780CE1BD1101B006B20C3 /* custom views */ = {
+			isa = PBXGroup;
+			children = (
+				897780D61BD15246006B20C3 /* headers */,
+				897780D51BD1523B006B20C3 /* cells */,
+			);
+			name = "custom views";
+			sourceTree = "<group>";
+		};
+		897780D51BD1523B006B20C3 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				897780CF1BD1104C006B20C3 /* JCUpcomingGigTableViewCell.h */,
+				897780D01BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m */,
+				897780D21BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.h */,
+				897780D31BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m */,
+			);
+			name = cells;
+			sourceTree = "<group>";
+		};
+		897780D61BD15246006B20C3 /* headers */ = {
+			isa = PBXGroup;
+			children = (
+				897780D71BD15286006B20C3 /* JCInvteFollowHeaderVC.h */,
+				897780D81BD15286006B20C3 /* JCInvteFollowHeaderVC.m */,
+			);
+			name = headers;
 			sourceTree = "<group>";
 		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
@@ -1094,6 +1146,7 @@
 				8954EC101B85EE1400BBA658 /* JCHomeMainScreenVC.m in Sources */,
 				8954EC361B88A49000BBA658 /* JCCollectionViewHeaders.m in Sources */,
 				89F52E061BC7EC3100EF5C00 /* JCUserEventInvitesTableView.m in Sources */,
+				894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */,
@@ -1101,6 +1154,7 @@
 				8969D01A1BC93D4600A0FCED /* JCGigInvitesVC.m in Sources */,
 				89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
+				897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
@@ -1135,6 +1189,8 @@
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
 				892E40F11B766FF700B60275 /* JCloginVC.m in Sources */,
 				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
+				897780D11BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m in Sources */,
+				897780D91BD15286006B20C3 /* JCInvteFollowHeaderVC.m in Sources */,
 				8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */,
 				8969D0121BC8385200A0FCED /* JCInvitationCell.m in Sources */,
 				8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */,

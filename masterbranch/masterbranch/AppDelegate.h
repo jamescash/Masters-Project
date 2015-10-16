@@ -13,7 +13,7 @@
 @protocol AppDelegateDelegat;
 
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,JCEventBuildereDlegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>//,JCEventBuildereDlegate>
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSDictionary *allEevent;
 @property (strong,nonatomic) id <AppDelegateDelegat>AppDelegateDelegat;

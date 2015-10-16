@@ -7,7 +7,6 @@
 //
 
 #import "eventObject.h"
-//#import "coreLocation.h"
 
 @interface eventObject ()
 @property (nonatomic,strong) EventObjectParser *pasre;
@@ -115,6 +114,7 @@
             self.country = venue[@"country"];
             self.county = venue[@"city"];
             self.eventDate = object[@"datetime"];
+            self.formattedDateTime = object[@"formatted_datetime"];
             self.InstaTimeStamp = [self.pasre getUnixTimeStamp:object[@"datetime"]];
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
         

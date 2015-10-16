@@ -24,6 +24,7 @@ PODS:
     - Masonry (~> 0.6.2)
   - CSStickyHeaderFlowLayout (0.2.10)
   - Masonry (0.6.3)
+  - MGSwipeTableCell (1.5.1)
   - MYNStickyFlowLayout (0.1.2)
   - PureLayout (3.0.1)
   - RESideMenu (4.0.7)
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - CCBottomRefreshControl
   - CSStickyHeaderFlowLayout
+  - MGSwipeTableCell (~> 1.5.1)
   - MYNStickyFlowLayout
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
@@ -47,6 +49,7 @@ SPEC CHECKSUMS:
   CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
   Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
+  MGSwipeTableCell: a51fa670c01f0aa048f12af040acebf315223137
   MYNStickyFlowLayout: 64d0c409bd1ad43312485c63bc82e32f038e8fbc
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
