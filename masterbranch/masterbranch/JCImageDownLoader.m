@@ -83,7 +83,7 @@
         //CRASH
         //something to do with the life cycle I think
         //Bad access to the main thread becuase the main thread does be busy
-        
+        //its becsue the selector donest exist that the imageDownloaderDidFinish Method is trying to get to
         [(NSObject *)self.delegate performSelectorOnMainThread:@selector(imageDownloaderDidFinish:) withObject:self waitUntilDone:NO];
         
     }

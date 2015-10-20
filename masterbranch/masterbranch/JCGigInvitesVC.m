@@ -53,6 +53,7 @@
             [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
             }
         
+        //TODO make sure this happen on the main thread
         [self.MyGigInvitesTable reloadData];
     }];
 
@@ -77,7 +78,8 @@
     
     JCEventInviteCell *cell = [tableView dequeueReusableCellWithIdentifier:@"eventInviteCell"forIndexPath:indexPath];
     //PFObject *eventInvite = [self.myInvites objectAtIndex:indexPath.row];
-    //cell.textLabel.text = [eventInvite objectForKey:@"eventHostName"];
+    //cell.textLbel.text = [eventInvite objectForKey:@"eventHostName"];
+    [cell formatCell:[self.myInvites objectAtIndex:indexPath.row]];
     
     UIImage *eventImage = self.imageFiles[indexPath.row][@"image"];
 
@@ -85,8 +87,30 @@
         cell.BackRoundImage.image = eventImage;
         cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
     }else {
-        cell.BackRoundImage.image = [UIImage imageNamed:@"Placeholder.png"];
-        cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+        NSUInteger randomNumber = arc4random_uniform(5);
+        switch (randomNumber) {
+            case 0:
+                cell.BackRoundImage.image = [UIImage imageNamed:@"loadingYellow.png"];
+                cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+
+                break;
+            case 1:
+                cell.BackRoundImage.image = [UIImage imageNamed:@"loadingPink.png"];
+                cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+
+                break;
+            case 2:
+                cell.BackRoundImage.image = [UIImage imageNamed:@"loadingBlue.png"];
+                cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+
+                break;
+            case 3:
+                cell.BackRoundImage.image = [UIImage imageNamed:@"loadingGreen.png"];
+                cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+
+                break;
+                
+        }
 
         [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
             if (!error) {

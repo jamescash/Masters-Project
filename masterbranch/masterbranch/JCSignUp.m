@@ -10,6 +10,8 @@
 
 //sign up new user and save to backend
 #import <Parse/Parse.h>
+#import "UIImage+Resize.h"
+
 
 
 @interface JCSignUp ()
@@ -90,51 +92,94 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
         NSString *fileType;
         
         
-        //first resize the profile pic and uplaod that
-        static const CGSize size = {110, 240};
-        UIImage *newImage = [self imageWithImage:self.profileImage scaledToSize:size];
+        //CGSize size = {self.profileImage.size.width/2, self.profileImage.size.height/2};
+        
+        CGSize size = {300,300};
+
+        
+        
+        UIImage *newImage = [self.profileImage resizedImageToFitInSize:size scaleIfSmaller:YES];
+        
+        
+        
         fileData = UIImagePNGRepresentation(newImage);
         fileName = @"profileImage.png";
         fileType = @"image";
         
         //create a file to upload to parse with the contents of the prfile image
-        PFFile *file = [PFFile fileWithName:fileName data:fileData];
-        [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        PFFile *fullSizeProfilePic = [PFFile fileWithName:fileName data:fileData];
+        [fullSizeProfilePic saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             
             if (error) {
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That profile pic didn't upload, Please try again" delegate:nil cancelButtonTitle:@"Gerr okay" otherButtonTitles:nil];
+            
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That profile pic didn't upload, Please try again" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil];
                 [alert show];
             }else{
-                //okay profile picture is uploaded now lets upload the ruser object and realte it to the prfile image file
-                PFUser *newUser = [PFUser user];
-                newUser.username = userName;
-                newUser.password = password;
-                newUser.email = userEmail;
-                //set a new collum in the user object called profile picture
-                [newUser setObject:file forKey:@"profilePicture"];
-                //now save the new user to the backend
-                [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                
+                NSData *fileData;
+                NSString *fileName;
+                
+                
+                //resize the image and save a thumbnail
+                ////CGFloat originalWidth =  self.profileImage.size.width;
+                ////CGFloat originalHeight = self.profileImage.size.height;
+                //CGSize size = {(originalWidth/3), (originalHeight/3)};
+                
+                CGSize size = {150, 150};
+
+                UIImage *thumbProfilePicture = [self.profileImage resizedImageToFitInSize:size scaleIfSmaller:YES];
+                
+                fileData = UIImagePNGRepresentation(thumbProfilePicture);
+                fileName = @"thumbProfilePicture.png";
+                
+                PFFile *thumbnailProfilePicture = [PFFile fileWithName:fileName data:fileData];
+                
+                [thumbnailProfilePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
                     if (error) {
                         
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Gerr okay" otherButtonTitles:nil];
+                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That profile pic didn't upload, Please try again" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil];
                         [alert show];
                     }else{
-                        NSLog(@"User sucessfully sigend up");
-                        [self dismissViewControllerAnimated:YES completion:nil];
-                        [self.JCSignUpVCDelegat UserSignedUp];
+                    
+                        
+                        //okay profile picture is uploaded now lets upload the ruser object and realte it to the prfile image file
+                        PFUser *newUser = [PFUser user];
+                        newUser.username = userName;
+                        newUser.password = password;
+                        newUser.email = userEmail;
+                        //set a new collum in the user object called profile picture
+                        [newUser setObject:fullSizeProfilePic forKey:@"profilePicture"];
+                        [newUser setObject:thumbnailProfilePicture forKey:@"thumbnailProfilePicture"];
+                        //now save the new user to the backend
+                        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                            if (error) {
+                                
+                                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Gerr okay" otherButtonTitles:nil];
+                                [alert show];
+                            }else{
+                                NSLog(@"User sucessfully sigend up");
+                                [self dismissViewControllerAnimated:YES completion:nil];
+                                [self saveInstalation];
+                                [self.JCSignUpVCDelegat UserSignedUp];
+                            }
+                            
+                            
+                        }];
                     }
-                    
-                    
+                
                 }];
-                
-                
-                
             }
-            
-            
             
         }];
     }
+}
+
+-(void)saveInstalation{
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    currentInstallation[@"installationUser"] = [[PFUser currentUser]objectId];
+    [currentInstallation saveInBackground];
 }
 
 - (IBAction)addProfileImage:(id)sender {

@@ -96,7 +96,8 @@
         
         }
         
-        //TODO crash caused here same reason as the image did finish downloanding 
+        //TODO crash caused here same reason as the image did finish downloanding
+        //Same Crash happening right here
     [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JCURLRetrieverDidFinish:) withObject:self waitUntilDone:NO];
 
         

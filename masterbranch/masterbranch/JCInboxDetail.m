@@ -159,7 +159,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
    
-    //TODO https://github.com/forkingdog/UITableView-FDTemplateLayoutCell
     JCCommentCell *cell = [[JCCommentCell alloc]init];
     PFObject *commentActivity = [self.userCommentActivies objectAtIndex:indexPath.row];
     NSString *comment = [commentActivity objectForKey:@"content"];
@@ -169,10 +168,7 @@
 
 #pragma - TextField Delagte 
 
-//TODO add tap anywhere to dissmiss the keyboad here
-//TODO create a keyboard helper class 
-
-
+//TODO create a keyboard helper class
 
 - (void)textViewDidChange:(UITextView *)textView
 {
@@ -246,25 +242,6 @@
         
     }];
 }
-
-//
-//- (void)replaceConstraintOnView:(UIView *)view withConstant:(float)constant
-//{
-//    
-//        [self.view.constraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *constraint, NSUInteger idx, BOOL *stop) {
-//         // animating the constrain for the text field
-//        if ([constraint.identifier isEqualToString:@"TextFieldBottomLayout"]) {
-//            constraint.constant = constant;
-//            [self animateConstraints];
-//        };
-//            
-//        if ([constraint.identifier isEqualToString:@"footerHeight"]) {
-//                constraint.constant = constant;
-//                [self animateConstraints];
-//        };
-//     }];
-//}
-
 
 - (void)animateConstraints
 {

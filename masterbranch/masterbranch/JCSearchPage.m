@@ -118,8 +118,6 @@
 
 
 - (IBAction)UserSelectedDone:(id)sender {
-
-    [self.SearchBar resignFirstResponder];
-    [self.JCSearchPageDelegate JCSearchPageDidSelectDone:self];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end

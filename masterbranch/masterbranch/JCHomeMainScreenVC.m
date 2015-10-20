@@ -66,6 +66,8 @@
 
 @end
 
+//TODO make this class a shared instance and just update the collection view data model objects to stop the BADACCESS Image downlaoder URL. 
+
 @implementation JCHomeMainScreenVC{
     CLLocationManager *locationManager;
 
@@ -210,10 +212,26 @@ return [self.collectionViewDataObject[section] count];
     // 5
     else {
         
+        NSUInteger randomNumber = arc4random_uniform(5);
+        switch (randomNumber) {
+            case 0:
+                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokePink.png"];
+                break;
+            case 1:
+                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeBlue.png"];
+                break;
+            case 2:
+                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeYellow.png"];
+                break;
+            case 3:
+                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeGreen.png"];
+                break;
+           
+        }
         //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
-        cell.MainImageView.image = [UIImage imageNamed:@"Placeholder.png"];
         //[cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        cell.CellTitle.text = @"Loading..";
+        cell.CellTitle.text = @"";
+        cell.venue.text = @"";
         
         //if (!cv.dragging && !cv.decelerating) {
            [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
@@ -264,6 +282,7 @@ return [self.collectionViewDataObject[section] count];
     if (endScrolling >= scrollView.contentSize.height)
     {
         //TODO add animation to pull to refresh
+        //TODO add defensive code to stop the collection view from going into a loop call BIT API
         [self getDataForCollectionView];
     }
 }
@@ -401,10 +420,8 @@ return [self.collectionViewDataObject[section] count];
    
     
     // 4: Update UI.
-    dispatch_async(dispatch_get_main_queue(), ^{
 
     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-    });
 
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
     
@@ -567,15 +584,19 @@ return [self.collectionViewDataObject[section] count];
 
 -(void)serchbuttonPressed:(id)sender {
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"SearchPageNavController"];
     
-
-    JCSearchPage *searchdelage = [myVC viewControllers][0];
+    [self performSegueWithIdentifier:@"showSearchPage" sender:self];
     
-    searchdelage.JCSearchPageDelegate = self;
-    [self presentViewController:myVC animated:YES completion:nil];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    
+//    UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"SearchPageNavController"];
+//    
+//
+//    JCSearchPage *searchdelage = [myVC viewControllers][0];
+//    
+//    searchdelage.JCSearchPageDelegate = self;
+//    [self presentViewController:myVC animated:YES completion:nil];
 }
 
 -(void)JCSearchPageDidSelectDone:(JCSearchPage *)controller{
@@ -590,9 +611,12 @@ return [self.collectionViewDataObject[section] count];
     
 }
 
-//-(void)JCHappeningTonightDidSelectDone:(JCHappeningTonightVC *)controller{
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
+-(void)menuButtonPressed{
+    
+    [self.sideMenuViewController presentLeftMenuViewController];
+    
+}
+
 
 -(void)JCGigMoreInfoVCDidSelectDone:(JCGigMoreInfoVC *)controller{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -635,6 +659,10 @@ return [self.collectionViewDataObject[section] count];
             
         }
         
+        if ([response count]<=7) {
+            [self getDataForCollectionView];
+        }
+        
        
     }];
     
@@ -655,22 +683,28 @@ return [self.collectionViewDataObject[section] count];
     
     
     UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [menuButton setImage:[UIImage imageNamed:@"menuIcon.png"] forState:UIControlStateNormal];
-    [menuButton setImage:[UIImage imageNamed:@"menuIcon.png"] forState:UIControlStateHighlighted];
-    menuButton.adjustsImageWhenDisabled = NO;
+    
+    //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
+    //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
+    
+    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
+    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
+     menuButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)
     menuButton.frame = CGRectMake(0, 0, 40, 40);
-    
+    menuButton.opaque = YES;
+
     [menuButton addTarget:self action:@selector(menuButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     //create a UIBarButtonItem with the button as a custom view
     UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+    
     self.navigationItem.leftBarButtonItem = customBarItem;
     
     
     
     UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [searchButton setImage:[UIImage imageNamed:@"searchIcon.png"] forState:UIControlStateNormal];
-    [searchButton setImage:[UIImage imageNamed:@"searchIcon.png"] forState:UIControlStateHighlighted];
+    [searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateNormal];
+    [searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateHighlighted];
     searchButton.adjustsImageWhenDisabled = NO;
     searchButton.frame = CGRectMake(0, self.collectionView.frame.size.width-40 , 40, 40);
 
@@ -687,11 +721,7 @@ return [self.collectionViewDataObject[section] count];
     
 }
 
--(void)menuButtonPressed{
-    
-[self.sideMenuViewController presentLeftMenuViewController];
 
-}
 
 #pragma mark - CLLocationManagerDelegate
 
@@ -716,6 +746,8 @@ return [self.collectionViewDataObject[section] count];
         self.usersLongditude = [NSString stringWithFormat:@"%.8f", self.userLocation.coordinate.longitude];
         self.userLatitude = [NSString stringWithFormat:@"%.8f", self.userLocation.coordinate.latitude];
         [self getDataForCollectionView];
+
+
     }
     //run location was updates
     if (self.userLocation != nil) {

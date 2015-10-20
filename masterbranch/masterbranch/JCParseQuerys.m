@@ -7,6 +7,8 @@
 //
 
 #import "JCParseQuerys.h"
+#import "UIImage+Resize.h"
+
 
 
 @interface JCParseQuerys ()
@@ -71,8 +73,7 @@
 
                 finishedGettingMyAtrits(error,nil);
             }else{
-                
-                //[self.MyArtist addObjectsFromArray:objects];
+                [self.MyArtist addObjectsFromArray:objects];
                 finishedGettingMyAtrits(nil,objects);
              }
           }];
@@ -234,7 +235,7 @@
             
             PFObject *aritstObject = objects[0];
             
-            PFFile *artistImage = [aritstObject objectForKey:@"atistImage"];
+            PFFile *artistImage = [aritstObject objectForKey:@"thumbnailAtistImage"];
             
             [artistImage getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
                 if (!error) {
@@ -406,9 +407,8 @@
     NSString *fileName;
     //NSString *fileType;
     
-    //static const CGSize size = {110, 240};
-    //get current artsit image and resize it for fast upload and down loads
-    //UIImage *artistImage = [self imageWithImage:self.currentEvent.photoDownload.image scaledToSize:size];
+
+
     
     if (currentEvent.photoDownload.image) {
         fileData = UIImagePNGRepresentation(currentEvent.photoDownload.image);
@@ -418,8 +418,8 @@
         fileName = @"artistImage.png";
     }
     
-    PFFile *file = [PFFile fileWithName:fileName data:fileData];
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+    PFFile *FullSizeArtistPhoto = [PFFile fileWithName:fileName data:fileData];
+    [FullSizeArtistPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         
         //chaning the two asynrons upplaods to bacckend so users doesnt have to wait and only the second one happens if the first one
         //is sucesful
@@ -432,50 +432,83 @@
             [alert show];
         }else{
             
+            NSData *fileData;
+            NSString *fileName;
             
-            PFObject *artist = [PFObject objectWithClassName:@"Artist"];
-            [artist setObject:file forKey:@"atistImage"];
-            //[artist setObject:jsonString forKey:@"upcomingGigs"];
-            [artist setObject:currentEvent.eventTitle forKey:@"artistName"];
-            [artist setObject:currentEvent.mbidNumber forKey:@"mbidNumber"];
+            //resize the image and save a thumbnail
+            CGSize size = {150, 150};
+            UIImage *thumbArtistImage = [currentEvent.photoDownload.image resizedImageToFitInSize:size scaleIfSmaller:YES];
             
-            
-            
-            [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                fileData = UIImagePNGRepresentation(thumbArtistImage);
+                fileName = @"thumbnailartistImage.png";
+         
+            PFFile *thumbnailArtistImage = [PFFile fileWithName:fileName data:fileData];
+
+            [thumbnailArtistImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
                 
                 if (error) {
-                    
+                    //show alert view and get user to start agin
                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                     
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh no :(!" message:@"There was a problem saving that artist plaese try again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error :(" message:@"Please try to follow that artist again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                     [alert show];
                 }else{
                     
                     
-                    NSLog(@"New artist saved");
                     
-                    //now that we saved that artist to the data base we can relat it to the current user
-                    PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
-                    [ArtistRelation addObject:artist];
+                    PFObject *artist = [PFObject objectWithClassName:@"Artist"];
+                    [artist setObject:FullSizeArtistPhoto forKey:@"atistImage"];
+                    [artist setObject:thumbnailArtistImage forKey:@"thmbnailAtistImage"];
+                    [artist setObject:currentEvent.eventTitle forKey:@"artistName"];
+                    [artist setObject:currentEvent.mbidNumber forKey:@"mbidNumber"];
                     
                     
-                    [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                        if (error){
+                    
+                    [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                        
+                        if (error) {
                             
                             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+                            
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh no :(!" message:@"There was a problem saving that artist plaese try again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                            [alert show];
                         }else{
                             
-                            [self.MyArtist addObject:artist];
-                            self.MyArtistUpcomingGigs = nil;
-
-                            NSLog(@"artist relation should be saved");
-                        }
+                            
+                            NSLog(@"New artist saved");
+                            
+                            //now that we saved that artist to the data base we can relat it to the current user
+                            PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
+                            [ArtistRelation addObject:artist];
+                            
+                            
+                            [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                                if (error){
+                                    
+                                    NSLog(@"Error: %@ %@", error, [error localizedDescription]);
+                                }else{
+                                    
+                                    [self.MyArtist addObject:artist];
+                                    self.MyArtistUpcomingGigs = nil;
+                                    
+                                    NSLog(@"artist relation should be saved");
+                                }
+                                
+                            }];//end of save current user in BG
+                            
+                        }//save artist if/else
                         
-                    }];//end of save current user in BG
-                    
-                }//save artist if/else
+                    }];//save artit in BG
                 
-            }];//save artit in BG
+                
+                
+                }
+                
+            
+            }];
+            
+          
             
             
         }//save image file to backend if/else

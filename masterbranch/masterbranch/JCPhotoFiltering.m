@@ -62,6 +62,18 @@
 
 - (UIImage *)applySepiaFilterToImage:(UIImage *)image {
     
+    
+   // - (void)adorn
+    //{
+//        CAGradientLayer *vignetteLayer = [CAGradientLayer layer];
+//        [vignetteLayer setBounds:image.size ];
+//        [vignetteLayer setPosition:CGPointMake([self bounds].size.width/2.0f, [self bounds].size.height/2.0f)];
+//        UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8];
+//        [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+//        [vignetteLayer setLocations:@[@(0.50), @(1.0)]];
+//        [[self layer] addSublayer:vignetteLayer];
+    //}
+    
     // This is expensive + time consuming
     CIImage *inputImage = [CIImage imageWithData:UIImagePNGRepresentation(image)];
     
@@ -73,9 +85,9 @@
     
     UIImage *sepiaImage = nil;
     CIContext *context = [CIContext contextWithOptions:nil];
-//    CIFilter *filter = [CIFilter filterWithName:@"CIVignette" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:1.0], nil];
+    CIFilter *filter = [CIFilter filterWithName:@"CIVignette" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:5.0],@"inputRadius",[NSNumber numberWithFloat:.4], nil];
   
-    CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey,inputImage,nil];
+    //CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey,inputImage,nil];
 
     
     //CIPhotoEffectNoir
