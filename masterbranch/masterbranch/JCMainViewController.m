@@ -30,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
     self.ParseQuerys = [JCParseQuerys sharedInstance];
 }
 
@@ -49,7 +50,7 @@
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentViewController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
     //self.rightMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"rightMenuViewController"];
-    self.backgroundImage = [UIImage imageNamed:@"SlidOutMenuBackGroung"];
+    //self.backgroundImage = [UIImage imageNamed:@"SlidOutMenuBackGroung"];
     self.delegate = self;
 }
 
@@ -72,7 +73,7 @@
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
         }
         
-        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%lu",[objects count]];
+        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%u",[objects count]];
         
     }];
     
@@ -80,7 +81,11 @@
     //get profile picture
     [imageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error && imageData){
-          menuViewController.profilePicture.image = [UIImage imageWithData:imageData];
+         
+        menuViewController.profilePicture.image = [UIImage imageWithData:imageData];
+        menuViewController.profilePicture.layer.cornerRadius = menuViewController.profilePicture.frame.size.height /2;
+        menuViewController.profilePicture.layer.masksToBounds = YES;
+        menuViewController.profilePicture.layer.borderWidth = 0;
         
         }else{
             
@@ -115,15 +120,9 @@
 {
    // NSLog(@"didHideMenuViewController: %@", NSStringFromClass([menuViewController class]));
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
 }
-*/
 
 
 
