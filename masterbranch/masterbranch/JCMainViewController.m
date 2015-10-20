@@ -61,6 +61,8 @@
     PFFile *imageFile = currentUser[@"profilePicture"];
     menuViewController.userName.text = currentUser.username;
 
+    
+    
     //get friends count
     self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
     PFQuery *query  = [self.FriendRelations query];
@@ -70,7 +72,7 @@
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
         }
         
-        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%d",[objects count]];
+        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%lu",[objects count]];
         
     }];
     
@@ -90,7 +92,7 @@
 
     [self.ParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
         
-     menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%d",[response count]];
+     menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%lu",(unsigned long)[response count]];
 
     }];
     

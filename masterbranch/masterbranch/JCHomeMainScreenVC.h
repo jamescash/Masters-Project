@@ -38,7 +38,9 @@
 @protocol MainScreenCollectionViewDelegate;
 
 
-@interface JCHomeMainScreenVC : UIViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSearchPageDelegate,JCSocailStreamControllerDelegate,JCGigMoreInfoVC,CLLocationManagerDelegate>
+@interface JCHomeMainScreenVC : UIViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSocailStreamControllerDelegate,JCGigMoreInfoVC,CLLocationManagerDelegate>
+
+//JCSearchPageDelegate
 
 @property (strong, nonatomic) id<MainScreenCollectionViewDelegate>MainScreenCollectionViewDelegate;
 

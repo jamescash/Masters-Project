@@ -10,20 +10,20 @@
 #import "JCSearchPageHTTPClient.h"
 
 
-@protocol JCSearchPageDelegate;
+//@protocol JCSearchPageDelegate;
 //@class JCSearchPageDelegate;
 
 @interface JCSearchPage : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate>
 
-@property (nonatomic,weak) id <JCSearchPageDelegate>JCSearchPageDelegate;
+//@property (nonatomic,weak) id <JCSearchPageDelegate>JCSearchPageDelegate;
 
 
 @end
 
 
 
-@protocol JCSearchPageDelegate <NSObject>
--(void)JCSearchPageDidSelectDone:(JCSearchPage*)controller;
-@end
+//@protocol JCSearchPageDelegate <NSObject>
+//-(void)JCSearchPageDidSelectDone:(JCSearchPage*)controller;
+//@end
 
 
