@@ -17,11 +17,7 @@
 @interface JCMainViewController ()
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) PFRelation *artistRelations;
-
 @property (nonatomic,strong) JCParseQuerys *ParseQuerys;
-
-
-
 @end
 
 @implementation JCMainViewController
@@ -29,6 +25,7 @@
 
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     self.ParseQuerys = [JCParseQuerys sharedInstance];
@@ -120,6 +117,7 @@
 {
    // NSLog(@"didHideMenuViewController: %@", NSStringFromClass([menuViewController class]));
 }
+
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
 }

@@ -53,8 +53,10 @@
             [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
             }
         
-        //TODO make sure this happen on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
         [self.MyGigInvitesTable reloadData];
+        });
+
     }];
 
 }

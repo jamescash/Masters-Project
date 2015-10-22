@@ -74,7 +74,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
     
     //TODO cheack for valid email and duplicate usernames and valid profile picture
     if ([userName length] == 0 || [password length] == 0 || [userEmail length]== 0 ) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"We have no psychics working at PreAmp yet! Please enter a vaild username & password!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a vaild username & password!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }else if( self.profileImage == nil) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Your friends would like to see your beautiful face! Please select a profile picture" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -160,9 +160,9 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
                                 [alert show];
                             }else{
                                 NSLog(@"User sucessfully sigend up");
-                                [self dismissViewControllerAnimated:YES completion:nil];
+                                //[self dismissViewControllerAnimated:YES completion:nil];
                                 [self saveInstalation];
-                                [self.JCSignUpVCDelegat UserSignedUp];
+                                [self performSegueWithIdentifier:@"unwindHomeScreenCollectionView" sender:self];
                             }
                             
                             

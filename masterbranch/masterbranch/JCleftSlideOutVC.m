@@ -29,6 +29,7 @@
 - (IBAction)menuButtonHome:(id)sender;
 - (IBAction)menuButtonMyInvites:(id)sender;
 - (IBAction)menuButtonMusicDiary:(id)sender;
+- (IBAction)logout:(id)sender;
 
 @end
 
@@ -69,46 +70,14 @@
     [super didReceiveMemoryWarning];
 }
 
-
-
-
-#pragma mark UITableView Delegate
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-   // [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //switch (indexPath.row) {
-       // case 0:
-          //  [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
-          //                                               animated:YES];
-          /////  [self.sideMenuViewController hideMenuViewController];
-          //  break;
-      
-       // case 1:
-         //   [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"JCInbox"]]
-        // /                                                animated:YES];
-        //    [self.sideMenuViewController hideMenuViewController];
-        //    break;
-        //case 2:
-          //  [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController://[self.//storyboard instantiateViewControllerWithIdentifier:@"JCGigInvitesVC"]]
-           //                                              animated:YES];
-         //   [self.sideMenuViewController hideMenuViewController];
-         //   break;
-        //case 3:
-         //   NSLog(@"User Logged out delgation method engaged");
-         //   [self UserSelectedLogOut];
-         //   break;
-       // default:
-    //        break;
-    //}
-//}
-
 -(void)UserSelectedLogOut{
     NSLog(@"User Logged Out");
     [PFUser logOut];
-    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
-                                                 animated:YES];
-    [self.sideMenuViewController hideMenuViewController];
+    [self performSegueWithIdentifier:@"showLoginPage" sender:self];
+    
+//    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
+//                                                 animated:YES];
+//    [self.sideMenuViewController hideMenuViewController];
     
 }
 
@@ -203,5 +172,10 @@
     [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"JCInbox"]]
                                                  animated:YES];
     [self.sideMenuViewController hideMenuViewController];
+}
+
+- (IBAction)logout:(id)sender {
+    
+    [self UserSelectedLogOut];
 }
 @end
