@@ -149,7 +149,10 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
                         newUser.username = userName;
                         newUser.password = password;
                         newUser.email = userEmail;
+                        NSString *lowercaseUserName = [userName lowercaseString];
+                        
                         //set a new collum in the user object called profile picture
+                        [newUser setObject:lowercaseUserName forKey:@"searchUsername"];
                         [newUser setObject:fullSizeProfilePic forKey:@"profilePicture"];
                         [newUser setObject:thumbnailProfilePicture forKey:@"thumbnailProfilePicture"];
                         //now save the new user to the backend

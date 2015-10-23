@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JCAddMyFriendsVC : UIViewController
+@interface JCAddMyFriendsVC : UIViewController <UISearchBarDelegate>
+@property (nonatomic,strong) NSMutableArray *myFriends;
 
 @end

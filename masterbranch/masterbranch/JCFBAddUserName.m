@@ -177,7 +177,10 @@
                 [alert show];
             }else{
                 
+                NSString *lowercaseUserName = [userName lowercaseString];
+                
                 [[PFUser currentUser] setObject:userName forKey:@"username"];
+                [[PFUser currentUser] setObject:lowercaseUserName forKey:@"searchUsername"];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     
                     [self performSegueWithIdentifier:@"unwindHomeScreenCollectionView" sender:self];

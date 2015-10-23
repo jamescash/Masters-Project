@@ -11,16 +11,19 @@
 #import <Parse/Parse.h>
 #import "JCMyArtistCell.h"
 #import "JCMyFriendsCell.h"
+#import "JCAddMyFriendsVC.h"
 
 
 
 
 
-@interface JCMyFiriendsMyArtistVC ()
+
+@interface JCMyFiriendsMyArtistVC () <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSArray *tableViewDataSource;
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 @property (nonatomic,strong) NSMutableArray *imageFiles;
+@property (nonatomic,strong) NSArray *MyFireds;
 
 
 @end
@@ -29,101 +32,52 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.imageFiles = [[NSMutableArray alloc]init];
     self.tableView.allowsSelection = NO;
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
-    
-    if ([self.tableViewType isEqualToString:@"friends"]) {
-        
-        [self setupNavBarForScreen:self.tableViewType];
-
-        self.navigationItem.title = @"My Friends";
-        
-        //i//f (self.JCParseQuerys.MyFriends) {
-         //   self.tableViewDataSource = self.JCParseQuerys.MyFriends;
-        //}else{
-            
-            [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
-                
-                self.tableViewDataSource = response;
-                for (PFObject *user in response) {
-                    
-                    
-                    PFFile *imageFile = [user objectForKey:@"thumbnailProfilePhoto"];
-                    [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
-                }
-                
-                
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                });
-            }];
-        //}
-        
-        
-        
-        
-    }
-    else if ([self.tableViewType isEqualToString:@"artist"]){
-//        
-       // if (self.JCParseQuerys.MyArtist) {
-        //    self.tableViewDataSource = self.JCParseQuerys.MyArtist;
-//            
-//            
-        //}else{
-        
-        self.navigationItem.title = @"My Friends";
-
-        
-            [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
-                self.tableViewDataSource = response;
-                
-                
-
-                for (PFObject *artist in response) {
-                    
-                    
-                    PFFile *imageFile = [artist objectForKey:@"thmbnailAtistImage"];
-                    [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                });
-                
-            }];
-        //}
-    }
-
-
 }
 
 
 - (void) viewWillAppear:(BOOL)animated{
     
-    
-    
-   
+    if ([self.tableViewType isEqualToString:@"friends"]) {
+        [self setupNavBarForScreen:self.tableViewType];
+         self.navigationItem.title = @"My Friends";
+        [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
+            
+            self.tableViewDataSource = response;
+            self.MyFireds = response;
+            for (PFObject *user in response) {
+                PFFile *imageFile = [user objectForKey:@"thumbnailProfilePhoto"];
+                [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.tableView reloadData];
+            });
+         }];
+    }else if ([self.tableViewType isEqualToString:@"artist"]){
+         self.navigationItem.title = @"My artist";
+        [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
+            
+            self.tableViewDataSource = response;
+            for (PFObject *artist in response) {
+                 PFFile *imageFile = [artist objectForKey:@"thmbnailAtistImage"];
+                [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.tableView reloadData];
+            });
+         }];
+    }
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return self.tableViewDataSource.count;
-}
-
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
+    NSLog(@"cellForRowAtIndexPath");
     if ([self.tableViewType isEqualToString:@"friends"]){
-        
     JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
-       
-        [cell formateCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
+    [cell formateCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
         UIImage *userImage = self.imageFiles[indexPath.row][@"image"];
 
         if (userImage) {
@@ -135,25 +89,20 @@
                 case 0:
                     cell.userImage.image = [UIImage imageNamed:@"loadingYellow.png"];
                     cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                 case 1:
                     cell.userImage.image = [UIImage imageNamed:@"loadingPink.png"];
                     cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                 case 2:
                     cell.userImage.image = [UIImage imageNamed:@"loadingBlue.png"];
                     cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                 case 3:
                     cell.userImage.image = [UIImage imageNamed:@"loadingGreen.png"];
                     cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
-                    
-            }
+              }
             
             [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
                 if (!error) {
@@ -162,16 +111,10 @@
                 
             }];
         }
-        
-        
-        
         return cell;
-      }
-    
-    if ([self.tableViewType isEqualToString:@"artist"]){
+      }else if ([self.tableViewType isEqualToString:@"artist"]){
     
     JCMyArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"artistCell" forIndexPath:indexPath];
-
     [cell formatCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
         UIImage *artistImage = self.imageFiles[indexPath.row][@"image"];
 
@@ -185,22 +128,18 @@
                 case 0:
                     cell.artistImage.image = [UIImage imageNamed:@"loadingYellow.png"];
                     cell.artistImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                 case 1:
                     cell.artistImage.image = [UIImage imageNamed:@"loadingPink.png"];
                     cell.artistImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                 case 2:
                     cell.artistImage.image = [UIImage imageNamed:@"loadingBlue.png"];
                     cell.artistImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                 case 3:
                     cell.artistImage.image = [UIImage imageNamed:@"loadingGreen.png"];
                     cell.artistImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     break;
                     
             }
@@ -212,15 +151,18 @@
                 
             }];
         }
-        
-    
-        
-    return cell;
-        
-    
+      return cell;
     }
     
     return nil;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.tableViewDataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView
@@ -281,8 +223,16 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 
 -(void)serchbuttonPressed{
-    
     [self performSegueWithIdentifier:@"addFriends" sender:self];
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"addFriends"]){
+        //Pass list of friends to add freinds VC so it knows who's alrealdy your friends3
+        JCAddMyFriendsVC *addfirendsPage = (JCAddMyFriendsVC*)segue.destinationViewController;
+        addfirendsPage.myFriends = [NSMutableArray arrayWithArray:self.MyFireds];
+    }
+};
+
 
 @end

@@ -46,8 +46,6 @@
         
         self.MyFriends = response;
         [self.tableView reloadData];
-
-        
     }];
     
     

@@ -81,7 +81,7 @@
 
 - (IBAction)logginWithFaceBook:(id)sender {
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_birthday"];
+    NSArray *permissionsArray = @[ @"user_about_me",@"user_friends"];
     
      //Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
