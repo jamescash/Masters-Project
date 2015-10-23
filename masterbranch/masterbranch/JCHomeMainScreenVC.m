@@ -107,6 +107,7 @@
     [self getlocation];
     
     //show login screen if users not logged in
+    
     if (![PFUser currentUser]) {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
@@ -212,7 +213,7 @@ return [self.collectionViewDataObject[section] count];
     // 5
     else {
         
-        NSUInteger randomNumber = arc4random_uniform(5);
+        NSUInteger randomNumber = arc4random_uniform(4);
         switch (randomNumber) {
             case 0:
                 cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokePink.png"];
@@ -538,6 +539,11 @@ return [self.collectionViewDataObject[section] count];
 
 
 #pragma Navigation
+
+- (IBAction)unwindHomeScreenCollectionView:(UIStoryboardSegue *)unwindSegue
+{
+    
+}
 
 -(void)PerformNavigationForItemAtIndex: (NSIndexPath*)index{
     

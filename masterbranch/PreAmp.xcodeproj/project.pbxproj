@@ -49,6 +49,10 @@
 		897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780D31BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		897780D91BD15286006B20C3 /* JCInvteFollowHeaderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780D81BD15286006B20C3 /* JCInvteFollowHeaderVC.m */; settings = {ASSET_TAGS = (); }; };
 		897780DD1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780DC1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m */; settings = {ASSET_TAGS = (); }; };
+		897780E11BD79AD5006B20C3 /* JCMyArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780E01BD79AD5006B20C3 /* JCMyArtistCell.m */; settings = {ASSET_TAGS = (); }; };
+		897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780E31BD7B00E006B20C3 /* JCMyFriendsCell.m */; settings = {ASSET_TAGS = (); }; };
+		897780EB1BD7FD36006B20C3 /* JCAddMyFriendsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780EA1BD7FD36006B20C3 /* JCAddMyFriendsVC.m */; settings = {ASSET_TAGS = (); }; };
+		897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
 		898FA89A1B7641A3000AEAB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */; };
 		898FA89C1B7641B9000AEAB1 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */; };
@@ -192,6 +196,14 @@
 		897780D81BD15286006B20C3 /* JCInvteFollowHeaderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCInvteFollowHeaderVC.m; sourceTree = "<group>"; };
 		897780DB1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMyFiriendsMyArtistVC.h; sourceTree = "<group>"; };
 		897780DC1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMyFiriendsMyArtistVC.m; sourceTree = "<group>"; };
+		897780DF1BD79AD5006B20C3 /* JCMyArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMyArtistCell.h; sourceTree = "<group>"; };
+		897780E01BD79AD5006B20C3 /* JCMyArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMyArtistCell.m; sourceTree = "<group>"; };
+		897780E21BD7B00E006B20C3 /* JCMyFriendsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMyFriendsCell.h; sourceTree = "<group>"; };
+		897780E31BD7B00E006B20C3 /* JCMyFriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMyFriendsCell.m; sourceTree = "<group>"; };
+		897780E91BD7FD36006B20C3 /* JCAddMyFriendsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAddMyFriendsVC.h; sourceTree = "<group>"; };
+		897780EA1BD7FD36006B20C3 /* JCAddMyFriendsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAddMyFriendsVC.m; sourceTree = "<group>"; };
+		897780EE1BD8F6C1006B20C3 /* JCFBAddUserName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCFBAddUserName.h; sourceTree = "<group>"; };
+		897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCFBAddUserName.m; sourceTree = "<group>"; };
 		898FA8971B76418A000AEAB1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
@@ -522,8 +534,8 @@
 		8954EC311B8893F500BBA658 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				892E40EF1B766FF700B60275 /* JCloginVC.h */,
-				892E40F01B766FF700B60275 /* JCloginVC.m */,
+				897780ED1BD8F697006B20C3 /* facebookUserName */,
+				897780EC1BD8F68A006B20C3 /* loggin */,
 				89D88ED81BB5592E002286FD /* SignUp */,
 			);
 			name = Login;
@@ -669,10 +681,50 @@
 		897780DA1BD6868A006B20C3 /* MyFriends/Artist */ = {
 			isa = PBXGroup;
 			children = (
-				897780DB1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.h */,
-				897780DC1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m */,
+				897780E51BD7FB52006B20C3 /* ViewControllers */,
+				897780DE1BD79AAF006B20C3 /* custom cells */,
 			);
 			name = MyFriends/Artist;
+			sourceTree = "<group>";
+		};
+		897780DE1BD79AAF006B20C3 /* custom cells */ = {
+			isa = PBXGroup;
+			children = (
+				897780DF1BD79AD5006B20C3 /* JCMyArtistCell.h */,
+				897780E01BD79AD5006B20C3 /* JCMyArtistCell.m */,
+				897780E21BD7B00E006B20C3 /* JCMyFriendsCell.h */,
+				897780E31BD7B00E006B20C3 /* JCMyFriendsCell.m */,
+			);
+			name = "custom cells";
+			sourceTree = "<group>";
+		};
+		897780E51BD7FB52006B20C3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				897780DB1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.h */,
+				897780DC1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m */,
+				897780E91BD7FD36006B20C3 /* JCAddMyFriendsVC.h */,
+				897780EA1BD7FD36006B20C3 /* JCAddMyFriendsVC.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		897780EC1BD8F68A006B20C3 /* loggin */ = {
+			isa = PBXGroup;
+			children = (
+				892E40EF1B766FF700B60275 /* JCloginVC.h */,
+				892E40F01B766FF700B60275 /* JCloginVC.m */,
+			);
+			name = loggin;
+			sourceTree = "<group>";
+		};
+		897780ED1BD8F697006B20C3 /* facebookUserName */ = {
+			isa = PBXGroup;
+			children = (
+				897780EE1BD8F6C1006B20C3 /* JCFBAddUserName.h */,
+				897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */,
+			);
+			name = facebookUserName;
 			sourceTree = "<group>";
 		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
@@ -1160,7 +1212,9 @@
 				8954EC361B88A49000BBA658 /* JCCollectionViewHeaders.m in Sources */,
 				89F52E061BC7EC3100EF5C00 /* JCUserEventInvitesTableView.m in Sources */,
 				894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */,
+				897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
+				897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */,
 				89D88EC81BACAFA2002286FD /* JCAddFriendsVC.m in Sources */,
@@ -1206,6 +1260,7 @@
 				897780D11BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m in Sources */,
 				897780D91BD15286006B20C3 /* JCInvteFollowHeaderVC.m in Sources */,
 				8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */,
+				897780E11BD79AD5006B20C3 /* JCMyArtistCell.m in Sources */,
 				8969D0121BC8385200A0FCED /* JCInvitationCell.m in Sources */,
 				8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */,
 				891237FE1B400C0700E7C6CA /* JCsocialStreamCell.m in Sources */,
@@ -1214,6 +1269,7 @@
 				897280DE1BC3386F00569648 /* HeaderView.m in Sources */,
 				89B376CE1BCAF7CC006231A7 /* JCMusicDiaryCell.m in Sources */,
 				89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */,
+				897780EB1BD7FD36006B20C3 /* JCAddMyFriendsVC.m in Sources */,
 				8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */,
 				89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */,
 			);

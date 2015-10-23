@@ -235,7 +235,7 @@
             
             PFObject *aritstObject = objects[0];
             
-            PFFile *artistImage = [aritstObject objectForKey:@"thumbnailAtistImage"];
+            PFFile *artistImage = [aritstObject objectForKey:@"thmbnailAtistImage"];
             
             [artistImage getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
                 if (!error) {
