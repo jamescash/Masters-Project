@@ -11,6 +11,9 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import "JCParseQuerys.h"
+
+#import "JCMyFriendsCell.h"
 
 
 
@@ -32,6 +35,8 @@
 @property (nonatomic,strong) NSString *userFbId;
 @property (nonatomic,strong) NSArray *tableViewDataSource;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchbarVC;
+@property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
+
 - (IBAction)buttonPreAmp:(id)sender;
 - (IBAction)buttonFacebook:(id)sender;
 @end
@@ -41,6 +46,7 @@
 }
 
 - (void)viewDidLoad {
+    self.JCParseQuerys = [JCParseQuerys sharedInstance];
     [super viewDidLoad];
     isFacebookSearch = YES;
     self.userFbId = [[PFUser currentUser] objectForKey:@"facebookId"];
@@ -67,33 +73,28 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
   
-    if (!isFacebookSearch) {
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
+        JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
         PFUser *user = [self.tableViewDataSource objectAtIndex:indexPath.row];
-        
-        NSLog(@"%@",user);
-        
-        cell.textLabel.text = [user objectForKey:@"username"];
-        
+        [cell formateCell:user];
+    
+        PFFile *profilePic = [user objectForKey:@"thumbnailProfilePicture"];
+        cell.userImage.file = profilePic;
+        [cell.userImage loadInBackground];
+    
         if ([self IsFriend:user]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }else{
             
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        
-        return cell;
-    }else{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSDictionary *facebookUser = [self.tableViewDataSource objectAtIndex:indexPath.row];
-        NSLog(@"%@",facebookUser);
 
-        cell.textLabel.text = facebookUser[@"name"];
-    return cell;
-    }
     
+  
+    
+        return cell;
+
     return nil;
 }
 
@@ -119,13 +120,14 @@
                 [self.myFriends removeObject:firend];
                 break;
             }
-            
+            [user unpinInBackground];
             [FriendsRelation removeObject:user];
         }
     }else{
         
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [self.myFriends addObject:user];
+        [user pinInBackgroundWithName:@"MyFriends"];
         [FriendsRelation addObject:user];
         
     }
@@ -153,14 +155,29 @@
                                           NSError *error) {
         
         NSArray *facebookUsers = result[@"data"];
+        NSMutableArray *facebookUserIds = [[NSMutableArray alloc]init];
+        for (NSDictionary *facebookUser in facebookUsers) {
+            NSString *FBUserId = facebookUser[@"id"];
+            [facebookUserIds addObject:FBUserId];
+        }
         
-        
-        self.tableViewDataSource = facebookUsers;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableviewcontoller reloadData];
-        });
-        
+        [self.JCParseQuerys getPreAmpUsersThatMatchTheseFBids:facebookUserIds completionblock:^(NSError *error, NSArray *response) {
+           
+            if (error) {
+                NSLog(@"error getting Users for FBIds %@",error);
+            }else{
+                self.tableViewDataSource = response;
+
+              
+                
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableviewcontoller reloadData];
+                });
+            }
+            
+        }];
     }];
 }
 
@@ -171,8 +188,6 @@
     self.tableViewDataSource = nil;
     [self.tableviewcontoller reloadData];
     isFacebookSearch = NO;
-    
-
 }
 
 - (IBAction)buttonFacebook:(id)sender {
@@ -183,6 +198,7 @@
     self.searchbarVC.placeholder = @"search by name";
     [self getusersFacebookfriebnds];
 }
+
 
 
 
@@ -243,7 +259,7 @@
 -(void)searchForUserByUserNamr: (NSString*) searchQuery{
     
     PFQuery *query = [PFUser query];
-    [query whereKey:@"username" hasPrefix:searchQuery];
+    [query whereKey:@"searchUsername" hasPrefix:searchQuery];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         

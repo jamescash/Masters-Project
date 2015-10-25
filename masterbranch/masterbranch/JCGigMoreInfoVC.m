@@ -57,14 +57,17 @@
     self.TableViewVC.allowsSelection = NO;
     [self addCustomButtonOnNavBar];
     self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
-    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
     
+    
+    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
     headerView.HeaderImageView.image = self.currentEvent.photoDownload.image;
     headerView.ArtistName.text = self.currentEvent.eventTitle;
     
     [self.TableViewVC setParallaxHeaderView:headerView
                                        mode:VGParallaxHeaderModeFill
                                      height:200];
+
+    
     self.tableViewDataSource = [[NSMutableDictionary alloc]init];
     NSArray *timeDateLocaionCellIdArray = @[timeDateLocaionCellId];
     [self.tableViewDataSource setObject:timeDateLocaionCellIdArray forKey:header1Buttons];
@@ -105,7 +108,7 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     NSString *section = [self.tableViewDataSourcekeys objectAtIndex:indexPath.section];
     
     if ([section isEqualToString:header1Buttons]) {

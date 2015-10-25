@@ -120,7 +120,7 @@
                                      [alert show];
                                  }else{
                                      
-                                     [[PFUser currentUser] setObject:name forKey:@"facebookName"];
+                                     [[PFUser currentUser] setObject:name forKey:@"realName"];
                                      [[PFUser currentUser] setObject:facebookID forKey:@"facebookId"];
                                      [[PFUser currentUser] setObject:profilePicture forKey:@"profilePicture"];
                                      [[PFUser currentUser] setObject:thumbnailProfilePicture forKey:@"thumbnailProfilePicture"];
@@ -165,7 +165,7 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a username more then 3 characters long!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }else if (![self validateUserName:userName]){
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure your username only contains letters or numbers" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure your username only contains letters or numbers with no white space" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }else{
         

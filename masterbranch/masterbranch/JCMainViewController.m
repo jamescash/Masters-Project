@@ -60,21 +60,15 @@
     menuViewController.userName.text = currentUser.username;
 
     
-    
-    //get friends count
-    self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
-    PFQuery *query  = [self.FriendRelations query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        
+    [self.ParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
         if (error) {
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
         }
         
-        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%u",[objects count]];
+        menuViewController.numberOfFriends.text = [NSString stringWithFormat:@"%u",[response count]];
         
     }];
-    
-    
+
     //get profile picture
     [imageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error && imageData){
@@ -85,7 +79,6 @@
         menuViewController.profilePicture.layer.borderWidth = 0;
         
         }else{
-            
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
         }
     
@@ -93,9 +86,8 @@
     
 
     [self.ParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
-        
-     menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%lu",(unsigned long)[response count]];
-
+        menuViewController.numberOfArtistFollowing.text = [NSString stringWithFormat:@"%lu",(unsigned long)[response count]];
+     
     }];
     
 

@@ -31,6 +31,13 @@
 
     
 }
+-(void)formatCellwith:(PFObject*)upcomingGig{
+    self.venueName.text = [upcomingGig objectForKey:@"venueName"];
+    self.dataTime.text = [upcomingGig objectForKey:@"formatted_datetime"];
+    self.dataTime.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:.6f];
+    self.venueAdress.text = [upcomingGig objectForKey:@"city"];
+    
+}
 
 - (void)awakeFromNib {
     // Initialization code

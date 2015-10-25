@@ -13,6 +13,8 @@
 #import "JCHomeMainScreenVC.h"
 #import <Parse/Parse.h>
 #import "JCMyFiriendsMyArtistVC.h"
+#import "JCParseQuerys.h"
+
 
 
 
@@ -24,6 +26,7 @@
 //UI elements
 @property (weak, nonatomic) IBOutlet UILabel *friends;
 @property (weak, nonatomic) IBOutlet UILabel *artist;
+@property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 
 //MainMenuButtons
 - (IBAction)menuButtonHome:(id)sender;
@@ -37,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.JCParseQuerys = [JCParseQuerys sharedInstance];
     self.currentUser = [PFUser currentUser];
     
     
@@ -71,13 +74,19 @@
 }
 
 -(void)UserSelectedLogOut{
-    NSLog(@"User Logged Out");
+
+    
+    [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
+        [PFObject unpinAllInBackground:response];
+    }];
+    
+    [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
+        [PFObject unpinAllInBackground:response];
+     }];
+    [PFObject unpinAllObjectsInBackgroundWithName:@"MyArtist"];
+    [PFObject unpinAllObjectsInBackgroundWithName:@"MyFriends"];
     [PFUser logOut];
     [self performSegueWithIdentifier:@"showLoginPage" sender:self];
-    
-//    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
-//                                                 animated:YES];
-//    [self.sideMenuViewController hideMenuViewController];
     
 }
 

@@ -19,4 +19,7 @@
 - (id)initWithEvent:(NSDate*)UpcomingGigDate andDateComponents:(NSDateComponents*)dateComponents andGigObject:(PFObject*)GigObject;
 
 
+
+
+
 @end

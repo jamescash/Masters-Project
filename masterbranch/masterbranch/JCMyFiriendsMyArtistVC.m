@@ -28,11 +28,15 @@
 
 @end
 
-@implementation JCMyFiriendsMyArtistVC
+@implementation JCMyFiriendsMyArtistVC{
+    NSString *firendskey;
+    NSString *artistkey;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    firendskey = @"friends";
+    artistkey =@"artist";
     self.imageFiles = [[NSMutableArray alloc]init];
     self.tableView.allowsSelection = NO;
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
@@ -41,22 +45,28 @@
 
 - (void) viewWillAppear:(BOOL)animated{
     
-    if ([self.tableViewType isEqualToString:@"friends"]) {
+    NSLog(@"%@",self.tableViewType);
+    
+    if ([self.tableViewType isEqualToString:firendskey]) {
+        
         [self setupNavBarForScreen:self.tableViewType];
          self.navigationItem.title = @"My Friends";
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
             
             self.tableViewDataSource = response;
             self.MyFireds = response;
+
+
             for (PFObject *user in response) {
-                PFFile *imageFile = [user objectForKey:@"thumbnailProfilePhoto"];
+                PFFile *imageFile = [user objectForKey:@"thumbnailProfilePicture"];
                 [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
             }
+            
             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self.tableView reloadData];
-            });
+                [self.tableView reloadData];
+                 });
          }];
-    }else if ([self.tableViewType isEqualToString:@"artist"]){
+    }else if ([self.tableViewType isEqualToString:artistkey]){
          self.navigationItem.title = @"My artist";
         [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
             
@@ -74,8 +84,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSLog(@"cellForRowAtIndexPath");
-    if ([self.tableViewType isEqualToString:@"friends"]){
+    if ([self.tableViewType isEqualToString:firendskey]){
     JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
     [cell formateCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
         UIImage *userImage = self.imageFiles[indexPath.row][@"image"];
@@ -112,7 +121,7 @@
             }];
         }
         return cell;
-      }else if ([self.tableViewType isEqualToString:@"artist"]){
+      }else if ([self.tableViewType isEqualToString:artistkey]){
     
     JCMyArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"artistCell" forIndexPath:indexPath];
     [cell formatCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];

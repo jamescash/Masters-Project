@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "eventObject.h"
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
+#import <Parse/Parse.h>
+
 
 
 
 @interface JCUpcomingGigTableViewCell : MGSwipeTableCell
 -(void)formatCell:(eventObject*)currentEvent;
+-(void)formatCellwith:(PFObject*)upcomingGig;
+
 @end

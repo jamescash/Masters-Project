@@ -15,7 +15,7 @@
 @interface JCURLRetriever : NSOperation
 
 
-@property (nonatomic, assign) id <JCURLRetrieverDelegate> delegate;
+@property (nonatomic, weak) id <JCURLRetrieverDelegate> delegate;
 @property (nonatomic, readonly, strong) NSIndexPath *indexPathInTableView;
 @property (nonatomic, readonly, strong) JCPhotoDownLoadRecord *photoRecord;
 

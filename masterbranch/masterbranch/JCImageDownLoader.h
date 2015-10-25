@@ -16,7 +16,7 @@
 
 @interface JCImageDownLoader : NSOperation
 
-@property (nonatomic, assign) id <ImageDownloaderDelegate> delegate;
+@property (nonatomic, weak) id <ImageDownloaderDelegate> delegate;
 
 @property (nonatomic, readonly, strong) NSIndexPath *indexPathInTableView;
 @property (nonatomic, readonly, strong) JCPhotoDownLoadRecord *photoRecord;

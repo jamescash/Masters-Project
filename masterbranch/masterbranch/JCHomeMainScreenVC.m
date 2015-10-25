@@ -92,8 +92,6 @@
 -(void)initialization{
     self.collectionViewDataObject = [[NSMutableArray alloc]init];
     self.JCHomeScreenDataController = [[JCHomeScreenDataController alloc]init];
-    //self.KeysOfAllEventsDictionary = [[NSArray alloc]init];
-    //self.upComingGigsDataForCollectionView = [[NSDictionary alloc]init];
     self.dateForAPICall = [NSDate date];
     [self addCustomButtonOnNavBar];
 
@@ -103,6 +101,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
    
     [self getlocation];
     
@@ -152,23 +151,9 @@
     [self getDataForCollectionView];
 }
 
-//-(void)AllEventsLoaded{
-//    //we got the call back form app delage saying the array of event was made so lets take a copy and
-//    //display it
-//    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    self.upComingGigsDataForCollectionView  = appDelegate.allEevent;
-//    self.KeysOfAllEventsDictionary = [self.upComingGigsDataForCollectionView allKeys];
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//         [self.collectionView reloadData];
-//        });
-//    
-//}
-
-
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self cancelAllOperations];
 }
 
 #pragma mark - UICollectionView Datasource
@@ -177,10 +162,12 @@
     
 return [self.collectionViewDataObject[section] count];
 }
+
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
     return [self.collectionViewDataObject count];
     //return [self.KeysOfAllEventsDictionary count];
 }
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
    
     JCCustomCollectionCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"EventImageCell" forIndexPath:indexPath];
@@ -213,30 +200,35 @@ return [self.collectionViewDataObject[section] count];
     // 5
     else {
         
-        NSUInteger randomNumber = arc4random_uniform(4);
-        switch (randomNumber) {
-            case 0:
-                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokePink.png"];
-                break;
-            case 1:
-                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeBlue.png"];
-                break;
-            case 2:
-                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeYellow.png"];
-                break;
-            case 3:
-                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeGreen.png"];
-                break;
-           
-        }
+//        NSUInteger randomNumber = arc4random_uniform(4);
+//        switch (randomNumber) {
+//            case 0:
+//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokePink.png"];
+//                break;
+//            case 1:
+//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeBlue.png"];
+//                break;
+//            case 2:
+//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeYellow.png"];
+//                break;
+//            case 3:
+//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeGreen.png"];
+//                break;
+//           
+//                
+//        }
+        
+        //loadingGray
+        cell.MainImageView.image = [UIImage imageNamed:@"loadingGray.png"];
+
         //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
         //[cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
         cell.CellTitle.text = @"";
         cell.venue.text = @"";
         
-        //if (!cv.dragging && !cv.decelerating) {
+        if (!cv.dragging && !cv.decelerating) {
            [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
-         //}
+         }
         
     }
     return cell;
@@ -265,7 +257,6 @@ return [self.collectionViewDataObject[section] count];
     return headerView;
 }
 
-
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
@@ -273,29 +264,14 @@ return [self.collectionViewDataObject[section] count];
     
 }
 
-
-
 #pragma mark – UICollectionViewDelegateFlowLayout
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
-    if (endScrolling >= scrollView.contentSize.height)
-    {
-        //TODO add animation to pull to refresh
-        //TODO add defensive code to stop the collection view from going into a loop call BIT API
-        [self getDataForCollectionView];
-    }
-}
-
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    CGFloat cellLeg = (self.collectionView.frame.size.width/2);
+    CGFloat cellLeg =  (self.collectionView.frame.size.width/2);
     return CGSizeMake(cellLeg,cellLeg);
 }
-
 
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -305,7 +281,6 @@ return [self.collectionViewDataObject[section] count];
 
 
 #pragma Aysnc Downlaod Operations
-
 
 -(void)startOperationsForPhotoRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
     
@@ -324,7 +299,6 @@ return [self.collectionViewDataObject[section] count];
     }
 }
 
-
 -(void)startURLDownloading:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
 
     if (![self.pendingOperations.URLRetrieversInProgress.allKeys containsObject:indexPath]) {
@@ -334,7 +308,6 @@ return [self.collectionViewDataObject[section] count];
         [self.pendingOperations.URLRetriever addOperation:URLGetter];
     }
 }
-
 
 -(void)startImageDownloadingForRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
 
@@ -352,7 +325,6 @@ return [self.collectionViewDataObject[section] count];
         [self.pendingOperations.downloadQueue addOperation:imageDownloader];
     }
 }
-
 
 -(void)startImageFiltrationForRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
     // 3
@@ -372,9 +344,7 @@ return [self.collectionViewDataObject[section] count];
     }
 }
 
-//
 #pragma mark - Downloader delegate
-
 
 -(void)JCURLRetrieverDidFinish:(JCURLRetriever *)downloader{
     
@@ -449,94 +419,94 @@ return [self.collectionViewDataObject[section] count];
     [self.pendingOperations.filtrationsInProgress removeObjectForKey:indexPath];
 }
 
-
-
-//TODO implement fine tunning here so that imagees only load when they are needed
 //http://www.raywenderlich.com/19788/how-to-use-nsoperations-and-nsoperationqueues
-//#pragma mark - UIScrollView delegate
-//
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    // 1
-//    [self suspendAllOperations];
-//}
-//
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//    // 2
-//    if (!decelerate) {
-//        [self loadImagesForOnscreenCells];
-//        [self resumeAllOperations];
-//    }
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    // 3
-//    [self loadImagesForOnscreenCells];
-//    [self resumeAllOperations];
-//}
-//
-//#pragma mark - Cancelling, suspending, resuming queues / operations
-//
-//- (void)suspendAllOperations {
-//    [self.pendingOperations.downloadQueue setSuspended:YES];
-//    [self.pendingOperations.filtrationQueue setSuspended:YES];
-//}
-//
-//- (void)resumeAllOperations {
-//    [self.pendingOperations.downloadQueue setSuspended:NO];
-//    [self.pendingOperations.filtrationQueue setSuspended:NO];
-//}
-//
-//- (void)cancelAllOperations {
-//    [self.pendingOperations.downloadQueue cancelAllOperations];
-//    [self.pendingOperations.filtrationQueue cancelAllOperations];
-//}
-//
-//- (void)loadImagesForOnscreenCells {
-//    
-//    // 1
-//    NSSet *visibleRows = [NSSet setWithArray:[self.collectionView indexPathsForVisibleItems]];
-//    
-//    // 2
-//    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.downloadsInProgress allKeys]];
-//    [pendingOperations addObjectsFromArray:[self.pendingOperations.filtrationsInProgress allKeys]];
-//    
-//    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
-//    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
-//    
-//    // 3
-//    [toBeStarted minusSet:pendingOperations];
-//    // 4
-//    [toBeCancelled minusSet:visibleRows];
-//    
-//    // 5
-//    for (NSIndexPath *anIndexPath in toBeCancelled) {
-//        
-//        JCImageDownLoader *pendingDownload = [self.pendingOperations.downloadsInProgress objectForKey:anIndexPath];
-//        [pendingDownload cancel];
-//        [self.pendingOperations.downloadsInProgress removeObjectForKey:anIndexPath];
-//        
-//        JCPhotoFiltering *pendingFiltration = [self.pendingOperations.filtrationsInProgress objectForKey:anIndexPath];
-//        [pendingFiltration cancel];
-//        [self.pendingOperations.filtrationsInProgress removeObjectForKey:anIndexPath];
-//    }
-//    toBeCancelled = nil;
-//    
-//    // 6
-//    for (NSIndexPath *anIndexPath in toBeStarted) {
-//        
-//        PhotoRecord *recordToProcess = [self.photos objectAtIndex:anIndexPath.row];
-//        [self startOperationsForPhotoRecord:recordToProcess atIndexPath:anIndexPath];
-//    }
-//    toBeStarted = nil;
-//    
-//}
-//
+#pragma mark - UIScrollView delegate
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    // 1
+    [self suspendAllOperations];
+}
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    // 2
+    if (!decelerate) {
+        [self loadImagesForOnscreenCells];
+        [self resumeAllOperations];
+    }
+}
 
-//}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
+    if (endScrolling >= scrollView.contentSize.height)
+    {
+        //TODO add animation to pull to refresh
+        //TODO add defensive code to stop the collection view from going into a loop call BIT API
+        [self getDataForCollectionView];
+    }
+    
+    [self loadImagesForOnscreenCells];
+    [self resumeAllOperations];
+}
 
+#pragma mark - Cancelling, suspending, resuming queues / operations
+
+- (void)suspendAllOperations {
+    [self.pendingOperations.downloadQueue setSuspended:YES];
+    [self.pendingOperations.filtrationQueue setSuspended:YES];
+}
+
+- (void)resumeAllOperations {
+    [self.pendingOperations.downloadQueue setSuspended:NO];
+    [self.pendingOperations.filtrationQueue setSuspended:NO];
+}
+
+- (void)cancelAllOperations {
+    [self.pendingOperations.downloadQueue cancelAllOperations];
+    [self.pendingOperations.filtrationQueue cancelAllOperations];
+}
+
+- (void)loadImagesForOnscreenCells {
+    
+    // 1
+    NSSet *visibleRows = [NSSet setWithArray:[self.collectionView indexPathsForVisibleItems]];
+    
+    // 2
+    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.downloadsInProgress allKeys]];
+    [pendingOperations addObjectsFromArray:[self.pendingOperations.filtrationsInProgress allKeys]];
+    
+    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
+    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
+    
+    // 3
+    [toBeStarted minusSet:pendingOperations];
+    // 4
+    [toBeCancelled minusSet:visibleRows];
+    
+    // 5
+    for (NSIndexPath *anIndexPath in toBeCancelled) {
+        
+        JCImageDownLoader *pendingDownload = [self.pendingOperations.downloadsInProgress objectForKey:anIndexPath];
+        [pendingDownload cancel];
+        [self.pendingOperations.downloadsInProgress removeObjectForKey:anIndexPath];
+        
+        JCPhotoFiltering *pendingFiltration = [self.pendingOperations.filtrationsInProgress objectForKey:anIndexPath];
+        [pendingFiltration cancel];
+        [self.pendingOperations.filtrationsInProgress removeObjectForKey:anIndexPath];
+    }
+    toBeCancelled = nil;
+    
+    // 6
+    for (NSIndexPath *anIndexPath in toBeStarted) {
+        
+       eventObject *event = [self.collectionViewDataObject[anIndexPath.section] objectAtIndex:anIndexPath.row];
+        
+        
+        JCPhotoDownLoadRecord *recordToProcess = event.photoDownload;
+        [self startOperationsForPhotoRecord:recordToProcess atIndexPath:anIndexPath];
+    }
+    toBeStarted = nil;
+    
+}
 
 #pragma Navigation
 
@@ -622,7 +592,6 @@ return [self.collectionViewDataObject[section] count];
     [self.sideMenuViewController presentLeftMenuViewController];
     
 }
-
 
 -(void)JCGigMoreInfoVCDidSelectDone:(JCGigMoreInfoVC *)controller{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -726,8 +695,6 @@ return [self.collectionViewDataObject[section] count];
     //self.navigationItem.leftBarButtonItem =item1;
     
 }
-
-
 
 #pragma mark - CLLocationManagerDelegate
 
