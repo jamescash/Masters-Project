@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (nonatomic,strong) UIImagePickerController *imagePicker;
+@property (weak, nonatomic) IBOutlet UITextField *userFullName;
 
 
 //methods
@@ -69,6 +70,7 @@
 NSString *userName = [self.userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 NSString *password = [self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
    
     //UIImage *profilePic = self.UserProfilePicture.image;
     
@@ -84,7 +86,12 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
     }else if ([self NSStringIsValidEmail:userEmail] == NO){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That doesn't look like a valid email address, plaese try again!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
-    }else{
+    }else if (![self validateName:userFullName]){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure you full name is entered correctly!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [alert show];
+     }
+    
+    else{
         
         //everything seems to be filled out so lets upload the profile image to the backend first
         NSData *fileData;
@@ -121,10 +128,6 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
                 NSString *fileName;
                 
                 
-                //resize the image and save a thumbnail
-                ////CGFloat originalWidth =  self.profileImage.size.width;
-                ////CGFloat originalHeight = self.profileImage.size.height;
-                //CGSize size = {(originalWidth/3), (originalHeight/3)};
                 
                 CGSize size = {150, 150};
 
@@ -143,8 +146,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
                         [alert show];
                     }else{
                     
-                        
-                        //okay profile picture is uploaded now lets upload the ruser object and realte it to the prfile image file
+                        //okay profile picture is uploaded now lets upload the user object and realte it to the prfile image file
                         PFUser *newUser = [PFUser user];
                         newUser.username = userName;
                         newUser.password = password;
@@ -153,6 +155,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
                         
                         //set a new collum in the user object called profile picture
                         [newUser setObject:lowercaseUserName forKey:@"searchUsername"];
+                        [newUser setObject:userFullName forKey:@"realName"];
                         [newUser setObject:fullSizeProfilePic forKey:@"profilePicture"];
                         [newUser setObject:thumbnailProfilePicture forKey:@"thumbnailProfilePicture"];
                         //now save the new user to the backend
@@ -185,7 +188,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
     [currentInstallation saveInBackground];
 }
 
-- (IBAction)addProfileImage:(id)sender {
+-(IBAction)addProfileImage:(id)sender {
     
    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Choose Source" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo With Camera", @"Select Photo From Library", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
@@ -193,7 +196,7 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
     [actionSheet showInView:self.view];
 }
 
-- (IBAction)dissmissSignUpvc:(id)sender {
+-(IBAction)dissmissSignUpvc:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -308,6 +311,17 @@ NSString *userEmail = [self.emailField.text stringByTrimmingCharactersInSet:[NSC
     NSString *emailRegex = stricterFilter ? stricterFilterString : laxString;
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:checkString];
+}
+
+
+- (BOOL)validateName:(NSString *)string
+{
+    NSError *error             = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:
+                                  @"[a-zA-Z ]" options:0 error:&error];
+    
+    NSUInteger numberOfMatches = [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, [string length])];
+    return numberOfMatches == string.length;
 }
 
 @end

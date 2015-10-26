@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "eventObject.h"
+#import <Parse/Parse.h>
+
 
 
 @interface JCTimeDateLocationTableViewCell : UITableViewCell
 -(void)formatCell:(eventObject*)currentEvent;
+-(void)formatCellwithParseEventObject:(PFObject*)currentEvent;
+
 @end

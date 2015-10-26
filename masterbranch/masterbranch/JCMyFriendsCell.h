@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
+
+
 
 @interface JCMyFriendsCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *userImage;
+@property (weak, nonatomic) IBOutlet PFImageView *userImage;
 -(void)formateCell:(PFUser*)user;
 
 @end

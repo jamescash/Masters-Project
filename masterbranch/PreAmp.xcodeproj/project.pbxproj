@@ -53,6 +53,8 @@
 		897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780E31BD7B00E006B20C3 /* JCMyFriendsCell.m */; settings = {ASSET_TAGS = (); }; };
 		897780EB1BD7FD36006B20C3 /* JCAddMyFriendsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780EA1BD7FD36006B20C3 /* JCAddMyFriendsVC.m */; settings = {ASSET_TAGS = (); }; };
 		897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */; settings = {ASSET_TAGS = (); }; };
+		897780F41BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */; settings = {ASSET_TAGS = (); }; };
+		897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
 		898FA89A1B7641A3000AEAB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */; };
 		898FA89C1B7641B9000AEAB1 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */; };
@@ -204,6 +206,10 @@
 		897780EA1BD7FD36006B20C3 /* JCAddMyFriendsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAddMyFriendsVC.m; sourceTree = "<group>"; };
 		897780EE1BD8F6C1006B20C3 /* JCFBAddUserName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCFBAddUserName.h; sourceTree = "<group>"; };
 		897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCFBAddUserName.m; sourceTree = "<group>"; };
+		897780F21BDA5B44006B20C3 /* JCMusicDiaryArtistObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryArtistObject.h; sourceTree = "<group>"; };
+		897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryArtistObject.m; sourceTree = "<group>"; };
+		897780F81BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGigsComingUpInThisMonthVC.h; sourceTree = "<group>"; };
+		897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGigsComingUpInThisMonthVC.m; sourceTree = "<group>"; };
 		898FA8971B76418A000AEAB1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
@@ -727,6 +733,45 @@
 			name = facebookUserName;
 			sourceTree = "<group>";
 		};
+		897780F11BDA5B15006B20C3 /* Music Diary .3 */ = {
+			isa = PBXGroup;
+			children = (
+				897780F71BDA8D54006B20C3 /* DetailView */,
+				897780F61BDA8A44006B20C3 /* model */,
+				89BDB1A21BCA72AB00ECD8BA /* headerView */,
+				89B376CB1BCAF7A1006231A7 /* JCCell */,
+				897780F51BDA8A05006B20C3 /* MusicDiaryVC */,
+			);
+			name = "Music Diary .3";
+			sourceTree = "<group>";
+		};
+		897780F51BDA8A05006B20C3 /* MusicDiaryVC */ = {
+			isa = PBXGroup;
+			children = (
+				89BDB19F1BCA666C00ECD8BA /* JCMusicDiaryVC.h */,
+				89BDB1A01BCA666C00ECD8BA /* JCMusicDiaryVC.m */,
+			);
+			name = MusicDiaryVC;
+			sourceTree = "<group>";
+		};
+		897780F61BDA8A44006B20C3 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				897780F21BDA5B44006B20C3 /* JCMusicDiaryArtistObject.h */,
+				897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		897780F71BDA8D54006B20C3 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				897780F81BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.h */,
+				897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */,
+			);
+			name = DetailView;
+			sourceTree = "<group>";
+		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,26 +832,22 @@
 			name = locationManager;
 			sourceTree = "<group>";
 		};
-		89BDB19D1BCA65F300ECD8BA /* old music diary */ = {
+		89BDB19D1BCA65F300ECD8BA /* Music Diary .1 */ = {
 			isa = PBXGroup;
 			children = (
 				89D88EE41BB972DD002286FD /* calander view */,
 				89D88ECA1BADD68A002286FD /* JCInbox.h */,
 				89D88ECB1BADD68A002286FD /* JCInbox.m */,
 			);
-			name = "old music diary";
+			name = "Music Diary .1";
 			sourceTree = "<group>";
 		};
-		89BDB19E1BCA660300ECD8BA /* Music Diary */ = {
+		89BDB19E1BCA660300ECD8BA /* Music Diary .2 */ = {
 			isa = PBXGroup;
 			children = (
 				89BA5EA71BCD2DD90049DC8D /* DiaryObject */,
-				89B376CB1BCAF7A1006231A7 /* JCCell */,
-				89BDB1A21BCA72AB00ECD8BA /* headerView */,
-				89BDB19F1BCA666C00ECD8BA /* JCMusicDiaryVC.h */,
-				89BDB1A01BCA666C00ECD8BA /* JCMusicDiaryVC.m */,
 			);
-			name = "Music Diary";
+			name = "Music Diary .2";
 			sourceTree = "<group>";
 		};
 		89BDB1A21BCA72AB00ECD8BA /* headerView */ = {
@@ -833,8 +874,9 @@
 		89D88EC91BADD65F002286FD /* MusicDiary */ = {
 			isa = PBXGroup;
 			children = (
-				89BDB19E1BCA660300ECD8BA /* Music Diary */,
-				89BDB19D1BCA65F300ECD8BA /* old music diary */,
+				897780F11BDA5B15006B20C3 /* Music Diary .3 */,
+				89BDB19E1BCA660300ECD8BA /* Music Diary .2 */,
+				89BDB19D1BCA65F300ECD8BA /* Music Diary .1 */,
 			);
 			name = MusicDiary;
 			sourceTree = "<group>";
@@ -1219,7 +1261,9 @@
 				89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */,
 				89D88EC81BACAFA2002286FD /* JCAddFriendsVC.m in Sources */,
 				8969D01A1BC93D4600A0FCED /* JCGigInvitesVC.m in Sources */,
+				897780F41BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m in Sources */,
 				89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */,
+				897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
 				897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,

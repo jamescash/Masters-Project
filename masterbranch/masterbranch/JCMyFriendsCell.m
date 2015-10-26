@@ -10,12 +10,14 @@
 
 @interface JCMyFriendsCell ()
 @property (weak, nonatomic) IBOutlet UILabel *userName;
+@property (weak, nonatomic) IBOutlet UILabel *userRealName;
 @end
 
 @implementation JCMyFriendsCell
 
 -(void)formateCell:(PFUser *)user{
     self.userName.text = user.username;
+    self.userRealName.text = [user objectForKey:@"realName"];
 }
 
 - (void)awakeFromNib {

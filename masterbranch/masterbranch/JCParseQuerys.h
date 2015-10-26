@@ -22,10 +22,8 @@
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock: (void(^)(NSError* error,NSMutableArray*response))finishedGettingMyAtritsUpcomingGigs;
 -(void)getMyFriends:(void(^)(NSError* error,NSArray* response))finishedGettingMyFriends;
 -(void)getMyInvites:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites;
-
-
-
-
+-(void)getUpcomingGigsforAartis:(PFObject*) artist onMonthIndex: (int)monthIndex complectionblock: (void(^)(NSError* error,NSArray* response))getUpcomingGigsforAartis;
+-(void)getPreAmpUsersThatMatchTheseFBids:(NSMutableArray*)FBIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUser;
 
 //Saving to the backend
 -(void)UserFollowedArtist:(eventObject*)currentEvent complectionBlock:(void(^)(NSError* error))finishedSavingArtist;

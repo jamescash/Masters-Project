@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface JCMusicDiaryCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UILabel *monthIndex;
 @property (weak, nonatomic) IBOutlet UILabel *artistName;
 @property (weak, nonatomic) IBOutlet UIImageView *backRoundImage;
 

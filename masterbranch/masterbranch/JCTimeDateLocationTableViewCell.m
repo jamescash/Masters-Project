@@ -17,6 +17,13 @@
 
 @implementation JCTimeDateLocationTableViewCell
 
+-(void)formatCellwithParseEventObject:(PFObject*)currentEvent{
+    self.timeDate.text = [self formatDate:[currentEvent objectForKey:@"eventDate"]];
+    NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",[currentEvent objectForKey:@"eventVenue"],[currentEvent objectForKey:@"city"]];
+    self.VenueName.text = venueInfo;
+}
+
+
 -(void)formatCell:(eventObject *)currentEvent{
     
     self.timeDate.text = [self formatDate:currentEvent.eventDate];
@@ -37,7 +44,6 @@
 -(NSString*)formatDate: (NSString*)date{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
-    //NSString *dateformatted = [date stringByReplacingOccurrencesOfString:@"T" withString:@" "];
     NSDate *eventDateTime = [dateFormat dateFromString:date];
 
     dateFormat.dateStyle = NSDateFormatterFullStyle;

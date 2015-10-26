@@ -124,6 +124,7 @@
     return cell;
 }
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedInvite = [self.myInvites objectAtIndex:indexPath.row];
     JCEventInviteCell *cellatindex = [[JCEventInviteCell alloc]init];

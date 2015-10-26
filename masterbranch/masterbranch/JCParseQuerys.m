@@ -8,6 +8,8 @@
 
 #import "JCParseQuerys.h"
 #import "UIImage+Resize.h"
+#import "JCMusicDiaryArtistObject.h"
+
 
 
 
@@ -16,6 +18,7 @@
 @property (nonatomic,strong) PFRelation *upComingGigsRelation;
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) PFUser   *currentUser;
+
 
 
 @property (nonatomic,strong) NSMutableDictionary *artistImages;
@@ -43,61 +46,155 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.MyArtist = [[NSMutableArray alloc]init];
-        self.artistImages = [[NSMutableDictionary alloc]init];
-        self.currentUser = [PFUser currentUser];
-        
+        self.MyArtist =             [[NSMutableArray alloc]init];
+        self.artistImages =         [[NSMutableDictionary alloc]init];
+        self.currentUser =          [PFUser currentUser];
+        self.MyArtistUpcomingGigs = [[NSMutableArray alloc]init];
     }
     return self;
 }
 
-//TODO add in an alert for when there an error time out or when theres that parse DNS issue.
-//TODO add an update my artist function here so it updates artist number when you follow an artist.
-//TODO if we add a artist or a friend we can add them to the mutuble array here and this is always the array we user throught the whole add.
+
 
 -(void)getMyAtrits:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits{
     
+   //get my artist from local data storage
+    //if there not there get them from the server and save them ready to be got from local data storage the nect time.
     
-    //if (self.MyArtist) {
-    //    finishedGettingMyAtrits(nil,self.MyArtist);
-    //}else{
-    
-    self.artistRelations = [[PFUser currentUser] objectForKey:@"ArtistRelation"];
-    PFQuery *query  = [self.artistRelations query];
-    
-        [query orderByAscending:@"artistName"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-    
-            if (error) {
-                NSLog(@"Error coming form inside get my artist relations %@",error);
-
-                finishedGettingMyAtrits(error,nil);
-            }else{
-                [self.MyArtist addObjectsFromArray:objects];
-                finishedGettingMyAtrits(nil,objects);
-             }
-          }];
-    //}
+    [self getMyAtritsfromLocalDataStorage:^(NSError *error, NSArray *response) {
+       
+       if (error) {
+           NSLog(@"error getting artist locally %@",error);
+       }else if ([response count]==0){
+           [self getMyAtritsfromTheServer:^(NSError *error, NSArray *response) {
+               if (error) {
+                   NSLog(@"error getting artist from server %@",error);
+                   finishedGettingMyAtrits(error,nil);
+               }else{
+                   NSLog(@"get artist from server");
+                   finishedGettingMyAtrits(nil,response);
+               }
+               
+           }];
+           
+       }else{
+           NSLog(@"get artist from local data storage");
+           finishedGettingMyAtrits(nil,response);
+       }
+       
+   }];
 }
+-(void)getMyAtritsfromLocalDataStorage:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtritsfromLocalDataStorage{
+    
+    
+    PFQuery *myAtritsfromLocalDataStorage  = [PFQuery queryWithClassName:@"Artist"];
+    [myAtritsfromLocalDataStorage orderByAscending:@"artistName"];
+    [myAtritsfromLocalDataStorage fromLocalDatastore];
+    [myAtritsfromLocalDataStorage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error coming form inside loaca data get artist relations %@",error);
+            
+            finishedGettingMyAtritsfromLocalDataStorage(error,nil);
+        }else{
+            [self.MyArtist addObjectsFromArray:objects];
+            finishedGettingMyAtritsfromLocalDataStorage(nil,objects);
+        }
+    }];
+    
+    
+    
+}
+-(void)getMyAtritsfromTheServer:(void(^)(NSError* error,NSArray* response))finishedgetMyAtritsfromTheServer{
+    
+    PFRelation *artistRelation = [[PFUser currentUser] objectForKey:@"ArtistRelation"];
+    PFQuery *myAtritsfromTheServer  = [artistRelation query];
+    [myAtritsfromTheServer orderByAscending:@"artistName"];
+    [myAtritsfromTheServer findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error coming form inside get my artist relations %@",error);
+            
+            finishedgetMyAtritsfromTheServer(error,nil);
+        }else{
+            [self.MyArtist addObjectsFromArray:objects];
+            //save my artist locally
+            [PFObject pinAllInBackground:objects withName:@"MyArtist"];
+            finishedgetMyAtritsfromTheServer(nil,objects);
+        }
+    }];
+}
+
+
 -(void)getMyFriends:(void (^)(NSError *, NSArray *))finishedGettingMyFriends{
     
-    self.FriendRelations = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
-    PFQuery *query  = [self.FriendRelations query];
-    [query orderByAscending:@"username"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    [self getMyFriendsfromLocalDataStorage:^(NSError *error, NSArray *response) {
+        
+        if (error) {
+            finishedGettingMyFriends(error,nil);
+            NSLog(@"error getting friends locally %@",error);
+
+        }else if ([response count]==0){
+            [self getMyFriendsfromTheServer:^(NSError *error, NSArray *response) {
+                if (error) {
+                    NSLog(@"error getting friends from server %@",error);
+                    finishedGettingMyFriends(error,nil);
+                }else{
+                    NSLog(@"get friends from server");
+                    finishedGettingMyFriends(nil,response);
+
+                }
+                
+            }];
+                
+        }else{
+            NSLog(@"get friends from local data storage");
+            finishedGettingMyFriends(nil,response);
+        }
+    }];
+    
+};
+-(void)getMyFriendsfromLocalDataStorage:(void (^)(NSError *error, NSArray *response))finishedGettingMyFriendsfromLocalDataStorage{
+    
+     PFQuery *MyFriendsfromLocalDataStorage  = [PFUser query];
+    [MyFriendsfromLocalDataStorage fromLocalDatastore];
+    [MyFriendsfromLocalDataStorage orderByAscending:@"username"];
+    //TODO uncomment line so that users cant see themselfs in frineds list
+    //[MyFriendsfromLocalDataStorage whereKey:@"objectId" notEqualTo:[[PFUser currentUser]objectId]];
+    [MyFriendsfromLocalDataStorage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
             NSLog(@"Error coming form insode get my firends relations %@",error);
-            finishedGettingMyFriends(error,nil);
-
+            finishedGettingMyFriendsfromLocalDataStorage(error,nil);
+            
         }else{
-            self.MyFriends = [[NSArray alloc]init];
-            self.MyFriends = objects;
-            finishedGettingMyFriends(nil,objects);
+            finishedGettingMyFriendsfromLocalDataStorage(nil,objects);
         }
         
     }];
 };
+-(void)getMyFriendsfromTheServer:(void (^)(NSError *error, NSArray *response))finishedGettingMyFriendsfromTheServer{
+    
+    PFRelation *friendsRelation = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
+    PFQuery *myFriendsfromTheServer  = [friendsRelation query];
+    [myFriendsfromTheServer orderByAscending:@"username"];
+    [myFriendsfromTheServer findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error coming form insode get my firends relations %@",error);
+            finishedGettingMyFriendsfromTheServer(error,nil);
+            
+        }else{
+            [PFObject pinAllInBackground:objects withName:@"MyFriends"];
+            finishedGettingMyFriendsfromTheServer(nil,objects);
+        }
+        
+    }];
+};
+
+
+
+
 -(void)getMyInvites:(void (^)(NSError *, NSArray *))finishedGettingMyInvites{
    
 
@@ -115,70 +212,68 @@
     
     
 };
+
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock:(void (^)(NSError*, NSMutableArray*))finishedGettingMyAtritsUpcomingGigs{
     
     
-   //TODO make this dynamic so when you fav a new artist the music diary update's
- 
+    
     UpcomingGigsLoopCounter = 0;
-
-   
-
-        //we need to go get our artist relation
-        [self getMyAtrits:^(NSError *error, NSArray *response) {
+    
+    
+    //we need to go get our artist relation
+    [self getMyAtrits:^(NSError *error, NSArray *response) {
+        
+        if (error) {
+            NSLog(@"error getmyartist %@",error);
+        }else{
             
-            if (error) {
-                NSLog(@"error getmyartist %@",error);
-            }else{
-            
-            self.MyArtist = [[NSMutableArray alloc]init];
             [self .MyArtist addObjectsFromArray:response];
-            
-            self.MyArtistUpcomingGigs = [[NSMutableArray alloc]init];
-            
-                
             UpcomingGigsLoopCounter = 0;
-                
+            
+            NSMutableArray *unsortedDiaryObjects = [[NSMutableArray alloc]init];
+
             for (PFObject *artist in self.MyArtist) {
                 
-             self.upComingGigsRelation = [artist objectForKey:@"upComingGigsRel"];
-             PFQuery *query  = [self.upComingGigsRelation query];
-             
-                
+                self.upComingGigsRelation = [artist objectForKey:@"upComingGigsRel"];
+                PFQuery *query  = [self.upComingGigsRelation query];
                 if (onlyIrishGigs) {
-                [query whereKey:@"venueCounty" equalTo:@"Ireland"];
+                    [query whereKey:@"venueCounty" equalTo:@"Ireland"];
                 }
-             
-            
-            [query orderByAscending:@"datetime"];
-            [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-                 
-                 if (error) {
-                     NSLog(@"upComingGigsRel error %@",error);
-                 }else{
-                 
-                     //NSArray *aritstUpcomingGigs = objects;
-                     UpcomingGigsLoopCounter ++;
-                     [self.MyArtistUpcomingGigs addObjectsFromArray:objects];
-                     //[self.MyArtistUpcomingGigs setObject:aritstUpcomingGigs forKey:[artist objectForKey:@"artistName"]];
-             
-                 if (UpcomingGigsLoopCounter == ([self.MyArtist count])) {
-                     
-
-                     finishedGettingMyAtritsUpcomingGigs(nil,self.MyArtistUpcomingGigs);
-                 };
-                }
-             
-             
-             }];
-           
+                 //[query orderByAscending:@"datetime"];
+                [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                    
+                    if (error) {
+                        NSLog(@"upComingGigsRel error %@",error);
+                    }else{
+                        
+                        
+                        [objects  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                            
+                            JCMusicDiaryArtistObject *diaryObject = [[JCMusicDiaryArtistObject alloc]initWithArtits:artist andupComingGig:obj];
+                            
+                            if (diaryObject != nil){
+                                [unsortedDiaryObjects addObject:diaryObject];
+                                
+                            };
+                        
+                        }];//end of enum using block loop
+                        
+                           UpcomingGigsLoopCounter ++;
+                        
+                       if (UpcomingGigsLoopCounter == ([self.MyArtist count])) {
+                           NSMutableArray *arrayWithDuplicatsRemoved = [self RemoveDuplicatsfromArray:unsortedDiaryObjects];
+                           finishedGettingMyAtritsUpcomingGigs(nil,arrayWithDuplicatsRemoved);
+                      };
+                    }
+                    
+                    
+                }];
             }
-           }
-        }];
-        //}
+        
+         }
+    }];
+    
 }
-
-
 
 -(void)getEventComments:(NSString *)eventiD complectionBlock:(void (^)(NSError *, NSMutableArray *))finishedgettingEventComments{
     
@@ -207,6 +302,25 @@
     }];
     
     
+    
+}
+
+-(void)getUpcomingGigsforAartis:(PFObject *)artist onMonthIndex:(int)monthIndex complectionblock:(void (^)(NSError *, NSArray *))getUpcomingGigsforAartis{
+    
+    
+                PFRelation *upcomingGigd = [artist objectForKey:@"upComingGigsRel"];
+                PFQuery *query  = [upcomingGigd query];
+                [query whereKey:@"monthIndex" equalTo:[NSNumber numberWithInteger:(monthIndex-1)]];
+                [query whereKey:@"venueCounty" equalTo:@"Ireland"];
+                [query orderByAscending:@"datetime"];
+                [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                    
+                    if (error) {
+                        NSLog(@"upComingGigsRel error %@",error);
+                    }else{
+                         getUpcomingGigsforAartis(nil,objects);
+                        };
+                 }];
     
 }
 
@@ -258,9 +372,24 @@
 
    }
 }
-
-
-
+-(void)getPreAmpUsersThatMatchTheseFBids:(NSMutableArray*)FBIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUser{
+    
+    
+            PFQuery *getPreAmpUsersThatMatchFBid = [PFUser query];
+            [getPreAmpUsersThatMatchFBid whereKey:@"facebookId" containedIn:FBIds];
+ 
+    
+            [getPreAmpUsersThatMatchFBid findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                
+                if (error) {
+                    finishedGettingPreAmpUser(error,nil);
+                }else{
+                    finishedGettingPreAmpUser(nil,objects);
+                }
+                
+            }];
+    
+}
 //posting
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock: (void(^)(NSError* error))finishedsavingComment{
     
@@ -295,6 +424,7 @@
     }
     
 }
+
 -(void)creatUserEvent:(eventObject*)currentEvent invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent{
     
     
@@ -339,6 +469,7 @@
             [UserEvent setObject:currentEvent.eventDate forKey:@"eventDate"];
             [UserEvent setObject:currentEvent.venueName forKey:@"eventVenue"];
             [UserEvent setObject:[[PFUser currentUser]objectId] forKey:@"eventHostId"];
+            [UserEvent setObject:currentEvent.county forKey:@"city"];
             [UserEvent setObject:recipientIds forKey:@"invited"];
             //create users going and user not going + who has tickets
             [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -358,12 +489,12 @@
     
     
 }
+
+
+
 -(void)UserFollowedArtist:(eventObject *)currentEvent complectionBlock:(void (^)(NSError *))finishedSavingArtist{
     
-    
-    
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Artist"];
+     PFQuery *query = [PFQuery queryWithClassName:@"Artist"];
     [query whereKey:@"artistName" equalTo:currentEvent.eventTitle];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error) {
@@ -375,16 +506,15 @@
                 PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
                 //add the artist to the users relation.
                 [ArtistRelation addObject:objects[0]];
+                [objects[0] pinInBackgroundWithName:@"MyArtist"];
+                
                 [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     if (error){
                         
                         NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                     }else{
                         NSLog(@"artist already existed new relation saved");
-                        
-                        self.MyArtistUpcomingGigs = nil;
-
-                        [self.MyArtist addObject:objects[0]];
+                        //self.MyArtistUpcomingGigs = nil;
                     }
                     
                 }];//end of save current user in BG
@@ -474,10 +604,8 @@
                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh no :(!" message:@"There was a problem saving that artist plaese try again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                             [alert show];
                         }else{
-                            
-                            
+                            [artist pinInBackgroundWithName:@"MyArtist"];
                             NSLog(@"New artist saved");
-                            
                             //now that we saved that artist to the data base we can relat it to the current user
                             PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
                             [ArtistRelation addObject:artist];
@@ -489,8 +617,6 @@
                                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                                 }else{
                                     
-                                    [self.MyArtist addObject:artist];
-                                    self.MyArtistUpcomingGigs = nil;
                                     
                                     NSLog(@"artist relation should be saved");
                                 }
@@ -517,9 +643,87 @@
 }
 
 
+#pragma - helper methods
 
+-(NSMutableArray*)RemoveDuplicatsfromArray:(NSMutableArray*) originalArray{
+    
+    
+    NSMutableArray *duplicatesRemoved = [NSMutableArray array];
+    NSMutableSet *seenComarDics = [NSMutableSet set];
+    for (JCMusicDiaryArtistObject *item in originalArray) {
+        
+        NSString *artistname = [item.artist objectForKey:@"artistName"];
+        NSString *month = [self monthforindex:item.dateComponents.month];
+        
+        NSDictionary *comparDic = @{@"artistname":artistname,@"month":month};
+        
+        if ([seenComarDics containsObject:comparDic]) {
+            continue;
+        }
+        [seenComarDics addObject:comparDic];
+        [duplicatesRemoved addObject:item];
+    }
+    
+    return duplicatesRemoved;
+    
+};
 
+-(NSString*)monthforindex:(int)monthindex{
+    
+    switch (monthindex) {
+        case 1:
+            return  @"January";
+            break;
+        case 2:
+            return  @"February";
+            break;
+        case 3:
+            return  @"March";
+            break;
+        case 4:
+            return  @"Aplri";
+            break;
+        case 5:
+             return  @"May";
+            
+            break;
+        case 6:
+           return  @"June";
+            
+            break;
+        case 7:
+            return  @"July";
+            
+            break;
+        case 8:
+            return @"August";
+            
+            break;
+        case 9:
+            return @"September";
+            
+            break;
+        case 10:
+            return  @"October";
+            
+            break;
+        case 11:
+            return @"November";
+            
+            break;
+        case 12:
+            return @"December";
+            break;
+        default:
+            NSLog(@"default");
+            break;
+            
+    }
 
+    NSLog(@"month index fail");
+    return nil;
+
+}
 
 
 
@@ -534,3 +738,67 @@
 
 
 @end
+
+
+
+//-(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock:(void (^)(NSError*, NSMutableArray*))finishedGettingMyAtritsUpcomingGigs{
+//
+//
+//   //TODO make this dynamic so when you fav a new artist the music diary update's
+//
+//    UpcomingGigsLoopCounter = 0;
+//
+//
+//         //we need to go get our artist relation
+//        [self getMyAtrits:^(NSError *error, NSArray *response) {
+//
+//            if (error) {
+//                NSLog(@"error getmyartist %@",error);
+//            }else{
+//
+//            self.MyArtist = [[NSMutableArray alloc]init];
+//            [self .MyArtist addObjectsFromArray:response];
+//
+//            self.MyArtistUpcomingGigs = [[NSMutableArray alloc]init];
+//
+//
+//            UpcomingGigsLoopCounter = 0;
+//
+//            for (PFObject *artist in self.MyArtist) {
+//
+//             self.upComingGigsRelation = [artist objectForKey:@"upComingGigsRel"];
+//             PFQuery *query  = [self.upComingGigsRelation query];
+//
+//
+//                if (onlyIrishGigs) {
+//                [query whereKey:@"venueCounty" equalTo:@"Ireland"];
+//                }
+//
+//
+//            [query orderByAscending:@"datetime"];
+//            [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//
+//                 if (error) {
+//                     NSLog(@"upComingGigsRel error %@",error);
+//                 }else{
+//
+//                     //NSArray *aritstUpcomingGigs = objects;
+//                     UpcomingGigsLoopCounter ++;
+//                     [self.MyArtistUpcomingGigs addObjectsFromArray:objects];
+//                     //[self.MyArtistUpcomingGigs setObject:aritstUpcomingGigs forKey:[artist objectForKey:@"artistName"]];
+//
+//                 if (UpcomingGigsLoopCounter == ([self.MyArtist count])) {
+//
+//
+//                     finishedGettingMyAtritsUpcomingGigs(nil,self.MyArtistUpcomingGigs);
+//                 };
+//                }
+//
+//
+//             }];
+//
+//            }
+//           }
+//        }];
+//
+//}
