@@ -12,6 +12,7 @@
 #import "JCHomeMainScreenVC.h"
 #import "JCCommentCell.h"
 #import "JCParseQuerys.h"
+#import "JCTimeDateLocationTableViewCell.h"
 
 
 
@@ -24,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIView *tableviewFooter;
 @property (weak, nonatomic) IBOutlet UITextView *addCommentTextfield;
 - (IBAction)postComment:(id)sender;
+- (IBAction)buttonAreYouGoing:(id)sender;
 
 //Classes
 @property (nonatomic,strong) JCParseQuerys *parseQuerys;
@@ -55,11 +57,11 @@
     //Init parse backend class
     self.parseQuerys = [JCParseQuerys sharedInstance];
     self.eventId = self.userEvent.objectId;
+    self.tableViewVC.allowsSelection = NO;
     
     [self.parseQuerys getEventComments:self.eventId complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableViewVC reloadData];
         });
@@ -123,8 +125,9 @@
 }
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    static NSString *CellIdentifier = @"SectionHeader";
-    UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"timeDateLocationCell";
+    JCTimeDateLocationTableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    [headerView formatCellwithParseEventObject:self.userEvent];
     if (headerView == nil){
         [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
     }
@@ -135,35 +138,47 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     
-    return 130;
+    return 145;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return [self.userCommentActivies count];
+    return ([self.userCommentActivies count] + 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    
+    if (indexPath.row == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
+        return cell;
+        
+    }else{
+    
     JCCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JCCommentCell"];
-    PFObject *commentActivity = [self.userCommentActivies objectAtIndex:indexPath.row];
+    PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row-1)];
     NSString *comment = [commentActivity objectForKey:@"content"];
     cell.commentText.text = comment;
     CGRect  rect=cell.frame;
     rect.size.height = [cell getCommentHeight:comment Width:self.tableViewVC.frame.size.width];
     cell.frame=rect;
     return cell;
-
+    }
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-   
+    if (indexPath.row == 0) {
+        return 100;
+        
+    }else{
+    
     JCCommentCell *cell = [[JCCommentCell alloc]init];
-    PFObject *commentActivity = [self.userCommentActivies objectAtIndex:indexPath.row];
+    PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row - 1)];
     NSString *comment = [commentActivity objectForKey:@"content"];
     return ([cell getCommentHeight:comment Width:self.tableViewVC.frame.size.width] + 40);
-    
+    }
 }
 
 #pragma - TextField Delagte 
@@ -297,6 +312,14 @@
 
 }
 
+-(IBAction)buttonAreYouGoing:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancle" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I cant make it", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    actionSheet.destructiveButtonIndex = 1;
+    [actionSheet showInView:self.view];
+    
+}
+
 -(void)refreshTableViewAfterUserCommented{
     
     
@@ -309,12 +332,50 @@
     }];
 }
 
+#pragma - ActionSheet Delagate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        [self userSelectedGoing];
+    }
+    else if (buttonIndex == 1)
+    {
+        [self userSelectedGotTickets];
+    }
+    
+    else if (buttonIndex == 2)
+    {
+        [self userSelectedMaybe];
+    }
+    else if (buttonIndex == 3)
+    {
+        [self userSelectedCantMakeit];
+    }
+}
 
 
+-(void)userSelectedGoing{
+    NSLog(@"Going");
+}
 
 
+-(void)userSelectedGotTickets{
+    NSLog(@"got tickets");
+
+}
 
 
+-(void)userSelectedMaybe{
+    NSLog(@"maybe");
+
+}
+
+-(void)userSelectedCantMakeit{
+    NSLog(@"cant make it");
+
+}
 
 
 

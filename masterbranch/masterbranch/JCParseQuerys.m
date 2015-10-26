@@ -159,7 +159,8 @@
      PFQuery *MyFriendsfromLocalDataStorage  = [PFUser query];
     [MyFriendsfromLocalDataStorage fromLocalDatastore];
     [MyFriendsfromLocalDataStorage orderByAscending:@"username"];
-    [MyFriendsfromLocalDataStorage whereKey:@"objectId" notEqualTo:[[PFUser currentUser]objectId]];
+    //TODO uncomment line so that users cant see themselfs in frineds list
+    //[MyFriendsfromLocalDataStorage whereKey:@"objectId" notEqualTo:[[PFUser currentUser]objectId]];
     [MyFriendsfromLocalDataStorage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
@@ -423,6 +424,7 @@
     }
     
 }
+
 -(void)creatUserEvent:(eventObject*)currentEvent invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent{
     
     
@@ -467,6 +469,7 @@
             [UserEvent setObject:currentEvent.eventDate forKey:@"eventDate"];
             [UserEvent setObject:currentEvent.venueName forKey:@"eventVenue"];
             [UserEvent setObject:[[PFUser currentUser]objectId] forKey:@"eventHostId"];
+            [UserEvent setObject:currentEvent.county forKey:@"city"];
             [UserEvent setObject:recipientIds forKey:@"invited"];
             //create users going and user not going + who has tickets
             [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
