@@ -37,6 +37,7 @@
 
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 
+#import "JCCustomSearchPageSegue.h"
 
 //backend
 
@@ -94,7 +95,6 @@
     self.JCHomeScreenDataController = [[JCHomeScreenDataController alloc]init];
     self.dateForAPICall = [NSDate date];
     [self addCustomButtonOnNavBar];
-
 }
 
 #pragma ViewLoadingPoints
@@ -391,8 +391,10 @@ return [self.collectionViewDataObject[section] count];
    
     
     // 4: Update UI.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
 
-    [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
+    });
 
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
     
@@ -410,10 +412,11 @@ return [self.collectionViewDataObject[section] count];
     
     event.photoDownload = theRecord;
     
+    
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
     dispatch_async(dispatch_get_main_queue(), ^{
-
-    [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
+        [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
+        
     });
 
     [self.pendingOperations.filtrationsInProgress removeObjectForKey:indexPath];
@@ -541,9 +544,6 @@ return [self.collectionViewDataObject[section] count];
         [self presentViewController:myVC animated:YES completion:nil];
         
 //}
-  
-    
-    
 //    if ([currentEvent.status isEqualToString:@"happeningLater"]) {
 //        
 //        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
@@ -588,7 +588,7 @@ return [self.collectionViewDataObject[section] count];
 }
 
 -(void)menuButtonPressed{
-    
+    //[self.navigationController setNavigationBarHidden: YES animated:YES];
     [self.sideMenuViewController presentLeftMenuViewController];
     
 }
@@ -596,6 +596,10 @@ return [self.collectionViewDataObject[section] count];
 -(void)JCGigMoreInfoVCDidSelectDone:(JCGigMoreInfoVC *)controller{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+
+
 
 #pragma  - Helper Methods
 
@@ -649,7 +653,7 @@ return [self.collectionViewDataObject[section] count];
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-        [locationManager requestWhenInUseAuthorization];
+    [locationManager requestWhenInUseAuthorization];
     [locationManager startUpdatingLocation];
 }
 

@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 
 
 @interface JCEventInviteCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *BackRoundImage;
+@property (weak, nonatomic) IBOutlet PFImageView *BackRoundImage;
 
 -(void)formatCell:(PFObject*)currentEvent;
 

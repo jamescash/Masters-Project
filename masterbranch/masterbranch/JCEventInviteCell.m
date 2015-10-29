@@ -30,6 +30,7 @@
     
     self.dateTime.text = formattedDataTime;
     
+
 }
 
 - (void)awakeFromNib {
@@ -42,20 +43,10 @@
     // Configure the view for the selected state
 }
 
--(NSString*)formatDate: (NSString*)date{
+-(NSString*)formatDate: (NSDate*)date{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
-    //NSString *dateformatted = [date stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-    NSDate *eventDateTime = [dateFormat dateFromString:date];
-    
-    //dateFormat.dateStyle = NSDateFormatterFullStyle;
     dateFormat.dateStyle = NSDateFormatterMediumStyle;
-
-    
-    NSString *dayMonthString = [dateFormat stringFromDate:eventDateTime];
-    //[dateFormat setDateFormat:@"' at 'HH:mm"];
-    //NSString *timeString = [dateFormat stringFromDate:eventDateTime];
-    
+    NSString *dayMonthString = [dateFormat stringFromDate:date];
     return [NSString stringWithFormat:@"%@",dayMonthString];
 }
 @end

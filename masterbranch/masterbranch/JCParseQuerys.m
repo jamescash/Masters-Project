@@ -10,6 +10,7 @@
 #import "UIImage+Resize.h"
 #import "JCMusicDiaryArtistObject.h"
 
+#import "JCConstants.h"
 
 
 
@@ -18,6 +19,11 @@
 @property (nonatomic,strong) PFRelation *upComingGigsRelation;
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) PFUser   *currentUser;
+
+@property (nonatomic,strong) NSString *going;
+@property (nonatomic,strong) NSString *maybe;
+@property (nonatomic,strong) NSString *notGoing;
+@property (nonatomic,strong) NSString *gotTickets;
 
 
 
@@ -50,6 +56,11 @@
         self.artistImages =         [[NSMutableDictionary alloc]init];
         self.currentUser =          [PFUser currentUser];
         self.MyArtistUpcomingGigs = [[NSMutableArray alloc]init];
+        self.going = JCUserEventUserGoing;
+        self.gotTickets = JCUserEventUserGotTickets;
+        self.maybe = JCUserEventUserMaybeGoing;
+        self.notGoing =JCUserEventUserNotGoing;
+    
     }
     return self;
 }
@@ -97,7 +108,6 @@
             
             finishedGettingMyAtritsfromLocalDataStorage(error,nil);
         }else{
-            [self.MyArtist addObjectsFromArray:objects];
             finishedGettingMyAtritsfromLocalDataStorage(nil,objects);
         }
     }];
@@ -117,7 +127,6 @@
             
             finishedgetMyAtritsfromTheServer(error,nil);
         }else{
-            [self.MyArtist addObjectsFromArray:objects];
             //save my artist locally
             [PFObject pinAllInBackground:objects withName:@"MyArtist"];
             finishedgetMyAtritsfromTheServer(nil,objects);
@@ -192,32 +201,40 @@
     }];
 };
 
+-(void)getMyInvitesforType:(NSString*)userEventsType completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites{
 
-
-
--(void)getMyInvites:(void (^)(NSError *, NSArray *))finishedGettingMyInvites{
+     NSDate *now = [NSDate date];
    
+       PFQuery *getMyInvites = [PFQuery queryWithClassName:JCParseClassUserEvents];
+       [getMyInvites whereKey:JCUserEventUsersInvited equalTo:[[PFUser currentUser]objectId]];
+    
+       if ([userEventsType isEqualToString:JCUserEventUsersTypeUpcoming]) {
+         [getMyInvites whereKey:JCUserEventUsersTheEventDate greaterThanOrEqualTo:now];
+         [getMyInvites orderByDescending:JCUserEventUsersTheEventDate];
 
-   
-                        PFQuery *getMyInvites = [PFQuery queryWithClassName:@"UserEvent"];
-                        [getMyInvites whereKey:@"invited" equalTo:[[PFUser currentUser]objectId]];
-                        [getMyInvites orderByDescending:@"createdAt"];
+       
+       }else if ([userEventsType isEqualToString:JCUserEventUsersTypePast]){
+           [getMyInvites whereKey:JCUserEventUsersTheEventDate lessThan:now];
+           [getMyInvites orderByDescending:JCUserEventUsersTheEventDate];
+
+       
+       }else if ([userEventsType isEqualToString:JCUserEventUsersTypeSent]){
+           [getMyInvites whereKey:JCUserEventUsersEventHostNameUserName equalTo:self.currentUser.username];
+           [getMyInvites orderByDescending:JCParseGeneralKeyCreatedAt];
+       }
     
-    
-                        
-                          [getMyInvites findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) { self.MyInvties = [[NSArray alloc]init];
-                                self.MyInvties = objects;
-                                finishedGettingMyInvites(nil,objects);
-                             }];
-    
-    
+        [getMyInvites findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) { self.MyInvties = [[NSArray alloc]init];
+              self.MyInvties = objects;
+              finishedGettingMyInvites(nil,objects);
+          }];
+
 };
 
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock:(void (^)(NSError*, NSMutableArray*))finishedGettingMyAtritsUpcomingGigs{
     
     
-    
-    UpcomingGigsLoopCounter = 0;
+    //UpcomingGigsLoopCounter = 0;
+
     
     
     //we need to go get our artist relation
@@ -226,18 +243,26 @@
         if (error) {
             NSLog(@"error getmyartist %@",error);
         }else{
-            
-            [self .MyArtist addObjectsFromArray:response];
+            NSMutableArray *myartist = [[NSMutableArray alloc]init];
+            [myartist addObjectsFromArray:response];
             UpcomingGigsLoopCounter = 0;
             
             NSMutableArray *unsortedDiaryObjects = [[NSMutableArray alloc]init];
-
-            for (PFObject *artist in self.MyArtist) {
+  
+            
+            for (PFObject *artist in myartist) {
                 
-                self.upComingGigsRelation = [artist objectForKey:@"upComingGigsRel"];
-                PFQuery *query  = [self.upComingGigsRelation query];
+                PFRelation *upcomingGigRelation = [artist objectForKey:@"upComingGigsRel"];
+ 
+                if (!upcomingGigRelation) {
+                    UpcomingGigsLoopCounter ++;
+                }
+                
+                PFQuery *query  = [upcomingGigRelation query];
                 if (onlyIrishGigs) {
                     [query whereKey:@"venueCounty" equalTo:@"Ireland"];
+                }else{
+                    [query whereKey:@"venueCounty" equalTo:@"United Kingdom"];
                 }
                  //[query orderByAscending:@"datetime"];
                 [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -245,30 +270,32 @@
                     if (error) {
                         NSLog(@"upComingGigsRel error %@",error);
                     }else{
-                        
-                        
+
+
                         [objects  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                            
+
                             JCMusicDiaryArtistObject *diaryObject = [[JCMusicDiaryArtistObject alloc]initWithArtits:artist andupComingGig:obj];
                             
                             if (diaryObject != nil){
                                 [unsortedDiaryObjects addObject:diaryObject];
-                                
                             };
                         
-                        }];//end of enum using block loop
+                          }];//end of enum using block loop
                         
-                           UpcomingGigsLoopCounter ++;
+
+                        UpcomingGigsLoopCounter ++;
                         
-                       if (UpcomingGigsLoopCounter == ([self.MyArtist count])) {
-                           NSMutableArray *arrayWithDuplicatsRemoved = [self RemoveDuplicatsfromArray:unsortedDiaryObjects];
-                           finishedGettingMyAtritsUpcomingGigs(nil,arrayWithDuplicatsRemoved);
-                      };
-                    }
-                    
-                    
-                }];
-            }
+                        
+                        if (UpcomingGigsLoopCounter == ([myartist count])) {
+
+                            
+                            NSMutableArray *arrayWithDuplicatsRemoved = [self RemoveDuplicatsfromArray:unsortedDiaryObjects];
+                            finishedGettingMyAtritsUpcomingGigs(nil,arrayWithDuplicatsRemoved);
+                        };
+                        
+                       }
+                    }];
+            }//end of every artist in myartist loop
         
          }
     }];
@@ -402,6 +429,7 @@
         PFObject *comment = [PFObject objectWithClassName:@"Activity"];
         [comment setObject:@"userComment" forKey:@"type"];
         [comment setObject:[[PFUser currentUser]objectId] forKey:@"fromUser"];
+        [comment setObject:[PFUser currentUser] forKey:@"commentOwner"];
         [comment setObject:eventId forKey:@"relatedObjectId"];
         [comment setObject:commentText forKey:@"content"];
         
@@ -462,11 +490,15 @@
             
         }else{
             //file saved sucessfully now lets link it with a PFobject so we can send it
-            PFObject *UserEvent = [PFObject objectWithClassName:@"UserEvent"];
+            PFObject *UserEvent = [PFObject objectWithClassName:JCParseClassUserEvents];
             [UserEvent setObject:file forKey:@"eventPhoto"];
             [UserEvent setObject:currentEvent.eventTitle forKey:@"eventTitle"];
             [UserEvent setObject:[[PFUser currentUser]username] forKey:@"eventHostName"];
-            [UserEvent setObject:currentEvent.eventDate forKey:@"eventDate"];
+            
+            
+            [UserEvent setObject:[self formatDateStringIntoNSDate:currentEvent.eventDate] forKey: JCUserEventUsersTheEventDate];
+            
+            
             [UserEvent setObject:currentEvent.venueName forKey:@"eventVenue"];
             [UserEvent setObject:[[PFUser currentUser]objectId] forKey:@"eventHostId"];
             [UserEvent setObject:currentEvent.county forKey:@"city"];
@@ -490,12 +522,12 @@
     
 }
 
-
-
 -(void)UserFollowedArtist:(eventObject *)currentEvent complectionBlock:(void (^)(NSError *))finishedSavingArtist{
     
-     PFQuery *query = [PFQuery queryWithClassName:@"Artist"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Artist"];
+                                            //this is artist name, bad varible naming.
     [query whereKey:@"artistName" equalTo:currentEvent.eventTitle];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@ error receving messages",error);
@@ -505,19 +537,12 @@
                 //that artist exist so add it as a reation the current user.
                 PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
                 //add the artist to the users relation.
-                [ArtistRelation addObject:objects[0]];
-                [objects[0] pinInBackgroundWithName:@"MyArtist"];
                 
-                [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                    if (error){
-                        
-                        NSLog(@"Error: %@ %@", error, [error localizedDescription]);
-                    }else{
-                        NSLog(@"artist already existed new relation saved");
-                        //self.MyArtistUpcomingGigs = nil;
-                    }
-                    
-                }];//end of save current user in BG
+                [ArtistRelation addObject:[objects firstObject]];
+                [[objects firstObject] pinInBackgroundWithName:@"MyArtist"];
+                
+                [self.currentUser saveInBackground];
+                
                 
             }else{
                 
@@ -528,6 +553,7 @@
         }
     }];
 };
+
 -(void)saveArtistToBackendAndAddRelationToUser:(eventObject*)currentEvent {
     
     //1. save image file to database
@@ -642,6 +668,135 @@
     }];//sava image file to backend
 }
 
+-(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobjectId:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser{
+    
+    PFObject *userEventStatus = [PFObject objectWithClassName:@"Activity"];
+    [userEventStatus setObject:@"eventStatus" forKey:@"type"];
+    [userEventStatus setObject:[[PFUser currentUser]objectId] forKey:@"fromUser"];
+    [userEventStatus setObject:eventobjectId forKey:@"toEvent"];
+    [userEventStatus setObject:usersStauts forKey:@"content"];
+    
+    
+    
+    [userEventStatus saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        if (error) {
+            
+            finishedpostActivtyForUser(error);
+        }else{
+            
+            finishedpostActivtyForUser(nil);
+        }
+    }];
+    
+}
+
+-(void)getUserEventStatus:(NSString *)eventobjectId completionBlock:(void (^)(NSError *, PFObject *))finishedgetActivtyForUser{
+    
+    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:@"Activity"];
+    [getUserEventStatus whereKey:@"type" equalTo:@"eventStatus"];
+    [getUserEventStatus whereKey:@"toEvent" equalTo:eventobjectId];
+    [getUserEventStatus whereKey:@"fromUser" equalTo:self.currentUser.objectId];
+     
+    [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            finishedgetActivtyForUser(error,nil);
+        }else {
+            
+            if ([objects count]!=0) {
+                PFObject *activity = [objects firstObject];
+                finishedgetActivtyForUser(nil,activity);
+            }else{
+                finishedgetActivtyForUser(nil,nil);
+
+            }
+            
+        }
+        
+    }];
+}
+
+-(void)updateUserEventStatus:(NSString *)usersStauts eventobjectId:(NSString *)eventobjectId completionBlock:(void (^)(NSError *))finishedupdatingUserEventStatus{
+    
+    
+    //See if the user has a current event status for this event if they do update it
+    //if they dont creat a new one
+    [self getUserEventStatus:eventobjectId completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
+        
+        if (error) {
+            NSLog(@"error getting user event stauts %@",error);
+            finishedupdatingUserEventStatus(error);
+            
+        }else {
+            
+            if (userEventStatusActivity) {
+                [userEventStatusActivity setObject:usersStauts forKey:@"content"];
+                [userEventStatusActivity saveInBackground];
+                finishedupdatingUserEventStatus(nil);
+
+            }else{
+                
+                [self postActivtyForUserActionEventStatus:usersStauts eventobjectId:eventobjectId completionBlock:^(NSError *error) {
+                    
+                    if (error) {
+                        NSLog(@"error changing event status");
+                    }else{
+                        finishedupdatingUserEventStatus(nil);
+                        }
+                    
+                }];
+                
+            }
+        }
+    }];
+}
+
+-(void)getUsersAttendingUserEvent:(NSString *)eventobjectId completionBlock:(void (^)(NSError *, NSMutableDictionary *))finishedgettingUsersAttendingUserEvent{
+    
+    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:@"Activity"];
+    [getUserEventStatus whereKey:@"type" equalTo:@"eventStatus"];
+    [getUserEventStatus whereKey:@"toEvent" equalTo:eventobjectId];
+
+    [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            finishedgettingUsersAttendingUserEvent(error,nil);
+        }else {
+            
+                NSMutableArray *going = [[NSMutableArray alloc]init];
+                NSMutableArray *notGoing = [[NSMutableArray alloc]init];
+                NSMutableArray *maybe = [[NSMutableArray alloc]init];
+                NSMutableArray *gotTickets = [[NSMutableArray alloc]init];
+                NSMutableDictionary *returnDic = [[NSMutableDictionary alloc]init];
+
+            
+            for (PFObject *activity in objects) {
+                
+                NSString *status = [activity objectForKey:@"content"];
+                if ([status isEqualToString:JCUserEventUserGoing]) {
+                    [going addObject:[activity objectForKey:@"fromUser"]];
+                }else if ([status isEqualToString:JCUserEventUserNotGoing]){
+                    [notGoing addObject:[activity objectForKey:@"fromUser"]];
+                }else if ([status isEqualToString:JCUserEventUserMaybeGoing]){
+                    [maybe addObject:[activity objectForKey:@"fromUser"]];
+                }else if ([status isEqualToString:JCUserEventUserGotTickets]){
+                    [gotTickets addObject:[activity objectForKey:@"fromUser"]];
+                };
+             }
+            
+            [returnDic setObject:going forKey:JCUserEventUserGoing];
+            [returnDic setObject:notGoing forKey:JCUserEventUserNotGoing];
+            [returnDic setObject:maybe forKey:JCUserEventUserMaybeGoing];
+            [returnDic setObject:gotTickets forKey:JCUserEventUserGotTickets];
+
+           
+            finishedgettingUsersAttendingUserEvent(nil,returnDic);
+        }
+        
+    }];
+    
+}
 
 #pragma - helper methods
 
@@ -725,17 +880,12 @@
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
+-(NSDate*)formatDateStringIntoNSDate: (NSString*)date{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:BITJSONDateUnformatted];
+    NSDate *eventDateTime = [dateFormat dateFromString:date];
+    return eventDateTime;
+}
 
 @end
 
@@ -802,3 +952,138 @@
 //        }];
 //
 //}
+
+//
+//-(void)updateUserEventStatus:(NSString *)usersStauts eventobjectId:(NSString *)eventobjectId completionBlock:(void (^)(NSError *))finishedupdatingUserEventStatus{
+//
+//
+//    //See if the user has a current event status for this event if they do update it
+//    //if they dont creat a new one
+//    //now we have a recorde of the users past event status and there future one
+//    //then we can add and remove them from the nessasery array in the actul current event object
+//
+//
+//    [self getUserEventStatus:eventobjectId completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
+//
+//        if (error) {
+//            NSLog(@"error getting user event stauts %@",error);
+//            finishedupdatingUserEventStatus(error);
+//
+//        }else {
+//
+//            if (userEventStatusActivity) {
+//                NSLog(@"userEventStatusActivity %@",userEventStatusActivity);
+//
+//                NSString *oldEventStatus = [userEventStatusActivity objectForKey:@"content"];
+//                NSLog(@"oldEventStatus %@",oldEventStatus);
+//
+//
+//                [userEventStatusActivity setObject:usersStauts forKey:@"content"];
+//
+//                [userEventStatusActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//
+//
+//                    PFQuery *eventQuery = [PFQuery queryWithClassName:@"UserEvent"];
+//                    [eventQuery whereKey:@"objectId" equalTo:eventobjectId];
+//                    [eventQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//
+//                        if (error) {
+//                            finishedupdatingUserEventStatus(error);
+//
+//                        }else{
+//
+//
+//                        if (oldEventStatus) {
+//                            PFObject *userEvent = [objects lastObject];
+//                            NSMutableArray *arrayContainingUserIdFromOldStauts = [[NSMutableArray alloc]init];
+//                            arrayContainingUserIdFromOldStauts = [userEvent objectForKey:oldEventStatus];
+//                            NSLog(@"arrayContainingUserIdFromOldStauts 1 %@",arrayContainingUserIdFromOldStauts);
+//
+//                            for (NSString *userId in arrayContainingUserIdFromOldStauts) {
+//                                if (userId == self.currentUser.objectId) {
+//                                    [arrayContainingUserIdFromOldStauts removeObject:userId];
+//                                    break;
+//                                }
+//                            }
+//
+//                            NSLog(@"arrayContainingUserIdFromOldStauts %@",arrayContainingUserIdFromOldStauts);
+//
+//                            [userEvent addObject:arrayContainingUserIdFromOldStauts forKey:oldEventStatus];
+//
+//                            NSMutableArray *arrayForUsersNewEventStauts = [[NSMutableArray alloc]init];
+//                            arrayForUsersNewEventStauts = [userEvent objectForKey:usersStauts];
+//                            NSLog(@"arrayForUsersNewEventStauts 1 %@",arrayForUsersNewEventStauts);
+//
+//                            [arrayForUsersNewEventStauts addObject:self.currentUser.objectId];
+//                            [userEvent addObject:arrayForUsersNewEventStauts forKey:usersStauts];
+//                            NSLog(@"arrayForUsersNewEventStauts 2 %@",arrayForUsersNewEventStauts);
+//
+//                            [userEvent saveInBackground];
+//                            finishedupdatingUserEventStatus(nil);
+//
+//
+//
+//                        }else{
+//                            PFObject *userEvent = [objects lastObject];
+//                            NSMutableArray *arrayForUsersNewEventStauts = [[NSMutableArray alloc]init];
+//                            arrayForUsersNewEventStauts = [userEvent objectForKey:usersStauts];
+//                            NSLog(@"arrayForUsersNewEventStauts 1.1 %@",arrayForUsersNewEventStauts);
+//
+//                            [arrayForUsersNewEventStauts addObject:self.currentUser.objectId];
+//                            [userEvent addObject:arrayForUsersNewEventStauts forKey:usersStauts];
+//                            NSLog(@"arrayForUsersNewEventStauts 2.1 %@",arrayForUsersNewEventStauts);
+//
+//                            [userEvent saveInBackground];
+//                            finishedupdatingUserEventStatus(nil);
+//
+//                        }
+//
+//
+//
+//                        }
+//                    }];
+//
+//
+//
+//                }];
+//            }else{
+//
+//                [self postActivtyForUserActionEventStatus:usersStauts eventobjectId:eventobjectId completionBlock:^(NSError *error) {
+//
+//                    if (error) {
+//                        NSLog(@"error changing event status");
+//                    }else{
+//
+//                        PFQuery *eventQuery = [PFQuery queryWithClassName:@"UserEvent"];
+//                        [eventQuery whereKey:@"objectId" equalTo:eventobjectId];
+//                        [eventQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//
+//                            if (error) {
+//
+//                                finishedupdatingUserEventStatus(error);
+//
+//                            }else{
+//                                PFObject *userEvent = [objects lastObject];
+//                                NSMutableArray *arrayForUsersNewEventStauts = [[NSMutableArray alloc]init];
+//                                [arrayForUsersNewEventStauts addObjectsFromArray:[userEvent objectForKey:usersStauts]];
+//                                [arrayForUsersNewEventStauts addObject:self.currentUser.objectId];
+//
+//                                [userEvent addObject:arrayForUsersNewEventStauts forKey:usersStauts];
+//
+//                                [userEvent saveInBackground];
+//                                finishedupdatingUserEventStatus(nil);
+//
+//                            }
+//                        }];
+//
+//
+//                    }
+//
+//                }];
+//
+//            }
+//        }
+//    }];
+//}
+//
+

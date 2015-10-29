@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
+
 
 @interface JCCommentCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *commentText;
+@property (weak, nonatomic) IBOutlet PFImageView *userImage;
+@property (weak, nonatomic) IBOutlet UILabel *lableDateTime;
 
 -(float )getCommentHeight :(NSString *)text Width :(float)textWidth;
-
+-(void)formatcell:(PFObject*)commentActivity;
 
 @end

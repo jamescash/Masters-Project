@@ -21,7 +21,13 @@
 -(void)getMyAtrits:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits;
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock: (void(^)(NSError* error,NSMutableArray*response))finishedGettingMyAtritsUpcomingGigs;
 -(void)getMyFriends:(void(^)(NSError* error,NSArray* response))finishedGettingMyFriends;
--(void)getMyInvites:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites;
+
+
+//-(void)getMyInvites:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites;
+
+-(void)getMyInvitesforType:(NSString*)userEventsType completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites;
+
+
 -(void)getUpcomingGigsforAartis:(PFObject*) artist onMonthIndex: (int)monthIndex complectionblock: (void(^)(NSError* error,NSArray* response))getUpcomingGigsforAartis;
 -(void)getPreAmpUsersThatMatchTheseFBids:(NSMutableArray*)FBIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUser;
 
@@ -30,13 +36,13 @@
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock:(void(^)(NSError* error))finishedsavingComment;
 -(void)creatUserEvent:(eventObject*)eventObject invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent;
 //Async Iamge Downloader for tableView
-
 -(void)DownloadImageForArtist:(NSString*)artistName completionBlock:(void(^)(NSError*error,UIImage* image))finishedDownloadingImage;
 
+-(void)getUserEventStatus:(NSString*) eventobjectId completionBlock:(void(^)(NSError* error,PFObject* userEventStatusActivity))finishedgetActivtyForUser;
+-(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobjectId:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
+-(void)updateUserEventStatus:(NSString*)usersStauts eventobjectId:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
 
-//local Data Storage
-
-
+-(void)getUsersAttendingUserEvent:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error,NSMutableDictionary *usersAttending))finishedgettingUsersAttendingUserEvent;
 
 @property (nonatomic,strong) NSMutableArray* MyArtist;
 @property (nonatomic,strong) NSArray* MyFriends;

@@ -12,6 +12,12 @@
 		891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238001B40360E00E7C6CA /* JCSocailStreamController.m */; };
 		891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */; };
 		8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8917A4491B7F6517004E2948 /* JCSearchPage.m */; };
+		891F84A01BE1957000C110D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F849F1BE1957000C110D7 /* Accelerate.framework */; };
+		891F84A51BE1994D00C110D7 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F84A21BE1994D00C110D7 /* UIImage+BoxBlur.m */; settings = {ASSET_TAGS = (); }; };
+		891F84A61BE1994D00C110D7 /* UIERealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F84A41BE1994D00C110D7 /* UIERealTimeBlurView.m */; settings = {ASSET_TAGS = (); }; };
+		891F84A91BE19B1D00C110D7 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F84A81BE19B1D00C110D7 /* ILTranslucentView.m */; settings = {ASSET_TAGS = (); }; };
+		891F84AD1BE269E400C110D7 /* JCCustomSearchPageSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F84AC1BE269E400C110D7 /* JCCustomSearchPageSegue.m */; settings = {ASSET_TAGS = (); }; };
+		89215C881BE1095D0035CFEB /* JCDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215C871BE1095D0035CFEB /* JCDropDownMenu.m */; settings = {ASSET_TAGS = (); }; };
 		8924A9511B56D103007FB71C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */; };
 		8924A9531B56D99C007FB71C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */; };
 		8924A9551B56D9B1007FB71C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */; };
@@ -55,6 +61,8 @@
 		897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */; settings = {ASSET_TAGS = (); }; };
 		897780F41BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */; settings = {ASSET_TAGS = (); }; };
 		897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */; settings = {ASSET_TAGS = (); }; };
+		8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */; settings = {ASSET_TAGS = (); }; };
+		8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA371BDEBC1F0029F071 /* JCConstants.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
 		898FA89A1B7641A3000AEAB1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */; };
 		898FA89C1B7641B9000AEAB1 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */; };
@@ -133,6 +141,17 @@
 		891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
 		8917A4481B7F6517004E2948 /* JCSearchPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPage.h; sourceTree = "<group>"; };
 		8917A4491B7F6517004E2948 /* JCSearchPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPage.m; sourceTree = "<group>"; };
+		891F849F1BE1957000C110D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		891F84A11BE1994D00C110D7 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
+		891F84A21BE1994D00C110D7 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
+		891F84A31BE1994D00C110D7 /* UIERealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIERealTimeBlurView.h; sourceTree = "<group>"; };
+		891F84A41BE1994D00C110D7 /* UIERealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIERealTimeBlurView.m; sourceTree = "<group>"; };
+		891F84A71BE19B1D00C110D7 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
+		891F84A81BE19B1D00C110D7 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		891F84AB1BE269E400C110D7 /* JCCustomSearchPageSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCustomSearchPageSegue.h; sourceTree = "<group>"; };
+		891F84AC1BE269E400C110D7 /* JCCustomSearchPageSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCustomSearchPageSegue.m; sourceTree = "<group>"; };
+		89215C861BE1095D0035CFEB /* JCDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDropDownMenu.h; sourceTree = "<group>"; };
+		89215C871BE1095D0035CFEB /* JCDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDropDownMenu.m; sourceTree = "<group>"; };
 		8924A9501B56D103007FB71C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		8924A9521B56D99C007FB71C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8924A9541B56D9B1007FB71C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -210,6 +229,10 @@
 		897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryArtistObject.m; sourceTree = "<group>"; };
 		897780F81BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGigsComingUpInThisMonthVC.h; sourceTree = "<group>"; };
 		897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGigsComingUpInThisMonthVC.m; sourceTree = "<group>"; };
+		8989AA331BDEAC600029F071 /* JCUserAttendingGigCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserAttendingGigCell.h; sourceTree = "<group>"; };
+		8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserAttendingGigCell.m; sourceTree = "<group>"; };
+		8989AA361BDEBC1F0029F071 /* JCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCConstants.h; sourceTree = "<group>"; };
+		8989AA371BDEBC1F0029F071 /* JCConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCConstants.m; sourceTree = "<group>"; };
 		898FA8971B76418A000AEAB1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		898FA8991B7641A3000AEAB1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		898FA89B1B7641B8000AEAB1 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
@@ -305,6 +328,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				891F84A01BE1957000C110D7 /* Accelerate.framework in Frameworks */,
 				895AECA71BA72B48001D27E3 /* StoreKit.framework in Frameworks */,
 				898FA8B41B764BB9000AEAB1 /* libstdc++.6.dylib in Frameworks */,
 				89D88EBF1BAC9E84002286FD /* ParseUI.framework in Frameworks */,
@@ -390,13 +414,13 @@
 			name = FDTemplateLayoutCell;
 			sourceTree = "<group>";
 		};
-		891238181B42B60C00E7C6CA /* SocailStreamVC's */ = {
+		891238181B42B60C00E7C6CA /* GigMoreInfo */ = {
 			isa = PBXGroup;
 			children = (
 				8954EC041B837AF800BBA658 /* HappeningTonight */,
 				891237F81B400A3700E7C6CA /* AlreadyHappenedVC */,
 			);
-			name = "SocailStreamVC's";
+			name = GigMoreInfo;
 			sourceTree = "<group>";
 		};
 		8917A4471B7F64E6004E2948 /* SearchPageControler */ = {
@@ -410,6 +434,24 @@
 				89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */,
 			);
 			name = SearchPageControler;
+			sourceTree = "<group>";
+		};
+		891F84AA1BE2699000C110D7 /* CustomSegue */ = {
+			isa = PBXGroup;
+			children = (
+				891F84AB1BE269E400C110D7 /* JCCustomSearchPageSegue.h */,
+				891F84AC1BE269E400C110D7 /* JCCustomSearchPageSegue.m */,
+			);
+			name = CustomSegue;
+			sourceTree = "<group>";
+		};
+		89215C761BE0FAAB0035CFEB /* CustomNavBarItem */ = {
+			isa = PBXGroup;
+			children = (
+				89215C861BE1095D0035CFEB /* JCDropDownMenu.h */,
+				89215C871BE1095D0035CFEB /* JCDropDownMenu.m */,
+			);
+			name = CustomNavBarItem;
 			sourceTree = "<group>";
 		};
 		8924A9561B63A05F007FB71C /* custom cell */ = {
@@ -490,9 +532,10 @@
 		8954EC111B873B2000BBA658 /* HomeScreenVC */ = {
 			isa = PBXGroup;
 			children = (
+				891F84AA1BE2699000C110D7 /* CustomSegue */,
 				89D88ED41BB0529F002286FD /* HomescreenNavVC */,
 				8917A4471B7F64E6004E2948 /* SearchPageControler */,
-				891238181B42B60C00E7C6CA /* SocailStreamVC's */,
+				891238181B42B60C00E7C6CA /* GigMoreInfo */,
 				8954EC321B88940B00BBA658 /* RootViewController */,
 				8954EC2F1B8893C600BBA658 /* Center CollectionView */,
 			);
@@ -597,6 +640,7 @@
 		8969D0171BC93D2000A0FCED /* NewInboxClassVC */ = {
 			isa = PBXGroup;
 			children = (
+				89215C761BE0FAAB0035CFEB /* CustomNavBarItem */,
 				8969D01B1BC94F7C00A0FCED /* cell */,
 				8969D0181BC93D4600A0FCED /* JCGigInvitesVC.h */,
 				8969D0191BC93D4600A0FCED /* JCGigInvitesVC.m */,
@@ -651,6 +695,8 @@
 			children = (
 				897281601BC553FF00569648 /* JCCommentCell.h */,
 				897281611BC553FF00569648 /* JCCommentCell.m */,
+				8989AA331BDEAC600029F071 /* JCUserAttendingGigCell.h */,
+				8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -800,6 +846,8 @@
 				89F51DE41B1E1B39004E9055 /* Images.xcassets */,
 				89F51DDB1B1E1B39004E9055 /* AppDelegate.h */,
 				89F51DDC1B1E1B39004E9055 /* AppDelegate.m */,
+				8989AA361BDEBC1F0029F071 /* JCConstants.h */,
+				8989AA371BDEBC1F0029F071 /* JCConstants.m */,
 			);
 			name = utillities;
 			path = masterbranch;
@@ -911,6 +959,12 @@
 		89D88EDC1BB730B9002286FD /* ImageFilter */ = {
 			isa = PBXGroup;
 			children = (
+				891F84A71BE19B1D00C110D7 /* ILTranslucentView.h */,
+				891F84A81BE19B1D00C110D7 /* ILTranslucentView.m */,
+				891F84A11BE1994D00C110D7 /* UIImage+BoxBlur.h */,
+				891F84A21BE1994D00C110D7 /* UIImage+BoxBlur.m */,
+				891F84A31BE1994D00C110D7 /* UIERealTimeBlurView.h */,
+				891F84A41BE1994D00C110D7 /* UIERealTimeBlurView.m */,
 				89D88EDD1BB730D9002286FD /* MLVignetteView.h */,
 				89D88EDE1BB730D9002286FD /* MLVignetteView.m */,
 			);
@@ -1077,6 +1131,7 @@
 		AF69D170FFE8C36EAF7215B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				891F849F1BE1957000C110D7 /* Accelerate.framework */,
 				89D88EA11BAC9B95002286FD /* parse */,
 				895AECA61BA72B48001D27E3 /* StoreKit.framework */,
 				898FA8B31B764BB9000AEAB1 /* libstdc++.6.dylib */,
@@ -1256,6 +1311,7 @@
 				894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */,
 				897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
+				8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */,
 				897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */,
@@ -1263,8 +1319,10 @@
 				8969D01A1BC93D4600A0FCED /* JCGigInvitesVC.m in Sources */,
 				897780F41BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m in Sources */,
 				89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */,
+				891F84A91BE19B1D00C110D7 /* ILTranslucentView.m in Sources */,
 				897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
+				891F84AD1BE269E400C110D7 /* JCCustomSearchPageSegue.m in Sources */,
 				897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
@@ -1278,6 +1336,7 @@
 				89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */,
 				89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */,
 				89D88EED1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m in Sources */,
+				891F84A61BE1994D00C110D7 /* UIERealTimeBlurView.m in Sources */,
 				89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */,
 				89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
@@ -1291,11 +1350,13 @@
 				89D88ECC1BADD68A002286FD /* JCInbox.m in Sources */,
 				89AE1C551B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m in Sources */,
 				89D88ED71BB052D6002286FD /* JChomeScreenNavVC.m in Sources */,
+				8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				89BDB1A11BCA666C00ECD8BA /* JCMusicDiaryVC.m in Sources */,
 				8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */,
+				891F84A51BE1994D00C110D7 /* UIImage+BoxBlur.m in Sources */,
 				89D88EE31BB8152B002286FD /* JCFollowingArtistVC.m in Sources */,
 				8954EC191B874E3000BBA658 /* JCPhotoDownLoadRecord.m in Sources */,
 				891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */,
@@ -1303,6 +1364,7 @@
 				8924A98B1B721B26007FB71C /* JCEventBuilder.m in Sources */,
 				897780D11BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m in Sources */,
 				897780D91BD15286006B20C3 /* JCInvteFollowHeaderVC.m in Sources */,
+				89215C881BE1095D0035CFEB /* JCDropDownMenu.m in Sources */,
 				8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */,
 				897780E11BD79AD5006B20C3 /* JCMyArtistCell.m in Sources */,
 				8969D0121BC8385200A0FCED /* JCInvitationCell.m in Sources */,

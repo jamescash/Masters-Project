@@ -7,6 +7,8 @@
 //
 
 #import "JCTimeDateLocationTableViewCell.h"
+#import "JCConstants.h"
+
 
 @interface JCTimeDateLocationTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *timeDate;
@@ -18,7 +20,7 @@
 @implementation JCTimeDateLocationTableViewCell
 
 -(void)formatCellwithParseEventObject:(PFObject*)currentEvent{
-    self.timeDate.text = [self formatDate:[currentEvent objectForKey:@"eventDate"]];
+    self.timeDate.text = [self formatNSdateTostring:[currentEvent objectForKey:JCUserEventUsersTheEventDate]];
     NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",[currentEvent objectForKey:@"eventVenue"],[currentEvent objectForKey:@"city"]];
     self.VenueName.text = venueInfo;
 }
@@ -26,7 +28,7 @@
 
 -(void)formatCell:(eventObject *)currentEvent{
     
-    self.timeDate.text = [self formatDate:currentEvent.eventDate];
+    self.timeDate.text = [self formatDateString:currentEvent.eventDate];
     NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",currentEvent.venueName,currentEvent.county];
     self.VenueName.text = venueInfo;
 }
@@ -41,7 +43,21 @@
     // Configure the view for the selected state
 }
 
--(NSString*)formatDate: (NSString*)date{
+-(NSString*)formatNSdateTostring: (NSDate*)date{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    //[dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
+    // NSDate *eventDateTime = [dateFormat dateFromString:date];
+    
+    dateFormat.dateStyle = NSDateFormatterFullStyle;
+    
+    NSString *dayMonthString = [dateFormat stringFromDate:date];
+    [dateFormat setDateFormat:@"' at 'HH:mm"];
+    NSString *timeString = [dateFormat stringFromDate:date];
+    
+    return [NSString stringWithFormat:@"%@%@",dayMonthString,timeString];
+}
+
+-(NSString*)formatDateString: (NSString*)date{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
     NSDate *eventDateTime = [dateFormat dateFromString:date];

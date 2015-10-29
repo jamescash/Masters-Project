@@ -26,10 +26,11 @@ PODS:
   - Masonry (0.6.3)
   - MGSwipeTableCell (1.5.1)
   - MYNStickyFlowLayout (0.1.2)
+  - NSDate+TimeAgo (1.0.3)
   - PureLayout (3.0.1)
   - RESideMenu (4.0.7)
   - RSDayFlow (1.2.0)
-  - TLYShyNavBar (0.10.0)
+  - TLYShyNavBar (0.10.1)
   - VGParallaxHeader (0.0.6):
     - PureLayout
 
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - CSStickyHeaderFlowLayout
   - MGSwipeTableCell (~> 1.5.1)
   - MYNStickyFlowLayout
+  - NSDate+TimeAgo
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
   - TLYShyNavBar
@@ -51,10 +53,11 @@ SPEC CHECKSUMS:
   Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
   MGSwipeTableCell: a51fa670c01f0aa048f12af040acebf315223137
   MYNStickyFlowLayout: 64d0c409bd1ad43312485c63bc82e32f038e8fbc
+  NSDate+TimeAgo: 416f55d2696d3744c313091c5a9280d47f8238fe
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60
-  TLYShyNavBar: e163fc16f7b0e5a8800397a8454fbd9202ba4900
+  TLYShyNavBar: abeab693235fc21b5bd9c8de6e971da62fc3d1d9
   VGParallaxHeader: 1213aba58c9b0aea84f9e81ad526fde57aa4fe48
 
 COCOAPODS: 0.37.2

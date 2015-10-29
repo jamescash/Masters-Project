@@ -14,7 +14,7 @@
 @property (nonatomic,strong) NSDateComponents  *dateComponents;
 @property (nonatomic,strong) NSString          *month;
 @property (nonatomic,strong) NSString          *year;
-@property(nonatomic,strong) UIImage           *artistImage;
+@property (nonatomic,strong) UIImage           *artistImage;
 
 - (id)initWithArtits:(PFObject*)artits andupComingGig:(PFObject*)upcomingGig;
 
