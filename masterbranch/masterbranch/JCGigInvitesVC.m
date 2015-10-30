@@ -52,7 +52,7 @@
     [super viewDidLoad];
     [self addCustomButtonOnNavBar];
     
-   self.JCParseQuery = [JCParseQuerys sharedInstance];
+    self.JCParseQuery = [JCParseQuerys sharedInstance];
     self.imageFiles = [[NSMutableArray alloc]init];
     
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeUpcoming completionblock:^(NSError *error, NSArray *response) {
@@ -97,6 +97,15 @@
 
     cell.BackRoundImage.file = imageFile;
     cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+    
+//     CAGradientLayer *vignetteLayer = [CAGradientLayer layer];
+//    [vignetteLayer setBounds:[cell.BackRoundImage bounds]];
+//    [vignetteLayer setPosition:CGPointMake([cell.BackRoundImage bounds].size.width/2.0f, [cell.BackRoundImage bounds].size.height/2.0f)];
+//    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8];
+//    [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+//    [vignetteLayer setLocations:@[@(0.50), @(1.0)]];
+//    [[cell.BackRoundImage layer] addSublayer:vignetteLayer];
+   
     NSUInteger randomNumber = arc4random_uniform(5);
    
     switch (randomNumber) {
@@ -188,8 +197,10 @@
                                             action:@selector(RightnavItemTapped)];
     
     [self.navBarDropDown addGestureRecognizer:navbarRightButtonTapped];
-     self.navBarDropDown.backgroundColor = [UIColor grayColor];
-    
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSearch.png"]];
+    contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
+    [self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
+    self.navBarDropDown.backgroundColor = [UIColor clearColor];
 }
 -(void)menuButtonPressed{
     [self.sideMenuViewController presentLeftMenuViewController];
@@ -213,12 +224,13 @@
 -(void)manageBleredLayer{
     if (blerViewOn) {
         self.blerView.hidden=YES;
+        self.navBarDropDown.hidden = NO;
+
         blerViewOn=NO;
     }else{
         if (!self.blerView) {
             self.blerView = [[ILTranslucentView alloc] initWithFrame:self.view.frame];
-            [self.view addSubview:self.blerView]; //that's it :)
-            //optional:
+            [self.view addSubview:self.blerView];
             self.blerView.translucentAlpha = .9;
             self.blerView.translucentStyle = UIBarStyleDefault;
             self.blerView.translucentTintColor = [UIColor clearColor];
@@ -226,6 +238,8 @@
 
         }
         self.blerView.hidden=NO;
+        self.navBarDropDown.hidden = YES;
+
         blerViewOn=YES;
     }
 }

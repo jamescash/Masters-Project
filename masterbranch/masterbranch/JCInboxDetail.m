@@ -18,7 +18,7 @@
 
 
 
-
+#import <TLYShyNavBar/TLYShyNavBarManager.h>
 
 
 @interface JCInboxDetail ()
@@ -76,7 +76,7 @@
     self.eventId = self.userEvent.objectId;
     self.tableViewVC.allowsSelection = NO;
     
-    [self.parseQuerys getEventComments:self.eventId complectionBlock:^(NSError *error, NSMutableArray *response) {
+    [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -154,7 +154,6 @@
     
     return 145;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -245,14 +244,10 @@
     [self.view addGestureRecognizer:tapRecognizer];
 
 }
-
-
--(void) keyboardWillHide:(NSNotification *) note
+-(void)keyboardWillHide:(NSNotification *) note
 {
     [self.view removeGestureRecognizer:tapRecognizer];
 }
-
-
 -(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
     [self.addCommentTextfield resignFirstResponder];
     [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
@@ -280,6 +275,9 @@
     UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     self.navigationItem.leftBarButtonItem = customBarItem;
+    
+    self.shyNavBarManager.scrollView = self.tableViewVC;
+
 }
 
 -(void)BackButtonPressed{
@@ -318,7 +316,7 @@
     if (trimmedComment.length != 0) {
         userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                     trimmedComment,@"comment",
-                    self.eventId,@"eventId",
+                    self.userEvent,@"eventId",
                     nil];
     }
     
@@ -365,7 +363,7 @@
 -(void)refreshTableViewAfterUserCommented{
     
     
-    [self.parseQuerys getEventComments:self.eventId complectionBlock:^(NSError *error, NSMutableArray *response) {
+    [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -403,7 +401,7 @@
 
 -(void)userChagnedStatus:(NSString*)userStatus{
     
-    [self.parseQuerys updateUserEventStatus:userStatus eventobjectId:self.userEvent.objectId completionBlock:^(NSError *error) {
+    [self.parseQuerys updateUserEventStatus:userStatus eventobject:self.userEvent completionBlock:^(NSError *error) {
         if (error) {
             NSLog(@"error updateUserEventStatus %@",error);
         }else {
@@ -418,7 +416,7 @@
 
 -(void)getUserAttendingEvent{
     
-    [self.parseQuerys getUsersAttendingUserEvent:self.userEvent.objectId completionBlock:^(NSError *error, NSMutableDictionary *usersAttending) {
+    [self.parseQuerys getUsersAttendingUserEvent:self.userEvent completionBlock:^(NSError *error, NSMutableDictionary *usersAttending) {
         
         
         

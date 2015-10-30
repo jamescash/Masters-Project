@@ -77,21 +77,23 @@
     
             self.contextMenuButtonThird = [[UIView alloc]initWithFrame:frame];
     
+            UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconBack.png"]];
+            imageView.frame = CGRectMake(0, 0, 40, 40);
+            [self.contextMenuButtonThird addSubview:imageView];
     
     
     
-    
-            self.contextMenuButtonThird.backgroundColor = [UIColor purpleColor];
+            //self.contextMenuButtonThird.backgroundColor = [UIColor purpleColor];
     
     
             //Lable 3
             self.contextMenuLableForButtonThird = [[UILabel alloc] init];
             [self.contextMenuLableForButtonThird setFrame:CGRectMake(-55,10,100,22)];
             self.contextMenuLableForButtonThird.backgroundColor=[UIColor clearColor];
-            self.contextMenuLableForButtonThird.textColor=[UIColor whiteColor];
+            self.contextMenuLableForButtonThird.textColor= [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
             self.contextMenuLableForButtonThird.userInteractionEnabled=YES;
             [self.contextMenuButtonThird addSubview:self.contextMenuLableForButtonThird];
-            [self.contextMenuLableForButtonThird setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
+            [self.contextMenuLableForButtonThird setFont:[UIFont fontWithName:@"Helvetica-light" size:20]];
     
     
             [self.contextMenuButtonThird addGestureRecognizer:contextMenuButtonThird];
@@ -102,8 +104,12 @@
     
     //Botton 2
     self.contextMenuButtonSecond = [[UIView alloc]initWithFrame:frame];
-    self.contextMenuButtonSecond.backgroundColor = [UIColor greenColor];
+    UIImageView * secondimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSearch.png"]];
+    secondimageView.frame = CGRectMake(0, 0, 40, 40);
+    [self.contextMenuButtonSecond addSubview:secondimageView];
+    
     UITapGestureRecognizer *contextMenuButtonSecond =
+    
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(contextMenuButtonSecondTapped)];
     //Lable 2
@@ -111,10 +117,11 @@
     [self.contextMenuLableForButtonSecond setFrame:CGRectMake(-55,10,100,22)];
 
     self.contextMenuLableForButtonSecond.backgroundColor=[UIColor clearColor];
-    self.contextMenuLableForButtonSecond.textColor=[UIColor whiteColor];
+
+    self.contextMenuLableForButtonSecond.textColor= [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
     self.contextMenuLableForButtonSecond.userInteractionEnabled=YES;
     [self.contextMenuButtonSecond addSubview:self.contextMenuLableForButtonSecond];
-    [self.contextMenuLableForButtonSecond setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
+    [self.contextMenuLableForButtonSecond setFont:[UIFont fontWithName:@"Helvetica-light" size:20]];
     [self.contextMenuButtonSecond addGestureRecognizer:contextMenuButtonSecond];
     contextMenuButtonSecond.delegate = self;
     [self addSubview:self.contextMenuButtonSecond];
@@ -122,7 +129,10 @@
     
     //Button 1
     self.contextMenuButtonFirst = [[UIView alloc]initWithFrame:frame];
-    self.contextMenuButtonFirst.backgroundColor = [UIColor yellowColor];
+    UIImageView * firstimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconMenu.png"]];
+    firstimageView.frame = CGRectMake(0, 0, 40, 40);
+    [self.contextMenuButtonFirst addSubview:firstimageView];
+    
     UITapGestureRecognizer *contextMenuButtonFirst =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(contextMenuButtonFirstTapped)];
@@ -131,10 +141,10 @@
     self.contextMenuLableForButtonFirst = [[UILabel alloc] init];
     [self.contextMenuLableForButtonFirst setFrame:CGRectMake(-105,10,100,23)];
     self.contextMenuLableForButtonFirst.backgroundColor=[UIColor clearColor];
-    self.contextMenuLableForButtonFirst.textColor=[UIColor whiteColor];
+    self.contextMenuLableForButtonFirst.textColor= [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
     self.contextMenuLableForButtonFirst.userInteractionEnabled=YES;
     [self.contextMenuButtonFirst addSubview:self.contextMenuLableForButtonFirst];
-    [self.contextMenuLableForButtonFirst setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
+    [self.contextMenuLableForButtonFirst setFont:[UIFont fontWithName:@"Helvetica-light" size:20]];
     
     [self.contextMenuButtonFirst addGestureRecognizer:contextMenuButtonFirst];
     contextMenuButtonFirst.delegate = self;
@@ -146,9 +156,9 @@
                                             action:@selector(contextMenuButtonCoverTapped)];
     
     self.contextMenuButtonCover = [[UIView alloc]initWithFrame:frame];
-    //self.contextMenuButtonCover.center = CGPointMake(self.bounds.size.width  / 2,
-      //                               self.bounds.size.height / 2);
-    self.contextMenuButtonCover.backgroundColor = [UIColor grayColor];
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSearch.png"]];
+    contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
+    [self.contextMenuButtonCover addSubview:contextMenuButtonCoverimageView];
     [self.contextMenuButtonCover addGestureRecognizer:contextMenuButtonCover];
 
 

@@ -194,8 +194,7 @@ return [self.collectionViewDataObject[section] count];
     else if (aRecord.isFailed) {
         //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         //cell.MainImageView.image = [UIImage imageNamed:@"Failed.png"];
-        cell.CellTitle.text = @"";
-        
+        cell.CellTitle.text = @"Failed";
     }
     // 5
     else {
@@ -360,9 +359,8 @@ return [self.collectionViewDataObject[section] count];
 
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-    });
+    //TODO what is causing the crahs here? !!!!!!!!!
+    [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
     
     [self.pendingOperations.URLRetrieversInProgress removeObjectForKey:indexPath];
     
@@ -389,12 +387,10 @@ return [self.collectionViewDataObject[section] count];
     
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
    
-    
+    //becuse im adding sections so the index path is diffrent then when added?
     // 4: Update UI.
-    dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
 
-    });
 
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
     
@@ -414,10 +410,8 @@ return [self.collectionViewDataObject[section] count];
     
     
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
-    dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
         
-    });
 
     [self.pendingOperations.filtrationsInProgress removeObjectForKey:indexPath];
 }

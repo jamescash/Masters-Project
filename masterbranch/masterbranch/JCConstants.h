@@ -13,21 +13,45 @@
 
 #pragma - Parse ClassNames
 extern NSString * const JCParseClassUserEvents;
+extern NSString * const JCParseClassActivity;
 
-//UserEvents
-#pragma - UserEvents  - User Status
+
+//Backend UserEvents Class - Keys
+#pragma - UserEvents  - Keys
 extern NSString * const JCUserEventUserGoing;
 extern NSString * const JCUserEventUserNotGoing;
 extern NSString * const JCUserEventUserMaybeGoing;
 extern NSString * const JCUserEventUserGotTickets;
-#pragma - UserEvents  - Parse - Keys
+//Backend UserEvents Class - Keys
 extern NSString * const JCUserEventUsersInvited;
 extern NSString * const JCUserEventUsersEventHostNameUserName;
 extern NSString * const JCUserEventUsersTheEventDate;
-#pragma - UserEvents  - Local - Keys
+extern NSString * const JCUserEventUsersEventPhoto;
+extern NSString * const JCUserEventUsersEventTitle;
+extern NSString * const JCUserEventUsersEventVenue;
+extern NSString * const JCUserEventUsersEventHostId;
+extern NSString * const JCUserEventUsersEventCity;
+extern NSString * const JCUserEventUsersEventInvited;
+extern NSString * const JCUserEventUsersSubscribedForNotifications;
+
+
+
+//Backend UserEvents Class Local - Keys
 extern NSString * const JCUserEventUsersTypeUpcoming;
 extern NSString * const JCUserEventUsersTypePast;
 extern NSString * const JCUserEventUsersTypeSent;
+
+
+//Backend Activitys Class - Keys
+#pragma - Activitys
+extern NSString * const JCUserActivityType;
+extern NSString * const JCUActivityTypeUserComment;
+
+extern NSString * const JCUserActivityFromUser;
+extern NSString * const JCUserActivityCommentOwner;
+extern NSString * const JCUserActivityContent;
+extern NSString * const JCUserActivityRelatedObjectId;
+
 
 
 

@@ -13,6 +13,7 @@
 
 @interface JCEventInviteCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet PFImageView *BackRoundImage;
+//@property (strong, nonatomic) IBOutlet PFImageView *BackRoundImage;
 
 -(void)formatCell:(PFObject*)currentEvent;
 

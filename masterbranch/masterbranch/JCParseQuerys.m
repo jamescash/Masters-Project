@@ -201,6 +201,7 @@
     }];
 };
 
+
 -(void)getMyInvitesforType:(NSString*)userEventsType completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites{
 
      NSDate *now = [NSDate date];
@@ -229,7 +230,6 @@
           }];
 
 };
-
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock:(void (^)(NSError*, NSMutableArray*))finishedGettingMyAtritsUpcomingGigs{
     
     
@@ -258,6 +258,7 @@
                     UpcomingGigsLoopCounter ++;
                 }
                 
+                //TO irish english gigs coming back odd something wrong with this query
                 PFQuery *query  = [upcomingGigRelation query];
                 if (onlyIrishGigs) {
                     [query whereKey:@"venueCounty" equalTo:@"Ireland"];
@@ -302,11 +303,11 @@
     
 }
 
--(void)getEventComments:(NSString *)eventiD complectionBlock:(void (^)(NSError *, NSMutableArray *))finishedgettingEventComments{
+-(void)getEventComments:(PFObject *)event complectionBlock:(void (^)(NSError *, NSMutableArray *))finishedgettingEventComments{
     
     PFQuery *getEventCommentsActivitys = [PFQuery queryWithClassName:@"Activity"];
     [getEventCommentsActivitys whereKey:@"type" equalTo:@"userComment"];
-    [getEventCommentsActivitys whereKey:@"relatedObjectId" equalTo:eventiD];
+    [getEventCommentsActivitys whereKey:@"toEvent" equalTo:event];
     [getEventCommentsActivitys orderByAscending:@"createdAt"];
     
     
@@ -331,7 +332,6 @@
     
     
 }
-
 -(void)getUpcomingGigsforAartis:(PFObject *)artist onMonthIndex:(int)monthIndex complectionblock:(void (^)(NSError *, NSArray *))getUpcomingGigsforAartis{
     
     
@@ -350,6 +350,8 @@
                  }];
     
 }
+
+
 
 // Use/Filling Artist Images Dictionary
 -(void)DownloadImageForArtist:(NSString*)artistName completionBlock:(void(^)(NSError*error,UIImage* image))finishedDownloadingImag
@@ -418,20 +420,23 @@
     
 }
 //posting
+
+
+
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock: (void(^)(NSError* error))finishedsavingComment{
     
     
     NSString *commentText = [userInfo objectForKey:@"comment"];
-    NSString *eventId = [userInfo objectForKey:@"eventId"];
+    PFObject *eventObject = [userInfo objectForKey:@"eventId"];
     
     if (commentText && commentText.length != 0) {
-        //create and save photo caption
-        PFObject *comment = [PFObject objectWithClassName:@"Activity"];
-        [comment setObject:@"userComment" forKey:@"type"];
-        [comment setObject:[[PFUser currentUser]objectId] forKey:@"fromUser"];
-        [comment setObject:[PFUser currentUser] forKey:@"commentOwner"];
-        [comment setObject:eventId forKey:@"relatedObjectId"];
-        [comment setObject:commentText forKey:@"content"];
+
+        PFObject *comment = [PFObject objectWithClassName:JCParseClassActivity];
+        [comment setObject:JCUActivityTypeUserComment forKey:JCUserActivityType];
+        [comment setObject:[PFUser currentUser] forKey:JCUserActivityFromUser];
+        [comment setObject:[PFUser currentUser] forKey:JCUserActivityCommentOwner];
+        [comment setObject:eventObject forKey:@"toEvent"];
+        [comment setObject:commentText forKey:JCUserActivityContent];
         
         PFACL *ACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [ACL setPublicReadAccess:YES];
@@ -452,6 +457,9 @@
     }
     
 }
+
+
+
 
 -(void)creatUserEvent:(eventObject*)currentEvent invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent{
     
@@ -491,19 +499,16 @@
         }else{
             //file saved sucessfully now lets link it with a PFobject so we can send it
             PFObject *UserEvent = [PFObject objectWithClassName:JCParseClassUserEvents];
-            [UserEvent setObject:file forKey:@"eventPhoto"];
-            [UserEvent setObject:currentEvent.eventTitle forKey:@"eventTitle"];
-            [UserEvent setObject:[[PFUser currentUser]username] forKey:@"eventHostName"];
-            
-            
+            [UserEvent setObject:file forKey:JCUserEventUsersEventPhoto];
+            [UserEvent setObject:currentEvent.eventTitle forKey:JCUserEventUsersEventTitle];
+            [UserEvent setObject:[[PFUser currentUser]username] forKey:JCUserEventUsersEventHostNameUserName];
             [UserEvent setObject:[self formatDateStringIntoNSDate:currentEvent.eventDate] forKey: JCUserEventUsersTheEventDate];
+            [UserEvent setObject:currentEvent.venueName forKey:JCUserEventUsersEventVenue];
+            [UserEvent setObject:[[PFUser currentUser]objectId] forKey:JCUserEventUsersEventHostId];
+            [UserEvent setObject:currentEvent.county forKey:JCUserEventUsersEventCity];
+            [UserEvent setObject:recipientIds forKey:JCUserEventUsersInvited];
+            [UserEvent setObject:recipientIds forKey:JCUserEventUsersSubscribedForNotifications];
             
-            
-            [UserEvent setObject:currentEvent.venueName forKey:@"eventVenue"];
-            [UserEvent setObject:[[PFUser currentUser]objectId] forKey:@"eventHostId"];
-            [UserEvent setObject:currentEvent.county forKey:@"city"];
-            [UserEvent setObject:recipientIds forKey:@"invited"];
-            //create users going and user not going + who has tickets
             [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 
                 if (error) {
@@ -668,12 +673,12 @@
     }];//sava image file to backend
 }
 
--(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobjectId:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser{
+-(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobject:(PFObject*) eventobject completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser{
     
     PFObject *userEventStatus = [PFObject objectWithClassName:@"Activity"];
     [userEventStatus setObject:@"eventStatus" forKey:@"type"];
-    [userEventStatus setObject:[[PFUser currentUser]objectId] forKey:@"fromUser"];
-    [userEventStatus setObject:eventobjectId forKey:@"toEvent"];
+    [userEventStatus setObject:[PFUser currentUser] forKey:@"fromUser"];
+    [userEventStatus setObject:eventobject forKey:@"toEvent"];
     [userEventStatus setObject:usersStauts forKey:@"content"];
     
     
@@ -691,12 +696,12 @@
     
 }
 
--(void)getUserEventStatus:(NSString *)eventobjectId completionBlock:(void (^)(NSError *, PFObject *))finishedgetActivtyForUser{
+-(void)getUserEventStatus:(PFObject *)eventobject completionBlock:(void (^)(NSError *, PFObject *))finishedgetActivtyForUser{
     
     PFQuery *getUserEventStatus = [PFQuery queryWithClassName:@"Activity"];
     [getUserEventStatus whereKey:@"type" equalTo:@"eventStatus"];
-    [getUserEventStatus whereKey:@"toEvent" equalTo:eventobjectId];
-    [getUserEventStatus whereKey:@"fromUser" equalTo:self.currentUser.objectId];
+    [getUserEventStatus whereKey:@"toEvent" equalTo:eventobject];
+    [getUserEventStatus whereKey:@"fromUser" equalTo:self.currentUser];
      
     [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
@@ -717,12 +722,12 @@
     }];
 }
 
--(void)updateUserEventStatus:(NSString *)usersStauts eventobjectId:(NSString *)eventobjectId completionBlock:(void (^)(NSError *))finishedupdatingUserEventStatus{
+-(void)updateUserEventStatus:(NSString *)usersStauts eventobject:(PFObject*) eventobject completionBlock:(void (^)(NSError *))finishedupdatingUserEventStatus{
     
     
     //See if the user has a current event status for this event if they do update it
     //if they dont creat a new one
-    [self getUserEventStatus:eventobjectId completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
+    [self getUserEventStatus:eventobject completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
         
         if (error) {
             NSLog(@"error getting user event stauts %@",error);
@@ -737,7 +742,7 @@
 
             }else{
                 
-                [self postActivtyForUserActionEventStatus:usersStauts eventobjectId:eventobjectId completionBlock:^(NSError *error) {
+                [self postActivtyForUserActionEventStatus:usersStauts eventobject:eventobject completionBlock:^(NSError *error) {
                     
                     if (error) {
                         NSLog(@"error changing event status");
@@ -752,11 +757,11 @@
     }];
 }
 
--(void)getUsersAttendingUserEvent:(NSString *)eventobjectId completionBlock:(void (^)(NSError *, NSMutableDictionary *))finishedgettingUsersAttendingUserEvent{
+-(void)getUsersAttendingUserEvent:(PFObject *)eventobject completionBlock:(void (^)(NSError *, NSMutableDictionary *))finishedgettingUsersAttendingUserEvent{
     
-    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:@"Activity"];
-    [getUserEventStatus whereKey:@"type" equalTo:@"eventStatus"];
-    [getUserEventStatus whereKey:@"toEvent" equalTo:eventobjectId];
+    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:JCParseClassActivity];
+    [getUserEventStatus whereKey:JCUserActivityType equalTo:@"eventStatus"];
+    [getUserEventStatus whereKey:@"toEvent" equalTo:eventobject];
 
     [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         

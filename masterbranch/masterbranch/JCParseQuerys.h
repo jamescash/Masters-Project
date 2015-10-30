@@ -17,7 +17,7 @@
 
 
 //Querys to the backend
--(void)getEventComments:(NSString*) eventiD complectionBlock:(void(^)(NSError* error,NSMutableArray* response))finishedgettingEventComments;
+-(void)getEventComments:(PFObject *)event complectionBlock:(void(^)(NSError* error,NSMutableArray* response))finishedgettingEventComments;
 -(void)getMyAtrits:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits;
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock: (void(^)(NSError* error,NSMutableArray*response))finishedGettingMyAtritsUpcomingGigs;
 -(void)getMyFriends:(void(^)(NSError* error,NSArray* response))finishedGettingMyFriends;
@@ -38,11 +38,17 @@
 //Async Iamge Downloader for tableView
 -(void)DownloadImageForArtist:(NSString*)artistName completionBlock:(void(^)(NSError*error,UIImage* image))finishedDownloadingImage;
 
--(void)getUserEventStatus:(NSString*) eventobjectId completionBlock:(void(^)(NSError* error,PFObject* userEventStatusActivity))finishedgetActivtyForUser;
--(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobjectId:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
--(void)updateUserEventStatus:(NSString*)usersStauts eventobjectId:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
 
--(void)getUsersAttendingUserEvent:(NSString*) eventobjectId completionBlock: (void(^)(NSError* error,NSMutableDictionary *usersAttending))finishedgettingUsersAttendingUserEvent;
+
+-(void)getUserEventStatus:(PFObject*) eventobject completionBlock:(void(^)(NSError* error,PFObject* userEventStatusActivity))finishedgetActivtyForUser;
+
+
+-(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobject:(PFObject*) eventobject completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
+
+
+-(void)updateUserEventStatus:(NSString*)usersStauts eventobject:(PFObject*) eventobject completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
+
+-(void)getUsersAttendingUserEvent:(PFObject*) eventobjec completionBlock: (void(^)(NSError* error,NSMutableDictionary *usersAttending))finishedgettingUsersAttendingUserEvent;
 
 @property (nonatomic,strong) NSMutableArray* MyArtist;
 @property (nonatomic,strong) NSArray* MyFriends;

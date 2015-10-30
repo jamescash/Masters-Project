@@ -182,10 +182,8 @@
                 [[PFUser currentUser] setObject:userName forKey:@"username"];
                 [[PFUser currentUser] setObject:lowercaseUserName forKey:@"searchUsername"];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                    
                     [self performSegueWithIdentifier:@"unwindHomeScreenCollectionView" sender:self];
                     NSLog(@"all signed up");
-                    
                 }];
              
             }

@@ -31,9 +31,9 @@
 
 -(void)formatCell:(NSDictionary*)userattending andMyStatus:(NSString*) myStauts{
     
-    NSString *userGoingCount      = [NSString stringWithFormat:@"%u",[[userattending objectForKey:JCUserEventUserGoing]count]];
-    NSString *userGotTicketsCount = [NSString stringWithFormat:@"%u",[[userattending objectForKey:JCUserEventUserGotTickets]count]];
-    NSString *userInvitedCount    = [NSString stringWithFormat:@"%u",[[userattending objectForKey:JCUserEventUsersInvited]count]];
+    NSString *userGoingCount      = [NSString stringWithFormat:@"%d",[[userattending objectForKey:JCUserEventUserGoing]count]];
+    NSString *userGotTicketsCount = [NSString stringWithFormat:@"%d",[[userattending objectForKey:JCUserEventUserGotTickets]count]];
+    NSString *userInvitedCount    = [NSString stringWithFormat:@"%d",[[userattending objectForKey:JCUserEventUsersInvited]count]];
 
     self.lableNumberGoing.text      = userGoingCount;
     self.lableNumberGotTickets.text = userGotTicketsCount;

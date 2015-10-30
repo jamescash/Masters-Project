@@ -17,6 +17,7 @@
 #import "JCSelectFriends.h"
 #import "MGSwipeButton.h"
 
+#import <TLYShyNavBar/TLYShyNavBarManager.h>
 
 
 
@@ -218,7 +219,6 @@
 }
 
 - (IBAction)back:(id)sender {
-    [self.JCGigMoreInfoVCDelegate JCGigMoreInfoVCDidSelectDone:self];
 }
 
 
@@ -247,31 +247,31 @@
 
 - (void)addCustomButtonOnNavBar
 {
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-//    
-//    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconBack.png"]];
-//    imageView.alpha = 0.2;
-//    [menuButton setImage:imageView.image forState:UIControlStateNormal];
-//    //[menuButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateHighlighted];
-//    menuButton.adjustsImageWhenDisabled = NO;
-//    //set the frame of the button to the size of the image (see note below)
-//    menuButton.frame = CGRectMake(0, 0, 35, 35);
-//    
-//    [menuButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-//    //create a UIBarButtonItem with the button as a custom view
-//    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
-//    self.navigationItem.leftBarButtonItem = customBarItem;
-//    
-//    
-//    self.navigationItem.hidesBackButton = YES;
+    //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
+    //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
     
-    //self.navigationItem.leftBarButtonItem =item1;
+    [backButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateNormal];
+    backButton.adjustsImageWhenDisabled = NO;
+    //set the frame of the button to the size of the image (see note below)
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    backButton.opaque = YES;
+    
+    [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //create a UIBarButtonItem with the button as a custom view
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    self.navigationItem.leftBarButtonItem = customBarItem;
+    
+    self.shyNavBarManager.scrollView = self.TableViewVC;
     
 }
 
 
-
+-(void)BackButtonPressed{
+    [self.JCGigMoreInfoVCDelegate JCGigMoreInfoVCDidSelectDone:self];
+}
 
 
 
