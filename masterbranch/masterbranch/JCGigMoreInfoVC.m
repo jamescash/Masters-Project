@@ -49,6 +49,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    NSLog(@"%@",self.currentEvent.eventTitle);
+    NSLog(@"%@",self.currentEvent.eventDate );
+
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
 
      header1Buttons = @"buttonsHeader";
@@ -76,8 +79,10 @@
     
     [self.bandsInTownAPI getUpcomingGigsForArtist:self.currentEvent.eventTitle competionBlock:^(NSError *error, NSArray *response){
         
-        
-        [self.tableViewDataSource setObject:response forKey:header2UpcomingGigs];
+        if (response !=nil) {
+            [self.tableViewDataSource setObject:response forKey:header2UpcomingGigs];
+
+        }
          dispatch_async(dispatch_get_main_queue(), ^{
             [self.TableViewVC reloadData];
         });

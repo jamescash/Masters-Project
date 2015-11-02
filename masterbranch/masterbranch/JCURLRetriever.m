@@ -296,7 +296,11 @@
             return nil;
         }
         if (Log) {
-            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST");
+            NSLog(@"%@",endpoint);
+
+            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST %@",error);
+            return nil;
+
         }
       }
     
@@ -379,7 +383,11 @@
             return nil;
         }
             if (Log) {
-            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN");
+                NSLog(@"%@",endpoint);
+            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN %@",error);
+                
+                return nil;
+
             }
        }
     if (self.isCancelled) {
