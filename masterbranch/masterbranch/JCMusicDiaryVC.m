@@ -13,7 +13,7 @@
 #import "JCMusicDiaryObject.h"
 #import "JCMusicDiaryArtistObject.h"
 #import "JCGigsComingUpInThisMonthVC.h"
-
+#import "RESideMenu.h"
 
 
 
@@ -38,9 +38,9 @@
 @property (nonatomic,strong) NSSet *dateSet;
 @property (nonatomic,strong) NSCalendar *calendar;
 
-//UIElements
-- (IBAction)IrelandWorld:(id)sender;
 
+//UIElements
+@property (nonatomic,strong) UIButton *searchButton;
 
 //Classes
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
@@ -60,6 +60,7 @@
     self.calendar.locale =               [NSLocale currentLocale];
     self.MusicDiaryObjectsSortedArray =  [[NSMutableArray alloc]init];
     self.MusicDiaryObjectsSortedByDate = [[NSMutableArray alloc]init];
+    [self addCustomButtonOnNavBar];
     [self loadUpcomingGigs:YES];
 
    
@@ -97,9 +98,11 @@
     if (daryObject.artistImage) {
         cell.backRoundImage.image = daryObject.artistImage;
     }else{
-        cell.backRoundImage.image = [UIImage imageNamed:@"Placeholder.png"];
         
-        //dispatch_async(imageLoad, ^{
+        
+        cell.backRoundImage.image = [UIImage imageNamed:@"loadingGray.png"];
+        cell.backRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+           
         [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
                 if (!error) {
                     daryObject.artistImage = image;
@@ -114,13 +117,7 @@
                 }
                 
             }];
-        
-        //});
-
-       
-        
-        
-    }
+        }
     
     cell.artistName.text = [artist objectForKey:@"artistName"];
     return cell;
@@ -416,16 +413,9 @@
 
     
 }
--(IBAction)IrelandWorld:(id)sender {
-    
-    if (IrelandDataLoaded) {
-        [self emptyCollectionView];
-        [self loadUpcomingGigs:NO];
-    }else{
-        [self emptyCollectionView];
-        [self loadUpcomingGigs:YES];
-    }
-}
+
+
+
 -(void)emptyCollectionView{
     
     [self.MusicDiaryObjectsSortedArray removeAllObjects];
@@ -433,7 +423,7 @@
 }
 
 
--(void)loadUpcomingGigs: (BOOL)forIrelandOnly{
+-(void)loadUpcomingGigs:(BOOL)forIrelandOnly{
     
 
     if (forIrelandOnly) {
@@ -442,6 +432,7 @@
         IrelandDataLoaded = NO;
     }
     
+    NSLog(@"load upcoming gigs");
     
   [self.JCParseQuerys getMyAtritsUpComingGigs:forIrelandOnly comletionblock:^(NSError *error, NSMutableArray *response) {
     
@@ -449,7 +440,6 @@
           NSLog(@"error getting artits gig music diary %@",error);
           
       }else{
-          
           
           
           NSArray *twoDArraySortedYears = [self sortArrayInto2DArrayContaningYears:response];
@@ -526,13 +516,65 @@
     
 }
 
+- (void)addCustomButtonOnNavBar
+{
+    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
+    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
+    menuButton.adjustsImageWhenDisabled = NO;
+    //set the frame of the button to the size of the image (see note below)
+    menuButton.frame = CGRectMake(0, 0, 40, 40);
+    menuButton.opaque = YES;
+    
+    [menuButton addTarget:self action:@selector(menuButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //create a UIBarButtonItem with the button as a custom view
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+    self.navigationItem.leftBarButtonItem = customBarItem;
+    
+    
+    
+    self.searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.searchButton setImage:[UIImage imageNamed:@"iconIre.png"] forState:UIControlStateNormal];
+    self.searchButton.adjustsImageWhenDisabled = NO;
+    self.searchButton.frame = CGRectMake(0, 0, 42, 42);
+    
+    [self.searchButton addTarget:self action:@selector(IrelandUkManager) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *searchbarbutton = [[UIBarButtonItem alloc] initWithCustomView:self.searchButton];
+    
+    self.navigationItem.rightBarButtonItem = searchbarbutton;
+    self.navigationItem.hidesBackButton = YES;
+    
+}
 
 
 
- #pragma mark - Navigation
+-(void)IrelandUkManager {
+    
+    if (IrelandDataLoaded) {
+        [self emptyCollectionView];
+        [self.searchButton setImage:[UIImage imageNamed:@"iconUK.png"] forState:UIControlStateNormal];
+
+        [self loadUpcomingGigs:NO];
+    }else{
+        [self emptyCollectionView];
+        [self.searchButton setImage:[UIImage imageNamed:@"iconIre.png"] forState:UIControlStateNormal];
+
+        [self loadUpcomingGigs:YES];
+    }
+}
+-(void)menuButtonPressed{
+
+    [self.sideMenuViewController presentLeftMenuViewController];
+    
+
+}
+
+
+#pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
      
      JCGigsComingUpInThisMonthVC *dvc = (JCGigsComingUpInThisMonthVC*)segue.destinationViewController;
      dvc.diaryObject = self.selectedObject;

@@ -37,6 +37,7 @@
 
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 
+#import "JCCustomSearchPageSegue.h"
 
 //backend
 
@@ -94,7 +95,6 @@
     self.JCHomeScreenDataController = [[JCHomeScreenDataController alloc]init];
     self.dateForAPICall = [NSDate date];
     [self addCustomButtonOnNavBar];
-
 }
 
 #pragma ViewLoadingPoints
@@ -159,8 +159,7 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    
-return [self.collectionViewDataObject[section] count];
+    return [self.collectionViewDataObject[section] count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -193,32 +192,12 @@ return [self.collectionViewDataObject[section] count];
     // 4
     else if (aRecord.isFailed) {
         //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
-        //cell.MainImageView.image = [UIImage imageNamed:@"Failed.png"];
-        cell.CellTitle.text = @"";
-        
+        cell.MainImageView.image = [UIImage imageNamed:@"loadingGray.png"];
+        cell.CellTitle.text = @"Failed";
     }
     // 5
     else {
-        
-//        NSUInteger randomNumber = arc4random_uniform(4);
-//        switch (randomNumber) {
-//            case 0:
-//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokePink.png"];
-//                break;
-//            case 1:
-//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeBlue.png"];
-//                break;
-//            case 2:
-//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeYellow.png"];
-//                break;
-//            case 3:
-//                cell.MainImageView.image = [UIImage imageNamed:@"loadingstrokeGreen.png"];
-//                break;
-//           
-//                
-//        }
-        
-        //loadingGray
+
         cell.MainImageView.image = [UIImage imageNamed:@"loadingGray.png"];
 
         //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
@@ -258,24 +237,19 @@ return [self.collectionViewDataObject[section] count];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self PerformNavigationForItemAtIndex:indexPath];
-    
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
     CGFloat cellLeg =  (self.collectionView.frame.size.width/2);
     return CGSizeMake(cellLeg,cellLeg);
 }
 
 - (UIEdgeInsets)collectionView:
-(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)sectio{
     return UIEdgeInsetsMake(5, 0, 0, 0);
 }
 
@@ -283,9 +257,6 @@ return [self.collectionViewDataObject[section] count];
 #pragma Aysnc Downlaod Operations
 
 -(void)startOperationsForPhotoRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-    
-   
-    
     if (!record.hasURL) {
         [self startURLDownloading:record atIndexPath:indexPath];
     }
@@ -360,9 +331,9 @@ return [self.collectionViewDataObject[section] count];
 
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-    });
+    //TODO what is causing the crahs here? !!!!!!!!!
+    //NSLog(@"index path %@",indexPath);
+    [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
     
     [self.pendingOperations.URLRetrieversInProgress removeObjectForKey:indexPath];
     
@@ -389,10 +360,10 @@ return [self.collectionViewDataObject[section] count];
     
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
    
-    
+    //becuse im adding sections so the index path is diffrent then when added?
     // 4: Update UI.
+        [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
 
-    [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
 
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
     
@@ -400,6 +371,7 @@ return [self.collectionViewDataObject[section] count];
 }
 
 -(void)imageFiltrationDidFinish:(JCPhotoFiltering *)filtration {
+    
     NSIndexPath *indexPath = filtration.indexPathInTableView;
    
     JCPhotoDownLoadRecord *theRecord = filtration.photoRecord;
@@ -410,11 +382,11 @@ return [self.collectionViewDataObject[section] count];
     
     event.photoDownload = theRecord;
     
+    
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
-    dispatch_async(dispatch_get_main_queue(), ^{
-
+    
     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-    });
+        
 
     [self.pendingOperations.filtrationsInProgress removeObjectForKey:indexPath];
 }
@@ -541,9 +513,6 @@ return [self.collectionViewDataObject[section] count];
         [self presentViewController:myVC animated:YES completion:nil];
         
 //}
-  
-    
-    
 //    if ([currentEvent.status isEqualToString:@"happeningLater"]) {
 //        
 //        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
@@ -588,7 +557,7 @@ return [self.collectionViewDataObject[section] count];
 }
 
 -(void)menuButtonPressed{
-    
+    //[self.navigationController setNavigationBarHidden: YES animated:YES];
     [self.sideMenuViewController presentLeftMenuViewController];
     
 }
@@ -596,6 +565,10 @@ return [self.collectionViewDataObject[section] count];
 -(void)JCGigMoreInfoVCDidSelectDone:(JCGigMoreInfoVC *)controller{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+
+
 
 #pragma  - Helper Methods
 
@@ -625,19 +598,28 @@ return [self.collectionViewDataObject[section] count];
         
         if ([response count]!=0) {
             [self.collectionViewDataObject addObject:response];
+            //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
+
+            //[self.collectionViewDataObject insertObjects:response atIndexes:indexSet];
+            
+            
+            //[self.collectionViewDataObject ad]
             
             //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
+                //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
+                //[self.collectionView reloadSections:indexSet];
+                        if ([response count]<=7) {
+                            [self getDataForCollectionView];
+                        }
+                
             });
             
         }
         
-        if ([response count]<=7) {
-            [self getDataForCollectionView];
-        }
-        
+
        
     }];
     
@@ -649,7 +631,7 @@ return [self.collectionViewDataObject[section] count];
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-        [locationManager requestWhenInUseAuthorization];
+    [locationManager requestWhenInUseAuthorization];
     [locationManager startUpdatingLocation];
 }
 

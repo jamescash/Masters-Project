@@ -85,9 +85,9 @@
     
     UIImage *sepiaImage = nil;
     CIContext *context = [CIContext contextWithOptions:nil];
-    CIFilter *filter = [CIFilter filterWithName:@"CIVignette" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:5.0],@"inputRadius",[NSNumber numberWithFloat:.4], nil];
+    //CIFilter *filter = [CIFilter filterWithName:@"CIVignette" keysAndValues: kCIInputImageKey, inputImage, @"inputIntensity", [NSNumber numberWithFloat:5.0],@"inputRadius",[NSNumber numberWithFloat:.4], nil];
   
-    //CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey,inputImage,nil];
+    CIFilter *filter = [CIFilter filterWithName:@"nil" keysAndValues: kCIInputImageKey,inputImage,nil];
 
     
     //CIPhotoEffectNoir

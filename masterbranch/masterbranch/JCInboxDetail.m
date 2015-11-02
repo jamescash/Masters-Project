@@ -13,9 +13,12 @@
 #import "JCCommentCell.h"
 #import "JCParseQuerys.h"
 #import "JCTimeDateLocationTableViewCell.h"
+#import "JCUserAttendingGigCell.h"
+#import "JCConstants.h"
 
 
 
+#import <TLYShyNavBar/TLYShyNavBarManager.h>
 
 
 @interface JCInboxDetail ()
@@ -32,6 +35,13 @@
 //properties
 @property (nonatomic,strong) NSMutableArray *userCommentActivies;
 @property (nonatomic,strong) NSString *eventId;
+@property (nonatomic,strong) NSString *going;
+@property (nonatomic,strong) NSString *maybe;
+@property (nonatomic,strong) NSString *notGoing;
+@property (nonatomic,strong) NSString *gotTickets;
+@property (nonatomic,strong) NSMutableDictionary *userAttendingEvent;
+
+
 
 @end
 
@@ -46,8 +56,15 @@
 }
 
 - (void)viewDidLoad {
-    
     //set placeholdertext for comment box and set up boreder
+    self.going = @"going";
+    self.gotTickets = @"gotTickets";
+    self.maybe = @"maybe";
+    self.notGoing = @"notGoing";
+    
+    
+    [self addCustomButtonOnNavBar];
+    
     self.addCommentTextfield.text = @"Add comment here...";
     self.addCommentTextfield.textColor = [UIColor lightGrayColor];
     self.addCommentTextfield.clipsToBounds = YES;
@@ -59,7 +76,7 @@
     self.eventId = self.userEvent.objectId;
     self.tableViewVC.allowsSelection = NO;
     
-    [self.parseQuerys getEventComments:self.eventId complectionBlock:^(NSError *error, NSMutableArray *response) {
+    [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -86,11 +103,8 @@
     
     self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.addCommentTextfield.delegate = self;
-    
-//    UILabel *stickyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//    stickyLabel.backgroundColor = [UIColor colorWithRed:1 green:0.749 blue:0.976 alpha:1];
-//    stickyLabel.textAlignment = NSTextAlignmentCenter;
-//    stickyLabel.text = [self.userEvent objectForKey:@"eventHostName"];;
+    [self getUserAttendingEvent];
+
 
 }
 
@@ -141,7 +155,6 @@
     return 145;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return ([self.userCommentActivies count] + 1);
@@ -151,18 +164,22 @@
     
     
     if (indexPath.row == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
+        JCUserAttendingGigCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
+        if (self.userAttendingEvent) {
+            [cell formatCell:self.userAttendingEvent andMyStatus:nil];
+
+        }else{
+            [cell formatCell:nil andMyStatus:nil];
+
+        }
         return cell;
         
     }else{
     
     JCCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JCCommentCell"];
     PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row-1)];
-    NSString *comment = [commentActivity objectForKey:@"content"];
-    cell.commentText.text = comment;
-    CGRect  rect=cell.frame;
-    rect.size.height = [cell getCommentHeight:comment Width:self.tableViewVC.frame.size.width];
-    cell.frame=rect;
+    [cell formatcell:commentActivity];
+    
     return cell;
     }
     return nil;
@@ -177,7 +194,7 @@
     JCCommentCell *cell = [[JCCommentCell alloc]init];
     PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row - 1)];
     NSString *comment = [commentActivity objectForKey:@"content"];
-    return ([cell getCommentHeight:comment Width:self.tableViewVC.frame.size.width] + 40);
+    return ([cell getCommentHeight:comment Width:self.tableViewVC.frame.size.width - 70] + 100);
     }
 }
 
@@ -227,14 +244,10 @@
     [self.view addGestureRecognizer:tapRecognizer];
 
 }
-
-
--(void) keyboardWillHide:(NSNotification *) note
+-(void)keyboardWillHide:(NSNotification *) note
 {
     [self.view removeGestureRecognizer:tapRecognizer];
 }
-
-
 -(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
     [self.addCommentTextfield resignFirstResponder];
     [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
@@ -243,6 +256,33 @@
 
 
 #pragma mark - Helper Methods -  Animation
+
+- (void)addCustomButtonOnNavBar
+{
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
+    //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
+    
+    [backButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateNormal];
+    backButton.adjustsImageWhenDisabled = NO;
+    //set the frame of the button to the size of the image (see note below)
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    backButton.opaque = YES;
+    
+    [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //create a UIBarButtonItem with the button as a custom view
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    self.navigationItem.leftBarButtonItem = customBarItem;
+    
+    self.shyNavBarManager.scrollView = self.tableViewVC;
+
+}
+
+-(void)BackButtonPressed{
+[self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)replaceConstraintOnView:(UIView *)view withIdentifiyer: (NSString*)Identifyer withConstant:(float)constant{
     
@@ -276,7 +316,7 @@
     if (trimmedComment.length != 0) {
         userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                     trimmedComment,@"comment",
-                    self.eventId,@"eventId",
+                    self.userEvent,@"eventId",
                     nil];
     }
     
@@ -323,7 +363,7 @@
 -(void)refreshTableViewAfterUserCommented{
     
     
-    [self.parseQuerys getEventComments:self.eventId complectionBlock:^(NSError *error, NSMutableArray *response) {
+    [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -332,50 +372,67 @@
     }];
 }
 
+
+-(void)performSegueToPeopleAttendingPage{
+    NSLog(@"tap");
+}
 #pragma - ActionSheet Delagate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0)
     {
-        [self userSelectedGoing];
+        [self userChagnedStatus:self.going];
     }
     else if (buttonIndex == 1)
     {
-        [self userSelectedGotTickets];
+        [self userChagnedStatus:self.gotTickets];
     }
     
     else if (buttonIndex == 2)
     {
-        [self userSelectedMaybe];
+        [self userChagnedStatus:self.maybe];
     }
     else if (buttonIndex == 3)
     {
-        [self userSelectedCantMakeit];
+        [self userChagnedStatus:self.notGoing];
     }
 }
 
-
--(void)userSelectedGoing{
-    NSLog(@"Going");
+-(void)userChagnedStatus:(NSString*)userStatus{
+    
+    [self.parseQuerys updateUserEventStatus:userStatus eventobject:self.userEvent completionBlock:^(NSError *error) {
+        if (error) {
+            NSLog(@"error updateUserEventStatus %@",error);
+        }else {
+            [self getUserAttendingEvent];
+        
+        }
+        
+    }];
 }
 
 
--(void)userSelectedGotTickets{
-    NSLog(@"got tickets");
 
+-(void)getUserAttendingEvent{
+    
+    [self.parseQuerys getUsersAttendingUserEvent:self.userEvent completionBlock:^(NSError *error, NSMutableDictionary *usersAttending) {
+        
+        
+        
+        self.userAttendingEvent = usersAttending;
+        NSArray *userInvited = [self.userEvent objectForKey:JCUserEventUsersInvited];
+        [self.userAttendingEvent setObject:userInvited forKey:JCUserEventUsersInvited];
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:0];
+            NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, nil];
+            [self.tableViewVC reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+            });
+    }];
+    
 }
 
-
--(void)userSelectedMaybe{
-    NSLog(@"maybe");
-
-}
-
--(void)userSelectedCantMakeit{
-    NSLog(@"cant make it");
-
-}
 
 
 

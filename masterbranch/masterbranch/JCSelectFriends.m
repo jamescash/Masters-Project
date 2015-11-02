@@ -47,13 +47,7 @@
         self.MyFriends = response;
         [self.tableView reloadData];
     }];
-    
-    
-    
     self.recipents = [[NSMutableArray alloc]init];
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

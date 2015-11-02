@@ -51,14 +51,7 @@
     [application registerForRemoteNotifications];
     
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
-    
-    
     [self customiseUi];
-    
-    
-    
-  
-    
     return YES;
 }
 
@@ -102,7 +95,7 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    NSLog(@"%@",error);
+    NSLog(@"didFailToRegisterForRemoteNotificationsWithError %@",error);
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

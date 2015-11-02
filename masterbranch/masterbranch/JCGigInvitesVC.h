@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCDropDownMenu.h"
 
-@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate>
+
+
+@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte>
 
 @end
+
+

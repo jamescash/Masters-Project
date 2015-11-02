@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *hostedBy;
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
 @property (weak, nonatomic) IBOutlet UILabel *dateTime;
+@property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 
 
 @end
@@ -21,7 +22,7 @@
 
 -(void)formatCell:(PFObject *)currentEvent{
     
-    NSString *hostedbyFormatted = [NSString stringWithFormat:@"Invited by %@",[currentEvent objectForKey:@"eventHostName"]];
+    NSString *hostedbyFormatted = [NSString stringWithFormat:@"Created by %@",[currentEvent objectForKey:@"eventHostName"]];
     self.hostedBy.text = hostedbyFormatted;
 
     self.eventTitle.text = [currentEvent objectForKey:@"eventTitle"];
@@ -29,6 +30,24 @@
     NSString *formattedDataTime = [self formatDate:[currentEvent objectForKey:@"eventDate"]];
     
     self.dateTime.text = formattedDataTime;
+    ///self.dateTime.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+
+    
+    [self addVinettLayer];
+    
+
+}
+
+-(void)addVinettLayer{
+    if (!self.vignetteLayer) {
+        self.vignetteLayer = [CAGradientLayer layer];
+        [self.vignetteLayer setBounds:[self.BackRoundImage bounds]];
+        [self.vignetteLayer setPosition:CGPointMake([self.BackRoundImage bounds].size.width/2.0f, [self.BackRoundImage bounds].size.height/2.0f)];
+        UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.85];
+        [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+        [self.vignetteLayer setLocations:@[@(.30), @(1.0)]];
+        [[self.BackRoundImage layer] addSublayer:self.vignetteLayer];
+    }
     
 }
 
@@ -42,20 +61,10 @@
     // Configure the view for the selected state
 }
 
--(NSString*)formatDate: (NSString*)date{
+-(NSString*)formatDate: (NSDate*)date{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
-    //NSString *dateformatted = [date stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-    NSDate *eventDateTime = [dateFormat dateFromString:date];
-    
-    //dateFormat.dateStyle = NSDateFormatterFullStyle;
     dateFormat.dateStyle = NSDateFormatterMediumStyle;
-
-    
-    NSString *dayMonthString = [dateFormat stringFromDate:eventDateTime];
-    //[dateFormat setDateFormat:@"' at 'HH:mm"];
-    //NSString *timeString = [dateFormat stringFromDate:eventDateTime];
-    
+    NSString *dayMonthString = [dateFormat stringFromDate:date];
     return [NSString stringWithFormat:@"%@",dayMonthString];
 }
 @end

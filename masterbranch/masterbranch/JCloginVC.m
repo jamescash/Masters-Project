@@ -86,6 +86,7 @@
      //Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
+            //TODO add alert here saying pleease try that againg something went wrong
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
         } else if (user.isNew) {
             //New user signed up and logged in through Facebook

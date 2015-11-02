@@ -13,6 +13,8 @@
 #import "JCMyFriendsCell.h"
 #import "JCAddMyFriendsVC.h"
 
+#import <TLYShyNavBar/TLYShyNavBarManager.h>
+#import "RESideMenu.h"
 
 
 
@@ -39,6 +41,7 @@
     artistkey =@"artist";
     self.imageFiles = [[NSMutableArray alloc]init];
     self.tableView.allowsSelection = NO;
+    [self addCustomButtonOnNavBar];
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
 }
 
@@ -242,6 +245,36 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
         addfirendsPage.myFriends = [NSMutableArray arrayWithArray:self.MyFireds];
     }
 };
+
+
+- (void)addCustomButtonOnNavBar
+{
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
+    //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
+    
+    [backButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
+    backButton.adjustsImageWhenDisabled = NO;
+    //set the frame of the button to the size of the image (see note below)
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    backButton.opaque = YES;
+    
+    [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //create a UIBarButtonItem with the button as a custom view
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    self.navigationItem.leftBarButtonItem = customBarItem;
+    
+    self.shyNavBarManager.scrollView = self.tableView;
+    
+}
+
+
+-(void)BackButtonPressed{
+    [self.sideMenuViewController presentLeftMenuViewController];
+
+}
 
 
 @end
