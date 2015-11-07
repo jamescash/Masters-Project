@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import <MGSwipeTableCell/MGSwipeTableCell.h>
 
 
-@interface JCEventInviteCell : UITableViewCell
+@interface JCEventInviteCell : MGSwipeTableCell
 @property (weak, nonatomic) IBOutlet PFImageView *BackRoundImage;
 //@property (strong, nonatomic) IBOutlet PFImageView *BackRoundImage;
 

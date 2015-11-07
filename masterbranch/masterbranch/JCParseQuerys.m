@@ -512,6 +512,8 @@
             [UserEvent setObject:recipientIds forKey:JCUserEventUsersInvited];
             [UserEvent setObject:recipientIds forKey:JCUserEventUsersSubscribedForNotifications];
             
+            NSLog(@"%@",recipientIds);
+            
             [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 
                 if (error) {

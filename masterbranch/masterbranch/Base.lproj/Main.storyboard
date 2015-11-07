@@ -516,9 +516,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="UoQ-Vj-CCc">
+                            <rect key="frame" x="0.0" y="64" width="600" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s7n-q5-n5v">
+                                    <rect key="frame" x="279" y="19" width="42" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="s7n-q5-n5v" firstAttribute="centerX" secondItem="UoQ-Vj-CCc" secondAttribute="centerX" id="El7-8j-Los"/>
+                                <constraint firstItem="s7n-q5-n5v" firstAttribute="centerY" secondItem="UoQ-Vj-CCc" secondAttribute="centerY" id="bTE-f7-4bk"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="6fL-Ee-Jvl">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="152" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6fL-Ee-Jvl" id="ZcS-zg-V2V">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -526,7 +543,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendsCell" rowHeight="68" id="xUR-Ws-6vz" customClass="JCMyFriendsCell">
-                                <rect key="frame" x="0.0" y="136" width="600" height="68"/>
+                                <rect key="frame" x="0.0" y="196" width="600" height="68"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xUR-Ws-6vz" id="0W6-W6-0WY">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="67.5"/>
@@ -584,18 +601,10 @@
                             <outlet property="delegate" destination="TQ7-er-a0K" id="15v-Lt-Xue"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="GEw-3l-ZFz">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel " id="G3C-DI-uPf">
-                            <connections>
-                                <action selector="CancleButton:" destination="TQ7-er-a0K" id="ipo-kK-2wH"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="Wqq-iV-fRV">
-                            <connections>
-                                <action selector="Send:" destination="TQ7-er-a0K" id="Kln-OG-CvT"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="GEw-3l-ZFz"/>
+                    <connections>
+                        <outlet property="lablePageTitle" destination="s7n-q5-n5v" id="PDP-Jn-Cbg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E8V-ri-0qS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2653,7 +2662,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yF2-9q-ywv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4444" y="1413"/>
+            <point key="canvasLocation" x="4444" y="1471"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ute-cf-nhj">

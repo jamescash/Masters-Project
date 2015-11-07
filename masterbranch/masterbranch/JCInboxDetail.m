@@ -37,6 +37,8 @@
 @property (nonatomic,strong) NSString *notGoing;
 @property (nonatomic,strong) NSString *gotTickets;
 @property (nonatomic,strong) NSMutableDictionary *userAttendingEvent;
+@property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
+
 
 
 
@@ -92,6 +94,13 @@
     HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
     headerView.HeaderImageView.image = self.selectedInviteImage;
     headerView.ArtistName.text = [self.userEvent objectForKey:@"eventTitle"];
+    self.vignetteLayer = [CAGradientLayer layer];
+    [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
+    [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
+    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
+    [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+    [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
+    [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
     [self.tableViewVC setParallaxHeaderView:headerView
                                           mode:VGParallaxHeaderModeFill
                                         height:200];

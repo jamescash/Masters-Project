@@ -30,6 +30,8 @@
 
 -(void)formatcell:(PFObject *)commentActivity{
    
+    //NSLog(@"%@",commentActivity);
+    
     self.uiViewCommentBorder.layer.cornerRadius = 5.0f;
     //self.uiViewCommentBorder.layer.borderWidth = 1.0f;
     //self.uiViewCommentBorder.layer.borderColor = [[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]CGColor];
@@ -43,9 +45,13 @@
     self.commentText.text = comment;
     PFUser *commentOwner = [commentActivity objectForKey:@"commentOwner"];
     
+    //NSLog(@"%@",commentOwner);
+
+    //TODO find out why user object is coming back empty here!! 
+    
     //NSString *realName = [commentOwner objectForKey:@"realName"];
     //if (realName) {
-        self.userName.text = [commentOwner objectForKey:@"realName"];
+    self.userName.text = [commentOwner objectForKey:@"realName"];
     //}
     
     PFFile *userImage = [commentOwner objectForKey:@"thumbnailProfilePicture"];
@@ -54,8 +60,6 @@
     CGRect  rect=self.frame;
     rect.size.height = [self getCommentHeight:comment Width:(self.bounds.size.width-70)];
     self.frame=rect;
-    
-    
 }
 
 //-(NSString*)formatDate: (NSString*)date{

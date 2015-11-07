@@ -23,6 +23,8 @@
 
 #import "ILTranslucentView.h"
 
+#import "MGSwipeButton.h"
+
 
 
 @interface JCGigInvitesVC ()
@@ -100,13 +102,13 @@
     cell.BackRoundImage.file = imageFile;
     cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
     
-//     CAGradientLayer *vignetteLayer = [CAGradientLayer layer];
-//    [vignetteLayer setBounds:[cell.BackRoundImage bounds]];
-//    [vignetteLayer setPosition:CGPointMake([cell.BackRoundImage bounds].size.width/2.0f, [cell.BackRoundImage bounds].size.height/2.0f)];
-//    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8];
-//    [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
-//    [vignetteLayer setLocations:@[@(0.50), @(1.0)]];
-//    [[cell.BackRoundImage layer] addSublayer:vignetteLayer];
+//    cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] ]];
+//    
+    cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor grayColor]],
+                         [MGSwipeButton buttonWithTitle:@"Delete" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor redColor]]];
+    
+    cell.delegate = self;
+    cell.leftSwipeSettings.transition = MGSwipeTransitionBorder;
    
     NSUInteger randomNumber = arc4random_uniform(5);
    
@@ -142,6 +144,7 @@
     JCEventInviteCell *cellatindex = [[JCEventInviteCell alloc]init];
     cellatindex = [tableView cellForRowAtIndexPath:indexPath];
     self.selectedInviteImage = cellatindex.BackRoundImage.image;
+    
     [self performSegueWithIdentifier:@"showEvent" sender:self];
  
     
@@ -177,6 +180,18 @@
 }
 
 #pragma - Helper Method
+
+-(BOOL) swipeTableCell:(MGSwipeTableCell*) cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
+    
+    
+    NSLog(@"%d",index);
+
+    
+    
+    NSLog(@"tapped button");
+    
+    return YES;
+}
 
 - (void)addCustomButtonOnNavBar
 {
