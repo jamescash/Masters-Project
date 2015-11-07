@@ -10,7 +10,8 @@
 #import "JCParseQuerys.h"
 #import "UIImage+Resize.h"
 #import "JCParseQuerys.h"
-
+#import "JCMyFriendsCell.h"
+#import <ParseUI/ParseUI.h>
 
 
 
@@ -45,8 +46,13 @@
     [self.JCParseQuery getMyFriends:^(NSError *error, NSArray *response) {
         
         self.MyFriends = response;
-        [self.tableView reloadData];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+
     }];
+    
     self.recipents = [[NSMutableArray alloc]init];
 }
 
@@ -67,19 +73,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        
-        
-        PFUser *user = [self.MyFriends objectAtIndex:indexPath.row];
-        cell.textLabel.text = user.username;
-        
+    JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
+    
+    PFUser *user = [self.MyFriends objectAtIndex:indexPath.row];
+    [cell formateCell:user];
+    
+    //NSLog(@"%@",user);
+    
+    PFFile *profilePic = [user objectForKey:@"thumbnailProfilePicture"];
+    cell.userImage.file = profilePic;
+    [cell.userImage loadInBackground];
+
         if ([self.recipents containsObject:user.objectId]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }else {
             
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        
         return cell;
 }
 
@@ -104,7 +114,10 @@
     
 }
 
-
+- (CGFloat)tableView:(UITableView *)tableView
+heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 68;
+}
 
 
 
@@ -126,6 +139,10 @@
         
         //Seems like we have an event object lets upload it then dismiss the VC
 
+        PFUser *currentUser = [PFUser currentUser];
+        
+        [self.recipents addObject:currentUser.objectId];
+        
         [self.JCParseQuery creatUserEvent:self.currentEvent invitedUsers:self.recipents complectionBlock:^(NSError *error) {
             
             if (error) {

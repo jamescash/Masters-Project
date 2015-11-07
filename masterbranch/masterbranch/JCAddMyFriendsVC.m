@@ -264,9 +264,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         self.tableViewDataSource = objects;
-        NSLog(@"%@",objects);
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [self.tableviewcontoller reloadData];
         });
         

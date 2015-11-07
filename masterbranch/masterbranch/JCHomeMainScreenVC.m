@@ -612,7 +612,7 @@
                 //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
                 //[self.collectionView reloadSections:indexSet];
                         if ([response count]<=7) {
-                            [self getDataForCollectionView];
+                           [self getDataForCollectionView];
                         }
                 
             });
@@ -645,7 +645,7 @@
     //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
     
     [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
-    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
+    //[menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
      menuButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)
     menuButton.frame = CGRectMake(0, 0, 40, 40);
@@ -661,7 +661,7 @@
     
     UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateNormal];
-    [searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateHighlighted];
+    //[searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateHighlighted];
     searchButton.adjustsImageWhenDisabled = NO;
     searchButton.frame = CGRectMake(0, self.collectionView.frame.size.width-40 , 40, 40);
 

@@ -521,7 +521,7 @@
     UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
-    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
+    //[menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
     menuButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)
     menuButton.frame = CGRectMake(0, 0, 40, 40);

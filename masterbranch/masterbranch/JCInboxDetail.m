@@ -15,9 +15,6 @@
 #import "JCTimeDateLocationTableViewCell.h"
 #import "JCUserAttendingGigCell.h"
 #import "JCConstants.h"
-
-
-
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 
 
@@ -82,9 +79,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableViewVC reloadData];
         });
-        
-        
-    }];
+     }];
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];

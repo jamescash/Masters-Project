@@ -42,9 +42,14 @@
     NSString *comment = [commentActivity objectForKey:@"content"];
     self.commentText.text = comment;
     PFUser *commentOwner = [commentActivity objectForKey:@"commentOwner"];
-    self.userName.text = [commentOwner objectForKey:@"realName"];
+    
+    //NSString *realName = [commentOwner objectForKey:@"realName"];
+    //if (realName) {
+        self.userName.text = [commentOwner objectForKey:@"realName"];
+    //}
+    
     PFFile *userImage = [commentOwner objectForKey:@"thumbnailProfilePicture"];
-    self.userImage.file = userImage;
+     self.userImage.file = userImage;
     [self.userImage loadInBackground];
     CGRect  rect=self.frame;
     rect.size.height = [self getCommentHeight:comment Width:(self.bounds.size.width-70)];
@@ -69,6 +74,7 @@
 //    return ago;
 //    
 //}
+
 //mathod to calculates that hight of the text so we later set dynamic hights for the table view
 -(float )getCommentHeight :(NSString *)text Width :(float)textWidth
 {

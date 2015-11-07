@@ -18,6 +18,13 @@
 -(void)formateCell:(PFUser *)user{
     self.userName.text = user.username;
     self.userRealName.text = [user objectForKey:@"realName"];
+    
+    //PFFile *profilePic = [user objectForKey:@"thumbnailProfilePicture"];
+    //NSLog(@"%@",[profilePic class]);
+    
+    //self.userImage.file = profilePic;
+    
+    //[self.userImage loadInBackground];
 }
 
 - (void)awakeFromNib {
