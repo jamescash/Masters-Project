@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelNumberInvited;
 @property (weak, nonatomic) IBOutlet UILabel *lableNumberGotTickets;
 @property (weak, nonatomic) IBOutlet UILabel *lableNumberGoing;
+@property (weak, nonatomic) IBOutlet UIButton *buttonTitle;
 
 @end
 
@@ -38,6 +39,33 @@
     self.lableNumberGoing.text      = userGoingCount;
     self.lableNumberGotTickets.text = userGotTicketsCount;
     self.labelNumberInvited.text    = userInvitedCount;
+    
+            if ([myStauts isEqualToString:JCUserEventUserGoing]) {
+                NSLog(@"user going");
+                [self.buttonTitle setTitle:@"I'm Going!" forState:UIControlStateNormal];
+    
+            }else if ([myStauts isEqualToString:JCUserEventUserGotTickets]){
+                NSLog(@"user got tickets");
+                [self.buttonTitle setTitle:@"I'm Going and I have Tickets!!" forState:UIControlStateNormal];
+    
+    
+            }else if ([myStauts isEqualToString:JCUserEventUserMaybeGoing]){
+                NSLog(@"user maybe going");
+                [self.buttonTitle setTitle:@"I might attend!" forState:UIControlStateNormal];
+    
+    
+            }else if ([myStauts isEqualToString:JCUserEventUserNotGoing]){
+                NSLog(@"user not going");
+                [self.buttonTitle setTitle:@"I cant make it" forState:UIControlStateNormal];
+    
+    
+            }else if (myStauts == nil){
+                NSLog(@"user didnt set status yet ");
+                [self.buttonTitle setTitle:@"Are you going?" forState:UIControlStateNormal];
+    
+    
+            }
+    
     
 }
 

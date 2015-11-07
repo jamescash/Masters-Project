@@ -184,11 +184,15 @@
 -(BOOL) swipeTableCell:(MGSwipeTableCell*) cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
     
     
-    NSLog(@"%d",index);
+    if (index == 0) {
+        NSLog(@"mute button");
 
+    }else if (index == 1){
+        NSLog(@"delete button");
+
+    }
     
     
-    NSLog(@"tapped button");
     
     return YES;
 }

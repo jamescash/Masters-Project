@@ -25,7 +25,10 @@
 @property (weak, nonatomic) IBOutlet UIView *tableviewFooter;
 @property (weak, nonatomic) IBOutlet UITextView *addCommentTextfield;
 - (IBAction)postComment:(id)sender;
+
+
 - (IBAction)buttonAreYouGoing:(id)sender;
+
 
 //Classes
 @property (nonatomic,strong) JCParseQuerys *parseQuerys;
@@ -36,6 +39,8 @@
 @property (nonatomic,strong) NSString *maybe;
 @property (nonatomic,strong) NSString *notGoing;
 @property (nonatomic,strong) NSString *gotTickets;
+@property (nonatomic,strong) NSString *userStatus;
+
 @property (nonatomic,strong) NSMutableDictionary *userAttendingEvent;
 @property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 
@@ -108,8 +113,20 @@
     self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.addCommentTextfield.delegate = self;
     [self getUserAttendingEvent];
-
-
+    
+    
+    [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
+        
+        NSString* userStatus = [userEventStatusActivity objectForKey:JCUserActivityContent];
+        
+        self.userStatus = userStatus;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:0];
+            NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, nil];
+            [self.tableViewVC reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+        });
+    }];
 }
 
 
@@ -170,7 +187,11 @@
     if (indexPath.row == 0) {
         JCUserAttendingGigCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
         if (self.userAttendingEvent) {
-            [cell formatCell:self.userAttendingEvent andMyStatus:nil];
+            
+           
+           
+            [cell formatCell:self.userAttendingEvent andMyStatus:self.userStatus];
+
 
         }else{
             [cell formatCell:nil andMyStatus:nil];
@@ -387,19 +408,23 @@
     if (buttonIndex == 0)
     {
         [self userChagnedStatus:self.going];
+        self.userStatus = JCUserEventUserGoing;
     }
     else if (buttonIndex == 1)
     {
         [self userChagnedStatus:self.gotTickets];
+        self.userStatus = JCUserEventUserGotTickets;
     }
     
     else if (buttonIndex == 2)
     {
         [self userChagnedStatus:self.maybe];
+        self.userStatus = JCUserEventUserMaybeGoing;
     }
     else if (buttonIndex == 3)
     {
         [self userChagnedStatus:self.notGoing];
+        self.userStatus = JCUserEventUserNotGoing;
     }
 }
 
@@ -429,10 +454,11 @@
         [self.userAttendingEvent setObject:userInvited forKey:JCUserEventUsersInvited];
        
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:0];
-            NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, nil];
-            [self.tableViewVC reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
-            });
+           // NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:0];
+           // NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, nil];
+            //[self.tableViewVC reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableViewVC reloadData];
+           });
     }];
     
 }

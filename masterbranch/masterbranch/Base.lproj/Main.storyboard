@@ -1738,6 +1738,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="buttonTitle" destination="cx9-Jv-iMP" id="n0c-C1-oUh"/>
                                             <outlet property="labelNumberInvited" destination="NSm-OQ-fEm" id="IXc-KM-g23"/>
                                             <outlet property="lableNumberGoing" destination="0qb-mf-EGS" id="awR-1E-JZO"/>
                                             <outlet property="lableNumberGotTickets" destination="Go5-v7-8Py" id="wvs-Fv-BxO"/>
