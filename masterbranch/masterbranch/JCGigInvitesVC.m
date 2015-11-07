@@ -28,6 +28,7 @@
 @interface JCGigInvitesVC ()
 //UI elements
 @property (weak, nonatomic) IBOutlet UITableView *MyGigInvitesTable;
+@property (weak, nonatomic) IBOutlet UILabel *tableViewHeader;
 
 //Properties
 @property (nonatomic,strong) PFObject *selectedInvite;
@@ -51,7 +52,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addCustomButtonOnNavBar];
-    
+    self.tableViewHeader.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+
     self.JCParseQuery = [JCParseQuerys sharedInstance];
     self.imageFiles = [[NSMutableArray alloc]init];
     
@@ -181,7 +183,7 @@
     UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
-    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
+    //[menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
     menuButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)
     menuButton.frame = CGRectMake(0, 0, 40, 40);
@@ -261,7 +263,7 @@
         }else{
             
             self.tableViewDataSource = response;
-            
+            self.tableViewHeader.text = @"Upcoming Gigs";
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];
@@ -277,7 +279,8 @@
         }else{
             
             self.tableViewDataSource = response;
-            
+            self.tableViewHeader.text = @"Sent";
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];
@@ -294,7 +297,8 @@
         }else{
             
             self.tableViewDataSource = response;
-            
+            self.tableViewHeader.text = @"Past Gigs";
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];

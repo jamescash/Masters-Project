@@ -89,40 +89,36 @@
     
     if ([self.tableViewType isEqualToString:firendskey]){
     JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
-    [cell formateCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
-        UIImage *userImage = self.imageFiles[indexPath.row][@"image"];
-
-        if (userImage) {
-            cell.userImage.image = userImage;
-            cell.userImage.contentMode = UIViewContentModeScaleToFill;
-        }else {
-            NSUInteger randomNumber = arc4random_uniform(5);
-            switch (randomNumber) {
+    
+        
+        PFUser *user =[self.tableViewDataSource objectAtIndex:indexPath.row];
+        [cell formateCell:user];
+        PFFile *profilePic = [user objectForKey:@"thumbnailProfilePicture"];
+        cell.userImage.file = profilePic;
+        
+        NSUInteger randomNumber = arc4random_uniform(5);
+           switch (randomNumber) {
                 case 0:
                     cell.userImage.image = [UIImage imageNamed:@"loadingYellow.png"];
-                    cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    break;
-                case 1:
-                    cell.userImage.image = [UIImage imageNamed:@"loadingPink.png"];
-                    cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    break;
-                case 2:
-                    cell.userImage.image = [UIImage imageNamed:@"loadingBlue.png"];
-                    cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    break;
-                case 3:
-                    cell.userImage.image = [UIImage imageNamed:@"loadingGreen.png"];
-                    cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
-                    break;
-              }
-            
-            [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
-                if (!error) {
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
-                
-            }];
-        }
+                   cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
+                  break;
+              case 1:
+                  cell.userImage.image = [UIImage imageNamed:@"loadingPink.png"];
+                 cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
+                  break;
+             case 2:
+                  cell.userImage.image = [UIImage imageNamed:@"loadingBlue.png"];
+                  cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
+                  break;
+              case 3:
+            cell.userImage.image = [UIImage imageNamed:@"loadingGreen.png"];
+                  cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
+                 break;
+           }
+
+        
+        [cell.userImage loadInBackground];
+       
         return cell;
       }else if ([self.tableViewType isEqualToString:artistkey]){
     

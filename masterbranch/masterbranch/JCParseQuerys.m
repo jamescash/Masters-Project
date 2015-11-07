@@ -206,12 +206,15 @@
 
      NSDate *now = [NSDate date];
    
+    //TODO return nill here if userEventType is empy cused a crash!!! 
+    
        PFQuery *getMyInvites = [PFQuery queryWithClassName:JCParseClassUserEvents];
        [getMyInvites whereKey:JCUserEventUsersInvited equalTo:[[PFUser currentUser]objectId]];
     
+    
        if ([userEventsType isEqualToString:JCUserEventUsersTypeUpcoming]) {
          [getMyInvites whereKey:JCUserEventUsersTheEventDate greaterThanOrEqualTo:now];
-         [getMyInvites orderByDescending:JCUserEventUsersTheEventDate];
+         [getMyInvites orderByAscending:JCUserEventUsersTheEventDate];
 
        
        }else if ([userEventsType isEqualToString:JCUserEventUsersTypePast]){
