@@ -1,28 +1,29 @@
 PODS:
-  - AFNetworking (2.6.1):
-    - AFNetworking/NSURLConnection (= 2.6.1)
-    - AFNetworking/NSURLSession (= 2.6.1)
-    - AFNetworking/Reachability (= 2.6.1)
-    - AFNetworking/Security (= 2.6.1)
-    - AFNetworking/Serialization (= 2.6.1)
-    - AFNetworking/UIKit (= 2.6.1)
-  - AFNetworking/NSURLConnection (2.6.1):
+  - AFNetworking (2.6.2):
+    - AFNetworking/NSURLConnection (= 2.6.2)
+    - AFNetworking/NSURLSession (= 2.6.2)
+    - AFNetworking/Reachability (= 2.6.2)
+    - AFNetworking/Security (= 2.6.2)
+    - AFNetworking/Serialization (= 2.6.2)
+    - AFNetworking/UIKit (= 2.6.2)
+  - AFNetworking/NSURLConnection (2.6.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.1):
+  - AFNetworking/NSURLSession (2.6.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.1)
-  - AFNetworking/Security (2.6.1)
-  - AFNetworking/Serialization (2.6.1)
-  - AFNetworking/UIKit (2.6.1):
+  - AFNetworking/Reachability (2.6.2)
+  - AFNetworking/Security (2.6.2)
+  - AFNetworking/Serialization (2.6.2)
+  - AFNetworking/UIKit (2.6.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - CCBottomRefreshControl (0.5.1):
     - Masonry (~> 0.6.2)
   - CSStickyHeaderFlowLayout (0.2.10)
+  - JDStatusBarNotification (1.5.2)
   - Masonry (0.6.3)
   - MGSwipeTableCell (1.5.1)
   - MYNStickyFlowLayout (0.1.2)
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - CCBottomRefreshControl
   - CSStickyHeaderFlowLayout
+  - JDStatusBarNotification
   - MGSwipeTableCell (~> 1.5.1)
   - MYNStickyFlowLayout
   - NSDate+TimeAgo
@@ -47,9 +49,10 @@ DEPENDENCIES:
   - VGParallaxHeader
 
 SPEC CHECKSUMS:
-  AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  AFNetworking: 7f317038a9710cabfa43ec56396b307b45df72ab
   CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
+  JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
   Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
   MGSwipeTableCell: a51fa670c01f0aa048f12af040acebf315223137
   MYNStickyFlowLayout: 64d0c409bd1ad43312485c63bc82e32f038e8fbc

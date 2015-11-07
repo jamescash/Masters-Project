@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "JCDropDownMenu.h"
+#import <MGSwipeTableCell/MGSwipeTableCell.h>
 
 
 
-@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte>
+@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte,MGSwipeTableCellDelegate>
 
 @end
 

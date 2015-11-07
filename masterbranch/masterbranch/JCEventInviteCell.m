@@ -43,9 +43,9 @@
         self.vignetteLayer = [CAGradientLayer layer];
         [self.vignetteLayer setBounds:[self.BackRoundImage bounds]];
         [self.vignetteLayer setPosition:CGPointMake([self.BackRoundImage bounds].size.width/2.0f, [self.BackRoundImage bounds].size.height/2.0f)];
-        UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.85];
+        UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.6   ];
         [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
-        [self.vignetteLayer setLocations:@[@(.30), @(1.0)]];
+        [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
         [[self.BackRoundImage layer] addSublayer:self.vignetteLayer];
     }
     

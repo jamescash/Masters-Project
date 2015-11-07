@@ -22,12 +22,13 @@
 
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
+#include "JDStatusBarNotification.h"
 
 
 
 @interface AppDelegate ()
 @property (nonatomic,strong) JCEventBuilder *eventbuilder;
-
+@property (nonatomic,strong) JDStatusBarNotification *notificationView;
 
 
 @end
@@ -52,6 +53,19 @@
     
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
     [self customiseUi];
+    
+    [JDStatusBarNotification addStyleNamed:@"JCnotification"
+                                   prepare:^JDStatusBarStyle *(JDStatusBarStyle *style) {
+                                       style.barColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+                                       style.textColor = [UIColor whiteColor];
+                                       style.animationType = JDStatusBarAnimationTypeBounce;
+                                       style.progressBarColor = style.textColor;
+                                       style.progressBarHeight = 7.0;
+                                       style.progressBarPosition = JDStatusBarProgressBarPositionTop;
+                                       
+                                       style.font = [UIFont fontWithName:@"HelveticaNeue-light" size:17.0];
+                                       return style;
+                                   }];
     return YES;
 }
 
@@ -113,7 +127,21 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [PFPush handlePush:userInfo];
+   
+    NSDictionary *aps = [userInfo objectForKey:@"aps"];
+    NSString *alert = [aps objectForKey:@"alert"];
+    
+
+    
+    
+    [JDStatusBarNotification showWithStatus:alert dismissAfter:5.0
+                                  styleName:@"JCnotification"];
+    
+    
+    
+    NSLog(@"%@",userInfo);
+    
+    //[PFPush handlePush:userInfo];
 }
 
 -(void)customiseUi{
@@ -124,7 +152,6 @@
     
     
 }
-
 
 
 //-(void)LoadMapView{

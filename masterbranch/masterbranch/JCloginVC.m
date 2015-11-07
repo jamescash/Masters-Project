@@ -97,6 +97,8 @@
 
         } else {
             NSLog(@"User logged in through Facebook!");
+            [self saveUserIdToNewInstalation];
+
             [self dismissViewControllerAnimated:YES completion:nil];
 
 
@@ -116,10 +118,17 @@
 
 -(void)saveUserIdToNewInstalation{
 
-    
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation[@"installationUser"] = [[PFUser currentUser]objectId];
-    [currentInstallation saveInBackground];
+    [currentInstallation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"intalation error %@",error);
+        }else{
+            NSLog(@"intaltion sucess %@",currentInstallation);
+        }
+        
+    }];
 
 }
 

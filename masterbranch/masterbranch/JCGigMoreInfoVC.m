@@ -32,6 +32,7 @@
 @property (nonatomic,strong) JCHomeScreenDataController *bandsInTownAPI;
 @property (nonatomic,strong) PFUser *currentUser;
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
+@property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 
 - (IBAction)back:(id)sender;
 
@@ -64,9 +65,20 @@
     
     
     HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
+    
+    
     headerView.HeaderImageView.image = self.currentEvent.photoDownload.image;
     headerView.ArtistName.text = self.currentEvent.eventTitle;
     
+   
+           self.vignetteLayer = [CAGradientLayer layer];
+            [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
+            [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
+            UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
+            [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+            [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
+            [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
+       
     [self.TableViewVC setParallaxHeaderView:headerView
                                        mode:VGParallaxHeaderModeFill
                                      height:200];
@@ -127,7 +139,7 @@
         JCUpcomingGigTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"upComingGig"];
         NSArray *upcomingGigs = self.tableViewDataSource[section];
         [cell formatCell:[upcomingGigs objectAtIndex:indexPath.row]];
-        cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friend" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]]];
+        cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]]];
         cell.delegate = self;
         cell.leftSwipeSettings.transition = MGSwipeTransition3D;
         return cell;
