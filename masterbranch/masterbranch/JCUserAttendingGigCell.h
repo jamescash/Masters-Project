@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol JCUserAttendingGigCellDelegate;
 @interface JCUserAttendingGigCell : UITableViewCell
-
 -(void)formatCell:(NSDictionary*)userattending andMyStatus:(NSString*) myStauts;
+@property (strong,nonatomic) id <JCUserAttendingGigCellDelegate>JCUserAttendingGigCellDelegate;
+@end
 
+@protocol JCUserAttendingGigCellDelegate <NSObject>
+-(void)userSelectedPeopleAttedningGig;
 @end

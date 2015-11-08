@@ -8,6 +8,7 @@
 
 #import "JCCommentCell.h"
 #import "NSDate+TimeAgo.h"
+#import "JCConstants.h"
 
 @interface JCCommentCell ()
 @property (weak, nonatomic) IBOutlet UIView *uiViewCommentBorder;
@@ -43,20 +44,19 @@
     
     NSString *comment = [commentActivity objectForKey:@"content"];
     self.commentText.text = comment;
-    PFUser *commentOwner = [commentActivity objectForKey:@"commentOwner"];
+    PFUser *commentOwner = [commentActivity objectForKey:JCUserActivityFromUser];
     
-    //NSLog(@"%@",commentOwner);
 
     //TODO find out why user object is coming back empty here!! 
     
-    //NSString *realName = [commentOwner objectForKey:@"realName"];
-    //if (realName) {
-    self.userName.text = [commentOwner objectForKey:@"realName"];
-    //}
+    if (commentOwner) {
+        self.userName.text = [commentOwner objectForKey:@"realName"];
+        PFFile *userImage = [commentOwner objectForKey:@"thumbnailProfilePicture"];
+        self.userImage.file = userImage;
+        [self.userImage loadInBackground];
+    }
     
-    PFFile *userImage = [commentOwner objectForKey:@"thumbnailProfilePicture"];
-     self.userImage.file = userImage;
-    [self.userImage loadInBackground];
+    
     CGRect  rect=self.frame;
     rect.size.height = [self getCommentHeight:comment Width:(self.bounds.size.width-70)];
     self.frame=rect;

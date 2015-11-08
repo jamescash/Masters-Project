@@ -50,6 +50,11 @@
 
 -(void)getUsersAttendingUserEvent:(PFObject*) eventobjec completionBlock: (void(^)(NSError* error,NSMutableDictionary *usersAttending))finishedgettingUsersAttendingUserEvent;
 
+
+
+
+-(void)getUserGoingToEvent:(PFObject*)currentEvent forEventStatus:(NSString*) UserEventStatus completionBlock:(void(^)(NSError* error,NSArray *userGoing))finishedgettingUsersGoingToEvent;
+
 @property (nonatomic,strong) NSMutableArray* MyArtist;
 @property (nonatomic,strong) NSArray* MyFriends;
 @property (nonatomic,strong) NSArray* MyInvties;

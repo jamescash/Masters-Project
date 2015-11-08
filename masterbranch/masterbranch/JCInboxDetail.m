@@ -16,6 +16,7 @@
 #import "JCUserAttendingGigCell.h"
 #import "JCConstants.h"
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
+#import "RKSwipeBetweenViewControllers.h"
 
 
 @interface JCInboxDetail ()
@@ -67,7 +68,7 @@
     self.notGoing = @"notGoing";
     
     
-    [self addCustomButtonOnNavBar];
+    [self customiseNavBar];
     
     self.addCommentTextfield.text = @"Add comment here...";
     self.addCommentTextfield.textColor = [UIColor lightGrayColor];
@@ -122,9 +123,7 @@
         self.userStatus = userStatus;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:0];
-            NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, nil];
-            [self.tableViewVC reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableViewVC reloadData];
         });
     }];
 }
@@ -150,10 +149,10 @@
 }
 #pragma mark - Table view data source
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [NSString stringWithFormat:@"Section %@", @(section)];
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    return [NSString stringWithFormat:@"Section %@", @(section)];
+//}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -172,13 +171,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    
     return 145;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return ([self.userCommentActivies count] + 1);
+    return ([self.userCommentActivies count]+1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -186,15 +184,13 @@
     
     if (indexPath.row == 0) {
         JCUserAttendingGigCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
+        
         if (self.userAttendingEvent) {
-            
-           
-           
             [cell formatCell:self.userAttendingEvent andMyStatus:self.userStatus];
-
-
+            cell.JCUserAttendingGigCellDelegate = self;
         }else{
             [cell formatCell:nil andMyStatus:nil];
+            cell.JCUserAttendingGigCellDelegate = self;
 
         }
         return cell;
@@ -213,11 +209,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         return 100;
-        
     }else{
-    
     JCCommentCell *cell = [[JCCommentCell alloc]init];
-    PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row - 1)];
+    PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row-1)];
     NSString *comment = [commentActivity objectForKey:@"content"];
     return ([cell getCommentHeight:comment Width:self.tableViewVC.frame.size.width - 70] + 100);
     }
@@ -282,7 +276,7 @@
 
 #pragma mark - Helper Methods -  Animation
 
-- (void)addCustomButtonOnNavBar
+- (void)customiseNavBar
 {
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -353,11 +347,10 @@
          {
              if(error){
                  //show alert view
-                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Ooops!" message:@"Please try sending that message again there was an error" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Ooops!" message:@"Please try sending posting that comment again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                  [alert show];
              }else{
                  dispatch_async(dispatch_get_main_queue(), ^{
-                     NSLog(@"table view reloaded");
                      [self refreshTableViewAfterUserCommented];
                  });
              }
@@ -371,11 +364,8 @@
      self.addCommentTextfield.text = @"Add comment here...";
     [self.addCommentTextfield resignFirstResponder];
     [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
-
-
-
-
 }
+
 
 -(IBAction)buttonAreYouGoing:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancle" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I cant make it", nil];
@@ -384,6 +374,7 @@
     [actionSheet showInView:self.view];
     
 }
+
 
 -(void)refreshTableViewAfterUserCommented{
     
@@ -397,10 +388,10 @@
     }];
 }
 
-
 -(void)performSegueToPeopleAttendingPage{
     NSLog(@"tap");
 }
+
 #pragma - ActionSheet Delagate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -427,7 +418,6 @@
         self.userStatus = JCUserEventUserNotGoing;
     }
 }
-
 -(void)userChagnedStatus:(NSString*)userStatus{
     
     [self.parseQuerys updateUserEventStatus:userStatus eventobject:self.userEvent completionBlock:^(NSError *error) {
@@ -440,23 +430,15 @@
         
     }];
 }
-
-
-
 -(void)getUserAttendingEvent{
     
     [self.parseQuerys getUsersAttendingUserEvent:self.userEvent completionBlock:^(NSError *error, NSMutableDictionary *usersAttending) {
-        
-        
         
         self.userAttendingEvent = usersAttending;
         NSArray *userInvited = [self.userEvent objectForKey:JCUserEventUsersInvited];
         [self.userAttendingEvent setObject:userInvited forKey:JCUserEventUsersInvited];
        
         dispatch_async(dispatch_get_main_queue(), ^{
-           // NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:0];
-           // NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, nil];
-            //[self.tableViewVC reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableViewVC reloadData];
            });
     }];
@@ -464,8 +446,19 @@
 }
 
 
+-(void)userSelectedPeopleAttedningGig{
+    [self performSegueWithIdentifier:@"showPeopleAttendingGig" sender:self];
+}
 
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([segue.identifier isEqualToString:@"showPeopleAttendingGig"]) {
+        RKSwipeBetweenViewControllers *DVC = segue.destinationViewController;
+        DVC.currentUserEvent = self.userEvent;
+    }
+    
+}
 
 
 @end

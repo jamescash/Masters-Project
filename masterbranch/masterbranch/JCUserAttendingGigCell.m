@@ -21,13 +21,19 @@
 @implementation JCUserAttendingGigCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.labelNumberInvited.userInteractionEnabled = YES;
+    self.lableNumberGoing.userInteractionEnabled = YES;
+    self.lableNumberGotTickets.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
+    [self.lableNumberGotTickets addGestureRecognizer:tapGesture];
+    [self.lableNumberGoing addGestureRecognizer:tapGesture];
+    [self.labelNumberInvited addGestureRecognizer:tapGesture];
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
- 
-    // Configure the view for the selected state
 }
 
 -(void)formatCell:(NSDictionary*)userattending andMyStatus:(NSString*) myStauts{
@@ -41,32 +47,31 @@
     self.labelNumberInvited.text    = userInvitedCount;
     
             if ([myStauts isEqualToString:JCUserEventUserGoing]) {
-                NSLog(@"user going");
                 [self.buttonTitle setTitle:@"I'm Going!" forState:UIControlStateNormal];
     
             }else if ([myStauts isEqualToString:JCUserEventUserGotTickets]){
-                NSLog(@"user got tickets");
                 [self.buttonTitle setTitle:@"I'm Going and I have Tickets!!" forState:UIControlStateNormal];
     
     
             }else if ([myStauts isEqualToString:JCUserEventUserMaybeGoing]){
-                NSLog(@"user maybe going");
                 [self.buttonTitle setTitle:@"I might attend!" forState:UIControlStateNormal];
     
     
             }else if ([myStauts isEqualToString:JCUserEventUserNotGoing]){
-                NSLog(@"user not going");
                 [self.buttonTitle setTitle:@"I cant make it" forState:UIControlStateNormal];
     
     
             }else if (myStauts == nil){
-                NSLog(@"user didnt set status yet ");
                 [self.buttonTitle setTitle:@"Are you going?" forState:UIControlStateNormal];
-    
-    
             }
     
     
+}
+
+-(void)userSelectedPeopleAttedningGig{
+    NSLog(@"delage should work");
+
+    [self.JCUserAttendingGigCellDelegate userSelectedPeopleAttedningGig];
 }
 
 
