@@ -24,6 +24,7 @@
 #import "ILTranslucentView.h"
 
 #import "MGSwipeButton.h"
+#import <objc/runtime.h>
 
 
 
@@ -35,7 +36,7 @@
 //Properties
 @property (nonatomic,strong) PFObject *selectedInvite;
 @property (nonatomic,strong) UIImage *selectedInviteImage;
-@property (nonatomic,strong) NSArray *tableViewDataSource;
+@property (nonatomic,strong) NSMutableArray *tableViewDataSource;
 @property (nonatomic,strong) NSMutableArray *imageFiles;
 @property (weak, nonatomic) IBOutlet UIView *navBarDropDown;
 
@@ -96,7 +97,7 @@
     JCEventInviteCell *cell = [tableView dequeueReusableCellWithIdentifier:@"eventInviteCell"forIndexPath:indexPath];
     PFObject *eventInvite = [self.tableViewDataSource objectAtIndex:indexPath.row];
     [cell formatCell:eventInvite];
-    
+    cell.indexPath = indexPath;
     PFFile *imageFile = [eventInvite objectForKey:@"eventPhoto"];
 
     cell.BackRoundImage.file = imageFile;
@@ -104,8 +105,13 @@
     
 //    cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] ]];
 //    
-    cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor grayColor]],
+cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor grayColor]],
                          [MGSwipeButton buttonWithTitle:@"Delete" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor redColor]]];
+    
+    MGSwipeButton *muteButton = [cell.leftButtons firstObject];
+    muteButton.tag = indexPath.row;
+    MGSwipeButton *deleteButton = [cell.leftButtons lastObject];
+    deleteButton.tag = indexPath.row;
     
     cell.delegate = self;
     cell.leftSwipeSettings.transition = MGSwipeTransitionBorder;
@@ -181,20 +187,65 @@
 
 #pragma - Helper Method
 
--(BOOL) swipeTableCell:(MGSwipeTableCell*) cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
+-(BOOL) swipeTableCell:(JCEventInviteCell*)cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
     
     
     if (index == 0) {
-        NSLog(@"mute button");
-
+        NSLog(@"mute button %@",cell);
     }else if (index == 1){
-        NSLog(@"delete button");
-
+        [self deleteEventFromInboxatIndexPath:cell.indexPath];
     }
-    
-    
-    
     return YES;
+}
+
+
+
+-(void)deleteEventFromInboxatIndexPath :(NSIndexPath*)indexPath {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Are you sure?" message:@"You will be removed from this event and will no longer be able to view it!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+    alert.tag = indexPath.row;
+    [alert show];
+};
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+    if (buttonIndex == 1) {
+        
+        PFObject *eventToDeleteUserFrom = [self.tableViewDataSource objectAtIndex:alertView.tag];
+        [self.tableViewDataSource removeObjectAtIndex:alertView.tag];
+        
+        NSIndexPath *indexpath = [NSIndexPath indexPathForRow:alertView.tag inSection:0] ;
+       // NSArray *indexs = @[indexpath];
+        [self.MyGigInvitesTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexpath] withRowAnimation:UITableViewRowAnimationLeft];
+        [self performSelector:@selector(reloadTableView) withObject:nil afterDelay:.3];
+        
+        NSMutableArray *InvitedUsers = [[NSMutableArray alloc]init];
+        
+        [InvitedUsers addObjectsFromArray:[eventToDeleteUserFrom objectForKey:JCUserEventUsersEventInvited]];
+        NSLog(@"%@",InvitedUsers);
+        PFUser *currentuser = [PFUser currentUser];
+        NSMutableArray *toDelete = [NSMutableArray array];
+
+        for (NSString *userId in InvitedUsers) {
+            if ([userId isEqualToString:currentuser.objectId] ) {
+                [toDelete addObject:userId];
+            }
+        }
+        [InvitedUsers removeObjectsInArray:toDelete];
+
+        NSLog(@"%@",InvitedUsers);
+        [eventToDeleteUserFrom setObject:InvitedUsers forKey:JCUserEventUsersEventInvited];
+        [eventToDeleteUserFrom setObject:InvitedUsers forKey:JCUserEventUsersSubscribedForNotifications];
+        [eventToDeleteUserFrom saveInBackground];
+            
+    }
+
+}
+
+-(void)reloadTableView{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.MyGigInvitesTable reloadData];
+    });
 }
 
 - (void)addCustomButtonOnNavBar
@@ -213,15 +264,19 @@
     UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
     self.navigationItem.leftBarButtonItem = customBarItem;
     
+    
+    
     UITapGestureRecognizer *navbarRightButtonTapped =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(RightnavItemTapped)];
     
     [self.navBarDropDown addGestureRecognizer:navbarRightButtonTapped];
-    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSearch.png"]];
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconCalender.png"]];
     contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
     [self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
+    
     self.navBarDropDown.backgroundColor = [UIColor clearColor];
+
 }
 -(void)menuButtonPressed{
     [self.sideMenuViewController presentLeftMenuViewController];
@@ -275,53 +330,67 @@
 }
 
 -(void)contextMenuButtonFirstClicked{
+    [self.contextMenu setUserInteractionEnabled:NO];
+
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeUpcoming completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
             NSLog(@"getMyInvitesforType %@",error);
         }else{
-            
-            self.tableViewDataSource = response;
+            [self.tableViewDataSource removeAllObjects];
+            [self.tableViewDataSource addObjectsFromArray:response];
             self.tableViewHeader.text = @"Upcoming Gigs";
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];
                 [self manageBleredLayer];
+                [self.contextMenu setUserInteractionEnabled:YES];
+
             });
         }
     }];}
 -(void)contextMenuButtonSecondClicked{
+    [self.contextMenu setUserInteractionEnabled:NO];
+
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeSent completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
             NSLog(@"getMyInvitesforType %@",error);
         }else{
             
-            self.tableViewDataSource = response;
+            [self.tableViewDataSource removeAllObjects];
+            [self.tableViewDataSource addObjectsFromArray:response];
             self.tableViewHeader.text = @"Sent";
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];
                 [self manageBleredLayer];
+                [self.contextMenu setUserInteractionEnabled:YES];
+
             });
         }
     }];
 }
 -(void)contextMenuButtonThirdClicked{
+    [self.contextMenu setUserInteractionEnabled:NO];
+
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypePast completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
             NSLog(@"getMyInvitesforType %@",error);
         }else{
             
-            self.tableViewDataSource = response;
+            [self.tableViewDataSource removeAllObjects];
+            [self.tableViewDataSource addObjectsFromArray:response];
             self.tableViewHeader.text = @"Past Gigs";
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];
                 [self manageBleredLayer];
+                [self.contextMenu setUserInteractionEnabled:YES];
+
             });
         }
     }];

@@ -37,15 +37,8 @@
 -(void)creatUserEvent:(eventObject*)eventObject invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent;
 //Async Iamge Downloader for tableView
 -(void)DownloadImageForArtist:(NSString*)artistName completionBlock:(void(^)(NSError*error,UIImage* image))finishedDownloadingImage;
-
-
-
 -(void)getUserEventStatus:(PFObject*) eventobject completionBlock:(void(^)(NSError* error,PFObject* userEventStatusActivity))finishedgetActivtyForUser;
-
-
 -(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobject:(PFObject*) eventobject completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
-
-
 -(void)updateUserEventStatus:(NSString*)usersStauts eventobject:(PFObject*) eventobject completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser;
 
 -(void)getUsersAttendingUserEvent:(PFObject*) eventobjec completionBlock: (void(^)(NSError* error,NSMutableDictionary *usersAttending))finishedgettingUsersAttendingUserEvent;
@@ -54,6 +47,13 @@
 
 
 -(void)getUserGoingToEvent:(PFObject*)currentEvent forEventStatus:(NSString*) UserEventStatus completionBlock:(void(^)(NSError* error,NSArray *userGoing))finishedgettingUsersGoingToEvent;
+
+
+
+#pragma - Delete
+
+-(void)deleteRemoveUserFromInvitedAndSubscriedArrayForEvent:(PFObject*)currentEvent completionBlock:(void(^)(NSError* error))finishedDeleteingUserFromEvent;
+
 
 @property (nonatomic,strong) NSMutableArray* MyArtist;
 @property (nonatomic,strong) NSArray* MyFriends;

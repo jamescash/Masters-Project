@@ -14,6 +14,7 @@
 
 @interface JCEventInviteCell : MGSwipeTableCell
 @property (weak, nonatomic) IBOutlet PFImageView *BackRoundImage;
+@property (nonatomic,strong) NSIndexPath *indexPath;
 //@property (strong, nonatomic) IBOutlet PFImageView *BackRoundImage;
 
 -(void)formatCell:(PFObject*)currentEvent;

@@ -12,7 +12,7 @@
 
 
 
-@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte,MGSwipeTableCellDelegate>
+@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte,MGSwipeTableCellDelegate,UIAlertViewDelegate>
 
 @end
 

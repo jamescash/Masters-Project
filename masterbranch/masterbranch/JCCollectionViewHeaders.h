@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "eventObject.h"
+
 
 @interface JCCollectionViewHeaders : UICollectionReusableView
--(void)setHeaderText:(NSString *)text;
+//-(void)setHeaderText:(NSString *)text;
+-(void)formateHeaderwithEventObject:(eventObject*)eventObject;
 @end

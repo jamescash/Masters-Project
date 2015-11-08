@@ -184,7 +184,7 @@
     
     if ([sectionTitle isEqualToString:header1Buttons]) {
         
-        return 60;
+        return 80;
     
     }
     
@@ -269,7 +269,7 @@
     //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
     //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
     
-    [backButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"iconDown.png"] forState:UIControlStateNormal];
     backButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)
     backButton.frame = CGRectMake(0, 0, 40, 40);
