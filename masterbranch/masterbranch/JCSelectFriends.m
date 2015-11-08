@@ -155,11 +155,11 @@
         //Seems like we have an event object lets upload it then dismiss the VC
         [self addBlerView];
 
-        //PFUser *currentUser = [PFUser currentUser];
+        PFUser *currentUser = [PFUser currentUser];
         
         //TODO why was i adding current user to recipiect id
         
-        //[self.recipents addObject:currentUser.objectId];
+        [self.recipents addObject:currentUser.objectId];
         
         [self.JCParseQuery creatUserEvent:self.currentEvent invitedUsers:self.recipents complectionBlock:^(NSError *error) {
             

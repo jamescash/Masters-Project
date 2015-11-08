@@ -103,7 +103,7 @@
 
     
    
-    [self getlocation];
+    [self getlocationAndWaitforUpdateThenGetDataForCollectionView];
     
     //show login screen if users not logged in
     
@@ -111,43 +111,10 @@
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
     
-    //self.shyNavBarManager.scrollView = self.collectionView;
-
-   
-    
-    
-//[self.pullUpView setFrame:CGRectMake(0, [self.collectionView rectForFooterInSection:0].origin.y, [self.collectionView bounds].size.width,self.pullUpView.frame.height)];
-    
-  
-    
-//    //[self.collectionView addInfiniteScrollingWithActionHandler:^{
-//        
-//    UIRefreshControl *refreshControl = [UIRefreshControl new];
-//    refreshControl.triggerVerticalOffset = 100.;
-//    [refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-//    self.collectionView.bottomRefreshControl = refreshControl;
-    
-        
-    
-    //}];
-   
-    
-    
-    
-//    //Load the array of all events created in the app delegate. It was created here so it stays constant
-//    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    appDelegate.AppDelegateDelegat = self;
-//    self.upComingGigsDataForCollectionView  = appDelegate.allEevent;
-//    //if there is no events wait for the main app delate callback, other wise they have already been created so
-//    //just go ahead and realod the collection view.
-//    if ([self.upComingGigsDataForCollectionView count] != 0) {
-//        [self AllEventsLoaded];
-//    }
     
 }
 
 - (void)refresh {
-    //NSLog(@"refresh");
     [self getDataForCollectionView];
 }
 
@@ -199,9 +166,6 @@
     else {
 
         cell.MainImageView.image = [UIImage imageNamed:@"loadingGray.png"];
-
-        //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
-        //[cell.CellTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
         cell.CellTitle.text = @"";
         cell.venue.text = @"";
         
@@ -332,7 +296,7 @@
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
     
     //TODO what is causing the crahs here? !!!!!!!!!
-    //NSLog(@"index path %@",indexPath);
+     NSLog(@"index path %@",indexPath);
     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
     
     [self.pendingOperations.URLRetrieversInProgress removeObjectForKey:indexPath];
@@ -348,12 +312,6 @@
     // 2: Get hold of the PhotoRecord instance.
     JCPhotoDownLoadRecord *theRecord = downloader.photoRecord;
     
-    // 3: Replace the updated PhotoRecord in the main data source (Photos array).
-   
-    //int index = indexPath;
-    
-    //NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
-  
     eventObject *event = [self.collectionViewDataObject[indexPath.section] objectAtIndex:indexPath.row];
     
     event.photoDownload = theRecord;
@@ -361,12 +319,9 @@
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
    
     //becuse im adding sections so the index path is diffrent then when added?
-    // 4: Update UI.
         [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
 
-
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
-    
     [self.pendingOperations.downloadsInProgress removeObjectForKey:indexPath];
 }
 
@@ -376,12 +331,9 @@
    
     JCPhotoDownLoadRecord *theRecord = filtration.photoRecord;
     
-    //NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
-    
     eventObject *event = [self.collectionViewDataObject[indexPath.section] objectAtIndex:indexPath.row];
     
     event.photoDownload = theRecord;
-    
     
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
     
@@ -408,7 +360,13 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
     float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
+//    NSLog(@"scroll content offset y %f",scrollView.contentOffset.y);
+//    NSLog(@"scroll height %f",scrollView.frame.size.height);
+//    NSLog(@"scroll content size %f",scrollView.contentSize.height);
+//    NSLog(@"endscrolling %f",endScrolling);
+    
     if (endScrolling >= scrollView.contentSize.height)
     {
         //TODO add animation to pull to refresh
@@ -529,19 +487,8 @@
 
 -(void)serchbuttonPressed:(id)sender {
     
-    
-    
-    [self performSegueWithIdentifier:@"showSearchPage" sender:self];
-    
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    
-//    UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"SearchPageNavController"];
-//    
-//
-//    JCSearchPage *searchdelage = [myVC viewControllers][0];
-//    
-//    searchdelage.JCSearchPageDelegate = self;
-//    [self presentViewController:myVC animated:YES completion:nil];
+ [self performSegueWithIdentifier:@"showSearchPage" sender:self];
+  
 }
 
 -(void)JCSearchPageDidSelectDone:(JCSearchPage *)controller{
@@ -584,11 +531,11 @@
     NSCalendar *theCalendar = [NSCalendar currentCalendar];
     self.dateForAPICall = [theCalendar dateByAddingComponents:dayComponent toDate:self.dateForAPICall options:0];
     
-    NSLog(@"%@",self.dateForAPICall);
+    NSLog(@"Going to bandsintown to get data for %@",self.dateForAPICall);
     
    
     if (!self.userLocation) {
-        NSLog(@"location acess denied");
+        NSLog(@"location acess denied getting gigs from dublin");
     }
     
     
@@ -597,7 +544,10 @@
         
         
         if ([response count]!=0) {
+            
+            
             [self.collectionViewDataObject addObject:response];
+           
             //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
 
             //[self.collectionViewDataObject insertObjects:response atIndexes:indexSet];
@@ -608,12 +558,21 @@
             //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //NSLog(@"%@",self.collectionViewDataObject);
+
                 [self.collectionView reloadData];
+                
+                
                 //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
                 //[self.collectionView reloadSections:indexSet];
-                        if ([response count]<=7) {
-                           [self getDataForCollectionView];
-                        }
+//                        if ([response count]<=7) {
+//                           
+//                            [self performSelector:@selector(getDataForCollectionView) withObject:self afterDelay:1.0 ];
+//                            
+//                            //[self getDataForCollectionView];
+//                        
+//                        }
                 
             });
             
@@ -625,7 +584,7 @@
     
 }
 
--(void)getlocation{
+-(void)getlocationAndWaitforUpdateThenGetDataForCollectionView{
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
@@ -683,19 +642,17 @@
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     //if denied acess we set default values to the center of ireland 
-    self.userLatitude = @"53.353010";
-    self.usersLongditude = @"-7.734375";
+    self.userLatitude = @"53.3478";
+    self.usersLongditude = @"-6.2597";
     [self getDataForCollectionView];
-    [self getDataForCollectionView];
-
-
+    NSLog(@"location set to dublin");
+    //[self getDataForCollectionView];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     //save user location once
     if (!self.userLocation) {
-        NSLog(@"user location updates");
         self.userLocation = [[CLLocation alloc]init];
         self.userLocation = newLocation;
         self.usersLongditude = [NSString stringWithFormat:@"%.8f", self.userLocation.coordinate.longitude];
@@ -715,7 +672,7 @@
     //TODO store user location in NSUserDefaults and only refresh homepage if location is chaged by 3/4k
     CLLocationDistance distance = [self.userLocation distanceFromLocation:newLocation];
 
-    if (distance > 30000) {
+    if (distance > 50000) {
         NSLog(@"location updated");
         self.usersLongditude = [NSString stringWithFormat:@"%.8f", newLocation.coordinate.longitude];
         self.userLatitude = [NSString stringWithFormat:@"%.8f", newLocation.coordinate.latitude];
