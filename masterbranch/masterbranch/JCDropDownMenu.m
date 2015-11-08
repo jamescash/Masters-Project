@@ -30,6 +30,7 @@
 @implementation JCDropDownMenu{
     
     BOOL contextMenuDown;
+    BOOL dropDownUserInteraction;
 }
 
 
@@ -44,7 +45,7 @@
         
         CGRect  viewRect = CGRectMake(self.bounds.size.width-56 ,(self.bounds.size.height-(self.bounds.size.height-21)), 40, 40);
          [self layoutUI:viewRect];
-        
+        dropDownUserInteraction = YES;
         [self animatContextMenu];
 
         
@@ -77,7 +78,7 @@
     
             self.contextMenuButtonThird = [[UIView alloc]initWithFrame:frame];
     
-            UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconBack.png"]];
+            UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconPast.png"]];
             imageView.frame = CGRectMake(0, 0, 40, 40);
             [self.contextMenuButtonThird addSubview:imageView];
     
@@ -104,7 +105,7 @@
     
     //Botton 2
     self.contextMenuButtonSecond = [[UIView alloc]initWithFrame:frame];
-    UIImageView * secondimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSearch.png"]];
+    UIImageView * secondimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSent.png"]];
     secondimageView.frame = CGRectMake(0, 0, 40, 40);
     [self.contextMenuButtonSecond addSubview:secondimageView];
     
@@ -129,7 +130,7 @@
     
     //Button 1
     self.contextMenuButtonFirst = [[UIView alloc]initWithFrame:frame];
-    UIImageView * firstimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconMenu.png"]];
+    UIImageView * firstimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconCalender.png"]];
     firstimageView.frame = CGRectMake(0, 0, 40, 40);
     [self.contextMenuButtonFirst addSubview:firstimageView];
     
@@ -156,7 +157,7 @@
                                             action:@selector(contextMenuButtonCoverTapped)];
     
     self.contextMenuButtonCover = [[UIView alloc]initWithFrame:frame];
-    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSearch.png"]];
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconCalender.png"]];
     contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
     [self.contextMenuButtonCover addSubview:contextMenuButtonCoverimageView];
     [self.contextMenuButtonCover addGestureRecognizer:contextMenuButtonCover];
@@ -179,14 +180,14 @@
     elasticityBehavior.elasticity = 0.2f;
     
     UISnapBehavior *buttonSnapFirst = [[UISnapBehavior alloc] initWithItem:self.contextMenuButtonFirst snapToPoint:CGPointMake(self.contextMenuButtonCover.center.x , self.contextMenuButtonCover.center.y+60)];
-    buttonSnapFirst.damping = 0.9f;
+    buttonSnapFirst.damping = 1.2f;
     
     
     UISnapBehavior *buttonSnapSecond = [[UISnapBehavior alloc] initWithItem:self.contextMenuButtonSecond snapToPoint:CGPointMake(self.contextMenuButtonCover.center.x , self.contextMenuButtonCover.center.y+120)];
-    buttonSnapSecond.damping = 0.9f;
+    buttonSnapSecond.damping = 1.2f;
     
     UISnapBehavior *buttonSnapThird = [[UISnapBehavior alloc] initWithItem:self.contextMenuButtonThird snapToPoint:CGPointMake(self.contextMenuButtonCover.center.x , self.contextMenuButtonCover.center.y+180)];
-    buttonSnapThird.damping = 0.9f;
+    buttonSnapThird.damping = 1.2f;
     
     self.contextMenuLableForButtonThird.text= @"Past";
     self.contextMenuLableForButtonSecond.text= @"Sent";
@@ -229,21 +230,35 @@
     [self.animator addBehavior:elasticityBehavior];
 }
 
-
+-(void)setUserInteraction: (BOOL) userInteraction{
+    dropDownUserInteraction = userInteraction;
+}
 
 -(void)contextMenuButtonCoverTapped{
-    [self.JCDropDownMenuDelagte contextMenuButtonCoverClicked];
+    NSLog(@"%d",dropDownUserInteraction);
+    if (dropDownUserInteraction) {
+        [self.JCDropDownMenuDelagte contextMenuButtonCoverClicked];
+    }
 }
 
 -(void)contextMenuButtonThirdTapped{
+    if (dropDownUserInteraction) {
+
     [self.JCDropDownMenuDelagte contextMenuButtonThirdClicked];
+    }
 }
 
 -(void)contextMenuButtonSecondTapped{
+    if (dropDownUserInteraction) {
+
     [self.JCDropDownMenuDelagte contextMenuButtonSecondClicked];
+    }
 }
 -(void)contextMenuButtonFirstTapped{
+    if (dropDownUserInteraction) {
+
     [self.JCDropDownMenuDelagte contextMenuButtonFirstClicked];
+    }
 }
 
 @end

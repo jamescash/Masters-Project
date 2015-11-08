@@ -273,16 +273,13 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 {
     
     UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateNormal];
-    [searchButton setImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateHighlighted];
+    [searchButton setImage:[UIImage imageNamed:@"iconPlus.png"] forState:UIControlStateNormal];
     searchButton.adjustsImageWhenDisabled = NO;
     searchButton.frame = CGRectMake(0, self.tableView.frame.size.width-40 , 40, 40);
-    
     [searchButton addTarget:self action:@selector(serchbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *searchbarbutton = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     self.navigationItem.rightBarButtonItem = searchbarbutton;
-    //self.navigationItem.hidesBackButton = YES;
-    //self.navigationItem.leftBarButtonItem =item1;
+    
 }
 
 -(void)serchbuttonPressed{

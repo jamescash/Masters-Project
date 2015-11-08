@@ -17,12 +17,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarForPeopleAttendingGig];
+    //[self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+//- (UIStatusBarStyle) preferredStatusBarStyle {
+//    return UIStatusBarStyleDefault;
+//}
+
 
 - (void)addNavBarForPeopleAttendingGig
 {

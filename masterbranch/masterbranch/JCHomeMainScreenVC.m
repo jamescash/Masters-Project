@@ -184,18 +184,13 @@
    
     JCCollectionViewHeaders *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionViewHeader" forIndexPath:indexPath];
-    //TODO Make a date formatter class for here and in Music Diary
     
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-LL-dd HH:mm:ss"];
+    //TODO Make a date formatter class for here and in Music Diary
     //TODO Setting the header by getting the date from the first item but what if there is no first item?
+    
     eventObject *firstEventInsection = self.collectionViewDataObject[indexPath.section][indexPath.row];
-    NSString *firstEventsDate = firstEventInsection.eventDate;
-    NSString *dateformatted = [firstEventsDate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-    NSDate *date = [dateFormat dateFromString:dateformatted];
-    [dateFormat setDateFormat:@"EEEE"];
-    NSString *day = [dateFormat stringFromDate:date];
-    [headerView setHeaderText:day];
+    [headerView formateHeaderwithEventObject:firstEventInsection];
+
     
     return headerView;
 }
@@ -296,7 +291,6 @@
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
     
     //TODO what is causing the crahs here? !!!!!!!!!
-     NSLog(@"index path %@",indexPath);
     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
     
     [self.pendingOperations.URLRetrieversInProgress removeObjectForKey:indexPath];
@@ -546,7 +540,6 @@
         if ([response count]!=0) {
             
             
-            [self.collectionViewDataObject addObject:response];
            
             //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
 
@@ -558,21 +551,17 @@
             //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                //NSLog(@"%@",self.collectionViewDataObject);
-
+                [self.collectionViewDataObject addObject:response];
                 [self.collectionView reloadData];
-                
-                
                 //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
                 //[self.collectionView reloadSections:indexSet];
-//                        if ([response count]<=7) {
-//                           
-//                            [self performSelector:@selector(getDataForCollectionView) withObject:self afterDelay:1.0 ];
-//                            
-//                            //[self getDataForCollectionView];
-//                        
-//                        }
+                        if ([response count]<=7) {
+                           
+                            [self performSelector:@selector(getDataForCollectionView) withObject:self afterDelay:1.0 ];
+                            
+                            //[self getDataForCollectionView];
+                        
+                        }
                 
             });
             

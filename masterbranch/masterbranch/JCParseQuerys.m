@@ -169,7 +169,7 @@
     [MyFriendsfromLocalDataStorage fromLocalDatastore];
     [MyFriendsfromLocalDataStorage orderByAscending:@"username"];
     //TODO uncomment line so that users cant see themselfs in frineds list
-    //[MyFriendsfromLocalDataStorage whereKey:@"objectId" notEqualTo:[[PFUser currentUser]objectId]];
+    [MyFriendsfromLocalDataStorage whereKey:@"objectId" notEqualTo:[[PFUser currentUser]objectId]];
     [MyFriendsfromLocalDataStorage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
@@ -353,10 +353,7 @@
                  }];
     
 }
-
-
-
-// Use/Filling Artist Images Dictionary
+//Use/Filling Artist Images Dictionary
 -(void)DownloadImageForArtist:(NSString*)artistName completionBlock:(void(^)(NSError*error,UIImage* image))finishedDownloadingImag
 {
     
@@ -811,17 +808,34 @@
 
 -(void)getUserGoingToEvent:(PFObject*)currentEvent forEventStatus:(NSString*) UserEventStatus completionBlock:(void(^)(NSError* error,NSArray *userGoing))finishedgettingUsersGoingToEvent{
     
+    if ([UserEventStatus isEqualToString:JCUserEventUsersEventInvited]) {
+
+        NSArray *intived = [currentEvent objectForKey:JCUserEventUsersEventInvited];
+        NSLog(@"%@",intived);
+        PFQuery *userQuer = [PFUser query];
+        [userQuer whereKey:@"objectId" containedIn:intived];
+        [userQuer findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            
+            if (error) {
+                finishedgettingUsersGoingToEvent(error,nil);
+
+            }else{
+               // NSLog(@"intived %@ ",objects);
+                finishedgettingUsersGoingToEvent(nil,objects);
+            }
+            
+        }];
+        
     
+    }else{
    
     
     
     PFQuery *getUserEventStatus = [PFQuery queryWithClassName:JCParseClassActivity];
     [getUserEventStatus whereKey:JCUserActivityType equalTo:@"eventStatus"];
     [getUserEventStatus whereKey:@"toEvent" equalTo:currentEvent];
+    [getUserEventStatus whereKey:JCUserActivityContent equalTo:UserEventStatus];
     
-    if (![UserEventStatus isEqualToString:JCUserEventUsersEventInvited]) {
-        [getUserEventStatus whereKey:JCUserActivityContent equalTo:UserEventStatus];
-    }
     
     
     
@@ -838,13 +852,29 @@
                 [users addObject:user];
                 
             }
+            
+            NSLog(@"users %@",users);
             finishedgettingUsersGoingToEvent(nil,users);
             }
         
     }];
     
+    }
     
 }
+
+#pragma - Delete
+
+-(void)deleteRemoveUserFromInvitedAndSubscriedArrayForEvent:(PFObject*)currentEvent completionBlock:(void(^)(NSError* error))finishedDeleteingUserFromEvent{
+    
+    
+    
+    
+    
+    
+}
+
+
 #pragma - helper methods
 
 -(NSMutableArray*)RemoveDuplicatsfromArray:(NSMutableArray*) originalArray{
