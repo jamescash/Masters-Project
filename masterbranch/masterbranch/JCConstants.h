@@ -33,9 +33,6 @@ extern NSString * const JCUserEventUsersEventHostId;
 extern NSString * const JCUserEventUsersEventCity;
 extern NSString * const JCUserEventUsersEventInvited;
 extern NSString * const JCUserEventUsersSubscribedForNotifications;
-
-
-
 //Backend UserEvents Class Local - Keys
 extern NSString * const JCUserEventUsersTypeUpcoming;
 extern NSString * const JCUserEventUsersTypePast;
@@ -53,6 +50,10 @@ extern NSString * const JCUserActivityContent;
 extern NSString * const JCUserActivityRelatedObjectId;
 
 
+#pragma - AddmyFriendsMyArtist page type
+extern NSString * const JCAddMyFriendsMyArtistTypeArtist;
+extern NSString * const JCAddMyFriendsMyArtistTypeFriends;
+extern NSString * const JCAddMyFriendsMyArtistTypeFriendsInvited;
 
 
 #pragma - BandsInTownKeys

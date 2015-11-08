@@ -437,7 +437,7 @@
         PFObject *comment = [PFObject objectWithClassName:JCParseClassActivity];
         [comment setObject:JCUActivityTypeUserComment forKey:JCUserActivityType];
         [comment setObject:[PFUser currentUser] forKey:JCUserActivityFromUser];
-        [comment setObject:[PFUser currentUser] forKey:JCUserActivityCommentOwner];
+        //[comment setObject:[PFUser currentUser] forKey:JCUserActivityCommentOwner];
         [comment setObject:eventObject forKey:@"toEvent"];
         [comment setObject:commentText forKey:JCUserActivityContent];
         
@@ -703,7 +703,7 @@
 
 -(void)getUserEventStatus:(PFObject *)eventobject completionBlock:(void (^)(NSError *, PFObject *))finishedgetActivtyForUser{
     
-    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:@"Activity"];
+    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:JCParseClassActivity];
     [getUserEventStatus whereKey:@"type" equalTo:@"eventStatus"];
     [getUserEventStatus whereKey:@"toEvent" equalTo:eventobject];
     [getUserEventStatus whereKey:@"fromUser" equalTo:self.currentUser];
@@ -808,6 +808,43 @@
     
 }
 
+
+-(void)getUserGoingToEvent:(PFObject*)currentEvent forEventStatus:(NSString*) UserEventStatus completionBlock:(void(^)(NSError* error,NSArray *userGoing))finishedgettingUsersGoingToEvent{
+    
+    
+   
+    
+    
+    PFQuery *getUserEventStatus = [PFQuery queryWithClassName:JCParseClassActivity];
+    [getUserEventStatus whereKey:JCUserActivityType equalTo:@"eventStatus"];
+    [getUserEventStatus whereKey:@"toEvent" equalTo:currentEvent];
+    
+    if (![UserEventStatus isEqualToString:JCUserEventUsersEventInvited]) {
+        [getUserEventStatus whereKey:JCUserActivityContent equalTo:UserEventStatus];
+    }
+    
+    
+    
+    [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            finishedgettingUsersGoingToEvent(error,nil);
+        }else {
+            
+            NSMutableArray *users = [[NSMutableArray alloc]init];
+            
+            for (PFObject *activity in objects) {
+                PFUser *user = [activity objectForKey:JCUserActivityFromUser];
+                [users addObject:user];
+                
+            }
+            finishedgettingUsersGoingToEvent(nil,users);
+            }
+        
+    }];
+    
+    
+}
 #pragma - helper methods
 
 -(NSMutableArray*)RemoveDuplicatsfromArray:(NSMutableArray*) originalArray{

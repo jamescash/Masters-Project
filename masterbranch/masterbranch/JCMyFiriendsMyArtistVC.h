@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+
 
 @interface JCMyFiriendsMyArtistVC : UIViewController
 @property (nonatomic,strong) NSString *tableViewType;
+@property (nonatomic,strong) PFObject *currentUserEvent;
 @end

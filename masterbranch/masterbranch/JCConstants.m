@@ -56,6 +56,10 @@ NSString * const JCUserActivityRelatedObjectId = @"relatedObjectId";
 
 
 
+#pragma - AddmyFriendsMyArtist page type
+NSString * const JCAddMyFriendsMyArtistTypeArtist         = @"artist";
+NSString * const JCAddMyFriendsMyArtistTypeFriends        = @"friends";
+NSString * const JCAddMyFriendsMyArtistTypeFriendsInvited = @"firendsInvitied";
 
 #pragma - ParseClasses
 NSString * const JCParseGeneralKeyCreatedAt    = @"createdAt";

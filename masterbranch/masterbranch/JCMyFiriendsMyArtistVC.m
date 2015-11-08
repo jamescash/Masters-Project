@@ -12,6 +12,7 @@
 #import "JCMyArtistCell.h"
 #import "JCMyFriendsCell.h"
 #import "JCAddMyFriendsVC.h"
+#import "JCConstants.h"
 
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 #import "RESideMenu.h"
@@ -37,21 +38,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    firendskey = @"friends";
-    artistkey =@"artist";
+  
     self.imageFiles = [[NSMutableArray alloc]init];
     self.tableView.allowsSelection = NO;
-    [self addCustomButtonOnNavBar];
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
 }
 
 
 - (void) viewWillAppear:(BOOL)animated{
+    firendskey = @"friends";
+    artistkey =@"artist";
     
-    NSLog(@"%@",self.tableViewType);
     
-    if ([self.tableViewType isEqualToString:firendskey]) {
-        
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
+        [self addNavBarForMyFriendsMyAritst];
+
         [self setupNavBarForScreen:self.tableViewType];
          self.navigationItem.title = @"My Friends";
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
@@ -60,17 +61,15 @@
             self.MyFireds = response;
 
 
-            for (PFObject *user in response) {
-                PFFile *imageFile = [user objectForKey:@"thumbnailProfilePicture"];
-                [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
-            }
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
                  });
          }];
-    }else if ([self.tableViewType isEqualToString:artistkey]){
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
          self.navigationItem.title = @"My artist";
+        [self addNavBarForMyFriendsMyAritst];
+
         [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
             
             self.tableViewDataSource = response;
@@ -82,13 +81,69 @@
                  [self.tableView reloadData];
             });
          }];
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserGoing]){
+        
+        [self addcontentOffsetForPageView];
+        
+        [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGoing completionBlock:^(NSError *error, NSArray *userGoing) {
+            self.tableViewDataSource = userGoing;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+            
+        }];
+        
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserGotTickets]){
+        
+        [self addcontentOffsetForPageView];
+
+        [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGotTickets completionBlock:^(NSError *error, NSArray *userGoing) {
+            self.tableViewDataSource = userGoing;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+            
+        }];
+       
+        
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserMaybeGoing]){
+        
+        [self addcontentOffsetForPageView];
+        
+        [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserMaybeGoing completionBlock:^(NSError *error, NSArray *userGoing) {
+            self.tableViewDataSource = userGoing;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+            
+        }];
+        
+        
+    }else if ([self.tableViewType isEqualToString:JCUserEventUsersEventInvited]){
+        
+        [self addcontentOffsetForPageView];
+        
+        [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUsersEventInvited completionBlock:^(NSError *error, NSArray *userGoing) {
+            self.tableViewDataSource = userGoing;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+            
+        }];
+        
+        
     }
+    
+    
+    
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.tableViewType isEqualToString:firendskey]){
-    JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCUserEventUserGoing]||[self.tableViewType isEqualToString:JCUserEventUsersEventInvited]||[self.tableViewType isEqualToString:JCUserEventUserMaybeGoing]||[self.tableViewType isEqualToString:JCUserEventUserGotTickets]){
+    
+        JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
     
         
         PFUser *user =[self.tableViewDataSource objectAtIndex:indexPath.row];
@@ -120,7 +175,7 @@
         [cell.userImage loadInBackground];
        
         return cell;
-      }else if ([self.tableViewType isEqualToString:artistkey]){
+      }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
     
     JCMyArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"artistCell" forIndexPath:indexPath];
     [cell formatCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
@@ -243,7 +298,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 };
 
 
-- (void)addCustomButtonOnNavBar
+- (void)addNavBarForMyFriendsMyAritst
 {
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -265,7 +320,15 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     self.shyNavBarManager.scrollView = self.tableView;
     
 }
+- (void)addcontentOffsetForPageView
+{
+    
+    
+    [self.tableView setContentInset:UIEdgeInsetsMake(80,0,0,0)];
 
+
+    
+}
 
 -(void)BackButtonPressed{
     [self.sideMenuViewController presentLeftMenuViewController];

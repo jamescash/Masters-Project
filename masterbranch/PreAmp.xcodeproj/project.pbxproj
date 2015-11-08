@@ -12,6 +12,8 @@
 		891238011B40360E00E7C6CA /* JCSocailStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238001B40360E00E7C6CA /* JCSocailStreamController.m */; };
 		891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */; };
 		8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8917A4491B7F6517004E2948 /* JCSearchPage.m */; };
+		8918BEC31BEF6430005EE92B /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8918BEC21BEF6430005EE92B /* RKSwipeBetweenViewControllers.m */; settings = {ASSET_TAGS = (); }; };
+		8918BEC61BEF64E6005EE92B /* JCInvtivedDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8918BEC51BEF64E6005EE92B /* JCInvtivedDetail.m */; settings = {ASSET_TAGS = (); }; };
 		891F84A01BE1957000C110D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F849F1BE1957000C110D7 /* Accelerate.framework */; };
 		891F84A51BE1994D00C110D7 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F84A21BE1994D00C110D7 /* UIImage+BoxBlur.m */; settings = {ASSET_TAGS = (); }; };
 		891F84A61BE1994D00C110D7 /* UIERealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F84A41BE1994D00C110D7 /* UIERealTimeBlurView.m */; settings = {ASSET_TAGS = (); }; };
@@ -141,6 +143,10 @@
 		891238081B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
 		8917A4481B7F6517004E2948 /* JCSearchPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPage.h; sourceTree = "<group>"; };
 		8917A4491B7F6517004E2948 /* JCSearchPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPage.m; sourceTree = "<group>"; };
+		8918BEC11BEF6430005EE92B /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
+		8918BEC21BEF6430005EE92B /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
+		8918BEC41BEF64E6005EE92B /* JCInvtivedDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCInvtivedDetail.h; sourceTree = "<group>"; };
+		8918BEC51BEF64E6005EE92B /* JCInvtivedDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCInvtivedDetail.m; sourceTree = "<group>"; };
 		891F849F1BE1957000C110D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		891F84A11BE1994D00C110D7 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
 		891F84A21BE1994D00C110D7 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
@@ -436,6 +442,17 @@
 			name = SearchPageControler;
 			sourceTree = "<group>";
 		};
+		8918BEC01BEF640E005EE92B /* FriendsInvitedDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				8918BEC11BEF6430005EE92B /* RKSwipeBetweenViewControllers.h */,
+				8918BEC21BEF6430005EE92B /* RKSwipeBetweenViewControllers.m */,
+				8918BEC41BEF64E6005EE92B /* JCInvtivedDetail.h */,
+				8918BEC51BEF64E6005EE92B /* JCInvtivedDetail.m */,
+			);
+			name = FriendsInvitedDetailView;
+			sourceTree = "<group>";
+		};
 		891F84AA1BE2699000C110D7 /* CustomSegue */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,6 +687,7 @@
 		897280C61BC3073D00569648 /* UserEventsPage */ = {
 			isa = PBXGroup;
 			children = (
+				8918BEC01BEF640E005EE92B /* FriendsInvitedDetailView */,
 				8972815F1BC553D200569648 /* CustomUIClasses */,
 				89D88ED11BAF1A0F002286FD /* JCInboxDetail.h */,
 				89D88ED21BAF1A0F002286FD /* JCInboxDetail.m */,
@@ -1306,8 +1324,10 @@
 				891237FB1B400ADB00E7C6CA /* JCFeedObject.m in Sources */,
 				8969D01E1BC94FA200A0FCED /* JCEventInviteCell.m in Sources */,
 				8954EC101B85EE1400BBA658 /* JCHomeMainScreenVC.m in Sources */,
+				8918BEC61BEF64E6005EE92B /* JCInvtivedDetail.m in Sources */,
 				8954EC361B88A49000BBA658 /* JCCollectionViewHeaders.m in Sources */,
 				89F52E061BC7EC3100EF5C00 /* JCUserEventInvitesTableView.m in Sources */,
+				8918BEC31BEF6430005EE92B /* RKSwipeBetweenViewControllers.m in Sources */,
 				894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */,
 				897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
