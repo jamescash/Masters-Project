@@ -861,14 +861,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventImageCell" id="yEk-gm-96b" customClass="JCCustomCollectionCell">
-                                        <rect key="frame" x="0.0" y="114" width="160" height="160"/>
+                                        <rect key="frame" x="0.0" y="114" width="159" height="159"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="159" height="159"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kkJ-24-Fmq">
-                                                    <rect key="frame" x="-1" y="-1" width="159" height="159"/>
+                                                    <rect key="frame" x="0.0" y="2" width="159" height="157"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92m-d6-miB">
                                                     <rect key="frame" x="8" y="135" width="144" height="17"/>
@@ -896,22 +896,22 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" white="0.91190378289473684" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leading" constant="-1" id="1QO-Yk-tfK"/>
-                                            <constraint firstItem="92m-d6-miB" firstAttribute="trailing" secondItem="yEk-gm-96b" secondAttribute="trailingMargin" id="4nW-BI-nTD"/>
-                                            <constraint firstItem="92m-d6-miB" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" id="68q-aw-0Kc"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="kkJ-24-Fmq" secondAttribute="bottom" constant="-8" id="2Sb-s7-Rn2"/>
                                             <constraint firstItem="czb-9A-Wfl" firstAttribute="top" secondItem="yEk-gm-96b" secondAttribute="topMargin" constant="98" id="DRa-cD-cRe"/>
-                                            <constraint firstAttribute="bottom" secondItem="kkJ-24-Fmq" secondAttribute="bottom" constant="2" id="Ixp-8A-6I9"/>
-                                            <constraint firstItem="czb-9A-Wfl" firstAttribute="trailing" secondItem="yEk-gm-96b" secondAttribute="trailingMargin" id="VTI-G3-pAE"/>
+                                            <constraint firstItem="92m-d6-miB" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" id="Fww-ZO-q1e"/>
+                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" constant="-8" id="TiS-f4-rnK"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="92m-d6-miB" secondAttribute="trailing" constant="-1" id="Vef-40-ihZ"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="czb-9A-Wfl" secondAttribute="trailing" constant="-1" id="YvL-9L-cOn"/>
                                             <constraint firstItem="92m-d6-miB" firstAttribute="top" secondItem="czb-9A-Wfl" secondAttribute="bottom" constant="8" id="aYE-tB-4EG"/>
-                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="top" secondItem="yEk-gm-96b" secondAttribute="top" constant="-1" id="dO6-pq-bhd"/>
-                                            <constraint firstItem="92m-d6-miB" firstAttribute="bottom" secondItem="yEk-gm-96b" secondAttribute="bottomMargin" id="fOX-hA-rgZ"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="92m-d6-miB" secondAttribute="bottom" constant="-1" id="bNM-XK-5xU"/>
+                                            <constraint firstItem="kkJ-24-Fmq" firstAttribute="top" secondItem="yEk-gm-96b" secondAttribute="topMargin" constant="-6" id="f6i-86-S8J"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="kkJ-24-Fmq" secondAttribute="trailing" constant="-8" id="izC-1n-CET"/>
+                                            <constraint firstItem="czb-9A-Wfl" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" id="mZD-1I-dFc"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="czb-9A-Wfl" secondAttribute="bottom" constant="14" id="wFe-sZ-5zb"/>
-                                            <constraint firstItem="czb-9A-Wfl" firstAttribute="leading" secondItem="yEk-gm-96b" secondAttribute="leadingMargin" id="yfF-BC-UNs"/>
-                                            <constraint firstAttribute="trailing" secondItem="kkJ-24-Fmq" secondAttribute="trailing" constant="2" id="zqA-MK-oqT"/>
                                         </constraints>
-                                        <size key="customSize" width="160" height="160"/>
+                                        <size key="customSize" width="159" height="159"/>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="DRa-cD-cRe"/>
@@ -1072,7 +1072,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="1" green="0.84549753289473684" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailingMargin" secondItem="pWg-FC-dGx" secondAttribute="trailing" constant="-8" id="9Nt-yp-nhu"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="pWg-FC-dGx" secondAttribute="bottom" constant="-8" id="9jq-oc-4Gq"/>
@@ -2167,10 +2167,10 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KfP-1i-cBb">
-                                <rect key="frame" x="91" y="492" width="52" height="30"/>
+                                <rect key="frame" x="77" y="492" width="80" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="31G-GA-PJz"/>
-                                    <constraint firstAttribute="width" constant="52" id="nVz-Zc-OYe"/>
+                                    <constraint firstAttribute="width" constant="80" id="nVz-Zc-OYe"/>
                                 </constraints>
                                 <state key="normal" title="Log out"/>
                                 <connections>

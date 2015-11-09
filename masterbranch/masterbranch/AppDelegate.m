@@ -23,6 +23,7 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
 #include "JDStatusBarNotification.h"
+#import <ParseCrashReporting/ParseCrashReporting.h>
 
 
 
@@ -40,9 +41,12 @@
     
     //enable local data storage
     [Parse enableLocalDatastore];
+    [ParseCrashReporting enable];
+
      //connecting to pasre our backend aand leetting parse know what app we are
     [Parse setApplicationId:@"e4CcwucLU3XKRPK93IeXLwzTsnKeT7Zoe7j5bJ0K" clientKey:@"akXPOHN6GDWrUD9EVwbTQ9jF7HfmZ5wsmFIXBYA9"];
     [PFImageView class];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     
@@ -50,6 +54,7 @@
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes  categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+    
     
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
     [self customiseUi];
