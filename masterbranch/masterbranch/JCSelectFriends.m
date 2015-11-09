@@ -173,9 +173,9 @@
                 
                 sent = YES;
                 CGRect frame = self.Lablesending.frame;
-                frame.origin.x += 20.0f;
+                frame.origin.x += 40.0f;
                 self.Lablesending.frame = frame;
-                self.Lablesending.text = @"sent!";
+                self.Lablesending.text = @"Done!";
                 self.Lablesending.textAlignment = NSTextAlignmentNatural;
                 [self performSelector:@selector(dismissViewController)
                            withObject:self
@@ -199,15 +199,15 @@
     [self.view addSubview:self.blerView];
     self.Lablesending = [[UILabel alloc]initWithFrame:CGRectMake(0 , 0, 200, 40)];
     
-    self.Lablesending.text = @"sending...";
+    self.Lablesending.text = @"Creating event...";
     self.Lablesending.clipsToBounds = YES;
     self.Lablesending.textAlignment = NSTextAlignmentLeft;
     [self.Lablesending setBackgroundColor:[UIColor clearColor]];
-    [self.Lablesending setFont:[UIFont fontWithName:@"Helvetica-light" size:30]];
+    [self.Lablesending setFont:[UIFont fontWithName:@"Helvetica-light" size:25]];
     self.Lablesending.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
     self.Lablesending.center = self.blerView.center;
     CGRect frame = self.Lablesending.frame;
-    frame.origin.x += 40.0f;
+    frame.origin.x += 20.0f;
     frame.origin.y += -40.0f;
     self.Lablesending.frame = frame;
     
@@ -257,11 +257,11 @@
     
     if (!sent) {
         if (sendingLong) {
-            self.Lablesending.text = @"sending..";
+            self.Lablesending.text = @"Creating event..";
             sendingLong = NO;
             
         }else{
-            self.Lablesending.text = @"sending...";
+            self.Lablesending.text = @"Creating event...";
             sendingLong = YES;
             
         }

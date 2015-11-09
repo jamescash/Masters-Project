@@ -75,6 +75,8 @@
     [self getMyAtritsfromLocalDataStorage:^(NSError *error, NSArray *response) {
        
        if (error) {
+           NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+           [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
            NSLog(@"error getting artist locally %@",error);
        }else if ([response count]==0){
            [self getMyAtritsfromTheServer:^(NSError *error, NSArray *response) {
@@ -104,6 +106,8 @@
     [myAtritsfromLocalDataStorage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"Error coming form inside loaca data get artist relations %@",error);
             
             finishedGettingMyAtritsfromLocalDataStorage(error,nil);
@@ -123,6 +127,8 @@
     [myAtritsfromTheServer findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"Error coming form inside get my artist relations %@",error);
             
             finishedgetMyAtritsfromTheServer(error,nil);
@@ -140,6 +146,8 @@
     [self getMyFriendsfromLocalDataStorage:^(NSError *error, NSArray *response) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedGettingMyFriends(error,nil);
             NSLog(@"error getting friends locally %@",error);
 
@@ -173,7 +181,9 @@
     [MyFriendsfromLocalDataStorage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
-            NSLog(@"Error coming form insode get my firends relations %@",error);
+            
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedGettingMyFriendsfromLocalDataStorage(error,nil);
             
         }else{
@@ -190,6 +200,8 @@
     [myFriendsfromTheServer findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"Error coming form insode get my firends relations %@",error);
             finishedGettingMyFriendsfromTheServer(error,nil);
             
@@ -228,8 +240,13 @@
        }
     
         [getMyInvites findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) { self.MyInvties = [[NSArray alloc]init];
+            if (error) {
+                NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+            }else{
               self.MyInvties = objects;
               finishedGettingMyInvites(nil,objects);
+            }
           }];
 
 };
@@ -244,6 +261,8 @@
     [self getMyAtrits:^(NSError *error, NSArray *response) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"error getmyartist %@",error);
         }else{
             NSMutableArray *myartist = [[NSMutableArray alloc]init];
@@ -272,6 +291,8 @@
                 [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
                     
                     if (error) {
+                        NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                        [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                         NSLog(@"upComingGigsRel error %@",error);
                     }else{
 
@@ -317,6 +338,8 @@
     [getEventCommentsActivitys findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"%@ error receving messages",error);
             finishedgettingEventComments(error,nil);
             
@@ -346,6 +369,8 @@
                 [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
                     
                     if (error) {
+                        NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                        [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                         NSLog(@"upComingGigsRel error %@",error);
                     }else{
                          getUpcomingGigsforAartis(nil,objects);
@@ -372,6 +397,8 @@
     [getArtistImage findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedDownloadingImag(error,nil);
             
         }else{
@@ -411,6 +438,8 @@
             [getPreAmpUsersThatMatchFBid findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
                 
                 if (error) {
+                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                    [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                     finishedGettingPreAmpUser(error,nil);
                 }else{
                     finishedGettingPreAmpUser(nil,objects);
@@ -493,7 +522,8 @@
         
         
         if (error) {
-           
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedCreatingUserEvent(error);
             
         }else{
@@ -514,6 +544,8 @@
             [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 
                 if (error) {
+                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                    [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                     finishedCreatingUserEvent(error);
 
                 }else{
@@ -537,6 +569,8 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"%@ error receving messages",error);
         }else{
             
@@ -588,6 +622,8 @@
         //is sucesful
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             //show alert view and get user to start agin
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
             
@@ -611,6 +647,8 @@
                 
                 
                 if (error) {
+                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                    [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                     //show alert view and get user to start agin
                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                     
@@ -631,7 +669,8 @@
                     [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                         
                         if (error) {
-                            
+                            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                             
                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oh no :(!" message:@"There was a problem saving that artist plaese try again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
@@ -646,7 +685,8 @@
                             
                             [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                                 if (error){
-                                    
+                                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                                    [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                                 }else{
                                     
@@ -688,7 +728,8 @@
     [userEventStatus saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         
         if (error) {
-            
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedpostActivtyForUser(error);
         }else{
             
@@ -708,6 +749,8 @@
     [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedgetActivtyForUser(error,nil);
         }else {
             
@@ -732,6 +775,8 @@
     [self getUserEventStatus:eventobject completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"error getting user event stauts %@",error);
             finishedupdatingUserEventStatus(error);
             
@@ -768,6 +813,8 @@
     [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedgettingUsersAttendingUserEvent(error,nil);
         }else {
             
@@ -817,6 +864,8 @@
         [userQuer findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
             
             if (error) {
+                NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                 finishedgettingUsersGoingToEvent(error,nil);
 
             }else{
@@ -842,6 +891,8 @@
     [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
         if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             finishedgettingUsersGoingToEvent(error,nil);
         }else {
             
@@ -865,14 +916,6 @@
 
 #pragma - Delete
 
--(void)deleteRemoveUserFromInvitedAndSubscriedArrayForEvent:(PFObject*)currentEvent completionBlock:(void(^)(NSError* error))finishedDeleteingUserFromEvent{
-    
-    
-    
-    
-    
-    
-}
 
 
 #pragma - helper methods

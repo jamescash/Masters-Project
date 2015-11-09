@@ -203,13 +203,14 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat cellLeg =  (self.collectionView.frame.size.width/2);
+   
+    CGFloat cellLeg =  ((self.collectionView.frame.size.width/2)-1);
     return CGSizeMake(cellLeg,cellLeg);
 }
 
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)sectio{
-    return UIEdgeInsetsMake(5, 0, 0, 0);
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 

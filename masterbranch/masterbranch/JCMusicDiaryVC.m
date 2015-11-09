@@ -148,6 +148,7 @@
     
 }
 #pragma mark – UICollectionViewDelegateFlowLayout
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat cellLeg = ((self.myMusicDiary.frame.size.width/2)-1);
