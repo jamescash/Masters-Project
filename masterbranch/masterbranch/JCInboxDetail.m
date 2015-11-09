@@ -368,7 +368,7 @@
 
 
 -(IBAction)buttonAreYouGoing:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancle" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I cant make it", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I cant make it", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     actionSheet.destructiveButtonIndex = 1;
     [actionSheet showInView:self.view];
@@ -455,6 +455,8 @@
     
     if ([segue.identifier isEqualToString:@"showPeopleAttendingGig"]) {
         RKSwipeBetweenViewControllers *DVC = segue.destinationViewController;
+        NSLog(@" segue event being passed in %@",self.userEvent);
+    
         DVC.currentUserEvent = self.userEvent;
     }
     
