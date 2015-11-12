@@ -11,7 +11,7 @@
 @protocol JCSignUpVCDelegat;
 
 
-@interface JCSignUp : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITextFieldDelegate>
+@interface JCSignUp : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>//,//UITextFieldDelegate>
 @property (strong,nonatomic) id <JCSignUpVCDelegat>JCSignUpVCDelegat;
 
 @end

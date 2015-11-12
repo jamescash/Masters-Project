@@ -17,6 +17,7 @@
 #import "JCConstants.h"
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 #import "RKSwipeBetweenViewControllers.h"
+#import "IHKeyboardAvoiding.h"
 
 
 @interface JCInboxDetail ()
@@ -52,7 +53,7 @@
 
 @implementation JCInboxDetail{
    //for resiging first responder
-   UITapGestureRecognizer *tapRecognizer;
+   //UITapGestureRecognizer *tapRecognizer;
 }
 
 
@@ -81,6 +82,9 @@
     self.eventId = self.userEvent.objectId;
     self.tableViewVC.allowsSelection = NO;
     
+    [IHKeyboardAvoiding setAvoidingView:(UIView *)self.addCommentTextfield];
+
+    
     [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
@@ -89,11 +93,11 @@
         });
      }];
     
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
+    //NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    //[center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
     //add tap recongiser that will resign first responder while keybord is up and user taps anywhere
-    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                            action:@selector(didTapAnywhere:)];
+    //tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                           // action:@selector(didTapAnywhere:)];
 
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -246,32 +250,32 @@
 
 #pragma mark - Helper Methods - Keyboard
 
--(void)keyboardOnScreen:(NSNotification *)notification
-{
-    NSDictionary *info  = notification.userInfo;
-    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
-    
-    CGRect rawFrame      = [value CGRectValue];
-    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
-    
-    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
-    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:keyboardFrame.size.height];
-    [self replaceConstraintOnView:self.view withIdentifiyer:@"footerHeight" withConstant:keyboardFrame.size.height];
-
-    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
-
-    [self.view addGestureRecognizer:tapRecognizer];
-
-}
--(void)keyboardWillHide:(NSNotification *) note
-{
-    [self.view removeGestureRecognizer:tapRecognizer];
-}
--(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
-    [self.addCommentTextfield resignFirstResponder];
-    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
-
-}
+//-(void)keyboardOnScreen:(NSNotification *)notification
+//{
+//    NSDictionary *info  = notification.userInfo;
+//    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
+//    
+//    CGRect rawFrame      = [value CGRectValue];
+//    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+//    
+//    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
+//    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:keyboardFrame.size.height];
+//    [self replaceConstraintOnView:self.view withIdentifiyer:@"footerHeight" withConstant:keyboardFrame.size.height];
+//
+//    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
+//
+//    [self.view addGestureRecognizer:tapRecognizer];
+//
+//}
+//-(void)keyboardWillHide:(NSNotification *) note
+//{
+//    [self.view removeGestureRecognizer:tapRecognizer];
+//}
+//-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
+//    [self.addCommentTextfield resignFirstResponder];
+//    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
+//
+//}
 
 
 #pragma mark - Helper Methods -  Animation
@@ -362,8 +366,8 @@
 
      self.addCommentTextfield.textColor = [UIColor lightGrayColor];
      self.addCommentTextfield.text = @"Add comment here...";
-    [self.addCommentTextfield resignFirstResponder];
-    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
+    //[self.addCommentTextfield resignFirstResponder];
+    //[self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
 }
 
 

@@ -150,7 +150,7 @@
         [cell formateCell:user];
         PFFile *profilePic = [user objectForKey:@"thumbnailProfilePicture"];
         cell.userImage.file = profilePic;
-        
+        cell.userImage.contentMode = UIViewContentModeScaleToFill;
         NSUInteger randomNumber = arc4random_uniform(5);
            switch (randomNumber) {
                 case 0:
@@ -170,6 +170,7 @@
                   cell.userImage.contentMode = UIViewContentModeScaleAspectFill;
                  break;
            }
+        
 
         
         [cell.userImage loadInBackground];

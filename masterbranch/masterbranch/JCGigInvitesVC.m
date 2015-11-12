@@ -27,7 +27,6 @@
 #import <objc/runtime.h>
 
 
-
 @interface JCGigInvitesVC ()
 //UI elements
 @property (weak, nonatomic) IBOutlet UITableView *MyGigInvitesTable;
@@ -66,14 +65,91 @@
             NSLog(@"getMyInvitesforType %@",error);
         }else{
             
+            
+            
             self.tableViewDataSource = response;
+            //[self.tableViewDataSource removeAllObjects];
+            //[self.tableViewDataSource addObjectsFromArray:response];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
             });
         }
      }];
+    
+    self.MyGigInvitesTable.emptyDataSetSource = self;
+    self.MyGigInvitesTable.emptyDataSetDelegate = self;
+    
+    // A little trick for removing the cell separators
+    self.MyGigInvitesTable.tableFooterView = [UIView new];
 }
+
+#pragma - empty Datasource delagte
+
+//- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+//{
+//    return [UIImage imageNamed:@"backgroundLogin.png"];
+//}
+
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"No Past Gigs";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"After you attend gigs they will apper here, this helps you trak all the gigs you and you friends attended in the past.";
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+
+
+//- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+//{
+//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
+//    
+//    return [[NSAttributedString alloc] initWithString:@"Back" attributes:attributes];
+//}
+
+
+//- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
+//{
+//    
+//    
+////    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+////    [activityView startAnimating];
+//    
+////    return activityView;
+//}
 
 
 

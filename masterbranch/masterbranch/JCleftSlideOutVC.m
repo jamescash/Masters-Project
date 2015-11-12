@@ -65,8 +65,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
- 
+   // self.view.backgroundColor = [UIColor clearColor];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,6 +75,8 @@
 
 -(void)UserSelectedLogOut{
 
+    NSLog(@"logout");
+    
     
     [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
         [PFObject unpinAllInBackground:response];
@@ -185,6 +187,6 @@
 
 - (IBAction)logout:(id)sender {
     
-    [self UserSelectedLogOut];
+   [self UserSelectedLogOut];
 }
 @end

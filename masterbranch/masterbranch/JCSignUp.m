@@ -11,6 +11,7 @@
 //sign up new user and save to backend
 #import <Parse/Parse.h>
 #import "UIImage+Resize.h"
+#import "IHKeyboardAvoiding.h"
 
 
 
@@ -23,6 +24,8 @@
 @property (nonatomic,strong) UIImagePickerController *imagePicker;
 @property (weak, nonatomic) IBOutlet UITextField *userFullName;
 
+@property (weak, nonatomic) IBOutlet UIView *UiViewKeyboardDissmissView;
+@property (weak, nonatomic) IBOutlet UIImageView *UIimageBackGround;
 
 //methods
 - (IBAction)signUp:(id)sender;
@@ -32,28 +35,22 @@
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
 @end
 
-@implementation JCSignUp{
-    UITapGestureRecognizer *tapRecognizer;
-}
+@implementation JCSignUp
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.UserProfilePicture.image = [UIImage imageNamed:@"Placeholder.png"];
+    [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardDissmissView];
+
+    self.UserProfilePicture.image = [UIImage imageNamed:@"buttonProfileImage.png"];
+    self.UIimageBackGround.image = [UIImage imageNamed:@"backgroundLogin.png"];
+
     //setup image picker for the profile picture
     self.imagePicker = [[UIImagePickerController alloc]init];
-    self.userNameField.delegate = self;
     
-    //register for keyboard notification
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
-    [nc addObserver:self selector:@selector(keyboardWillShow:) name:
-     UIKeyboardWillShowNotification object:nil];
-    
-    [nc addObserver:self selector:@selector(keyboardWillHide:) name:
-     UIKeyboardWillHideNotification object:nil];
-    
-    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                            action:@selector(didTapAnywhere:)];
+    self.UserProfilePicture.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addProfileImage)];
+    [self.UserProfilePicture addGestureRecognizer:tapGesture];
 
 
 }
@@ -65,7 +62,7 @@
 
 
 
-- (IBAction)signUp:(id)sender {
+-(IBAction)signUp:(id)sender {
 
 NSString *userName = [self.userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 NSString *password = [self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -190,7 +187,11 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
 
 -(IBAction)addProfileImage:(id)sender {
     
-   UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Choose Source" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo With Camera", @"Select Photo From Library", nil];
+    [self addProfileImage];
+}
+
+-(void)addProfileImage{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Choose Source" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo With Camera", @"Select Photo From Library", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     actionSheet.destructiveButtonIndex = 1;
     [actionSheet showInView:self.view];
@@ -283,23 +284,6 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     return newImage;
 }
 
-#pragma - textfield delgate methos
-
--(void) keyboardWillShow:(NSNotification *) note {
-    [self.view addGestureRecognizer:tapRecognizer];
-}
-
--(void) keyboardWillHide:(NSNotification *) note
-{
-    [self.view removeGestureRecognizer:tapRecognizer];
-}
-
--(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
-    //TODO Implement propr resign first preponder on this screen
-    [self.userNameField resignFirstResponder];
-    [self.emailField resignFirstResponder];
-    [self.passwordField resignFirstResponder];
-}
 
 #pragma - helperMethods
 
