@@ -10,43 +10,43 @@
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
 #define COCOAPODS_VERSION_MAJOR_AFNetworking 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking 3
 
 // AFNetworking/NSURLConnection
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLConnection
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLConnection 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLConnection 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLConnection 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLConnection 3
 
 // AFNetworking/NSURLSession
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLSession
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLSession 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLSession 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLSession 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLSession 3
 
 // AFNetworking/Reachability
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_Reachability
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_Reachability 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Reachability 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Reachability 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_Reachability 3
 
 // AFNetworking/Security
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_Security
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_Security 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Security 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Security 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_Security 3
 
 // AFNetworking/Serialization
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_Serialization
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_Serialization 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Serialization 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Serialization 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_Serialization 3
 
 // AFNetworking/UIKit
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_UIKit
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 6
-#define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 3
 
 // CCBottomRefreshControl
 #define COCOAPODS_POD_AVAILABLE_CCBottomRefreshControl
@@ -59,6 +59,24 @@
 #define COCOAPODS_VERSION_MAJOR_CSStickyHeaderFlowLayout 0
 #define COCOAPODS_VERSION_MINOR_CSStickyHeaderFlowLayout 2
 #define COCOAPODS_VERSION_PATCH_CSStickyHeaderFlowLayout 10
+
+// DZNEmptyDataSet
+#define COCOAPODS_POD_AVAILABLE_DZNEmptyDataSet
+#define COCOAPODS_VERSION_MAJOR_DZNEmptyDataSet 1
+#define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 7
+#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 2
+
+// IHKeyboardAvoiding
+#define COCOAPODS_POD_AVAILABLE_IHKeyboardAvoiding
+#define COCOAPODS_VERSION_MAJOR_IHKeyboardAvoiding 2
+#define COCOAPODS_VERSION_MINOR_IHKeyboardAvoiding 5
+#define COCOAPODS_VERSION_PATCH_IHKeyboardAvoiding 0
+
+// IHKeyboardDismissing
+#define COCOAPODS_POD_AVAILABLE_IHKeyboardDismissing
+#define COCOAPODS_VERSION_MAJOR_IHKeyboardDismissing 1
+#define COCOAPODS_VERSION_MINOR_IHKeyboardDismissing 1
+#define COCOAPODS_VERSION_PATCH_IHKeyboardDismissing 0
 
 // JDStatusBarNotification
 #define COCOAPODS_POD_AVAILABLE_JDStatusBarNotification

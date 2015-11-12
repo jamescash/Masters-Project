@@ -63,6 +63,7 @@
 		897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */; settings = {ASSET_TAGS = (); }; };
 		897780F41BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */; settings = {ASSET_TAGS = (); }; };
 		897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */; settings = {ASSET_TAGS = (); }; };
+		897D4ACD1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4ACC1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA371BDEBC1F0029F071 /* JCConstants.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
@@ -235,6 +236,8 @@
 		897780F31BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryArtistObject.m; sourceTree = "<group>"; };
 		897780F81BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGigsComingUpInThisMonthVC.h; sourceTree = "<group>"; };
 		897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGigsComingUpInThisMonthVC.m; sourceTree = "<group>"; };
+		897D4ACB1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		897D4ACC1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		8989AA331BDEAC600029F071 /* JCUserAttendingGigCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserAttendingGigCell.h; sourceTree = "<group>"; };
 		8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserAttendingGigCell.m; sourceTree = "<group>"; };
 		8989AA361BDEBC1F0029F071 /* JCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCConstants.h; sourceTree = "<group>"; };
@@ -791,6 +794,7 @@
 		897780ED1BD8F697006B20C3 /* facebookUserName */ = {
 			isa = PBXGroup;
 			children = (
+				897D4ACA1BF261C900DF54EB /* helperClasses */,
 				897780EE1BD8F6C1006B20C3 /* JCFBAddUserName.h */,
 				897780EF1BD8F6C1006B20C3 /* JCFBAddUserName.m */,
 			);
@@ -834,6 +838,15 @@
 				897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */,
 			);
 			name = DetailView;
+			sourceTree = "<group>";
+		};
+		897D4ACA1BF261C900DF54EB /* helperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				897D4ACB1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.h */,
+				897D4ACC1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m */,
+			);
+			name = helperClasses;
 			sourceTree = "<group>";
 		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
@@ -1393,6 +1406,7 @@
 				89D88ED31BAF1A0F002286FD /* JCInboxDetail.m in Sources */,
 				8954EC021B827CD400BBA658 /* JCleftSlideOutVC.m in Sources */,
 				897280DE1BC3386F00569648 /* HeaderView.m in Sources */,
+				897D4ACD1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				89B376CE1BCAF7CC006231A7 /* JCMusicDiaryCell.m in Sources */,
 				89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */,
 				897780EB1BD7FD36006B20C3 /* JCAddMyFriendsVC.m in Sources */,

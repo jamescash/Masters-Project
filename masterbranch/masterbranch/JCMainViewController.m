@@ -46,8 +46,18 @@
     self.contentViewShadowEnabled = YES;
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentViewController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
+    
     //self.rightMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"rightMenuViewController"];
-    //self.backgroundImage = [UIImage imageNamed:@"SlidOutMenuBackGroung"];
+    self.backgroundImage = [UIImage imageNamed:@"backgroundLogin"];
+    self.parallaxEnabled = NO;
+    self.scaleContentView = NO;
+    self.scaleMenuView = NO;
+    self.bouncesHorizontally = YES;
+    self.animationDuration = .27f;
+    //self.menuViewControllerTransformation = CGAffineTransformMakeScale(3.0f, 3.0f);
+    //self.view.backgroundColor = [UIColor blackColor];
+    //self.scaleBackgroundImageView = NO;
+    //self.panMinimumOpenThreshold = 10.0;
     self.delegate = self;
 }
 

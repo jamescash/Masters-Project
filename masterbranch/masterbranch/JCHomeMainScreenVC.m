@@ -108,6 +108,7 @@
     //show login screen if users not logged in
     
     if (![PFUser currentUser]) {
+        NSLog(@"current user %@",[[PFUser currentUser]username]);
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
     

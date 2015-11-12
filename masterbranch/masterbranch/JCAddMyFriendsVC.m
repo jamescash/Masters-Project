@@ -46,8 +46,9 @@
 }
 
 - (void)viewDidLoad {
-    self.JCParseQuerys = [JCParseQuerys sharedInstance];
     [super viewDidLoad];
+
+    self.JCParseQuerys = [JCParseQuerys sharedInstance];
     isFacebookSearch = YES;
     self.userFbId = [[PFUser currentUser] objectForKey:@"facebookId"];
     [self getusersFacebookfriebnds];
@@ -198,8 +199,6 @@
     self.searchbarVC.placeholder = @"search by name";
     [self getusersFacebookfriebnds];
 }
-
-
 
 
 -(BOOL)IsFriend:(PFUser *)user{

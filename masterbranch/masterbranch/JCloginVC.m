@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "UIImage+Resize.h"
+#import "IHKeyboardAvoiding.h"
 
 
 
@@ -23,21 +24,34 @@
 
 //methods
 - (IBAction)login:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackGround;
 
+@property (weak, nonatomic) IBOutlet UIView *UiViewKeyboardAvoiding;
 
 @end
 
-@implementation JCloginVC
+@implementation JCloginVC{
+   // UITapGestureRecognizer *tapRecognizer;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
+    [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardAvoiding];
+    self.imageViewBackGround.image = [UIImage imageNamed:@"backgroundLogin.png"];
+    //[IHKeyboardAvoiding setAvoidingView:(UIView *)self.];
     
 
+
+}
+
+-(void)UserSignedUp{
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,6 +91,11 @@
                }
             }];
      }
+
+
+
+
+
 }
 
 - (IBAction)logginWithFaceBook:(id)sender {
@@ -90,7 +109,7 @@
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
         } else if (user.isNew) {
             //New user signed up and logged in through Facebook
-            [self saveUserIdToNewInstalation];
+            //[self saveUserIdToNewInstalation];
             [self performSegueWithIdentifier:@"JCFBAddUserName" sender:self];
 
             
@@ -132,10 +151,7 @@
 
 }
 
-//-(void)logInViewController:(PFLogInViewController * __nonnull)logInController didLogInUser:(PFUser * __nonnull)user{
-//       
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
+
 
 
 
