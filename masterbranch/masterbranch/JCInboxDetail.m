@@ -62,6 +62,8 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
+
     //set placeholdertext for comment box and set up boreder
     self.going = @"going";
     self.gotTickets = @"gotTickets";
@@ -99,7 +101,6 @@
     //tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                            // action:@selector(didTapAnywhere:)];
 
-    [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
     headerView.HeaderImageView.image = self.selectedInviteImage;

@@ -62,6 +62,16 @@ extern NSString * const BITJSONDateUnformatted;
 #pragma - ParseClasses
 extern NSString * const JCParseGeneralKeyCreatedAt;
 
+#pragma - Seach Page
+//keys for results Dictionary
+extern NSString * const JCSeachPageResultsDicNoUpcomingGigs;
+extern NSString * const JCSeachPageResultsDicResults;
+extern NSString * const JCSeachPageResultsDicResultsArtistUnknown;
+extern NSString * const JCSeachPageResultsDicResultsSortedDistanceFromIreland;
+extern NSString * const JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate;
+
+
+
 
 
 @end

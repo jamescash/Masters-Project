@@ -22,6 +22,9 @@
     
     if (self) {
         
+        
+        //NSLog(@"%@",object);
+        
         //TODO assign the event object a uniqe so I can use it to romove resultes from the serch array when
         //they match with a switch statment
         
@@ -83,6 +86,7 @@
                 if ([artists count]>0) {
                     self.eventType = @"single";
                     self.eventTitle = artistinfo[@"name"];
+                    self.imageUrl = artistinfo [@"image_url"];
                     
                         if (artistinfo[@"mbid"] == (id)[NSNull null]) {
                             self.mbidNumber = @"empty";
@@ -119,6 +123,8 @@
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
         
             self.status = [self.pasre GetEventStatus:object [@"datetime"]];
+        
+        
         
         
             //Go off and calulate the distance from Ireland

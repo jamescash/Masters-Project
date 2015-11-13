@@ -65,7 +65,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-   // self.view.backgroundColor = [UIColor clearColor];
+   //
+    self.view.backgroundColor = [UIColor clearColor];
 
 }
 

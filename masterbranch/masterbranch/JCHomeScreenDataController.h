@@ -10,10 +10,15 @@
 
 @interface JCHomeScreenDataController : NSObject
 
+#pragma - Get - BandsInTown
 -(void)getEventsforDate:(NSDate*)date usingLocation: (NSString*) latitude Longditude:(NSString*)longditude competionBlock:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits;
-
-
 -(void)getUpcomingGigsForArtist:(NSString*)artist competionBlock:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtrits;
+-(void)getArtistUpComingEventsForArtistSearch:(NSString*)artistname andMbidNumber:(NSString*)mbidNumber competionBlock:(void(^)(NSError* error,NSDictionary* results))finishedGettingMbid;
+
+#pragma - Get - Echo Nets
+//in the middle of refactoring search
+-(void)getmbidNumberfor:(NSString*)artistname competionBlock:(void(^)(NSError* error,NSString* mbid))finishedGettingSearchResults;
+
 
 
 @end
