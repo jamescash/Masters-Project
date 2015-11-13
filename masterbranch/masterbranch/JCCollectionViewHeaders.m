@@ -14,13 +14,11 @@
 
 @implementation JCCollectionViewHeaders
 
-
-//-(void)setHeaderText:(NSString *)text {
-//   self.searchLabel.text = text;
-//   self.backgroundColor = [UIColor whiteColor];
-//   //self.layer.borderColor = [[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]CGColor] ;
-//   //self.layer.borderWidth = 1.0f;
-//}
+-(void)formateHeaderwithString:(NSString*)headerTitle{
+    
+    self.searchLabel.text = headerTitle;
+    self.searchLabel.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+}
 
 -(void)formateHeaderwithEventObject:(eventObject *)eventObject{
     
@@ -39,7 +37,7 @@
     NSString *dayString = [dateFormat stringFromDate:eventDateTime];
     
     NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:eventDateTime];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:eventDateTime];
     int day = [components day];
      NSString *dayNumberWithSuffix = [self addSuffixToNumber:day];
     //dateFormat.dateStyle = NSDateFormatterFullStyle ;

@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "JCSearchPageHTTPClient.h"
-
+#import "UIScrollView+VGParallaxHeader.h"
+#import <MGSwipeTableCell/MGSwipeTableCell.h>
+#import "UIScrollView+EmptyDataSet.h"
 
 //@protocol JCSearchPageDelegate;
 //@class JCSearchPageDelegate;
 
-@interface JCSearchPage : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate>
+@interface JCSearchPage : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate,MGSwipeTableCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 //@property (nonatomic,weak) id <JCSearchPageDelegate>JCSearchPageDelegate;
 

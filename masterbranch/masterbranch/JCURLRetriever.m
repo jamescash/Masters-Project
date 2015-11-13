@@ -43,48 +43,18 @@
         
 
         if (![self.photoRecord.artistMbid  isEqual: @"error"]) {
-           
-            
-            //self.photoRecord.URL = [self getimageURLFromEchoNestWithMBID];
-
             self.photoRecord.URL = [self getimageURLfromBandsintownwithartistMBID];
-
         }
-       
-        
-         if ((self.photoRecord.URL == nil)) {
-             
-             //self.photoRecord.URL = [self getimageURLFromEchoNestWithArtistName];
-
-             
+        if ((self.photoRecord.URL == nil)) {
             self.photoRecord.URL = [self getimageURLfromBandsintownwithartistName];
-         }
-        
-        
+        }
         if ((self.photoRecord.URL == nil)&&![self.photoRecord.artistMbid  isEqual: @"error"]) {
-           
-            
-            //self.photoRecord.URL = [self getimageURLfromBandsintownwithartistMBID];
-
-            
             self.photoRecord.URL = [self getimageURLFromEchoNestWithMBID];
-
-
         }
-        
-        
         if ((self.photoRecord.URL == nil)) {
-            
-            //self.photoRecord.URL = [self getimageURLfromBandsintownwithartistName];
-
-
-            self.photoRecord.URL = [self getimageURLFromEchoNestWithArtistName];
-
-
+           self.photoRecord.URL = [self getimageURLFromEchoNestWithArtistName];
         }
-        
-        
-        if ((self.photoRecord.URL == nil)) {
+         if ((self.photoRecord.URL == nil)) {
             self.photoRecord.failed = YES;
            
             if (Log) {
@@ -96,8 +66,6 @@
         
         }
         
-        //TODO crash caused here same reason as the image did finish downloanding
-        //Same Crash happening right here
     [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JCURLRetrieverDidFinish:) withObject:self waitUntilDone:NO];
 
         

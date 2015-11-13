@@ -64,4 +64,11 @@ NSString * const JCAddMyFriendsMyArtistTypeFriendsInvited = @"firendsInvitied";
 #pragma - ParseClasses
 NSString * const JCParseGeneralKeyCreatedAt    = @"createdAt";
 
+#pragma - Seach Page
+//keys for results Dictionary
+NSString * const JCSeachPageResultsDicResults                           = @"results";
+NSString * const JCSeachPageResultsDicNoUpcomingGigs                    = @"NoUpcomingGigs";
+NSString * const JCSeachPageResultsDicResultsArtistUnknown              = @"artistUnknown";
+NSString * const JCSeachPageResultsDicResultsSortedDistanceFromIreland  = @"sortedByDistanceFromIreland";
+NSString * const JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate  = @"sortedByUpcmoingDate";
 @end

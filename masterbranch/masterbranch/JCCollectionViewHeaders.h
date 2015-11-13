@@ -13,4 +13,5 @@
 @interface JCCollectionViewHeaders : UICollectionReusableView
 //-(void)setHeaderText:(NSString *)text;
 -(void)formateHeaderwithEventObject:(eventObject*)eventObject;
+-(void)formateHeaderwithString:(NSString*)headerTitle;
 @end

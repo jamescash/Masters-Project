@@ -14,7 +14,6 @@
 
 @property (nonatomic,strong) NSMutableArray *paresedSearchResults;
 @property (nonatomic,strong) NSMutableArray *StructedSearchResults;
-
 @end
 
 @implementation JCSearchPageHTTPClient{
@@ -108,9 +107,9 @@
             
             if ([JSONresults count]== 0 ) {
                 NSLog(@"no upcoming events found");
+                [self.JCSearchPageHTTPClientdelegate searchResultsGathered:nil];
+
                 return;
-                //counterForRunningDeligation ++;
-                //[self considerRunningDeligation];
             }
             
             else if ([JSONresults count] == 1) {
@@ -134,7 +133,9 @@
                 
                 NSMutableArray *fullArrayOfSearchResults = [[NSMutableArray alloc]init];
              
+                //NSLog(@"%@",JSONresults);
                 //TODO add this bug fix logic to other API calls to stop crashed
+                
                 [JSONresults  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     //create event objects from the JSON results
                     eventObject *event = [[eventObject alloc]initWithTitle:obj];
@@ -174,6 +175,8 @@
                             [InIreland addObject:obj];
                         }
                  
+                        
+                        
                         switch (switchCounter) {
                             case 0 :
                                 [TopClosest addObject:obj];
@@ -235,8 +238,8 @@
     
     NSString *artistNameEncodedRequest = [artistname stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
-    NSLog(@"mbid number %@",mbidNumber);
-    NSLog(@"artist name %@",artistNameEncodedRequest);
+    NSLog(@"XXXXXX mbid number %@",mbidNumber);
+    NSLog(@"XXXXXXX   artist name %@",artistNameEncodedRequest);
     
     NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@/events.json?artist_id=mbid_%@&api_version=2.0&app_id=PreAmp",artistNameEncodedRequest,mbidNumber];
     
@@ -298,21 +301,7 @@
     }];
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //NSError *error = nil;
-    //NSString *sucsess = @"sucsess";
-    
-    //finishedGateringJson(error,sucsess);
+  
     
     
     
