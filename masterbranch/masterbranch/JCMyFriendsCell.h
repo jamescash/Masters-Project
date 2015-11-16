@@ -14,6 +14,7 @@
 
 @interface JCMyFriendsCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet PFImageView *userImage;
+@property (weak, nonatomic) IBOutlet UIImageView *cellButton;
 -(void)formateCell:(PFUser*)user;
 
 @end

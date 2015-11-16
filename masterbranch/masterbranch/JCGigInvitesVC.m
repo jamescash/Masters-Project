@@ -54,6 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addCustomButtonOnNavBar];
+    self.tableViewDataSource = [[NSMutableArray alloc]init];
     self.tableViewHeader.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
 
     self.JCParseQuery = [JCParseQuerys sharedInstance];
@@ -64,12 +65,11 @@
         if (error) {
             NSLog(@"getMyInvitesforType %@",error);
         }else{
-            
-            
-            
-            self.tableViewDataSource = response;
+
+            //self.tableViewDataSource = response;
+            //returns an array of user events based on the the type Key;
             //[self.tableViewDataSource removeAllObjects];
-            //[self.tableViewDataSource addObjectsFromArray:response];
+            [self.tableViewDataSource addObjectsFromArray:response];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
@@ -91,7 +91,7 @@
 //    return [UIImage imageNamed:@"backgroundLogin.png"];
 //}
 
-- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+-(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
     
@@ -105,7 +105,7 @@
     return animation;
 }
 
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+-(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"No Past Gigs";
     
@@ -115,8 +115,7 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+-(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"After you attend gigs they will apper here, this helps you trak all the gigs you and you friends attended in the past.";
     
@@ -164,9 +163,13 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
+
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.tableViewDataSource.count;
 }
+
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
@@ -178,9 +181,8 @@
 
     cell.BackRoundImage.file = imageFile;
     cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
-    
-//    cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] ]];
-//    
+
+    //set up the swipe buttons
 cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor grayColor]],
                          [MGSwipeButton buttonWithTitle:@"Delete" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor redColor]]];
     
@@ -222,9 +224,13 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+  
     self.selectedInvite = [self.tableViewDataSource objectAtIndex:indexPath.row];
+    
     JCEventInviteCell *cellatindex = [[JCEventInviteCell alloc]init];
+    
     cellatindex = [tableView cellForRowAtIndexPath:indexPath];
+    
     self.selectedInviteImage = cellatindex.BackRoundImage.image;
     
     [self performSegueWithIdentifier:@"showEvent" sender:self];
@@ -263,7 +269,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 
 #pragma - Helper Method
 
--(BOOL) swipeTableCell:(JCEventInviteCell*)cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
+-(BOOL)swipeTableCell:(JCEventInviteCell*)cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
     
     
     if (index == 0) {

@@ -14,6 +14,7 @@
 #pragma - Parse ClassNames
 extern NSString * const JCParseClassUserEvents;
 extern NSString * const JCParseClassActivity;
+extern NSString * const JCParseClassUser;
 
 
 //Backend UserEvents Class - Keys
@@ -43,17 +44,34 @@ extern NSString * const JCUserEventUsersTypeSent;
 #pragma - Activitys
 extern NSString * const JCUserActivityType;
 extern NSString * const JCUActivityTypeUserComment;
+extern NSString * const JCUserActivityTypeAddFriend;
+extern NSString * const JCUserActivityTypeEventStatus;
 
+extern NSString * const JCUserActivityToEvent;
+extern NSString * const JCUserActivityToUser;
 extern NSString * const JCUserActivityFromUser;
 extern NSString * const JCUserActivityCommentOwner;
 extern NSString * const JCUserActivityContent;
 extern NSString * const JCUserActivityRelatedObjectId;
 
 
+#pragma - Users
+extern NSString * const JCUserUserName;
+extern NSString * const JCUserthumbNailProfilePicture;
+
+
+
+
 #pragma - AddmyFriendsMyArtist page type
 extern NSString * const JCAddMyFriendsMyArtistTypeArtist;
 extern NSString * const JCAddMyFriendsMyArtistTypeFriends;
 extern NSString * const JCAddMyFriendsMyArtistTypeFriendsInvited;
+extern NSString * const JCAddMyFriendsMyArtistTypeFacebookFriends;
+extern NSString * const JCAddMyFriendsMyArtistTypePreAmpFriends;
+extern NSString * const JCAddMyFriendsMyArtistTypeJustAddedFriends;
+extern NSString * const JCAddMyFriendsMyArtistTypeJustRecentlyAdded;
+
+
 
 
 #pragma - BandsInTownKeys

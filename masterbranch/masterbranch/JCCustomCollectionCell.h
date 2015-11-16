@@ -7,10 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DGActivityIndicatorView.h"
+
 
 @interface JCCustomCollectionCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *MainImageView;
 @property (weak, nonatomic) IBOutlet UILabel *CellTitle;
 @property (weak, nonatomic) IBOutlet UILabel *venue;
+@property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
+
+-(void)startLoadingAnimation;
+-(void)stopLoadingAnimation;
+-(void)removeVinettLayer;
+-(void)addVinettLayer;
+
 -(void)setImage:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName;
+@property (strong,nonatomic ) DGActivityIndicatorView *activityIndicatorView;
+
 @end
+

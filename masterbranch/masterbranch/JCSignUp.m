@@ -42,7 +42,9 @@
     [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardDissmissView];
 
     self.UserProfilePicture.image = [UIImage imageNamed:@"buttonProfileImage.png"];
-    self.UIimageBackGround.image = [UIImage imageNamed:@"backgroundLogin.png"];
+    self.UIimageBackGround.image = [UIImage imageNamed:@"backgroundLogin"];
+    self.UIimageBackGround.contentMode = UIViewContentModeScaleAspectFill;
+    //self.UIimageBackGround = [self addVinettLayerToBackGroundToImage:self.UIimageBackGround];
 
     //setup image picker for the profile picture
     self.imagePicker = [[UIImagePickerController alloc]init];
@@ -306,6 +308,17 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     
     NSUInteger numberOfMatches = [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, [string length])];
     return numberOfMatches == string.length;
+}
+
+-(UIImageView*)addVinettLayerToBackGroundToImage:(UIImageView*)imageView{
+    CAGradientLayer *vignetteLayer = [CAGradientLayer layer];
+    [vignetteLayer setBounds:[imageView bounds]];
+    [vignetteLayer setPosition:CGPointMake([imageView bounds].size.width/2.0f, [imageView bounds].size.height/2.0f)];
+    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3];
+    [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+    [vignetteLayer setLocations:@[@(.05), @(1.0)]];
+    [[imageView layer] addSublayer:vignetteLayer];
+    return imageView;
 }
 
 @end

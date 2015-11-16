@@ -28,7 +28,7 @@
     [super viewDidLoad];
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     self.tableview.allowsSelection = NO;
-    
+    [self addCustomButtonOnNavBar];
     HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
     PFObject *artist = self.diaryObject.artist;
     
@@ -42,21 +42,23 @@
 
     
     
-    [self.JCParseQuerys getUpcomingGigsforAartis:artist onMonthIndex:self.diaryObject.dateComponents.month complectionblock:^(NSError *error, NSArray *response) {
-        
+    [self.JCParseQuerys getUpcomingGigsforAartis:artist onMonthIndex:self.diaryObject.dateComponents.month isIrishQuery:self.IsIrishQuery complectionblock:^(NSError *error, NSArray *response) {
         
         //self.tableViewDataSource = response;
         self.tableviewDataSource = response;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableview reloadData];
+            
         });
         
         
-    
     }];
-    
-    
+   
 }
+
+
+
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.tableview shouldPositionParallaxHeader];
@@ -89,6 +91,24 @@
     
     return 85;
     
+}
+
+
+- (void)addCustomButtonOnNavBar
+{
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    [backButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateNormal];
+    backButton.adjustsImageWhenDisabled = NO;
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    backButton.opaque = YES;
+    [backButton addTarget:self action:@selector(backButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = customBarItem;
+}
+-(void)backButtonPressed{
+    NSLog(@"back pressed");
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

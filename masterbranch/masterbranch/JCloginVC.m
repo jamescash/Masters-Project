@@ -38,11 +38,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardAvoiding];
-    self.imageViewBackGround.image = [UIImage imageNamed:@"backgroundLogin.png"];
-    //[IHKeyboardAvoiding setAvoidingView:(UIView *)self.];
-    
-
-
+    //self.imageViewBackGround = [self addVinettLayerToBackGroundToImage:self.imageViewBackGround];
+    self.imageViewBackGround.image = [UIImage imageNamed:@"backgroundLogin"];
+    self.imageViewBackGround.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 -(void)UserSignedUp{
@@ -86,7 +84,7 @@
             }else{
                 
                  NSLog(@"Logged in");
-                //[self saveUserIdToNewInstalation];
+                //UNWind segue to homescreen 
                 [self dismissViewControllerAnimated:YES completion:nil];
                }
             }];
@@ -158,7 +156,16 @@
 
 
 
-
+-(UIImageView*)addVinettLayerToBackGroundToImage:(UIImageView*)imageView{
+    CAGradientLayer *vignetteLayer = [CAGradientLayer layer];
+    [vignetteLayer setBounds:[imageView bounds]];
+    [vignetteLayer setPosition:CGPointMake([imageView bounds].size.width/2.0f, [imageView bounds].size.height/2.0f)];
+    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3];
+    [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+    [vignetteLayer setLocations:@[@(.20), @(1.0)]];
+    [[imageView layer] addSublayer:vignetteLayer];
+    return imageView;
+}
 
 
 

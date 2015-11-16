@@ -12,7 +12,6 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import "JCParseQuerys.h"
-
 #import "JCMyFriendsCell.h"
 
 
@@ -184,14 +183,14 @@
 
 #pragma - helper methods
 
-- (IBAction)buttonPreAmp:(id)sender {
+-(IBAction)buttonPreAmp:(id)sender {
     self.searchbarVC.placeholder = @"search by username";
     self.tableViewDataSource = nil;
     [self.tableviewcontoller reloadData];
     isFacebookSearch = NO;
 }
 
-- (IBAction)buttonFacebook:(id)sender {
+-(IBAction)buttonFacebook:(id)sender {
     
     isFacebookSearch = YES;
     self.tableViewDataSource = nil;

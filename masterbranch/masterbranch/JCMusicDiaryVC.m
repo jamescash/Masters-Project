@@ -62,8 +62,6 @@
     self.MusicDiaryObjectsSortedByDate = [[NSMutableArray alloc]init];
     [self addCustomButtonOnNavBar];
     [self loadUpcomingGigs:YES];
-
-   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,22 +85,22 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     JCMusicDiaryCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
    
     NSArray *monthSection = [self.MusicDiaryObjectsSortedArray objectAtIndex:indexPath.section];
     
     JCMusicDiaryArtistObject *daryObject = [monthSection objectAtIndex:indexPath.row];
+   
     PFObject *artist = daryObject.artist;
     
    
     if (daryObject.artistImage) {
         cell.backRoundImage.image = daryObject.artistImage;
     }else{
-        
-        
         cell.backRoundImage.image = [UIImage imageNamed:@"loadingGray.png"];
         cell.backRoundImage.contentMode = UIViewContentModeScaleAspectFill;
-           
+        
         [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
                 if (!error) {
                     daryObject.artistImage = image;
@@ -118,8 +116,7 @@
                 
             }];
         }
-    
-    cell.artistName.text = [artist objectForKey:@"artistName"];
+    [cell formatcellWithArtistName:[artist objectForKey:@"artistName"]];
     return cell;
 }
 
@@ -376,8 +373,7 @@
 -(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
              
     
-    
-            NSArray *monthSection = self.MusicDiaryObjectsSortedArray[indexPath.section];
+     NSArray *monthSection = self.MusicDiaryObjectsSortedArray[indexPath.section];
             JCMusicDiaryArtistObject *diaryObject = monthSection[indexPath.row];
     
              // if we fetched already, just return it via the completion block
@@ -401,19 +397,6 @@
         
     }];
     
-//    
-//    [self.JCParseQuerys DownloadImageForArtist:[diaryObject.UpcomingGigObject objectForKey:@"artistName"] completionBlock:^(NSError *error, UIImage *image) {
-//        
-//        if (error) {
-//            
-//            completion(nil,error);
-//         }else{
-//
-//             completion(image,nil);
-//            }
-//   }];
-
-    
 }
 
 
@@ -434,7 +417,6 @@
         IrelandDataLoaded = NO;
     }
     
-    NSLog(@"load upcoming gigs");
     
   [self.JCParseQuerys getMyAtritsUpComingGigs:forIrelandOnly comletionblock:^(NSError *error, NSMutableArray *response) {
     
@@ -458,8 +440,6 @@
       }
    }];
 }
-   
-   
    
 -(NSString*)monthforindex:(int)monthindex{
     
@@ -549,8 +529,6 @@
     
 }
 
-
-
 -(void)IrelandUkManager {
     
     if (IrelandDataLoaded) {
@@ -566,10 +544,7 @@
     }
 }
 -(void)menuButtonPressed{
-
-    [self.sideMenuViewController presentLeftMenuViewController];
-    
-
+[self.sideMenuViewController presentLeftMenuViewController];
 }
 
 
@@ -580,6 +555,7 @@
      
      JCGigsComingUpInThisMonthVC *dvc = (JCGigsComingUpInThisMonthVC*)segue.destinationViewController;
      dvc.diaryObject = self.selectedObject;
+     dvc.IsIrishQuery = IrelandDataLoaded;
 }
 
 
