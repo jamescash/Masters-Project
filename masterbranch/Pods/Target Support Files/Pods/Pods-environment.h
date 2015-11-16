@@ -60,6 +60,12 @@
 #define COCOAPODS_VERSION_MINOR_CSStickyHeaderFlowLayout 2
 #define COCOAPODS_VERSION_PATCH_CSStickyHeaderFlowLayout 10
 
+// DGActivityIndicatorView
+#define COCOAPODS_POD_AVAILABLE_DGActivityIndicatorView
+#define COCOAPODS_VERSION_MAJOR_DGActivityIndicatorView 2
+#define COCOAPODS_VERSION_MINOR_DGActivityIndicatorView 0
+#define COCOAPODS_VERSION_PATCH_DGActivityIndicatorView 0
+
 // DZNEmptyDataSet
 #define COCOAPODS_POD_AVAILABLE_DZNEmptyDataSet
 #define COCOAPODS_VERSION_MAJOR_DZNEmptyDataSet 1

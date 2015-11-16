@@ -13,6 +13,7 @@
 #pragma - Parse ClassNames
 NSString * const JCParseClassUserEvents        = @"UserEvent";
 NSString * const JCParseClassActivity          = @"Activity";
+NSString * const JCParseClassUser              = @"User";
 
 
 //UserEvents Keys
@@ -50,16 +51,28 @@ NSString * const BITJSONDateUnformatted        = @"yyy-MM-dd'T'HH:mm:ss";
 NSString * const JCUserActivityFromUser        = @"fromUser";
 NSString * const JCUserActivityType            = @"type";
 NSString * const JCUActivityTypeUserComment    = @"userComment";
+NSString * const JCUserActivityTypeAddFriend   = @"addFriends";
+NSString * const JCUserActivityTypeEventStatus = @"eventStatus";
+
 NSString * const JCUserActivityCommentOwner    = @"commentOwner";
 NSString * const JCUserActivityContent         = @"content";
 NSString * const JCUserActivityRelatedObjectId = @"relatedObjectId";
+NSString * const JCUserActivityToEvent         = @"toEvent";
+NSString * const JCUserActivityToUser          = @"toUser";
 
 
+#pragma - Users
+NSString * const JCUserUserName                 = @"username";
+NSString * const JCUserthumbNailProfilePicture  = @"thumbnailProfilePicture";
 
 #pragma - AddmyFriendsMyArtist page type
-NSString * const JCAddMyFriendsMyArtistTypeArtist         = @"artist";
-NSString * const JCAddMyFriendsMyArtistTypeFriends        = @"friends";
-NSString * const JCAddMyFriendsMyArtistTypeFriendsInvited = @"firendsInvitied";
+NSString * const JCAddMyFriendsMyArtistTypeArtist            = @"artist";
+NSString * const JCAddMyFriendsMyArtistTypeFriends           = @"friends";
+NSString * const JCAddMyFriendsMyArtistTypeFriendsInvited    = @"firendsInvitied";
+NSString * const JCAddMyFriendsMyArtistTypeFacebookFriends   = @"facebookFriendsSearch";
+NSString * const JCAddMyFriendsMyArtistTypePreAmpFriends     = @"preampFriendsSearch";
+NSString * const JCAddMyFriendsMyArtistTypeJustAddedFriends  = @"peopleThatJustAddedMe";
+NSString * const JCAddMyFriendsMyArtistTypeJustRecentlyAdded = @"peopleThatRecentlyAddedMe";
 
 #pragma - ParseClasses
 NSString * const JCParseGeneralKeyCreatedAt    = @"createdAt";

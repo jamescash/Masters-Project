@@ -164,5 +164,7 @@
 @property (nonatomic, strong)UIView *navigationView;
 @property (nonatomic, strong)NSArray *buttonText;
 @property (nonatomic, strong)PFObject *currentUserEvent;
+@property (nonatomic, strong)NSMutableArray *myFriends;
+@property (nonatomic)BOOL comingFromUserEventsPage;
 
 @end

@@ -65,6 +65,11 @@
 		897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */; settings = {ASSET_TAGS = (); }; };
 		897D4ACD1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4ACC1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AD91BF60AA000DF54EB /* LogginScreenOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AD81BF60AA000DF54EB /* LogginScreenOne.m */; settings = {ASSET_TAGS = (); }; };
+		897D4ADC1BF7BCBC00DF54EB /* JCSearchHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4ADB1BF7BCBC00DF54EB /* JCSearchHeaders.m */; settings = {ASSET_TAGS = (); }; };
+		897D4AE01BF89FB100DF54EB /* JCSortButtonsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4ADF1BF89FB100DF54EB /* JCSortButtonsCell.m */; settings = {ASSET_TAGS = (); }; };
+		897D4AE31BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE21BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m */; settings = {ASSET_TAGS = (); }; };
+		897D4AE91BF945E500DF54EB /* GHWalkThroughPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */; settings = {ASSET_TAGS = (); }; };
+		897D4AEA1BF945E500DF54EB /* GHWalkThroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA371BDEBC1F0029F071 /* JCConstants.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
@@ -241,6 +246,16 @@
 		897D4ACC1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		897D4AD71BF60AA000DF54EB /* LogginScreenOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogginScreenOne.h; sourceTree = "<group>"; };
 		897D4AD81BF60AA000DF54EB /* LogginScreenOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogginScreenOne.m; sourceTree = "<group>"; };
+		897D4ADA1BF7BCBC00DF54EB /* JCSearchHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCSearchHeaders.h; path = ../JCSearchHeaders.h; sourceTree = "<group>"; };
+		897D4ADB1BF7BCBC00DF54EB /* JCSearchHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCSearchHeaders.m; path = ../JCSearchHeaders.m; sourceTree = "<group>"; };
+		897D4ADE1BF89FB100DF54EB /* JCSortButtonsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSortButtonsCell.h; sourceTree = "<group>"; };
+		897D4ADF1BF89FB100DF54EB /* JCSortButtonsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSortButtonsCell.m; sourceTree = "<group>"; };
+		897D4AE11BF8BD7C00DF54EB /* JCAddPreampFriendsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAddPreampFriendsVC.h; sourceTree = "<group>"; };
+		897D4AE21BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAddPreampFriendsVC.m; sourceTree = "<group>"; };
+		897D4AE51BF945E500DF54EB /* GHWalkThroughPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHWalkThroughPageCell.h; sourceTree = "<group>"; };
+		897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHWalkThroughPageCell.m; sourceTree = "<group>"; };
+		897D4AE71BF945E500DF54EB /* GHWalkThroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHWalkThroughView.h; sourceTree = "<group>"; };
+		897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHWalkThroughView.m; sourceTree = "<group>"; };
 		8989AA331BDEAC600029F071 /* JCUserAttendingGigCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserAttendingGigCell.h; sourceTree = "<group>"; };
 		8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserAttendingGigCell.m; sourceTree = "<group>"; };
 		8989AA361BDEBC1F0029F071 /* JCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCConstants.h; sourceTree = "<group>"; };
@@ -438,6 +453,7 @@
 		8917A4471B7F64E6004E2948 /* SearchPageControler */ = {
 			isa = PBXGroup;
 			children = (
+				897D4ADD1BF89F8200DF54EB /* custom Classes */,
 				897D4ACF1BF4C1C600DF54EB /* API */,
 				897D4ACE1BF4C1B100DF54EB /* ViewContorler */,
 			);
@@ -602,6 +618,7 @@
 		8954EC311B8893F500BBA658 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				897D4AE41BF945A500DF54EB /* tutorial */,
 				897D4AD61BF60A7C00DF54EB /* LoginScreenOne */,
 				897780ED1BD8F697006B20C3 /* facebookUserName */,
 				897780EC1BD8F68A006B20C3 /* loggin */,
@@ -778,6 +795,8 @@
 				897780DC1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m */,
 				897780E91BD7FD36006B20C3 /* JCAddMyFriendsVC.h */,
 				897780EA1BD7FD36006B20C3 /* JCAddMyFriendsVC.m */,
+				897D4AE11BF8BD7C00DF54EB /* JCAddPreampFriendsVC.h */,
+				897D4AE21BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -876,6 +895,28 @@
 				897D4AD81BF60AA000DF54EB /* LogginScreenOne.m */,
 			);
 			name = LoginScreenOne;
+			sourceTree = "<group>";
+		};
+		897D4ADD1BF89F8200DF54EB /* custom Classes */ = {
+			isa = PBXGroup;
+			children = (
+				897D4ADA1BF7BCBC00DF54EB /* JCSearchHeaders.h */,
+				897D4ADB1BF7BCBC00DF54EB /* JCSearchHeaders.m */,
+				897D4ADE1BF89FB100DF54EB /* JCSortButtonsCell.h */,
+				897D4ADF1BF89FB100DF54EB /* JCSortButtonsCell.m */,
+			);
+			name = "custom Classes";
+			sourceTree = "<group>";
+		};
+		897D4AE41BF945A500DF54EB /* tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				897D4AE51BF945E500DF54EB /* GHWalkThroughPageCell.h */,
+				897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */,
+				897D4AE71BF945E500DF54EB /* GHWalkThroughView.h */,
+				897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */,
+			);
+			name = tutorial;
 			sourceTree = "<group>";
 		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
@@ -1365,6 +1406,7 @@
 				89FAA9111B90A7AA00012ED5 /* JCAnnotation.m in Sources */,
 				891237FB1B400ADB00E7C6CA /* JCFeedObject.m in Sources */,
 				8969D01E1BC94FA200A0FCED /* JCEventInviteCell.m in Sources */,
+				897D4ADC1BF7BCBC00DF54EB /* JCSearchHeaders.m in Sources */,
 				8954EC101B85EE1400BBA658 /* JCHomeMainScreenVC.m in Sources */,
 				8918BEC61BEF64E6005EE92B /* JCInvtivedDetail.m in Sources */,
 				8954EC361B88A49000BBA658 /* JCCollectionViewHeaders.m in Sources */,
@@ -1373,6 +1415,7 @@
 				894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */,
 				897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
+				897D4AE01BF89FB100DF54EB /* JCSortButtonsCell.m in Sources */,
 				8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */,
 				897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
@@ -1388,8 +1431,10 @@
 				897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
+				897D4AEA1BF945E500DF54EB /* GHWalkThroughView.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */,
+				897D4AE91BF945E500DF54EB /* GHWalkThroughPageCell.m in Sources */,
 				89B376D11BCC10F5006231A7 /* JCDatePickerLayout.m in Sources */,
 				89BA5EAA1BCFD4250049DC8D /* JCHomeScreenDataController.m in Sources */,
 				897780DD1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m in Sources */,
@@ -1427,6 +1472,7 @@
 				897780D11BD1104C006B20C3 /* JCUpcomingGigTableViewCell.m in Sources */,
 				897780D91BD15286006B20C3 /* JCInvteFollowHeaderVC.m in Sources */,
 				89215C881BE1095D0035CFEB /* JCDropDownMenu.m in Sources */,
+				897D4AE31BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m in Sources */,
 				8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */,
 				897780E11BD79AD5006B20C3 /* JCMyArtistCell.m in Sources */,
 				8969D0121BC8385200A0FCED /* JCInvitationCell.m in Sources */,

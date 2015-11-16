@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewVC;
 @property (weak, nonatomic) IBOutlet UIView *tableviewFooter;
 @property (weak, nonatomic) IBOutlet UITextView *addCommentTextfield;
+@property (weak, nonatomic) IBOutlet PFImageView *UIimageUserImageAddCommentTextField;
 - (IBAction)postComment:(id)sender;
 
 
@@ -37,10 +38,6 @@
 //properties
 @property (nonatomic,strong) NSMutableArray *userCommentActivies;
 @property (nonatomic,strong) NSString *eventId;
-@property (nonatomic,strong) NSString *going;
-@property (nonatomic,strong) NSString *maybe;
-@property (nonatomic,strong) NSString *notGoing;
-@property (nonatomic,strong) NSString *gotTickets;
 @property (nonatomic,strong) NSString *userStatus;
 
 @property (nonatomic,strong) NSMutableDictionary *userAttendingEvent;
@@ -53,7 +50,8 @@
 
 @implementation JCInboxDetail{
    //for resiging first responder
-   //UITapGestureRecognizer *tapRecognizer;
+   UITapGestureRecognizer *resignKeyBoardOnTap;
+   UISwipeGestureRecognizer *resignKeyBoardOnSwipe;
 }
 
 
@@ -64,62 +62,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    //set placeholdertext for comment box and set up boreder
-    self.going = @"going";
-    self.gotTickets = @"gotTickets";
-    self.maybe = @"maybe";
-    self.notGoing = @"notGoing";
-    
-    
+   
     [self customiseNavBar];
-    
-    self.addCommentTextfield.text = @"Add comment here...";
-    self.addCommentTextfield.textColor = [UIColor lightGrayColor];
-    self.addCommentTextfield.clipsToBounds = YES;
-    self.addCommentTextfield.layer.cornerRadius = 5.0f;
-    self.addCommentTextfield.layer.borderWidth = 1.0f;
-    self.addCommentTextfield.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    //Init parse backend class
+    [self layoutCommentBox];
+    [self layoutHeaderView];
     self.parseQuerys = [JCParseQuerys sharedInstance];
     self.eventId = self.userEvent.objectId;
     self.tableViewVC.allowsSelection = NO;
-    
-    [IHKeyboardAvoiding setAvoidingView:(UIView *)self.addCommentTextfield];
-
-    
+    self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableViewVC reloadData];
         });
      }];
     
-    //NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    //[center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
     //add tap recongiser that will resign first responder while keybord is up and user taps anywhere
-    //tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                           // action:@selector(didTapAnywhere:)];
-
-    // Do any additional setup after loading the view, typically from a nib.
-    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
-    headerView.HeaderImageView.image = self.selectedInviteImage;
-    headerView.ArtistName.text = [self.userEvent objectForKey:@"eventTitle"];
-    self.vignetteLayer = [CAGradientLayer layer];
-    [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
-    [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
-    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
-    [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
-    [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
-    [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
-    [self.tableViewVC setParallaxHeaderView:headerView
-                                          mode:VGParallaxHeaderModeFill
-                                        height:200];
+    resignKeyBoardOnTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                            action:@selector(didTapAnywhere:)];
     
-    self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.addCommentTextfield.delegate = self;
-    [self getUserAttendingEvent];
-    
+   // resignKeyBoardOnSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self
+                                                                     //action:@selector(didTapAnywhere:)];
     
     [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
         
@@ -131,6 +99,8 @@
             [self.tableViewVC reloadData];
         });
     }];
+    [self getUserAttendingEvent];
+
 }
 
 
@@ -249,34 +219,59 @@
     return YES;
 }
 
-#pragma mark - Helper Methods - Keyboard
+#pragma mark - Helper Methods - UI
 
-//-(void)keyboardOnScreen:(NSNotification *)notification
-//{
-//    NSDictionary *info  = notification.userInfo;
-//    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
-//    
-//    CGRect rawFrame      = [value CGRectValue];
-//    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
-//    
-//    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
-//    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:keyboardFrame.size.height];
-//    [self replaceConstraintOnView:self.view withIdentifiyer:@"footerHeight" withConstant:keyboardFrame.size.height];
-//
-//    //[self replaceConstraintOnView:self.view withConstant:keyboardFrame.size.height];
-//
-//    [self.view addGestureRecognizer:tapRecognizer];
-//
-//}
-//-(void)keyboardWillHide:(NSNotification *) note
-//{
-//    [self.view removeGestureRecognizer:tapRecognizer];
-//}
-//-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
-//    [self.addCommentTextfield resignFirstResponder];
-//    [self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
-//
-//}
+-(void)layoutCommentBox{
+    
+    self.addCommentTextfield.text = @"Add comment here...";
+    self.addCommentTextfield.textColor = [UIColor lightGrayColor];
+    self.addCommentTextfield.clipsToBounds = YES;
+    self.addCommentTextfield.layer.cornerRadius = 5.0f;
+    self.addCommentTextfield.layer.borderWidth = 1.0f;
+    self.addCommentTextfield.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.addCommentTextfield.delegate = self;
+    self.UIimageUserImageAddCommentTextField.file = [[PFUser currentUser] objectForKey:JCUserthumbNailProfilePicture];
+    self.UIimageUserImageAddCommentTextField = [self addLayerMaskToImageView:self.UIimageUserImageAddCommentTextField];
+    [self.UIimageUserImageAddCommentTextField loadInBackground];
+    [IHKeyboardAvoiding setAvoidingView:(UIView *)self.addCommentView];
+
+}
+
+
+-(void)layoutHeaderView{
+    
+    // Do any additional setup after loading the view, typically from a nib.
+    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
+    headerView.HeaderImageView.image = self.selectedInviteImage;
+    headerView.ArtistName.text = [self.userEvent objectForKey:@"eventTitle"];
+    self.vignetteLayer = [CAGradientLayer layer];
+    [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
+    [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
+    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
+    [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+    [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
+    [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
+    [self.tableViewVC setParallaxHeaderView:headerView
+                                       mode:VGParallaxHeaderModeFill
+                                     height:200];
+    
+}
+
+
+-(void)keyboardOnScreen:(NSNotification *)notification
+{
+//[self.view addGestureRecognizer:resignKeyBoardOnSwipe];
+[self.view addGestureRecognizer:resignKeyBoardOnTap];
+}
+-(void)keyboardWillHide:(NSNotification *) note
+{
+//[self.view removeGestureRecognizer:resignKeyBoardOnSwipe];
+[self.view removeGestureRecognizer:resignKeyBoardOnTap];
+}
+
+-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
+[self.addCommentTextfield resignFirstResponder];
+}
 
 
 #pragma mark - Helper Methods -  Animation
@@ -308,26 +303,15 @@
 [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)replaceConstraintOnView:(UIView *)view withIdentifiyer: (NSString*)Identifyer withConstant:(float)constant{
+-(PFImageView*)addLayerMaskToImageView:(PFImageView*)imageView{
+    UIBezierPath *maskPath;
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(2,2)];
     
-    
-    [self.view.constraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *constraint, NSUInteger idx, BOOL *stop) {
-        // animating the constrain for the text field
-        if ([constraint.identifier isEqualToString:Identifyer]) {
-            constraint.constant = constant;
-            [self animateConstraints];
-        };
-        
-        
-    }];
-}
-
-- (void)animateConstraints
-{
-    
-    [UIView animateWithDuration:0.15 animations:^{
-        [self.view layoutIfNeeded];
-    }];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height);
+    maskLayer.path = maskPath.CGPath;
+    imageView.layer.mask = maskLayer;
+    return imageView;
 }
 
 
@@ -367,8 +351,7 @@
 
      self.addCommentTextfield.textColor = [UIColor lightGrayColor];
      self.addCommentTextfield.text = @"Add comment here...";
-    //[self.addCommentTextfield resignFirstResponder];
-    //[self replaceConstraintOnView:self.view withIdentifiyer:@"TextFieldBottomLayout" withConstant:0];
+     [self.addCommentTextfield resignFirstResponder];
 }
 
 
@@ -403,23 +386,23 @@
 {
     if (buttonIndex == 0)
     {
-        [self userChagnedStatus:self.going];
+        [self userChagnedStatus:JCUserEventUserGoing];
         self.userStatus = JCUserEventUserGoing;
     }
     else if (buttonIndex == 1)
     {
-        [self userChagnedStatus:self.gotTickets];
+        [self userChagnedStatus:JCUserEventUserGotTickets];
         self.userStatus = JCUserEventUserGotTickets;
     }
     
     else if (buttonIndex == 2)
     {
-        [self userChagnedStatus:self.maybe];
+        [self userChagnedStatus:JCUserEventUserMaybeGoing];
         self.userStatus = JCUserEventUserMaybeGoing;
     }
     else if (buttonIndex == 3)
     {
-        [self userChagnedStatus:self.notGoing];
+        [self userChagnedStatus:JCUserEventUserNotGoing];
         self.userStatus = JCUserEventUserNotGoing;
     }
 }
@@ -435,9 +418,11 @@
         
     }];
 }
+
 -(void)getUserAttendingEvent{
     
     [self.parseQuerys getUsersAttendingUserEvent:self.userEvent completionBlock:^(NSError *error, NSMutableDictionary *usersAttending) {
+        
         
         self.userAttendingEvent = usersAttending;
         NSArray *userInvited = [self.userEvent objectForKey:JCUserEventUsersInvited];
@@ -450,7 +435,6 @@
     
 }
 
-
 -(void)userSelectedPeopleAttedningGig{
     [self performSegueWithIdentifier:@"showPeopleAttendingGig" sender:self];
 }
@@ -460,9 +444,11 @@
     
     if ([segue.identifier isEqualToString:@"showPeopleAttendingGig"]) {
         RKSwipeBetweenViewControllers *DVC = segue.destinationViewController;
-        NSLog(@" segue event being passed in %@",self.userEvent);
-    
+        //NSLog(@" segue event being passed in %@",self.userEvent);
+        DVC.comingFromUserEventsPage = YES;
+       // NSLog(@"User event %@",self.userEvent);
         DVC.currentUserEvent = self.userEvent;
+    
     }
     
 }

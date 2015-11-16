@@ -10,6 +10,7 @@
 #import "RKSwipeBetweenViewControllers.h"
 #import "JCMyFiriendsMyArtistVC.h"
 #import "JCConstants.h"
+#import "JCAddPreampFriendsVC.h"
 
 
 //%%% customizeable button attributes
@@ -65,27 +66,55 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     self.hasAppearedFlag = NO;
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    JCMyFiriendsMyArtistVC* firendsGoing = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
-    firendsGoing.tableViewType = JCUserEventUserGoing;
-    firendsGoing.currentUserEvent = self.currentUserEvent;
     
     
-    JCMyFiriendsMyArtistVC* firendsGotTickets = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
-    firendsGotTickets.tableViewType = JCUserEventUserGotTickets;
-    firendsGotTickets.currentUserEvent = self.currentUserEvent;
     
-    JCMyFiriendsMyArtistVC* firendsMyabe = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
-    firendsMyabe.tableViewType = JCUserEventUserMaybeGoing;
-    firendsMyabe.currentUserEvent = self.currentUserEvent;
+    if (self.comingFromUserEventsPage) {
+        JCMyFiriendsMyArtistVC* firendsGoing = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
+        firendsGoing.tableViewType = JCUserEventUserGoing;
+        firendsGoing.currentUserEvent = self.currentUserEvent;
+        
+        
+        JCMyFiriendsMyArtistVC* firendsGotTickets = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
+        firendsGotTickets.tableViewType = JCUserEventUserGotTickets;
+        firendsGotTickets.currentUserEvent = self.currentUserEvent;
+        
+        JCMyFiriendsMyArtistVC* firendsMyabe = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
+        firendsMyabe.tableViewType = JCUserEventUserMaybeGoing;
+        firendsMyabe.currentUserEvent = self.currentUserEvent;
+        
+        JCMyFiriendsMyArtistVC* firendsInvited = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
+        firendsInvited.tableViewType = JCUserEventUsersEventInvited;
+        firendsInvited.currentUserEvent = self.currentUserEvent;
+        
+        
+        [viewControllerArray addObject:firendsGoing];
+        [viewControllerArray addObject:firendsGotTickets];
+        [viewControllerArray addObject:firendsMyabe];
+        [viewControllerArray addObject:firendsInvited];
+        
+    }else{
+        
+        
+        JCMyFiriendsMyArtistVC* facebookFriends = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
+        facebookFriends.tableViewType = JCAddMyFriendsMyArtistTypeFacebookFriends;
+        facebookFriends.myFriends = self.myFriends;
+        
+        JCAddPreampFriendsVC *preampFriendsSearch = [storyboard instantiateViewControllerWithIdentifier:@"PreampFriendsSearch"];
+        preampFriendsSearch.myFriends = self.myFriends;
+        
+        JCMyFiriendsMyArtistVC *recentAdds = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
+        recentAdds.tableViewType = JCAddMyFriendsMyArtistTypeJustRecentlyAdded;
+        recentAdds.myFriends = self.myFriends;
+        
+        [viewControllerArray addObject:facebookFriends];
+        [viewControllerArray addObject:preampFriendsSearch];
+        [viewControllerArray addObject:recentAdds];
+
+        
+    }
     
-    JCMyFiriendsMyArtistVC* firendsInvited = [storyboard instantiateViewControllerWithIdentifier:@"JCMyFiriendsMyArtistVC"];
-    firendsInvited.tableViewType = JCUserEventUsersEventInvited;
-    firendsInvited.currentUserEvent = self.currentUserEvent;
     
-    [viewControllerArray addObject:firendsGoing];
-    [viewControllerArray addObject:firendsGotTickets];
-    [viewControllerArray addObject:firendsMyabe];
-    [viewControllerArray addObject:firendsInvited];
 
     self.view.backgroundColor = [UIColor whiteColor];
     [self addNavBarForPeopleAttendingGig];
@@ -103,12 +132,18 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 //%%% sets up the tabs using a loop.  You can take apart the loop to customize individual buttons, but remember to tag the buttons.  (button.tag=0 and the second button.tag=1, etc)
 -(void)setupSegmentButtons {
     
-    navigationView = [[UIView alloc]initWithFrame:CGRectMake(0,self.navigationController.navigationBar.frame.size.height,self.view.frame.size.width,HEIGHT)];
-    
+    navigationView = [[UIView alloc]initWithFrame:CGRectMake(0,self.navigationController.navigationBar.bounds.size.height,self.view.frame.size.width,HEIGHT)];
+    //navigationView.backgroundColor = [UIColor yellowColor];
     NSInteger numControllers = [viewControllerArray count];
     
     if (!buttonText) {
-         buttonText = [[NSArray alloc]initWithObjects: @"Going",@"Tickets",@"Maybe",@"Invited",nil]; //%%%buttontitle
+        if (self.comingFromUserEventsPage) {
+            buttonText = [[NSArray alloc]initWithObjects: @"Going",@"Tickets",@"Maybe",@"Invited",nil]; //%%%buttontitle
+
+        }else{
+            buttonText = [[NSArray alloc]initWithObjects: @"Facebook",@"Preamp",@"Added Me",nil]; //%%%buttontitle
+
+        }
     }
     
     for (int i = 0; i<numControllers; i++) {

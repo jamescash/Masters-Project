@@ -42,7 +42,7 @@
     
     self.lableDateTime.text = ago;
     
-    NSString *comment = [commentActivity objectForKey:@"content"];
+    NSString *comment = [commentActivity objectForKey:JCUserActivityContent];
     self.commentText.text = comment;
     PFUser *commentOwner = [commentActivity objectForKey:JCUserActivityFromUser];
     

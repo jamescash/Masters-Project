@@ -23,6 +23,7 @@ PODS:
   - CCBottomRefreshControl (0.5.1):
     - Masonry (~> 0.6.2)
   - CSStickyHeaderFlowLayout (0.2.10)
+  - DGActivityIndicatorView (2.0)
   - DZNEmptyDataSet (1.7.2)
   - IHKeyboardAvoiding (2.5)
   - IHKeyboardDismissing (1.1)
@@ -41,7 +42,8 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - CCBottomRefreshControl
-  - CSStickyHeaderFlowLayout
+  - CSStickyHeaderFlowLayout (~> 0.2.9)
+  - DGActivityIndicatorView
   - DZNEmptyDataSet
   - IHKeyboardAvoiding
   - IHKeyboardDismissing
@@ -51,13 +53,14 @@ DEPENDENCIES:
   - NSDate+TimeAgo
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
-  - TLYShyNavBar
+  - TLYShyNavBar (~> 0.10.1)
   - VGParallaxHeader
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
+  DGActivityIndicatorView: 52875b025a6ccf6a431a905285c12e2bb95eb559
   DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
   IHKeyboardAvoiding: 8f14fed93405dd2c44ce070a26f780d9e477538c
   IHKeyboardDismissing: 7c23d41da51ca22f6a1091b3cf852821a2461ac9

@@ -13,4 +13,5 @@
 @interface JCMyFiriendsMyArtistVC : UIViewController
 @property (nonatomic,strong) NSString *tableViewType;
 @property (nonatomic,strong) PFObject *currentUserEvent;
+@property (nonatomic,strong) NSMutableArray *myFriends;
 @end

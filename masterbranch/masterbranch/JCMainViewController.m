@@ -13,7 +13,6 @@
 #import "JCParseQuerys.h"
 
 
-
 @interface JCMainViewController ()
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) PFRelation *artistRelations;
@@ -84,9 +83,9 @@
         if (!error && imageData){
          
         menuViewController.profilePicture.image = [UIImage imageWithData:imageData];
-        menuViewController.profilePicture.layer.cornerRadius = menuViewController.profilePicture.frame.size.height /2;
-        menuViewController.profilePicture.layer.masksToBounds = YES;
-        menuViewController.profilePicture.layer.borderWidth = 0;
+//        menuViewController.profilePicture.layer.cornerRadius = menuViewController.profilePicture.frame.size.height /2;
+//        menuViewController.profilePicture.layer.masksToBounds = YES;
+//        menuViewController.profilePicture.layer.borderWidth = 0;
         
         }else{
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);

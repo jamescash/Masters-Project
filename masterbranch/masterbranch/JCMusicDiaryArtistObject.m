@@ -29,10 +29,6 @@
         self.artist         = artits;
         self.artistImage    = [artits objectForKey:@"artistImage"];
         self.dateComponents = dateComponents;
-   
-
-        
-        
     }
     return self;
 }

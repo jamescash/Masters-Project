@@ -13,10 +13,13 @@
 #import "JCMyFriendsCell.h"
 #import "JCAddMyFriendsVC.h"
 #import "JCConstants.h"
-
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 #import "RESideMenu.h"
 
+#import "RKSwipeBetweenViewControllers.h"
 
 
 
@@ -26,7 +29,9 @@
 @property (nonatomic,strong) NSArray *tableViewDataSource;
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 @property (nonatomic,strong) NSMutableArray *imageFiles;
-@property (nonatomic,strong) NSArray *MyFireds;
+//@property (nonatomic,strong) NSArray *MyFireds;
+@property (nonatomic,strong) UIImageView *addFriends;
+@property (nonatomic,strong) UIImageView *removeFriends;
 
 
 @end
@@ -40,8 +45,19 @@
     [super viewDidLoad];
   
     self.imageFiles = [[NSMutableArray alloc]init];
-    self.tableView.allowsSelection = NO;
+    
+    
+    
+    
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
+        self.tableView.allowsSelection = YES;
+     }else{
+        self.tableView.allowsSelection = NO;
+    }
+    
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
+    
+   
 }
 
 
@@ -49,6 +65,14 @@
     firendskey = @"friends";
     artistkey =@"artist";
     
+    if (![self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]&&![self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]) {
+        
+        self.myFriends = [[NSMutableArray alloc]init];
+
+    }
+    
+    
+   
     
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
         [self addNavBarForMyFriendsMyAritst];
@@ -58,7 +82,7 @@
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
             
             self.tableViewDataSource = response;
-            self.MyFireds = response;
+            [self.myFriends addObjectsFromArray:response];
 
 
             
@@ -84,6 +108,8 @@
     }else if ([self.tableViewType isEqualToString:JCUserEventUserGoing]){
         
         [self addcontentOffsetForPageView];
+        
+        
         
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGoing completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = userGoing;
@@ -132,6 +158,24 @@
         }];
         
         
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
+        
+        [self addcontentOffsetForPageView];
+        [self getusersFacebookfriebndsAndRealodTableView];
+        
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
+        [self addcontentOffsetForPageView];
+        
+        [self.JCParseQuerys getPeopleThatRecentlyAddedMe:^(NSError *error, NSArray *response) {
+            self.tableViewDataSource = response;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+            
+        }];
+        
+        
     }
     
     
@@ -139,9 +183,9 @@
     
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCUserEventUserGoing]||[self.tableViewType isEqualToString:JCUserEventUsersEventInvited]||[self.tableViewType isEqualToString:JCUserEventUserMaybeGoing]||[self.tableViewType isEqualToString:JCUserEventUserGotTickets]){
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCUserEventUserGoing]||[self.tableViewType isEqualToString:JCUserEventUsersEventInvited]||[self.tableViewType isEqualToString:JCUserEventUserMaybeGoing]||[self.tableViewType isEqualToString:JCUserEventUserGotTickets]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
     
         JCMyFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsCell" forIndexPath:indexPath];
     
@@ -151,6 +195,9 @@
         PFFile *profilePic = [user objectForKey:@"thumbnailProfilePicture"];
         cell.userImage.file = profilePic;
         cell.userImage.contentMode = UIViewContentModeScaleToFill;
+        cell.userImage = [self addLayerMaskToImageView:cell.userImage];
+       
+        
         NSUInteger randomNumber = arc4random_uniform(5);
            switch (randomNumber) {
                 case 0:
@@ -171,7 +218,20 @@
                  break;
            }
         
+        if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
+           
+            if ([self IsFriend:user]) {
+                
+                    UIImage *removeFriends = [UIImage imageNamed:@"iconRemoveFriend.png"];
+                    cell.cellButton.image = removeFriends;
+               
+            }else{
+                     UIImage *addFriends = [UIImage imageNamed:@"iconAddFriend.png"];
+                  cell.cellButton.image = addFriends;
 
+              }
+        
+        }
         
         [cell.userImage loadInBackground];
        
@@ -186,6 +246,7 @@
         if (artistImage) {
             cell.artistImage.image = artistImage;
             cell.artistImage.contentMode = UIViewContentModeScaleToFill;
+            
         }else {
             NSUInteger randomNumber = arc4random_uniform(5);
             switch (randomNumber) {
@@ -237,6 +298,81 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     [super didReceiveMemoryWarning];
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
+    
+   if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
+   
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    JCMyFriendsCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    
+    //if user tapped is a friend add them, else remove them
+    PFUser *user = [self.tableViewDataSource objectAtIndex:indexPath.row];
+    
+    //if relation for the current key doesnt exist on parse it will be created otherwise the existing one is is returned
+    PFRelation *FriendsRelation = [[PFUser currentUser] relationForKey:@"FriendsRelation"];
+    
+       
+    if ([self IsFriend:user]) {
+        
+        UIImage *removeFriends = [UIImage imageNamed:@"iconRemoveFriend.png"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.cellButton.image = removeFriends;
+        });
+
+        for (PFUser *firend in self.myFriends){
+            
+            if ( [firend.objectId isEqualToString:user.objectId] ) {
+                [self.myFriends removeObject:firend];
+                break;
+            }
+            
+
+           [PFObject unpinAllObjectsInBackgroundWithName:@"MyFriends"];
+           [FriendsRelation removeObject:user];
+            
+        
+        }
+    }else{
+        
+        UIImage *addFriends = [UIImage imageNamed:@"iconAddFriend.png"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.cellButton.image = addFriends;
+        });
+
+        [self.myFriends addObject:user];
+        [PFObject unpinAllObjectsInBackgroundWithName:@"MyFriends"];
+        [FriendsRelation addObject:user];
+        
+
+        [self.JCParseQuerys postActivtyForUserActionAddFriend:user completionBlock:^(NSError *error) {
+            
+            if (error) {
+                NSLog(@"%@",error);
+            }
+            
+        }];
+        
+    }
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [self.tableView reloadData];
+       });
+       
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error){
+            NSLog(@"error saving friend relation delete friend %@",error);
+        }else{
+            NSLog(@"user saved");
+        }
+    
+    
+    }];
+       
+   }
+}
+
 -(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
     
     // if we fetched already, just return it via the completion block
@@ -256,10 +392,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     [pfFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error) {
             UIImage *eventImage = [UIImage imageWithData:imageData];
-           
-            
-            
-            self.imageFiles[indexPath.row][@"image"] = eventImage;
+           self.imageFiles[indexPath.row][@"image"] = eventImage;
             completion(eventImage, nil);
         } else {
             completion(nil, error);
@@ -269,6 +402,62 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
 #pragma - HelperMethods
 
+-(BOOL)IsFriend:(PFUser *)user{
+    
+    for (PFUser *firend in self.myFriends){
+        
+        if ( [firend.objectId isEqualToString:user.objectId] ) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+-(PFImageView*)addLayerMaskToImageView:(PFImageView*)imageView{
+    UIBezierPath *maskPath;
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(2.0, 2.0)];
+    
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height);
+    maskLayer.path = maskPath.CGPath;
+    imageView.layer.mask = maskLayer;
+    return imageView;
+}
+
+-(void)getusersFacebookfriebndsAndRealodTableView{
+    
+    
+    
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                  initWithGraphPath:@"/me/friends"
+                                  parameters:nil
+                                  HTTPMethod:@"GET"];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                          id result,
+                                          NSError *error) {
+        
+        NSArray *facebookUsers = result[@"data"];
+        NSMutableArray *facebookUserIds = [[NSMutableArray alloc]init];
+        for (NSDictionary *facebookUser in facebookUsers) {
+            NSString *FBUserId = facebookUser[@"id"];
+            [facebookUserIds addObject:FBUserId];
+        }
+        
+        [self.JCParseQuerys getPreAmpUsersThatMatchTheseFBids:facebookUserIds completionblock:^(NSError *error, NSArray *response) {
+            
+            if (error) {
+                NSLog(@"error getting Users for FBIds %@",error);
+            }else{
+                self.tableViewDataSource = response;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            }
+            
+        }];
+    }];
+}
 
 - (void)setupNavBarForScreen:(NSString*)screenType
 {
@@ -284,14 +473,17 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 
 -(void)serchbuttonPressed{
+    //TODO why did that crash here?
     [self performSegueWithIdentifier:@"addFriends" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"addFriends"]){
         //Pass list of friends to add freinds VC so it knows who's alrealdy your friends3
-        JCAddMyFriendsVC *addfirendsPage = (JCAddMyFriendsVC*)segue.destinationViewController;
-        addfirendsPage.myFriends = [NSMutableArray arrayWithArray:self.MyFireds];
+        
+        RKSwipeBetweenViewControllers *DVC = (RKSwipeBetweenViewControllers*)segue.destinationViewController;
+        DVC.comingFromUserEventsPage = NO;
+        DVC.myFriends = self.myFriends;
     }
 };
 
@@ -320,12 +512,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 - (void)addcontentOffsetForPageView
 {
-    
-    
     [self.tableView setContentInset:UIEdgeInsetsMake(80,0,0,0)];
-
-
-    
 }
 
 -(void)BackButtonPressed{

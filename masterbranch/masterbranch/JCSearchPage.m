@@ -16,7 +16,8 @@
 #import "MGSwipeButton.h"
 #import "JCHomeScreenDataController.h"
 #import "JCConstants.h"
-#import "JCCollectionViewHeaders.h"
+#import "JCSearchHeaders.h"
+#import "JCSortButtonsCell.h"
 
 
 @interface JCSearchPage (){
@@ -33,8 +34,15 @@
 @property (weak, nonatomic) IBOutlet UIImageView *BackGroundImage;
 
 @property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
-@property (strong,nonatomic) eventObject *eventForTitleBox;
 @property (strong,nonatomic) HeaderViewWithImage *headerView;
+@property (strong,nonatomic) NSString *searchQuery;
+@property (strong,nonatomic) NSString *resultsType;
+//Results for current Query
+@property (nonatomic,strong) NSDictionary *currentResults;
+@property (nonatomic,strong) JCSortButtonsCell *ButtonsheaderView;
+
+
+
 
 @end
 
@@ -68,23 +76,29 @@
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    static NSString *CellIdentifier = @"sortButtonsCell";
-    UITableViewCell *ButtonsheaderView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //JCCollectionViewHeaders *StringHeaderView;
+    static NSString *sortButtons = @"sortButtonsCell";
+    static NSString *headerViews = @"header";
+
+    self.ButtonsheaderView = [tableView dequeueReusableCellWithIdentifier:sortButtons];
+    JCSearchHeaders *headerView = [tableView dequeueReusableCellWithIdentifier:headerViews];
     if (sortedByDistanceFromIreland) {
         switch (section)
         {
             case 0:
-                if (ButtonsheaderView == nil){
+                if (self.ButtonsheaderView == nil){
                     [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
                 }
-                return ButtonsheaderView;
+                return self.ButtonsheaderView;
                 break;
             case 1:
-                return [self makeHeaderWithText:@"Irish Gigs"];
+               
+                [headerView formatHeaderWithTitle:@"Gigs in Ireland"];
+                return headerView;
                 break;
             case 2:
-                return [self makeHeaderWithText:@"Distance from Ireland"];
+                [headerView formatHeaderWithTitle:@"Distance from Ireland"];
+
+                return headerView;
                 break;
             default:
                 break;
@@ -93,20 +107,21 @@
         switch (section)
         {
             case 0:
-                if (ButtonsheaderView == nil){
+                if (self.ButtonsheaderView == nil){
                     [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
                 }
-                return ButtonsheaderView;
+                return self.ButtonsheaderView;
                 break;
             case 1:
-                return [self makeHeaderWithText:@"Sorted by date"];
+                [headerView formatHeaderWithTitle:@"Sorted by date"];
+                return headerView;
                 break;
             default:
                 break;
         }
     }
-    
-    return [self makeHeaderWithText:@"Oops Something went wrong"];
+    [headerView formatHeaderWithTitle:@"Oops Something went wrong"];
+    return headerView;
     
 }
 
@@ -117,7 +132,7 @@
         switch (section)
         {
             case 0:
-                return 100;
+                return 112;
                 break;
             case 1:
                 return 50;
@@ -132,7 +147,7 @@
         switch (section)
         {
             case 0:
-                return 100;
+                return 112;
                 break;
             case 1:
                 return 50;
@@ -143,17 +158,6 @@
     }
     
     return 140;
-}
-
--(UIView*)makeHeaderWithText:(NSString*)title{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.SearchResultsTable.frame.size.width, 18)];
-    /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.SearchResultsTable.frame.size.width, 18)];
-    NSString *string = title;
-    [label setText:string];
-    [view addSubview:label];
-    [view setBackgroundColor:[UIColor colorWithRed:166/255.0 green:177/255.0 blue:186/255.0 alpha:1.0]]; //your background color
-    return view;
 }
 
 
@@ -249,12 +253,12 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
-    
+    sortedByDistanceFromIreland = YES;
     NSString *artistNameEncodedRequest = [searchBar.text stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    //when the user clicks seacrh alloc init the search HTTPCline with the search trem
-    //_searchclient = [[JCSearchPageHTTPClient alloc]initWithArtistName:searchBar.text];
-    //self.searchclient.JCSearchPageHTTPClientdelegate = self;
-    
+    self.searchQuery = artistNameEncodedRequest;
+    self.headerView.HeaderImageView.image = nil;   //[UIImage imageNamed:@"loadingGray.png"];
+    self.headerView.ArtistName.text = @"loading..";
+
     [self.JCSearchAPI getmbidNumberfor:artistNameEncodedRequest competionBlock:^(NSError *error, NSString *mbid) {
         
         if (error) {
@@ -269,17 +273,20 @@
                 if ([[results objectForKey:JCSeachPageResultsDicResults] isKindOfClass:[NSString class]] ) {
                     NSString *resultsType = [results objectForKeyedSubscript:JCSeachPageResultsDicResults];
                     if ([resultsType isEqualToString:JCSeachPageResultsDicNoUpcomingGigs]) {
-                        
-                        NSLog(@"No upcmoing Gigd");
+                        self.resultsType = JCSeachPageResultsDicNoUpcomingGigs;
+
+                        [self handelEmptyResultsOftype:JCSeachPageResultsDicNoUpcomingGigs];
 
                     }else if([resultsType isEqualToString:JCSeachPageResultsDicResultsArtistUnknown]){
                         
-                        NSLog(@"Artist Unknown");
+                        self.resultsType = JCSeachPageResultsDicResultsArtistUnknown;
+                        [self handelEmptyResultsOftype:JCSeachPageResultsDicResultsArtistUnknown];
+
 
                     }
                     
                     }else{
-                    
+                     
                         [self handelSearchResultsWithUpcmoingGigs:results];
                   
                     }
@@ -291,46 +298,40 @@
     [searchBar resignFirstResponder];
 }
 
-
 -(void)handelSearchResultsWithUpcmoingGigs:(NSDictionary*)results {
 
+    self.currentResults = results;
     NSDictionary *resultsDic = [results objectForKey:JCSeachPageResultsDicResults];
     self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedDistanceFromIreland];
     
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self formatHeaderView];
+        [self.SearchResultsTable reloadData];
+        
+    });
+    
+    
+    
+}
+
+-(void)handelEmptyResultsOftype:(NSString*)resultsType{
+    
+    self.dataSource = @{};
+    
+      dispatch_async(dispatch_get_main_queue(), ^{
+          [self formatHeaderView];
+          [self.SearchResultsTable reloadData];
+      });
+}
+
+-(void)formatHeaderView{
+    
         // Do any additional setup after loading the view, typically from a nib.
+    if (!self.headerView) {
         self.headerView = [HeaderViewWithImage instantiateFromNib];
-        
-//        for (NSArray *section in self.dataSource) {
-//            
-//            if ([section count]!=0) {
-//                self.eventForTitleBox = [section firstObject];
-//                break;
-//            }
-//        }
-        
-        if (self.eventForTitleBox != nil){
-            self.headerView.ArtistName.text = self.eventForTitleBox.eventTitle;
-            
-            [self getHeaderImageForSeachResults:self.eventForTitleBox complectionBlock:^(NSError *error, UIImage *image) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if (error) {
-                        NSLog(@"%@",error);
-                        self.headerView.HeaderImageView.image = [UIImage imageNamed:@"loadingGray.png"];
-                        
-                    }else{
-                        self.headerView.HeaderImageView.image = image;
-                        
-                    }
-                });
-                
-            }];
-        }
-        
-        //NSArray *sectionOne = [self.searchResults firstObject];
-        //headerView.HeaderImageView.image =
+        self.headerView.ArtistName.text = @"Loading...";
+        [self setNameAndImageOnHeaderView:self.searchQuery];
         self.vignetteLayer = [CAGradientLayer layer];
         [self.vignetteLayer setBounds:[self.headerView.HeaderImageView bounds]];
         [self.vignetteLayer setPosition:CGPointMake([self.headerView.HeaderImageView  bounds].size.width/2.0f, [self.headerView.HeaderImageView  bounds].size.height/2.0f)];
@@ -341,15 +342,69 @@
         [self.SearchResultsTable setParallaxHeaderView:self.headerView
                                                   mode:VGParallaxHeaderModeFill
                                                 height:200];
-        [self.SearchResultsTable reloadData];
-    });
+    }else{
+        [self setNameAndImageOnHeaderView:self.searchQuery];
+
+    }
     
-    
+        
     
 }
 
+-(void)setNameAndImageOnHeaderView:(NSString*)artistName {
+   
+        
+        //making a seperate call to bandsintown to get the artist image, this means we will get the image even if that artist has no upcmoing gigs.
+        
+        
+    
+    [self.JCSearchAPI getArtistImage:artistName andMbidNumber:nil competionBlock:^(NSError *error, NSDictionary *artistInfo) {
+           
+        
+        
+        
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
 
+                NSLog(@"%@",error);
+                self.headerView.HeaderImageView.image = [UIImage imageNamed:@"loadingGray.png"];
+                self.headerView.ArtistName.text = @"loading..";
+                });
 
+            }else{
+                NSString  *artistName = [artistInfo objectForKey:@"artistName"];
+                UIImage   *artistImage = [artistInfo objectForKey:@"artistImage"];
+                    
+                    NSLog(@"ARTIST NAME %@",artistName);
+                    
+                 if (artistName == nil&&artistImage == nil){
+                     dispatch_async(dispatch_get_main_queue(), ^{
+
+                     self.headerView.ArtistName.text = @"Uknown Artist";
+                    });
+
+                 }else{
+                
+                     dispatch_async(dispatch_get_main_queue(), ^{
+
+                     self.headerView.HeaderImageView.image = artistImage;
+                         self.headerView.ArtistName.text = artistName;
+
+                     });
+
+                 }
+                    
+                    
+
+            }
+            
+        }];
+        
+        
+      
+     
+
+}
 
 -(IBAction)UserSelectedDone:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -357,16 +412,7 @@
 
 
 
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
-    NSLog(@"cancle");
-    
-    self.dataSource = nil;
-    dispatch_async(dispatch_get_main_queue(), ^{
-                
-        [self.SearchResultsTable reloadData];
-            });
-}
+
 
 #pragma - HelperMethods
 - (void)addCustomButtonOnNavBar
@@ -400,9 +446,41 @@
 }
 
 
-#pragma - Empty 
 
-- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+#pragma - Actions
+
+- (IBAction)buttonSortByDate:(id)sender {
+    
+    sortedByDistanceFromIreland = NO;
+    
+  
+    [self.ButtonsheaderView buttonSortByDateClicked];
+    
+    NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
+    self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.SearchResultsTable reloadData];
+    });
+    
+    
+}
+
+- (IBAction)buttonSortByDistance:(id)sender {
+    sortedByDistanceFromIreland = YES;
+    
+    NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
+    self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedDistanceFromIreland];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.SearchResultsTable reloadData];
+    });
+    
+}
+
+
+#pragma - Empty State
+-(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
     
@@ -415,21 +493,37 @@
     
     return animation;
 }
+-(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
+    
     NSString *text = @"Search";
+    
+    if ([self.resultsType isEqualToString:JCSeachPageResultsDicNoUpcomingGigs]){
+        text = @"No upcmoing gigs found";
+    }else if ([self.resultsType isEqualToString:JCSeachPageResultsDicResultsArtistUnknown]){
+        text = @"Unkown Artist";
+
+    }
+    
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName: [UIColor darkGrayColor]};
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
-
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+-(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"Type the name of an artist or band and we will tell you the next time they are playing in Ireland";
+    
+    
+    if ([self.resultsType isEqualToString:JCSeachPageResultsDicNoUpcomingGigs]){
+        text =[NSString stringWithFormat: @"Looks like we couldn't find any upcoming gigs for %@",self.SearchBar.text];
+    }else if ([self.resultsType isEqualToString:JCSeachPageResultsDicResultsArtistUnknown]){
+        text =[NSString stringWithFormat: @"We dont seem to have %@ on our database",self.SearchBar.text];
+        
+    }
+    
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;

@@ -24,11 +24,15 @@
     self.labelNumberInvited.userInteractionEnabled = YES;
     self.lableNumberGoing.userInteractionEnabled = YES;
     self.lableNumberGotTickets.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tapGesture =
+    UITapGestureRecognizer *GotTickets =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
-    [self.lableNumberGotTickets addGestureRecognizer:tapGesture];
-    [self.lableNumberGoing addGestureRecognizer:tapGesture];
-    [self.labelNumberInvited addGestureRecognizer:tapGesture];
+    [self.lableNumberGotTickets addGestureRecognizer:GotTickets];
+    UITapGestureRecognizer *Going =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
+    [self.lableNumberGoing addGestureRecognizer:Going];
+    UITapGestureRecognizer *Invited =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
+    [self.labelNumberInvited addGestureRecognizer:Invited];
 
 }
 
@@ -69,9 +73,7 @@
 }
 
 -(void)userSelectedPeopleAttedningGig{
-    NSLog(@"delage should work");
-
-    [self.JCUserAttendingGigCellDelegate userSelectedPeopleAttedningGig];
+[self.JCUserAttendingGigCellDelegate userSelectedPeopleAttedningGig];
 }
 
 

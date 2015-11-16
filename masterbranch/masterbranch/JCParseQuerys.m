@@ -173,7 +173,7 @@
 };
 -(void)getMyFriendsfromLocalDataStorage:(void (^)(NSError *error, NSArray *response))finishedGettingMyFriendsfromLocalDataStorage{
     
-     PFQuery *MyFriendsfromLocalDataStorage  = [PFUser query];
+    PFQuery *MyFriendsfromLocalDataStorage  = [PFUser query];
     [MyFriendsfromLocalDataStorage fromLocalDatastore];
     [MyFriendsfromLocalDataStorage orderByAscending:@"username"];
     //TODO uncomment line so that users cant see themselfs in frineds list
@@ -239,13 +239,18 @@
            [getMyInvites orderByDescending:JCParseGeneralKeyCreatedAt];
        }
     
-        [getMyInvites findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) { self.MyInvties = [[NSArray alloc]init];
+        [getMyInvites findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            //self.MyInvties = [[NSArray alloc]init];
+            
             if (error) {
                 NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
                 [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             }else{
-              self.MyInvties = objects;
-              finishedGettingMyInvites(nil,objects);
+                
+                finishedGettingMyInvites(nil,objects);
+
+              //self.MyInvties = objects;
+                
             }
           }];
 
@@ -282,6 +287,7 @@
                 
                 //TO irish english gigs coming back odd something wrong with this query
                 PFQuery *query  = [upcomingGigRelation query];
+                
                 if (onlyIrishGigs) {
                     [query whereKey:@"venueCounty" equalTo:@"Ireland"];
                 }else{
@@ -329,11 +335,11 @@
 
 -(void)getEventComments:(PFObject *)event complectionBlock:(void (^)(NSError *, NSMutableArray *))finishedgettingEventComments{
     
-    PFQuery *getEventCommentsActivitys = [PFQuery queryWithClassName:@"Activity"];
-    [getEventCommentsActivitys whereKey:@"type" equalTo:@"userComment"];
-    [getEventCommentsActivitys whereKey:@"toEvent" equalTo:event];
-    [getEventCommentsActivitys orderByAscending:@"createdAt"];
-    
+    PFQuery *getEventCommentsActivitys = [PFQuery queryWithClassName:JCParseClassActivity];
+    [getEventCommentsActivitys whereKey:JCUserActivityType equalTo:JCUActivityTypeUserComment];
+    [getEventCommentsActivitys whereKey:JCUserActivityToEvent equalTo:event];
+    [getEventCommentsActivitys orderByAscending:JCParseGeneralKeyCreatedAt];
+    [getEventCommentsActivitys includeKey:JCUserActivityFromUser];
     
     [getEventCommentsActivitys findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
@@ -358,26 +364,43 @@
     
     
 }
--(void)getUpcomingGigsforAartis:(PFObject *)artist onMonthIndex:(int)monthIndex complectionblock:(void (^)(NSError *, NSArray *))getUpcomingGigsforAartis{
+
+
+
+
+-(void)getUpcomingGigsforAartis:(PFObject*) artist onMonthIndex: (int)monthIndex isIrishQuery: (BOOL) isIrishQuery complectionblock: (void(^)(NSError* error,NSArray* response))getUpcomingGigsforAartis{
     
     
-                PFRelation *upcomingGigd = [artist objectForKey:@"upComingGigsRel"];
-                PFQuery *query  = [upcomingGigd query];
-                [query whereKey:@"monthIndex" equalTo:[NSNumber numberWithInteger:(monthIndex-1)]];
-                [query whereKey:@"venueCounty" equalTo:@"Ireland"];
-                [query orderByAscending:@"datetime"];
-                [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-                    
-                    if (error) {
-                        NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
-                        [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
-                        NSLog(@"upComingGigsRel error %@",error);
-                    }else{
-                         getUpcomingGigsforAartis(nil,objects);
-                        };
-                 }];
+    
+    
+    PFRelation *upcomingGigd = [artist objectForKey:@"upComingGigsRel"];
+    PFQuery *query  = [upcomingGigd query];
+    [query whereKey:@"monthIndex" equalTo:[NSNumber numberWithInteger:(monthIndex-1)]];
+    
+    if (isIrishQuery) {
+        [query whereKey:@"venueCounty" equalTo:@"Ireland"];
+
+    }else{
+        [query whereKey:@"venueCounty" equalTo:@"United Kingdom"];
+
+    }
+    
+    
+    [query orderByAscending:@"datetime"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+            NSLog(@"upComingGigsRel error %@",error);
+        }else{
+            getUpcomingGigsforAartis(nil,objects);
+        };
+    }];
     
 }
+
 //Use/Filling Artist Images Dictionary
 -(void)DownloadImageForArtist:(NSString*)artistName completionBlock:(void(^)(NSError*error,UIImage* image))finishedDownloadingImag
 {
@@ -428,6 +451,7 @@
 
    }
 }
+
 -(void)getPreAmpUsersThatMatchTheseFBids:(NSMutableArray*)FBIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUser{
     
     
@@ -717,11 +741,13 @@
 
 -(void)postActivtyForUserActionEventStatus:(NSString*)usersStauts eventobject:(PFObject*) eventobject completionBlock: (void(^)(NSError* error))finishedpostActivtyForUser{
     
-    PFObject *userEventStatus = [PFObject objectWithClassName:@"Activity"];
-    [userEventStatus setObject:@"eventStatus" forKey:@"type"];
-    [userEventStatus setObject:[PFUser currentUser] forKey:@"fromUser"];
-    [userEventStatus setObject:eventobject forKey:@"toEvent"];
-    [userEventStatus setObject:usersStauts forKey:@"content"];
+    
+    
+    PFObject *userEventStatus = [PFObject objectWithClassName:JCParseClassActivity];
+    [userEventStatus setObject:JCUserActivityTypeEventStatus forKey:JCUserActivityType];
+    [userEventStatus setObject:[PFUser currentUser] forKey:JCUserActivityFromUser];
+    [userEventStatus setObject:eventobject forKey:JCUserActivityToEvent];
+    [userEventStatus setObject:usersStauts forKey:JCUserActivityContent];
     
     
     
@@ -738,6 +764,129 @@
     }];
     
 }
+
+
+-(void)postActivtyForUserActionAddFriend:(PFUser*)UserAdded completionBlock: (void(^)(NSError* error))finishedpostActivtyForAddFriends{
+   
+    
+    [self findoutIfAddFriendsActivityAlreadyExistst:UserAdded completionBlock:^(NSError *error, bool activityDoesExists) {
+        
+        if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%ld", (long)[error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+            finishedpostActivtyForAddFriends(error);
+        }else{
+            
+            if (activityDoesExists) {
+
+                NSLog(@"activity does axist %d",activityDoesExists);
+                finishedpostActivtyForAddFriends(nil);
+
+            }else{
+                //ACTIVITY did not exist so lets make a new one and save it
+                NSLog(@"activity does NOT axist %d",activityDoesExists);
+
+                PFObject *addFriendActivity = [PFObject objectWithClassName:JCParseClassActivity];
+                [addFriendActivity setObject:JCUserActivityTypeAddFriend forKey:JCUserActivityType];
+                [addFriendActivity setObject:[PFUser currentUser] forKey:JCUserActivityFromUser];
+                [addFriendActivity setObject:UserAdded forKeyedSubscript:JCUserActivityToUser];
+                
+                
+                [addFriendActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    
+                    if (error) {
+                        NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                        [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+                        finishedpostActivtyForAddFriends(error);
+                    }else{
+                        
+                        finishedpostActivtyForAddFriends(nil);
+                    }
+                }];
+              }
+         }
+     }];
+}
+
+
+-(void)findoutIfAddFriendsActivityAlreadyExistst:(PFUser*)UserBeingAdded completionBlock: (void(^)(NSError* error,bool activityDoesExists))finishedpostActivtyForAddFriends{
+
+    
+    PFQuery *doesActivityExist = [PFQuery queryWithClassName:JCParseClassActivity];
+    [doesActivityExist whereKey:JCUserActivityType equalTo:JCUserActivityTypeAddFriend];
+    [doesActivityExist whereKey:JCUserActivityFromUser equalTo:[PFUser currentUser]];
+    [doesActivityExist whereKey:JCUserActivityToUser equalTo:UserBeingAdded];
+    
+    [doesActivityExist findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            finishedpostActivtyForAddFriends(error,nil);
+        }else{
+            
+            if ([objects count]>0) {
+                //ACTIVITY already exists to return YES
+                //and save it so it updates on the backend
+                
+                PFObject *activity = [objects firstObject];
+                //NSLog(@"%@",activity);
+                //NSDate *now = [NSDate date];
+               // [activity setValue:now forKey:JCParseGeneralKeyCreatedAt];
+                [activity saveInBackground];
+                finishedpostActivtyForAddFriends(nil,YES);
+            }else{
+                //ACTIVITY donesnt exists to return NO
+                finishedpostActivtyForAddFriends(nil,NO);
+            }
+        }
+        
+    }];
+}
+
+
+
+
+
+
+-(void)getPeopleThatRecentlyAddedMe:(void (^)(NSError *, NSArray *))finishedGettingPeopleThatRecentlyAddedMe{
+    
+    
+    PFQuery *whoRecentlyAddedMe = [PFQuery queryWithClassName:JCParseClassActivity];
+    [whoRecentlyAddedMe whereKey:JCUserActivityType equalTo:JCUserActivityTypeAddFriend];
+    [whoRecentlyAddedMe whereKey:JCUserActivityToUser equalTo:[PFUser currentUser]];
+    [whoRecentlyAddedMe orderByDescending:JCParseGeneralKeyCreatedAt];
+    
+    [whoRecentlyAddedMe includeKey:JCUserActivityFromUser];
+    
+
+    
+    [whoRecentlyAddedMe findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+       
+        if (error) {
+
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+            finishedGettingPeopleThatRecentlyAddedMe(error,nil);
+        }else{
+
+            NSMutableArray *users = [[NSMutableArray alloc]init];
+            
+            for (PFObject *activity in objects) {
+                 PFUser *user = [activity objectForKey:JCUserActivityFromUser];
+                [users addObject:user];
+            }
+            
+            
+            finishedGettingPeopleThatRecentlyAddedMe(nil,users);
+
+        }
+        
+    }];
+    
+    
+    
+}
+
+
 
 -(void)getUserEventStatus:(PFObject *)eventobject completionBlock:(void (^)(NSError *, PFObject *))finishedgetActivtyForUser{
     
@@ -878,13 +1027,13 @@
     
     }else{
    
-    
+       // NSLog(@"Current event %@",currentEvent);
     
     PFQuery *getUserEventStatus = [PFQuery queryWithClassName:JCParseClassActivity];
     [getUserEventStatus whereKey:JCUserActivityType equalTo:@"eventStatus"];
-    [getUserEventStatus whereKey:@"toEvent" equalTo:currentEvent];
+    [getUserEventStatus whereKey:JCUserActivityToEvent equalTo:currentEvent];
     [getUserEventStatus whereKey:JCUserActivityContent equalTo:UserEventStatus];
-    
+    [getUserEventStatus includeKey:JCUserActivityFromUser];
     
     
     
@@ -904,7 +1053,7 @@
                 
             }
             
-            NSLog(@"users %@",users);
+            //NSLog(@"users %@",users);
             finishedgettingUsersGoingToEvent(nil,users);
             }
         

@@ -224,6 +224,56 @@
     
 }
 
+
+
+-(void)getArtistImage:(NSString*)artistname andMbidNumber:(NSString*)mbidNumber competionBlock:(void(^)(NSError* error,NSDictionary *artistInfo))finishedGettingArtistImage{
+    
+    
+    NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@.json?api_version=2.0&app_id=PreAmp",artistname];
+    
+    NSURL *url = [NSURL URLWithString:endpoint];
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            finishedGettingArtistImage(error,nil);
+        }else{
+       
+    NSDictionary *JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
+            NSLog(@"%@",JSONresults);
+            NSDictionary *returnDic;
+            NSString *URLString = [JSONresults objectForKey:@"thumb_url"];
+            NSString *artistName = [JSONresults objectForKey:@"name"];
+            if (URLString) {
+                NSURL *imageNSURL = [[NSURL alloc]initWithString:URLString];
+                NSData *imageData = [[NSData alloc]initWithContentsOfURL:imageNSURL];
+                UIImage *downloadedImage = [UIImage imageWithData:imageData];
+                
+                if (artistName) {
+                    returnDic = @{@"artistName":artistName,@"artistImage":downloadedImage};
+                    NSLog(@"finished");
+                    finishedGettingArtistImage(nil,returnDic);
+
+                }
+                
+            }else{
+                //UNKNOWN ARTIST RETUN NOTING
+                NSDictionary *returnDic = @{};
+                finishedGettingArtistImage(nil,returnDic);
+
+
+                
+            }
+        
+        }
+    
+    }];
+
+    
+    ///http://api.bandsintown.com/artists/mbid_%@?format=json&api_version=2.0&app_id=PreAmp
+    
+}
+
 #pragma - Echo Nest
 
 -(void)getmbidNumberfor:(NSString*)artistname competionBlock:(void(^)(NSError* error,NSString * mbid))finishedGettingMbid{
