@@ -26,11 +26,8 @@
 -(void)getMyFriends:(void(^)(NSError* error,NSArray* response))finishedGettingMyFriends;
 
 
-//-(void)getMyInvites:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites;
 
 -(void)getMyInvitesforType:(NSString*)userEventsType completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingMyInvites;
-
-
 
 
 -(void)getUpcomingGigsforAartis:(PFObject*) artist onMonthIndex: (int)monthIndex isIrishQuery: (BOOL) isIrishQuery complectionblock: (void(^)(NSError* error,NSArray* response))getUpcomingGigsforAartis;
@@ -42,10 +39,14 @@
 
 -(void)getPeopleThatRecentlyAddedMe:(void(^)(NSError* error,NSArray* response))finishedGettingPeopleThatRecentlyAddedMe;
 
-
-
 //Saving to the backend
 -(void)UserFollowedArtist:(eventObject*)currentEvent complectionBlock:(void(^)(NSError* error))finishedSavingArtist;
+
+
+-(void)UserUnfollowedArtist:(eventObject*)currentEvent complectionBlock:(void(^)(NSError* error))finishedUnfollowingArtist;
+
+-(void)UserUnfollowedArtistWithArtistObject:(PFObject*)artist complectionBlock:(void(^)(NSError* error))finishedUnfollowingArtist;
+
 
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock:(void(^)(NSError* error))finishedsavingComment;
 
@@ -65,6 +66,10 @@
 -(void)postActivtyForUserActionAddFriend:(PFUser*)UserAdded completionBlock: (void(^)(NSError* error))finishedpostActivtyForAddFriends;
 
 -(void)getUserGoingToEvent:(PFObject*)currentEvent forEventStatus:(NSString*) UserEventStatus completionBlock:(void(^)(NSError* error,NSArray *userGoing))finishedgettingUsersGoingToEvent;
+
+
+-(void)isUserFollowingArtist:(eventObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsFollowingArtist))finishedisUserFollowingArtist;
+
 
 
 

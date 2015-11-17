@@ -14,6 +14,7 @@
 NSString * const JCParseClassUserEvents        = @"UserEvent";
 NSString * const JCParseClassActivity          = @"Activity";
 NSString * const JCParseClassUser              = @"User";
+NSString * const JCParseClassArtist            = @"Artist";
 
 
 //UserEvents Keys
@@ -60,10 +61,20 @@ NSString * const JCUserActivityRelatedObjectId = @"relatedObjectId";
 NSString * const JCUserActivityToEvent         = @"toEvent";
 NSString * const JCUserActivityToUser          = @"toUser";
 
+#pragma - Artist
+NSString * const JCArtistArtistName            = @"artistName";
+NSString * const JCArtistArtistMbidNumber      = @"mbidNumber";
+NSString * const JCArtistArtistThumbNailImage  = @"thmbnailAtistImage";
+
+
+
+
 
 #pragma - Users
 NSString * const JCUserUserName                 = @"username";
 NSString * const JCUserthumbNailProfilePicture  = @"thumbnailProfilePicture";
+NSString * const JCUserArtistRelation           = @"ArtistRelation";
+
 
 #pragma - AddmyFriendsMyArtist page type
 NSString * const JCAddMyFriendsMyArtistTypeArtist            = @"artist";

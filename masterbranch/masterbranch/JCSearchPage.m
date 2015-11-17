@@ -18,7 +18,7 @@
 #import "JCConstants.h"
 #import "JCSearchHeaders.h"
 #import "JCSortButtonsCell.h"
-
+#import <Google/Analytics.h>
 
 @interface JCSearchPage (){
     BOOL sortedByDistanceFromIreland;
@@ -56,6 +56,8 @@
     self.SearchResultsTable.emptyDataSetDelegate = self;
     self.JCSearchAPI = [[JCHomeScreenDataController alloc]init];
     sortedByDistanceFromIreland = YES;
+    self.screenName = @"Search Screen";
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,8 +66,15 @@
 }
 
 
+
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+//    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+//    [tracker set:kGAIScreenName value:@"Search"];
+//    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+//    
     
 }
 #pragma mark - Table view data source

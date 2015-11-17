@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JCInvteFollowHeaderVC : UITableViewHeaderFooterView
+@protocol JCInvteFollowHeaderDelegate;
 
+@interface JCInvteFollowHeaderVC : UITableViewCell
+@property (weak, nonatomic) id<JCInvteFollowHeaderDelegate>JCInvteFollowHeaderDelegate;
+@property (nonatomic)BOOL userIsFollowingArtist;
+-(void)formatCellButtons:(BOOL)userIsFollowingArtist;
+@end
+
+
+@protocol JCInvteFollowHeaderDelegate <NSObject>
+- (void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist;
 @end

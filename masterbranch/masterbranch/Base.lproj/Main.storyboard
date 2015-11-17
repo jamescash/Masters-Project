@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DL4-rY-1AL">
-                                <rect key="frame" x="20" y="510" width="560" height="35"/>
+                                <rect key="frame" x="20" y="509" width="560" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="0.35000000000000003" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="G8C-mt-pqV"/>
@@ -36,10 +36,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yjZ-H6-6Wd">
-                                <rect key="frame" x="20" y="553" width="560" height="34"/>
+                                <rect key="frame" x="20" y="552" width="560" height="35"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.35000000000000003" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="T1u-vw-sT2"/>
+                                    <constraint firstAttribute="height" constant="35" id="T1u-vw-sT2"/>
                                 </constraints>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -49,7 +49,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nYF-S2-GWs">
-                                <rect key="frame" x="20" y="467" width="560" height="35"/>
+                                <rect key="frame" x="20" y="466" width="560" height="35"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.35000000000000003" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="tyd-fc-jg8"/>
@@ -2318,7 +2318,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGX-jE-5jQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2972" y="-42"/>
+            <point key="canvasLocation" x="2965" y="-118"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hgf-zi-S80">
@@ -2494,7 +2494,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KfP-1i-cBb">
-                                <rect key="frame" x="57.5" y="482" width="80" height="30"/>
+                                <rect key="frame" x="57.5" y="445" width="80" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="31G-GA-PJz"/>
                                     <constraint firstAttribute="width" constant="80" id="nVz-Zc-OYe"/>
@@ -2522,7 +2522,7 @@
                             <constraint firstItem="xmk-0I-cPw" firstAttribute="centerX" secondItem="E83-j2-Wrx" secondAttribute="centerX" id="Na7-nA-Zh9"/>
                             <constraint firstItem="fsW-pl-ywc" firstAttribute="top" secondItem="E83-j2-Wrx" secondAttribute="bottom" constant="29" id="OGc-Vs-l9Q"/>
                             <constraint firstItem="4kb-88-FCh" firstAttribute="top" secondItem="cgb-Xu-9O6" secondAttribute="bottom" constant="4" id="Oj7-Np-C81"/>
-                            <constraint firstItem="KfP-1i-cBb" firstAttribute="top" secondItem="xmk-0I-cPw" secondAttribute="bottom" constant="42" id="Qpc-gv-i69"/>
+                            <constraint firstItem="KfP-1i-cBb" firstAttribute="top" secondItem="xmk-0I-cPw" secondAttribute="bottom" constant="5" id="Qpc-gv-i69"/>
                             <constraint firstItem="E83-j2-Wrx" firstAttribute="top" secondItem="jZY-iQ-3Vh" secondAttribute="bottom" constant="25" id="V1S-d6-XzX"/>
                             <constraint firstItem="UWJ-di-k7h" firstAttribute="centerX" secondItem="ey7-md-7Or" secondAttribute="centerX" id="W1t-yI-AAD"/>
                             <constraint firstItem="al1-b1-cBW" firstAttribute="top" secondItem="UWJ-di-k7h" secondAttribute="bottom" constant="5" id="Z2f-SV-9dk"/>
@@ -2666,6 +2666,9 @@
                                                     <state key="normal" title="Unfollow">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="ButtonUnfollow:" destination="VZn-FP-B2i" eventType="touchUpInside" id="vSx-Do-L2n"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKY-z0-Ivh">
                                                     <rect key="frame" x="76" y="24.5" width="420" height="18"/>
@@ -2935,7 +2938,7 @@
                                             <outlet property="venueName" destination="HdA-Ft-eRe" id="Uod-kE-3ft"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="buttonsHeader" rowHeight="90" id="TIv-H8-Qqt">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="buttonsHeader" rowHeight="90" id="TIv-H8-Qqt" customClass="JCInvteFollowHeaderVC">
                                         <rect key="frame" x="0.0" y="177" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TIv-H8-Qqt" id="SNB-I3-h1t">
@@ -2956,7 +2959,8 @@
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="FollowArtist:" destination="K2c-Sm-kbb" eventType="touchUpInside" id="5ne-om-Htz"/>
+                                                                <action selector="FollowButton:" destination="K2c-Sm-kbb" eventType="touchUpInside" id="Y1T-BQ-FrJ"/>
+                                                                <action selector="buttonFollowArtist:" destination="TIv-H8-Qqt" eventType="touchUpInside" id="qwA-Sb-g6X"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8w-uU-QoQ">
@@ -3015,6 +3019,9 @@
                                                 <constraint firstItem="dj3-o4-Vse" firstAttribute="centerY" secondItem="SNB-I3-h1t" secondAttribute="centerY" id="zcP-gt-Z6K"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="followartist" destination="ky6-ea-utm" id="anP-ab-0BU"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="timeDateLocationCell" rowHeight="145" id="ytk-g1-fIs" customClass="JCTimeDateLocationTableViewCell">
                                         <rect key="frame" x="0.0" y="267" width="600" height="145"/>
@@ -3332,6 +3339,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="F8y-ro-3ay"/>
+        <segue reference="jmw-Gi-Vd9"/>
     </inferredMetricsTieBreakers>
 </document>

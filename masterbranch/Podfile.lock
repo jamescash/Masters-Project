@@ -25,11 +25,27 @@ PODS:
   - CSStickyHeaderFlowLayout (0.2.10)
   - DGActivityIndicatorView (2.0)
   - DZNEmptyDataSet (1.7.2)
+  - Google/Analytics (1.2.1):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (1.2.1):
+    - GoogleInterchangeUtilities (~> 1.0)
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.1)
+  - GoogleAnalytics (3.14.0)
+  - GoogleInterchangeUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.0.3)
+  - GoogleUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0.0)
   - IHKeyboardAvoiding (2.5)
   - IHKeyboardDismissing (1.1)
   - JDStatusBarNotification (1.5.2)
   - Masonry (0.6.3)
-  - MGSwipeTableCell (1.5.1)
+  - MGSwipeTableCell (1.5.2)
   - MYNStickyFlowLayout (0.1.2)
   - NSDate+TimeAgo (1.0.3)
   - PureLayout (3.0.1)
@@ -45,6 +61,7 @@ DEPENDENCIES:
   - CSStickyHeaderFlowLayout (~> 0.2.9)
   - DGActivityIndicatorView
   - DZNEmptyDataSet
+  - Google/Analytics
   - IHKeyboardAvoiding
   - IHKeyboardDismissing
   - JDStatusBarNotification
@@ -62,11 +79,17 @@ SPEC CHECKSUMS:
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
   DGActivityIndicatorView: 52875b025a6ccf6a431a905285c12e2bb95eb559
   DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
+  Google: fd33b5fa40fa3aaee5176de49c873a74e3d11dce
+  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
+  GoogleInterchangeUtilities: d7f7174176fbcf9710f696f1acebad4dbd98ac03
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
+  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   IHKeyboardAvoiding: 8f14fed93405dd2c44ce070a26f780d9e477538c
   IHKeyboardDismissing: 7c23d41da51ca22f6a1091b3cf852821a2461ac9
   JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
   Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
-  MGSwipeTableCell: a51fa670c01f0aa048f12af040acebf315223137
+  MGSwipeTableCell: b931684841160dfd1aa134eb04ea266c66aead85
   MYNStickyFlowLayout: 64d0c409bd1ad43312485c63bc82e32f038e8fbc
   NSDate+TimeAgo: 416f55d2696d3744c313091c5a9280d47f8238fe
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb

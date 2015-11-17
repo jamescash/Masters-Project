@@ -40,6 +40,8 @@
 #import "JCCustomSearchPageSegue.h"
 
 #import "DGActivityIndicatorView.h"
+#import <Google/Analytics.h>
+
 //backend
 
 //#define kDatasourceURLString @"https://sites.google.com/site/soheilsstudio/tutorials/nsoperationsampleproject/ClassicPhotosDictionary.plist"
@@ -125,6 +127,13 @@
     [self cancelAllOperations];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"HomeScreen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
@@ -151,13 +160,7 @@
     
     JCPhotoDownLoadRecord *aRecord = event.photoDownload;
     
-    //DGActivityIndicatorView *activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallScaleRipple tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:50.0f];
-    //activityIndicatorView.frame = CGRectMake((cell.frame.size.width/2)-25, (cell.frame.size.height/2)-25, 50.0f, 50.0f);
-
-    //cell.activityIndicatorView = activityIndicatorView;
     
-//    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    cell.accessoryView = activityIndicatorView;
 
     //check if it has an image
     if (aRecord.hasImage) {
