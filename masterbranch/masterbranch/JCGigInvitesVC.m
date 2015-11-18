@@ -43,7 +43,8 @@
 @property (nonatomic,strong) JCParseQuerys *JCParseQuery;
 @property (nonatomic,strong) ILTranslucentView *blerView;
 
-@property (nonatomic,strong)JCDropDownMenu *contextMenu;
+@property (nonatomic,strong) JCDropDownMenu *contextMenu;
+@property (nonatomic,strong) NSString *userEventsType;
 
 @end
 
@@ -56,7 +57,7 @@
     [self addCustomButtonOnNavBar];
     self.tableViewDataSource = [[NSMutableArray alloc]init];
     self.tableViewHeader.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
-
+    self.userEventsType = JCUserEventUsersTypeUpcoming;
     self.JCParseQuery = [JCParseQuerys sharedInstance];
     self.imageFiles = [[NSMutableArray alloc]init];
     
@@ -94,31 +95,41 @@
 -(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    
     animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
     animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    
     animation.duration = 0.25;
     animation.cumulative = YES;
     animation.repeatCount = MAXFLOAT;
-    
     return animation;
 }
 
 -(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"No Past Gigs";
+    
+    NSString *text;
+    if ([self.userEventsType isEqualToString:JCUserEventUsersTypeUpcoming]) {
+        text = @"No upcoming gigs";
+    }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypePast]){
+        text = @"No past gigs";
+    }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypeSent]){
+        text = @"No sent gigs";
+    }
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName: [UIColor darkGrayColor]};
-    
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 -(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"After you attend gigs they will apper here, this helps you trak all the gigs you and you friends attended in the past.";
-    
+    NSString *text;
+    if ([self.userEventsType isEqualToString:JCUserEventUsersTypeUpcoming]) {
+        text = @"Find some cool upcoming gig you want to go to and invite your friends along. You can keep trak of all your future plans here";
+    }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypePast]){
+        text = @"After you attend gigs they will apper here, this helps you trak all the gigs you and you friends attended in the past.";
+    }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypeSent]){
+        text = @"Find some cool upcoming gig you want to go to and invite your friends along";
+    }
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
     paragraph.alignment = NSTextAlignmentCenter;
@@ -126,29 +137,12 @@
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
                                  NSForegroundColorAttributeName: [UIColor lightGrayColor],
                                  NSParagraphStyleAttributeName: paragraph};
-    
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 
 
-//- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
-//{
-//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
-//    
-//    return [[NSAttributedString alloc] initWithString:@"Back" attributes:attributes];
-//}
 
-
-//- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
-//{
-//    
-//    
-////    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-////    [activityView startAnimating];
-//    
-////    return activityView;
-//}
 
 
 
@@ -413,7 +407,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 
 -(void)contextMenuButtonFirstClicked{
     [self.contextMenu setUserInteractionEnabled:NO];
-
+    self.userEventsType = JCUserEventUsersTypeUpcoming;
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeUpcoming completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
@@ -433,7 +427,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
     }];}
 -(void)contextMenuButtonSecondClicked{
     [self.contextMenu setUserInteractionEnabled:NO];
-
+    self.userEventsType = JCUserEventUsersTypeSent;
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeSent completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
@@ -456,7 +450,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 }
 -(void)contextMenuButtonThirdClicked{
     [self.contextMenu setUserInteractionEnabled:NO];
-
+    self.userEventsType = JCUserEventUsersTypePast;
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypePast completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {

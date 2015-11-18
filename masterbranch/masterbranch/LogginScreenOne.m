@@ -10,7 +10,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 
-static NSString * const tutDiscriptionPagg1 = @"Welcome to Preamp, Browse our homescreen to find gig's happening around you";
+static NSString * const tutDiscriptionPagg1 = @"Welcome to Preamp, find gig's happening around you";
 
 static NSString * const tutDiscriptionPagg2 = @"Found one you like? Ask all your friends to come along";
 

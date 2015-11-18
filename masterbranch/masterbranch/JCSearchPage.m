@@ -457,35 +457,51 @@
 
 
 #pragma - Actions
+- (IBAction)UISegmentedControllSortDistanceDate:(id)sender {
+    
+    
+    if (sortedByDistanceFromIreland) {
+        sortedByDistanceFromIreland = NO;
+        
+        
+        [self.ButtonsheaderView buttonSortByDateClicked];
+        
+        NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
+        self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSRange range = NSMakeRange(1, 2);
+            NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
+           
+            NSLog(@"Section %@",section );
 
-- (IBAction)buttonSortByDate:(id)sender {
-    
-    sortedByDistanceFromIreland = NO;
-    
-  
-    [self.ButtonsheaderView buttonSortByDateClicked];
-    
-    NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
-    self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.SearchResultsTable reloadData];
-    });
-    
+            
+            //[self.SearchResultsTable reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+            
+            [self.SearchResultsTable reloadData];
+            
+        });
+    }else{
+        
+        sortedByDistanceFromIreland = YES;
+        
+        NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
+        self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedDistanceFromIreland];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.SearchResultsTable reloadData];
+
+           // NSRange range = NSMakeRange(0, 0);
+            //NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
+            //[self.SearchResultsTable reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+        });
+        
+        
+    }
     
 }
 
-- (IBAction)buttonSortByDistance:(id)sender {
-    sortedByDistanceFromIreland = YES;
-    
-    NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
-    self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedDistanceFromIreland];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.SearchResultsTable reloadData];
-    });
-    
-}
+
 
 
 #pragma - Empty State
