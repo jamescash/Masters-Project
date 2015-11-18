@@ -24,6 +24,14 @@
    
     
 }
+- (IBAction)ButtonUnfollow:(id)sender {
+    if (self.JCMyArtistCellDelegate && [self.JCMyArtistCellDelegate respondsToSelector:@selector(didClickUnFollowArtistButton:)])
+    {
+        [self.JCMyArtistCellDelegate didClickUnFollowArtistButton:self.cellIndex];
+        
+    }
+    
+}
 
 - (void)awakeFromNib {
     // Initialization code

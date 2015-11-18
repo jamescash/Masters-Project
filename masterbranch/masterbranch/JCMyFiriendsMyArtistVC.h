@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "JCMyArtistCell.h"
 
 
-@interface JCMyFiriendsMyArtistVC : UIViewController
+@interface JCMyFiriendsMyArtistVC : UIViewController <JCMyArtistCellDelegate>
 @property (nonatomic,strong) NSString *tableViewType;
 @property (nonatomic,strong) PFObject *currentUserEvent;
 @property (nonatomic,strong) NSMutableArray *myFriends;

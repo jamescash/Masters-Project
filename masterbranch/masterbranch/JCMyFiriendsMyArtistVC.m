@@ -9,7 +9,6 @@
 #import "JCMyFiriendsMyArtistVC.h"
 #import "JCParseQuerys.h"
 #import <Parse/Parse.h>
-#import "JCMyArtistCell.h"
 #import "JCMyFriendsCell.h"
 #import "JCAddMyFriendsVC.h"
 #import "JCConstants.h"
@@ -26,7 +25,7 @@
 
 @interface JCMyFiriendsMyArtistVC () <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) NSArray *tableViewDataSource;
+@property (nonatomic,strong) NSMutableArray *tableViewDataSource;
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 @property (nonatomic,strong) NSMutableArray *imageFiles;
 //@property (nonatomic,strong) NSArray *MyFireds;
@@ -81,7 +80,9 @@
          self.navigationItem.title = @"My Friends";
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
             
-            self.tableViewDataSource = response;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:response];
+            //self.tableViewDataSource = response;
             [self.myFriends addObjectsFromArray:response];
 
 
@@ -96,7 +97,9 @@
 
         [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
             
-            self.tableViewDataSource = response;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:response];
+            
             for (PFObject *artist in response) {
                  PFFile *imageFile = [artist objectForKey:@"thmbnailAtistImage"];
                 [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
@@ -112,7 +115,8 @@
         
         
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGoing completionBlock:^(NSError *error, NSArray *userGoing) {
-            self.tableViewDataSource = userGoing;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:userGoing];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -124,7 +128,8 @@
         [self addcontentOffsetForPageView];
 
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGotTickets completionBlock:^(NSError *error, NSArray *userGoing) {
-            self.tableViewDataSource = userGoing;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:userGoing];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -137,7 +142,8 @@
         [self addcontentOffsetForPageView];
         
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserMaybeGoing completionBlock:^(NSError *error, NSArray *userGoing) {
-            self.tableViewDataSource = userGoing;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:userGoing];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -150,7 +156,8 @@
         [self addcontentOffsetForPageView];
         
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUsersEventInvited completionBlock:^(NSError *error, NSArray *userGoing) {
-            self.tableViewDataSource = userGoing;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:userGoing];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -167,7 +174,8 @@
         [self addcontentOffsetForPageView];
         
         [self.JCParseQuerys getPeopleThatRecentlyAddedMe:^(NSError *error, NSArray *response) {
-            self.tableViewDataSource = response;
+            self.tableViewDataSource = [[NSMutableArray alloc]init];
+            [self.tableViewDataSource addObjectsFromArray:response];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
@@ -239,15 +247,13 @@
       }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
     
     JCMyArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"artistCell" forIndexPath:indexPath];
-    [cell formatCell:[self.tableViewDataSource objectAtIndex:indexPath.row]];
-        UIImage *artistImage = self.imageFiles[indexPath.row][@"image"];
-
-  
-        if (artistImage) {
-            cell.artistImage.image = artistImage;
-            cell.artistImage.contentMode = UIViewContentModeScaleToFill;
-            
-        }else {
+          PFObject *artist = [self.tableViewDataSource objectAtIndex:indexPath.row];
+          [cell formatCell:artist];
+          cell.JCMyArtistCellDelegate = self;
+          cell.cellIndex = indexPath.row;
+          cell.artistImage.file = [artist objectForKeyedSubscript:JCArtistArtistThumbNailImage];
+          cell.artistImage = [self addLayerMaskToImageView:cell.artistImage];
+      
             NSUInteger randomNumber = arc4random_uniform(5);
             switch (randomNumber) {
                 case 0:
@@ -268,14 +274,9 @@
                     break;
                     
             }
-            
-            [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
-                if (!error) {
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
-                
-            }];
-        }
+          
+          [cell.artistImage loadInBackground];
+
       return cell;
     }
     
@@ -371,6 +372,13 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     }];
        
    }
+   else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
+       
+       
+       
+       
+       
+   }
 }
 
 -(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
@@ -401,6 +409,21 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 
 #pragma - HelperMethods
+
+-(void)didClickUnFollowArtistButton:(NSInteger)cellIndex{
+    
+    [self.JCParseQuerys UserUnfollowedArtistWithArtistObject:[self.tableViewDataSource objectAtIndex:cellIndex] complectionBlock:^(NSError *error) {
+       
+        [self.tableViewDataSource removeObjectAtIndex:cellIndex];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+                
+            [self.tableView reloadData];
+            });
+        
+    }];
+    
+}
 
 -(BOOL)IsFriend:(PFUser *)user{
     

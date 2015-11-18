@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
+
+@protocol JCMyArtistCellDelegate;
 
 
 @interface JCMyArtistCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *artistImage;
+@property (weak, nonatomic) IBOutlet PFImageView *artistImage;
+@property (weak, nonatomic) id<JCMyArtistCellDelegate>JCMyArtistCellDelegate;
+@property (assign, nonatomic) NSInteger cellIndex;
 -(void)formatCell:(PFObject*)artist;
 
+@end
+
+@protocol JCMyArtistCellDelegate <NSObject>
+- (void)didClickUnFollowArtistButton:(NSInteger)cellIndex;
 @end

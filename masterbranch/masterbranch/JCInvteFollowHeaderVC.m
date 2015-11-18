@@ -8,7 +8,50 @@
 
 #import "JCInvteFollowHeaderVC.h"
 
+@interface JCInvteFollowHeaderVC ()
+@property (weak, nonatomic) IBOutlet UIButton *followartist;
+
+@end
+
 @implementation JCInvteFollowHeaderVC
+
+- (void)awakeFromNib {
+}
+
+-(void)formatCellButtons:(BOOL)userIsFollowingArtist{
+    self.userIsFollowingArtist = userIsFollowingArtist;
+    if (userIsFollowingArtist) {
+        [self.followartist setTitle:@"Following" forState:UIControlStateNormal];
+        
+    }else{
+        [self.followartist setTitle:@"Follow" forState:UIControlStateNormal];
+    }
+    
+}
+
+- (IBAction)buttonFollowArtist:(id)sender {
+    if (self.JCInvteFollowHeaderDelegate && [self.JCInvteFollowHeaderDelegate respondsToSelector:@selector(didClickFollowArtistButton:)]) {
+        
+        if (self.userIsFollowingArtist) {
+            
+            self.userIsFollowingArtist = NO;
+            [self.JCInvteFollowHeaderDelegate didClickFollowArtistButton:self.userIsFollowingArtist];
+            [self.followartist setTitle:@"Follow" forState:UIControlStateNormal];
+            
+        }else{
+            self.userIsFollowingArtist = YES;
+            [self.JCInvteFollowHeaderDelegate didClickFollowArtistButton:self.userIsFollowingArtist];
+            [self.followartist setTitle:@"Following" forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

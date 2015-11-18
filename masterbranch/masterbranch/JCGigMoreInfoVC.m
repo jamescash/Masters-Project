@@ -34,14 +34,19 @@
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 @property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 
-- (IBAction)back:(id)sender;
+
+
+
+
+
 
 @end
 
 @implementation JCGigMoreInfoVC{
    NSString *header1Buttons;
    NSString *header2UpcomingGigs;
-    NSString *timeDateLocaionCellId;
+   NSString *timeDateLocaionCellId;
+    BOOL userIsFollowingArtistMainVC;
 }
 
 
@@ -50,41 +55,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    NSLog(@"%@",self.currentEvent.eventTitle);
-    NSLog(@"%@",self.currentEvent.eventDate );
 
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
+    self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
+    self.tableViewDataSource = [[NSMutableDictionary alloc]init];
 
-     header1Buttons = @"buttonsHeader";
-     header2UpcomingGigs = @"MoreUpcomingGigs";
-     timeDateLocaionCellId = @"timeDateLocationCell";
+    header1Buttons = @"buttonsHeader";
+    header2UpcomingGigs = @"MoreUpcomingGigs";
+    timeDateLocaionCellId = @"timeDateLocationCell";
     
     self.TableViewVC.allowsSelection = NO;
     [self addCustomButtonOnNavBar];
-    self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
+    [self layouStickyHeaderView];
     
     
-    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
-    
-    
-    headerView.HeaderImageView.image = self.currentEvent.photoDownload.image;
-    headerView.ArtistName.text = self.currentEvent.eventTitle;
-    
-   
-           self.vignetteLayer = [CAGradientLayer layer];
-            [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
-            [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
-            UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
-            [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
-            [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
-            [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
-       
-    [self.TableViewVC setParallaxHeaderView:headerView
-                                       mode:VGParallaxHeaderModeFill
-                                     height:200];
-
-    
-    self.tableViewDataSource = [[NSMutableDictionary alloc]init];
     NSArray *timeDateLocaionCellIdArray = @[timeDateLocaionCellId];
     [self.tableViewDataSource setObject:timeDateLocaionCellIdArray forKey:header1Buttons];
     self.tableViewDataSourcekeys = @[header1Buttons,header2UpcomingGigs];
@@ -100,8 +84,64 @@
         });
     }];
 
+    
+    [self.JCParseQuerys isUserFollowingArtist:self.currentEvent completionBlock:^(NSError *error, BOOL IsFollowingArtist) {
+        
+        if (error) {
+            NSLog(@"%@",error);
+        }else{
+           
+            
+            if (IsFollowingArtist) {
+                userIsFollowingArtistMainVC = YES;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.TableViewVC reloadData];
+                    });
+            }else{
+                userIsFollowingArtistMainVC = NO;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.TableViewVC reloadData];
+                    });
+
+            }
+            
+            
+        }
+    }];
+
+
+
 }
 
+- (IBAction)FollowButton:(id)sender {
+}
+
+-(void)layouStickyHeaderView{
+    
+    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
+    
+    
+    headerView.HeaderImageView.image = self.currentEvent.photoDownload.image;
+    headerView.ArtistName.text = self.currentEvent.eventTitle;
+    
+    
+    self.vignetteLayer = [CAGradientLayer layer];
+    [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
+    [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
+    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
+    [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+    [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
+    [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
+    
+    [self.TableViewVC setParallaxHeaderView:headerView
+                                       mode:VGParallaxHeaderModeFill
+                                     height:200];
+
+    
+    
+    
+    
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -170,12 +210,24 @@
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    NSString *CellIdentifier = self.tableViewDataSourcekeys[section];
-    UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (headerView == nil){
-        [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
-    }
-    return headerView;
+    if (section == 0) {
+        NSString *CellIdentifier = self.tableViewDataSourcekeys[section];
+        JCInvteFollowHeaderVC *headerView = (JCInvteFollowHeaderVC*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (headerView == nil){
+            headerView = [[JCInvteFollowHeaderVC alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        [headerView formatCellButtons:userIsFollowingArtistMainVC];
+        headerView.JCInvteFollowHeaderDelegate = self;
+        return headerView;
+    }else{
+        NSString *CellIdentifier = self.tableViewDataSourcekeys[section];
+        UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (headerView == nil){
+            headerView = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        return headerView;
+       }
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -216,27 +268,40 @@
 
 
 
-- (IBAction)FollowArtist:(id)sender {
+-(void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist{
     
-    //TODO set the button to following if the users already following the artist
-    
-    [self.JCParseQuerys UserFollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
-        
-        if (error) {
+    if (userIsFollowingArtist) {
+        NSLog(@"Follow Action");
+        [self.JCParseQuerys UserFollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
             
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"There was a problem follwing that artist try again" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
+            if (error) {
+                
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"There was a problem follwing that artist try again" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [alert show];
+                
+            };
             
-        };
+        }];
+    }else{
         
-    }];
-    
-    [sender setTitle:@"Following" forState:UIControlStateNormal];
+        [self.JCParseQuerys UserUnfollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
+            
+            
+            
+        }];
+        
+        NSLog(@"UnFollow Action");
+    }
     
 }
 
-- (IBAction)back:(id)sender {
-}
+//- (IBAction)FollowArtist:(id)sender {
+//    
+//    //TODO set the button to following if the users already following the artist
+//   
+//    
+//}
+
 
 
 

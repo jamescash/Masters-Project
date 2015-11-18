@@ -36,6 +36,8 @@
 
 @implementation JCParseQuerys{
     int UpcomingGigsLoopCounter;
+    BOOL methodUserIsFollowingArtist;
+
 }
 
 
@@ -585,11 +587,13 @@
     
 }
 
+
+
 -(void)UserFollowedArtist:(eventObject *)currentEvent complectionBlock:(void (^)(NSError *))finishedSavingArtist{
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Artist"];
+    PFQuery *query = [PFQuery queryWithClassName:JCParseClassArtist];
                                             //this is artist name, bad varible naming.
-    [query whereKey:@"artistName" equalTo:currentEvent.eventTitle];
+    [query whereKey:JCArtistArtistName equalTo:currentEvent.eventTitle];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error) {
@@ -600,7 +604,7 @@
             
             if ([objects count]>0) {
                 //that artist exist so add it as a reation the current user.
-                PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
+                PFRelation *ArtistRelation = [self.currentUser relationForKey:JCUserArtistRelation];
                 //add the artist to the users relation.
                 
                 [ArtistRelation addObject:[objects firstObject]];
@@ -618,6 +622,95 @@
         }
     }];
 };
+
+-(void)UserUnfollowedArtist:(eventObject *)currentEvent complectionBlock:(void (^)(NSError *))finishedUnfollowingArtist{
+    
+    PFRelation *artistRelation = [[PFUser currentUser]objectForKey:JCUserArtistRelation];
+    
+    PFQuery *query = [artistRelation query];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        
+        for (PFObject *artist in objects) {
+            NSString *artistName = [artist objectForKey:JCArtistArtistName];
+            NSString *mbidNumber = [artist objectForKey:JCArtistArtistMbidNumber];
+            
+            if ([artistName isEqualToString:currentEvent.eventTitle]&&[mbidNumber isEqualToString:currentEvent.mbidNumber]) {
+                [artistRelation removeObject:artist];
+                [PFObject unpinAllObjectsInBackgroundWithName:@"MyArtist"];
+
+                [[PFUser currentUser]saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    if (error) {
+                        NSLog(@"error removing artist");
+                    }else{
+                        
+                        NSLog(@"user saved");
+                    }
+                    
+                }];
+                
+                finishedUnfollowingArtist(nil);
+                break;
+            }
+
+        }
+        
+    }];
+}
+
+-(void)UserUnfollowedArtistWithArtistObject:(PFObject*)artist complectionBlock:(void(^)(NSError* error))finishedUnfollowingArtist{
+    
+    PFRelation *artistRelation = [[PFUser currentUser]objectForKey:JCUserArtistRelation];
+
+    [artistRelation removeObject:artist];
+    
+    [PFObject unpinAllObjectsInBackgroundWithName:@"MyArtist"];
+
+    [[PFUser currentUser]saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"error removing artist");
+        }else{
+            finishedUnfollowingArtist(nil);
+        }
+        
+    }];
+    
+    
+    
+}
+
+-(void)isUserFollowingArtist:(eventObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsFollowingArtist))finishedisUserFollowingArtist{
+    
+    methodUserIsFollowingArtist = NO;
+    
+    [self getMyAtrits:^(NSError *error, NSArray *response) {
+        
+        if (error) {
+            finishedisUserFollowingArtist(error,NO);
+        }else{
+            
+            for (PFObject *artist in response) {
+               
+                NSString *artistName = [artist objectForKey:JCArtistArtistName];
+                NSString *mbidNumber = [artist objectForKey:JCArtistArtistMbidNumber];
+                
+                if ([artistName isEqualToString:eventObject.eventTitle]&&[mbidNumber isEqualToString:eventObject.mbidNumber]) {
+                    methodUserIsFollowingArtist = YES;
+                    break;
+                }
+              }
+            
+            if (methodUserIsFollowingArtist) {
+                finishedisUserFollowingArtist(nil,YES);
+
+            }else{
+                finishedisUserFollowingArtist(nil,NO);
+            }
+        }
+        
+    }];
+}
 
 -(void)saveArtistToBackendAndAddRelationToUser:(eventObject*)currentEvent {
     
@@ -646,12 +739,12 @@
         //is sucesful
         
         if (error) {
-            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            NSString *codeString = [NSString stringWithFormat:@"%ld", [error code]];
             [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             //show alert view and get user to start agin
             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
             
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error :(" message:@"Please try to follow that artist again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oooop's" message:@"Please try to follow that artist again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
             [alert show];
         }else{
             
@@ -671,7 +764,7 @@
                 
                 
                 if (error) {
-                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                    NSString *codeString = [NSString stringWithFormat:@"%ld", [error code]];
                     [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                     //show alert view and get user to start agin
                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
@@ -693,7 +786,7 @@
                     [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                         
                         if (error) {
-                            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                            NSString *codeString = [NSString stringWithFormat:@"%ld", [error code]];
                             [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                             
@@ -1062,6 +1155,13 @@
     }
     
 }
+
+
+
+
+
+
+
 
 #pragma - Delete
 

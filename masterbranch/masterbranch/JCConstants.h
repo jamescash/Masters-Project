@@ -15,6 +15,7 @@
 extern NSString * const JCParseClassUserEvents;
 extern NSString * const JCParseClassActivity;
 extern NSString * const JCParseClassUser;
+extern NSString * const JCParseClassArtist;
 
 
 //Backend UserEvents Class - Keys
@@ -54,11 +55,16 @@ extern NSString * const JCUserActivityCommentOwner;
 extern NSString * const JCUserActivityContent;
 extern NSString * const JCUserActivityRelatedObjectId;
 
+#pragma - Artist
+extern NSString * const JCArtistArtistName;
+extern NSString * const JCArtistArtistMbidNumber;
+extern NSString * const JCArtistArtistThumbNailImage;
+
 
 #pragma - Users
 extern NSString * const JCUserUserName;
 extern NSString * const JCUserthumbNailProfilePicture;
-
+extern NSString * const JCUserArtistRelation;
 
 
 

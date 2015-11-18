@@ -25,6 +25,8 @@
 #include "JDStatusBarNotification.h"
 #import <ParseCrashReporting/ParseCrashReporting.h>
 
+#import <Google/Analytics.h>
+#import "GAI.h"
 
 
 @interface AppDelegate ()
@@ -49,6 +51,20 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    
+    // Configure tracker from GoogleService-Info.plist.
+    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-70242375-1"];
+    //tracker.allowIDFACollection = YES;
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+
+    // Optional: configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    
+    
     
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes  categories:nil];

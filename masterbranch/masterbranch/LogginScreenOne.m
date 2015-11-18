@@ -124,7 +124,7 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
 - (void) configurePage:(GHWalkThroughPageCell *)cell atIndex:(NSInteger)index
 {
 
-    cell.title = [NSString stringWithFormat:@"Welcom to Preamp"];
+    cell.title = [NSString stringWithFormat:@"Welcome to Preamp"];
     //cell.titleImage = [UIImage imageNamed:[NSString stringWithFormat:@"title%ld", index+1]];
     cell.titleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
     cell.titleImage = [UIImage imageNamed:[NSString stringWithFormat:@"tutorialScreen%ld",index+1]];
