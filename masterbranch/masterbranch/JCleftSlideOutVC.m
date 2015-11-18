@@ -33,6 +33,8 @@
 - (IBAction)menuButtonMyInvites:(id)sender;
 - (IBAction)menuButtonMusicDiary:(id)sender;
 - (IBAction)logout:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *UIViewTouchRconiserArtist;
+@property (weak, nonatomic) IBOutlet UIView *UIViewTouchRconiserFriends;
 
 @end
 
@@ -51,8 +53,8 @@
     self.numberOfFriends.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapGesture =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberOfFriendsLableTap)];
-    [self.numberOfFriends addGestureRecognizer:tapGesture];
-    [self.friends addGestureRecognizer:tapGesture];
+    [self.UIViewTouchRconiserFriends addGestureRecognizer:tapGesture];
+    //[self.friends addGestureRecognizer:tapGesture];
     
     
     //Make artist lable tapabul
@@ -60,8 +62,8 @@
     self.numberOfArtistFollowing.userInteractionEnabled = YES;
     UITapGestureRecognizer *artisttapped =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberOfArtistLableTap)];
-    [self.numberOfArtistFollowing addGestureRecognizer:artisttapped];
-    [self.artist addGestureRecognizer:artisttapped];
+    [self.UIViewTouchRconiserArtist addGestureRecognizer:artisttapped];
+    //[self.artist addGestureRecognizer:artisttapped];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

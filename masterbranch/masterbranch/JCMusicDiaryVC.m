@@ -62,6 +62,9 @@
     self.MusicDiaryObjectsSortedByDate = [[NSMutableArray alloc]init];
     [self addCustomButtonOnNavBar];
     [self loadUpcomingGigs:YES];
+    self.myMusicDiary.emptyDataSetDelegate = self;
+    self.myMusicDiary.emptyDataSetSource = self;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -454,7 +457,7 @@
             return  @"March";
             break;
         case 4:
-            return  @"Aplri";
+            return  @"April";
             break;
         case 5:
             return  @"May";
@@ -559,6 +562,41 @@
 }
 
 
+-(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    return animation;
+}
+
+-(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    
+    NSString *text = @"Build a personal gig diary";
+    
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+-(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"We automatically add your artist's upcoming Irish gigs to your gig diary, so go follow some artist! ";
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
 
 
 

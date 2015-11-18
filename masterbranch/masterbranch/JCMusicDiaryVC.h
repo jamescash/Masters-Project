@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface JCMusicDiaryVC : UIViewController
+@interface JCMusicDiaryVC : UIViewController <DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @end

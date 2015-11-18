@@ -45,7 +45,10 @@
   
     self.imageFiles = [[NSMutableArray alloc]init];
     
-    
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.tableFooterView = [UIView new];
+
     
     
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
@@ -381,32 +384,32 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    }
 }
 
--(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
-    
-    // if we fetched already, just return it via the completion block
-    UIImage *existingImage = self.imageFiles[indexPath.row][@"image"];
-    
-    if (existingImage){
-        completion(existingImage, nil);
-    }
-    
-    PFFile *pfFile = self.imageFiles[indexPath.row][@"pfFile"];
-    
-    if (!pfFile) {
-      UIImage *eventImage = [UIImage imageNamed:@"loadingYellow.png"];
-        completion(eventImage, nil);
-    }
-    
-    [pfFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-        if (!error) {
-            UIImage *eventImage = [UIImage imageWithData:imageData];
-           self.imageFiles[indexPath.row][@"image"] = eventImage;
-            completion(eventImage, nil);
-        } else {
-            completion(nil, error);
-        }
-    }];
-}
+//-(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
+//    
+//    // if we fetched already, just return it via the completion block
+//    UIImage *existingImage = self.imageFiles[indexPath.row][@"image"];
+//    
+//    if (existingImage){
+//        completion(existingImage, nil);
+//    }
+//    
+//    PFFile *pfFile = self.imageFiles[indexPath.row][@"pfFile"];
+//    
+//    if (!pfFile) {
+//      UIImage *eventImage = [UIImage imageNamed:@"loadingYellow.png"];
+//        completion(eventImage, nil);
+//    }
+//    
+//    [pfFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+//        if (!error) {
+//            UIImage *eventImage = [UIImage imageWithData:imageData];
+//           self.imageFiles[indexPath.row][@"image"] = eventImage;
+//            completion(eventImage, nil);
+//        } else {
+//            completion(nil, error);
+//        }
+//    }];
+//}
 
 #pragma - HelperMethods
 
@@ -541,6 +544,78 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 -(void)BackButtonPressed{
     [self.sideMenuViewController presentLeftMenuViewController];
 
+}
+
+-(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    return animation;
+}
+
+-(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    
+    NSString *text;
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
+        text = @"Follow some Artists";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
+        text = @"No facebook friends found";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]){
+        text = @"Add some friends";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustAddedFriends ]){
+        text = @"No activity to report here";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypePreAmpFriends ]){
+        text = @"Search for your friends";
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserGoing ]){
+        text = @"Nobody updated to going yet";
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserMaybeGoing ]){
+        text = @"Nobody updated to maybe yet";
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserGotTickets ]){
+        text = @"Nobody has tickets yet";
+    }else{
+        text = @"oops";
+    }
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+-(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text;
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
+        text = @"Go to our homescreen to find your favorite artist and follow them!!";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
+        text = @"If you login with facebook we can easily show you which of your facebook friends use Preamp";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]){
+        text = @"Click the plus icon in the top right to add some friends";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustAddedFriends ]){
+        text = @"Seems like nobody has added you recently";
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypePreAmpFriends ]){
+        text = @"Type your friends username to find them and add them";
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserGoing ]){
+        text = @"Be the first person to update your status to going";
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserMaybeGoing ]){
+        text = @"Be the first person to update your status to maybe";
+    }else if ([self.tableViewType isEqualToString:JCUserEventUserGotTickets ]){
+        text = @"Be the first of your friends to get tickets";
+    }else{
+        text = @"oops";
+    }
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 

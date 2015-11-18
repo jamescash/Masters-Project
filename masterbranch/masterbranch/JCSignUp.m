@@ -193,6 +193,7 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
 }
 
 -(void)addProfileImage{
+    [self resignFirstRespomders];
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Choose Source" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo With Camera", @"Select Photo From Library", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     actionSheet.destructiveButtonIndex = 1;
@@ -308,6 +309,13 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     
     NSUInteger numberOfMatches = [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, [string length])];
     return numberOfMatches == string.length;
+}
+
+-(void)resignFirstRespomders{
+    [self.emailField resignFirstResponder];
+    [self.userFullName resignFirstResponder];
+    [self.passwordField resignFirstResponder];
+    [self.userNameField resignFirstResponder];
 }
 
 -(UIImageView*)addVinettLayerToBackGroundToImage:(UIImageView*)imageView{

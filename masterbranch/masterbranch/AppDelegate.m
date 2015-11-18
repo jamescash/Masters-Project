@@ -53,16 +53,16 @@
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     
     // Configure tracker from GoogleService-Info.plist.
-    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-70242375-1"];
-    //tracker.allowIDFACollection = YES;
     NSError *configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
-
     // Optional: configure GAI options.
     GAI *gai = [GAI sharedInstance];
     gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    [GAI sharedInstance].dispatchInterval = 0;
+
+    //gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
     
     
@@ -159,8 +159,10 @@
                                   styleName:@"JCnotification"];
     
     
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
     
-    NSLog(@"%@",userInfo);
+
+    //NSLog(@"%@",userInfo);
     
     //[PFPush handlePush:userInfo];
 }

@@ -71,7 +71,8 @@
 		897D4AE91BF945E500DF54EB /* GHWalkThroughPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AEA1BF945E500DF54EB /* GHWalkThroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AED1BFB4D0C00DF54EB /* JCButtonHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AEC1BFB4D0C00DF54EB /* JCButtonHeader.m */; settings = {ASSET_TAGS = (); }; };
-		897D4AF71BFB956B00DF54EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897D4AF61BFB956B00DF54EB /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		897D4AFC1BFBA3E000DF54EB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 897D4AFB1BFBA3E000DF54EB /* CoreData.framework */; };
+		897D4B0B1BFBAA4100DF54EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA371BDEBC1F0029F071 /* JCConstants.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
@@ -260,7 +261,8 @@
 		897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHWalkThroughView.m; sourceTree = "<group>"; };
 		897D4AEB1BFB4D0C00DF54EB /* JCButtonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCButtonHeader.h; sourceTree = "<group>"; };
 		897D4AEC1BFB4D0C00DF54EB /* JCButtonHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCButtonHeader.m; sourceTree = "<group>"; };
-		897D4AF61BFB956B00DF54EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		897D4AFB1BFBA3E000DF54EB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8989AA331BDEAC600029F071 /* JCUserAttendingGigCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserAttendingGigCell.h; sourceTree = "<group>"; };
 		8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserAttendingGigCell.m; sourceTree = "<group>"; };
 		8989AA361BDEBC1F0029F071 /* JCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCConstants.h; sourceTree = "<group>"; };
@@ -360,6 +362,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				898FA8A61B764204000AEAB1 /* SystemConfiguration.framework in Frameworks */,
+				897D4AFC1BFBA3E000DF54EB /* CoreData.framework in Frameworks */,
 				891F84A01BE1957000C110D7 /* Accelerate.framework in Frameworks */,
 				895AECA71BA72B48001D27E3 /* StoreKit.framework in Frameworks */,
 				898FA8B41B764BB9000AEAB1 /* libstdc++.6.dylib in Frameworks */,
@@ -370,7 +374,6 @@
 				898FA8AE1B76427B000AEAB1 /* AdSupport.framework in Frameworks */,
 				898FA8AC1B76426A000AEAB1 /* Social.framework in Frameworks */,
 				898FA8AA1B764236000AEAB1 /* Security.framework in Frameworks */,
-				898FA8A61B764204000AEAB1 /* SystemConfiguration.framework in Frameworks */,
 				898FA8A21B7641E5000AEAB1 /* QuartzCore.framework in Frameworks */,
 				898FA8A01B7641D8000AEAB1 /* MobileCoreServices.framework in Frameworks */,
 				89D88EBC1BAC9E84002286FD /* ParseCrashReporting.framework in Frameworks */,
@@ -949,7 +952,7 @@
 		89B216C21B24419100A3ACDF /* utillities */ = {
 			isa = PBXGroup;
 			children = (
-				897D4AF61BFB956B00DF54EB /* GoogleService-Info.plist */,
+				897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */,
 				8969D0131BC93C6E00A0FCED /* Main.storyboard */,
 				89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */,
 				89F51DE41B1E1B39004E9055 /* Images.xcassets */,
@@ -1240,6 +1243,7 @@
 		AF69D170FFE8C36EAF7215B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				897D4AFB1BFBA3E000DF54EB /* CoreData.framework */,
 				891F849F1BE1957000C110D7 /* Accelerate.framework */,
 				89D88EA11BAC9B95002286FD /* parse */,
 				895AECA61BA72B48001D27E3 /* StoreKit.framework */,
@@ -1361,7 +1365,7 @@
 				89F51DE81B1E1B39004E9055 /* LaunchScreen.xib in Resources */,
 				89F51DE51B1E1B39004E9055 /* Images.xcassets in Resources */,
 				897280DD1BC3386F00569648 /* HeaderViewWithImage.xib in Resources */,
-				897D4AF71BFB956B00DF54EB /* GoogleService-Info.plist in Resources */,
+				897D4B0B1BFBAA4100DF54EB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1640,6 +1644,10 @@
 				INFOPLIST_FILE = masterbranch/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/masterbranch",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"Pods-AFNetworking\"",
@@ -1683,6 +1691,10 @@
 				INFOPLIST_FILE = masterbranch/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/masterbranch",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"Pods-AFNetworking\"",

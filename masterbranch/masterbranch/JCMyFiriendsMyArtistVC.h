@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "JCMyArtistCell.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 
-@interface JCMyFiriendsMyArtistVC : UIViewController <JCMyArtistCellDelegate>
+@interface JCMyFiriendsMyArtistVC : UIViewController <JCMyArtistCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 @property (nonatomic,strong) NSString *tableViewType;
 @property (nonatomic,strong) PFObject *currentUserEvent;
 @property (nonatomic,strong) NSMutableArray *myFriends;
