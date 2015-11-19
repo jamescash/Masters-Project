@@ -159,12 +159,8 @@
                                   styleName:@"JCnotification"];
     
     
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
     
-
-    //NSLog(@"%@",userInfo);
-    
-    //[PFPush handlePush:userInfo];
 }
 
 -(void)customiseUi{

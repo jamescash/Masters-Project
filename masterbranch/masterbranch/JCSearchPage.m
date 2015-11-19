@@ -17,7 +17,6 @@
 #import "JCHomeScreenDataController.h"
 #import "JCConstants.h"
 #import "JCSearchHeaders.h"
-#import "JCSortButtonsCell.h"
 #import <Google/Analytics.h>
 
 @interface JCSearchPage (){
@@ -46,7 +45,10 @@
 
 @end
 
-@implementation JCSearchPage
+@implementation JCSearchPage{
+    UITapGestureRecognizer *resignKeyBoardOnTap;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,6 +60,11 @@
     sortedByDistanceFromIreland = YES;
     self.screenName = @"Search Screen";
 
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
+    //add tap recongiser that will resign first responder while keybord is up and user taps anywhere
+    resignKeyBoardOnTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                  action:@selector(didTapAnywhere:)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,6 +97,12 @@
 
     self.ButtonsheaderView = [tableView dequeueReusableCellWithIdentifier:sortButtons];
     JCSearchHeaders *headerView = [tableView dequeueReusableCellWithIdentifier:headerViews];
+    NSArray *numberOfGigsInIreland = [self.dataSource objectForKey:@"In Ireland"];
+    NSArray *numberOfGigsAroundIreland = [self.dataSource objectForKey:@"Around Ireland"];
+
+    //In Ireland
+    NSLog(@"%@",self.dataSource);
+    
     if (sortedByDistanceFromIreland) {
         switch (section)
         {
@@ -97,17 +110,33 @@
                 if (self.ButtonsheaderView == nil){
                     [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
                 }
+                
+                [self.ButtonsheaderView formateCellWithBool:sortedByDistanceFromIreland];
+                self.ButtonsheaderView.JCSortButtonsCellDelagate = self;
                 return self.ButtonsheaderView;
                 break;
             case 1:
                
-                [headerView formatHeaderWithTitle:@"Gigs in Ireland"];
-                return headerView;
+                if ([numberOfGigsInIreland count]<1) {
+                    UIView *nilView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 1, 1)];
+                    return nilView;
+                }else{
+                    [headerView formatHeaderWithTitle:@"Gigs in Ireland"];
+                    return headerView;
+                 }
+                
+               
                 break;
             case 2:
-                [headerView formatHeaderWithTitle:@"Distance from Ireland"];
+                if ([numberOfGigsAroundIreland count]<1) {
+                    UIView *nilView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 1, 1)];
+                    return nilView;
+                }else{
+                    [headerView formatHeaderWithTitle:@"Sorted by distance from Ireland"];
+                    return headerView;
+                }
 
-                return headerView;
+
                 break;
             default:
                 break;
@@ -119,10 +148,13 @@
                 if (self.ButtonsheaderView == nil){
                     [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
                 }
+                [self.ButtonsheaderView formateCellWithBool:sortedByDistanceFromIreland];
+
+                self.ButtonsheaderView.JCSortButtonsCellDelagate = self;
                 return self.ButtonsheaderView;
                 break;
             case 1:
-                [headerView formatHeaderWithTitle:@"Sorted by date"];
+                [headerView formatHeaderWithTitle:@"Sorted by upcoming date"];
                 return headerView;
                 break;
             default:
@@ -220,7 +252,7 @@
 
 -(void)searchResultsGathered:(NSMutableArray *)searchResults{
     
-    
+  //old code
 };
 
 -(void)getHeaderImageForSeachResults:(eventObject *)event complectionBlock:(void(^)(NSError* error,UIImage * image))finishedsettingHeader{
@@ -416,11 +448,9 @@
 }
 
 -(IBAction)UserSelectedDone:(id)sender {
+    [self.SearchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-
 
 
 #pragma - HelperMethods
@@ -451,35 +481,51 @@
     
 }
 -(void)menuButtonPressed{
+    [self.SearchBar resignFirstResponder];
+
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)UIButtonFollowArtist:(id)sender {
+    
+    
+    
+}
 
 
-#pragma - Actions
-- (IBAction)UISegmentedControllSortDistanceDate:(id)sender {
+#pragma - Keyboard Handler
+
+-(void)keyboardOnScreen:(NSNotification *)notification
+{
+    //[self.view addGestureRecognizer:resignKeyBoardOnSwipe];
+    [self.view addGestureRecognizer:resignKeyBoardOnTap];
+}
+-(void)keyboardWillHide:(NSNotification *) note
+{
+    //[self.view removeGestureRecognizer:resignKeyBoardOnSwipe];
+    [self.view removeGestureRecognizer:resignKeyBoardOnTap];
+}
+
+-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
+    [self.SearchBar resignFirstResponder];
+}
+
+#pragma - SortButton Cell Delagte
+
+-(void)segmentedControlClicked{
     
     
     if (sortedByDistanceFromIreland) {
         sortedByDistanceFromIreland = NO;
         
         
-        [self.ButtonsheaderView buttonSortByDateClicked];
+       // [self.ButtonsheaderView buttonSortByDateClicked];
         
         NSDictionary *resultsDic = [self.currentResults objectForKey:JCSeachPageResultsDicResults];
         self.dataSource = [resultsDic objectForKey:JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSRange range = NSMakeRange(1, 2);
-            NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
-           
-            NSLog(@"Section %@",section );
-
-            
-            //[self.SearchResultsTable reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
-            
             [self.SearchResultsTable reloadData];
-            
         });
     }else{
         
@@ -490,19 +536,12 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.SearchResultsTable reloadData];
-
-           // NSRange range = NSMakeRange(0, 0);
-            //NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
-            //[self.SearchResultsTable reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+            
         });
         
         
     }
-    
 }
-
-
-
 
 #pragma - Empty State
 -(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView

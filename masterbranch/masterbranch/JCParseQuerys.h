@@ -43,6 +43,8 @@
 -(void)UserFollowedArtist:(eventObject*)currentEvent complectionBlock:(void(^)(NSError* error))finishedSavingArtist;
 
 
+
+
 -(void)UserUnfollowedArtist:(eventObject*)currentEvent complectionBlock:(void(^)(NSError* error))finishedUnfollowingArtist;
 
 -(void)UserUnfollowedArtistWithArtistObject:(PFObject*)artist complectionBlock:(void(^)(NSError* error))finishedUnfollowingArtist;

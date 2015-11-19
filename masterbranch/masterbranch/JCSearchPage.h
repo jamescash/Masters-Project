@@ -12,11 +12,12 @@
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "UIScrollView+EmptyDataSet.h"
 #import "GAITrackedViewController.h"
+#import "JCSortButtonsCell.h"
 
 //@protocol JCSearchPageDelegate;
 //@class JCSearchPageDelegate;
 
-@interface JCSearchPage : GAITrackedViewController <UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate,MGSwipeTableCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
+@interface JCSearchPage : GAITrackedViewController <UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate,MGSwipeTableCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,JCSortButtonsCellDelagate>
 
 //@property (nonatomic,weak) id <JCSearchPageDelegate>JCSearchPageDelegate;
 
