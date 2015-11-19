@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JCSortButtonsCell : UITableViewCell
+@protocol JCSortButtonsCellDelagate;
 
--(void)buttonSortByDateClicked;
+
+@interface JCSortButtonsCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UISegmentedControl *UIsegmentControlDistanceDate;
+
+//-(void)buttonSortByDateClicked;
+-(void)formateCellWithBool:(BOOL)sortedByDistanceFromIreland;
+@property (weak, nonatomic) id<JCSortButtonsCellDelagate>JCSortButtonsCellDelagate;
+@end
+
+@protocol JCSortButtonsCellDelagate <NSObject>
+
+-(void)segmentedControlClicked;
 
 @end

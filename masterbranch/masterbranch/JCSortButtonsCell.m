@@ -10,21 +10,35 @@
 
 @interface JCSortButtonsCell ()
 
-@property (weak, nonatomic) IBOutlet UIButton *buttonSortDistance;
-@property (weak, nonatomic) IBOutlet UIButton *buttonSortDate;
+
 
 
 @end
 
 @implementation JCSortButtonsCell
 
+-(void)formateCellWithBool:(BOOL)sortedByDistanceFromIreland{
+    
+    if (sortedByDistanceFromIreland) {
+        self.UIsegmentControlDistanceDate.selectedSegmentIndex = 0;
+    }else{
+       self.UIsegmentControlDistanceDate.selectedSegmentIndex = 1;
+    }
+    
+}
 
 -(void)buttonSortByDateClicked{
     
-        NSLog(@"clicked");
-         //self.buttonSortDistance = [[UIButton alloc]init];
-         //[self.buttonSortDate setTitle:@"clicked" forState:UIControlStateNormal];
-        self.buttonSortDate.backgroundColor = [UIColor whiteColor];
+        //self.buttonSortDate.backgroundColor = [UIColor whiteColor];
+}
+- (IBAction)UIsegmentedControlDistaceDate:(id)sender {
+
+    if (self.JCSortButtonsCellDelagate && [self.JCSortButtonsCellDelagate respondsToSelector:@selector(segmentedControlClicked)])
+    {
+
+        [self.JCSortButtonsCellDelagate segmentedControlClicked];
+        
+   }
     
     
 }

@@ -14,8 +14,9 @@
 #import "JCMusicDiaryArtistObject.h"
 #import "JCGigsComingUpInThisMonthVC.h"
 #import "RESideMenu.h"
+#import "JCCustomCollectionCell.h"
 
-
+#import "JCConstants.h"
 
 
 
@@ -89,8 +90,16 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    JCMusicDiaryCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    //JCMusicDiaryCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
    
+    
+    JCCustomCollectionCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"EventImageCell" forIndexPath:indexPath];
+
+    if (!cell) {
+        cell = [[JCCustomCollectionCell alloc] init];
+    }
+    
+    
     NSArray *monthSection = [self.MusicDiaryObjectsSortedArray objectAtIndex:indexPath.section];
     
     JCMusicDiaryArtistObject *daryObject = [monthSection objectAtIndex:indexPath.row];
@@ -99,10 +108,18 @@
     
    
     if (daryObject.artistImage) {
-        cell.backRoundImage.image = daryObject.artistImage;
+  
+        [cell stopLoadingAnimation];
+        [cell setImage:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
+        [cell addVinettLayer];
+
     }else{
-        cell.backRoundImage.image = [UIImage imageNamed:@"loadingGray.png"];
-        cell.backRoundImage.contentMode = UIViewContentModeScaleAspectFill;
+        [cell startLoadingAnimation];
+        //cell.backgroundColor = [UIColor lightGrayColor];
+        cell.MainImageView.image = [UIImage imageNamed:@"loadingGreyPlane"];
+        [cell removeVinettLayer];
+        cell.CellTitle.text = @"";
+        cell.venue.text = @"";
         
         [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
                 if (!error) {
@@ -119,8 +136,11 @@
                 
             }];
         }
-    [cell formatcellWithArtistName:[artist objectForKey:@"artistName"]];
     return cell;
+    
+    
+    
+    
 }
 
 
@@ -138,15 +158,28 @@
     [headerView setHeaderText:HreaderText];
     return headerView;
 }
+
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     [self.myMusicDiary deselectItemAtIndexPath:indexPath animated:YES];
     NSArray *monthSection = [self.MusicDiaryObjectsSortedArray objectAtIndex:indexPath.section];
     JCMusicDiaryArtistObject *diaryObject = [monthSection objectAtIndex:indexPath.row];
     self.selectedObject = diaryObject;
-    [self performSegueWithIdentifier:@"ShowUpcomingGigs" sender:self];
+    [self PerformNavigationToDetailedView];
+    //[self performSegueWithIdentifier:@"ShowUpcomingGigs" sender:self];
     
 }
+
+-(void)PerformNavigationToDetailedView{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"NavConMusicDiaryDetailView"];
+    JCGigsComingUpInThisMonthVC *DVC = [myVC viewControllers][0];
+    DVC.diaryObject = self.selectedObject;
+    DVC.IsIrishQuery = IrelandDataLoaded;
+    [self presentViewController:myVC animated:YES completion:nil];
+}
+
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 
@@ -553,13 +586,13 @@
 
 #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     
-     JCGigsComingUpInThisMonthVC *dvc = (JCGigsComingUpInThisMonthVC*)segue.destinationViewController;
-     dvc.diaryObject = self.selectedObject;
-     dvc.IsIrishQuery = IrelandDataLoaded;
-}
+// // In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//     
+//     JCGigsComingUpInThisMonthVC *dvc = (JCGigsComingUpInThisMonthVC*)segue.destinationViewController;
+//     dvc.diaryObject = self.selectedObject;
+//     dvc.IsIrishQuery = IrelandDataLoaded;
+//}
 
 
 -(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView

@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 @property (nonatomic,strong) NSArray *tableviewDataSource;
+@property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 
 
 @end
@@ -29,20 +30,12 @@
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     self.tableview.allowsSelection = NO;
     [self addCustomButtonOnNavBar];
-    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
-    PFObject *artist = self.diaryObject.artist;
-    
-    headerView.HeaderImageView.image = self.diaryObject.artistImage;
-    
-    headerView.ArtistName.text = [artist objectForKey:@"artistName"];
-    
-    [self.tableview setParallaxHeaderView:headerView
-                                       mode:VGParallaxHeaderModeFill
-                                     height:200];
-
+    [self layoutHeaderView];
     
     
-    [self.JCParseQuerys getUpcomingGigsforAartis:artist onMonthIndex:self.diaryObject.dateComponents.month isIrishQuery:self.IsIrishQuery complectionblock:^(NSError *error, NSArray *response) {
+    
+    
+    [self.JCParseQuerys getUpcomingGigsforAartis:self.diaryObject.artist onMonthIndex:self.diaryObject.dateComponents.month isIrishQuery:self.IsIrishQuery complectionblock:^(NSError *error, NSArray *response) {
         
         //self.tableViewDataSource = response;
         self.tableviewDataSource = response;
@@ -56,7 +49,28 @@
    
 }
 
+-(void)layoutHeaderView{
+    HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
 
+    headerView.HeaderImageView.image = self.diaryObject.artistImage;
+    PFObject *artist = self.diaryObject.artist;
+
+    headerView.ArtistName.text = [artist objectForKey:@"artistName"];
+    
+    self.vignetteLayer = [CAGradientLayer layer];
+    [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
+    [self.vignetteLayer setPosition:CGPointMake([headerView.HeaderImageView  bounds].size.width/2.0f, [headerView.HeaderImageView  bounds].size.height/2.0f)];
+    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.9];
+    [self.vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
+    [self.vignetteLayer setLocations:@[@(.10), @(1.0)]];
+    [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
+    [self.tableview setParallaxHeaderView:headerView
+                                     mode:VGParallaxHeaderModeFill
+                                   height:200];
+
+    
+    
+}
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -98,7 +112,7 @@
 {
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    [backButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"iconDown.png"] forState:UIControlStateNormal];
     backButton.adjustsImageWhenDisabled = NO;
     backButton.frame = CGRectMake(0, 0, 40, 40);
     backButton.opaque = YES;
