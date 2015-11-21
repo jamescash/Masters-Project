@@ -18,6 +18,7 @@
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 #import "RKSwipeBetweenViewControllers.h"
 #import "IHKeyboardAvoiding.h"
+#import "JCSelectFriends.h"
 
 
 @interface JCInboxDetail ()
@@ -57,6 +58,18 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
+        
+        NSString* userStatus = [userEventStatusActivity objectForKey:JCUserActivityContent];
+        
+        self.userStatus = userStatus;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableViewVC reloadData];
+        });
+    }];
+    [self getUserAttendingEvent];
 }
 
 - (void)viewDidLoad {
@@ -88,21 +101,15 @@
     
    // resignKeyBoardOnSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self
                                                                      //action:@selector(didTapAnywhere:)];
-    
-    [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
-        
-        NSString* userStatus = [userEventStatusActivity objectForKey:JCUserActivityContent];
-        
-        self.userStatus = userStatus;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableViewVC reloadData];
-        });
-    }];
-    [self getUserAttendingEvent];
-
 }
 
+
+- (IBAction)UIButtonAddMoreUsers:(id)sender {
+    
+    if (self.userAttendingEvent) {
+        [self performSegueWithIdentifier:@"addMoreFirneds" sender:self];
+    }
+}
 
 
 
@@ -146,7 +153,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 145;
+    return 115;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -449,6 +456,18 @@
        // NSLog(@"User event %@",self.userEvent);
         DVC.currentUserEvent = self.userEvent;
     
+    }else if ([segue.identifier isEqualToString:@"addMoreFirneds"]){
+        
+        UINavigationController *DVC = (UINavigationController*)segue.destinationViewController;
+        
+        JCSelectFriends *selectFriendsVC = (JCSelectFriends*)[DVC viewControllers][0];
+
+        selectFriendsVC.tableViewType = JCSendEventIntivesPageAddUserToExistingEvent;
+        selectFriendsVC.ParseEventObject = self.userEvent;
+        selectFriendsVC.usersAttedingEvent = self.userAttendingEvent;
+        
+        
+        
     }
     
 }

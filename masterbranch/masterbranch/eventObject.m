@@ -134,9 +134,9 @@
             NSString *Long = self.LatLong[@"long"];
             self.aLocation = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[Long doubleValue]];
             self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
-
         
-        
+            //get ticket information. 
+            
         
        }
     

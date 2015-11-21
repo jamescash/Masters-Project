@@ -96,6 +96,8 @@
         
         NSMutableArray *arrayOfParsedEvents = [[NSMutableArray alloc]init];
         
+
+        
         [responseObject  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             
             eventObject *event = [[eventObject alloc]initWithTitle:obj];
@@ -153,6 +155,8 @@
             }
             
             if ([JSONresults count]>0) {
+                
+                
                 
                 NSMutableArray *fullArrayOfSearchResults = [[NSMutableArray alloc]init];
                 

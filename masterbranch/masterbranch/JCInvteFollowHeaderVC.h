@@ -7,16 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "eventObject.h"
 
 @protocol JCInvteFollowHeaderDelegate;
 
 @interface JCInvteFollowHeaderVC : UITableViewCell
 @property (weak, nonatomic) id<JCInvteFollowHeaderDelegate>JCInvteFollowHeaderDelegate;
 @property (nonatomic)BOOL userIsFollowingArtist;
--(void)formatCellButtons:(BOOL)userIsFollowingArtist;
+@property (nonatomic)BOOL userIsInTerestedInGoing;
+
+-(void)formatCellButtons:(BOOL)userIsFollowingArtist and: (BOOL)userIsInterested;
 @end
 
 
 @protocol JCInvteFollowHeaderDelegate <NSObject>
 - (void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist;
+- (void)didClickImIntrested:(BOOL)userIsInterested;
 @end

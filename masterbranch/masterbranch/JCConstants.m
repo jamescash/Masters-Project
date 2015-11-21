@@ -24,14 +24,17 @@ NSString * const JCUserEventUserNotGoing       = @"notGoing";
 NSString * const JCUserEventUserMaybeGoing     = @"maybe";
 NSString * const JCUserEventUserGotTickets     = @"gotTickets";
 //Backend UserEvents Class - Keys
-NSString * const JCUserEventUsersInvited       = @"invited";
-NSString * const JCUserEventUsersTheEventDate  = @"eventDate";
-NSString * const JCUserEventUsersEventPhoto    = @"eventPhoto";
-NSString * const JCUserEventUsersEventTitle    = @"eventTitle";
-NSString * const JCUserEventUsersEventVenue    = @"eventVenue";
-NSString * const JCUserEventUsersEventHostId   = @"eventHostId";
-NSString * const JCUserEventUsersEventCity     = @"city";
-NSString * const JCUserEventUsersEventInvited  = @"invited";
+NSString * const JCUserEventUsersInvited             = @"invited";
+NSString * const JCUserEventUsersTheEventDate        = @"eventDate";
+NSString * const JCUserEventUsersEventPhoto          = @"eventPhoto";
+NSString * const JCUserEventUsersEventTitle          = @"eventTitle";
+NSString * const JCUserEventUsersEventVenue          = @"eventVenue";
+NSString * const JCUserEventUsersEventHostId         = @"eventHostId";
+NSString * const JCUserEventUsersEventCity           = @"city";
+NSString * const JCUserEventUsersEventInvited        = @"invited";
+NSString * const JCUserEventUsersEventDate           = @"eventDate";
+NSString * const JCUserEventUsersEventIsBeingUpDated = @"eventBeingUpdated";
+
 NSString * const JCUserEventUsersSubscribedForNotifications = @"userSubscribedForNotifications";
 
 
@@ -49,17 +52,19 @@ NSString * const BITJSONDateUnformatted        = @"yyy-MM-dd'T'HH:mm:ss";
 
 //Backend Activitys Class - Keys
 #pragma - Activitys
-NSString * const JCUserActivityFromUser        = @"fromUser";
-NSString * const JCUserActivityType            = @"type";
-NSString * const JCUActivityTypeUserComment    = @"userComment";
-NSString * const JCUserActivityTypeAddFriend   = @"addFriends";
-NSString * const JCUserActivityTypeEventStatus = @"eventStatus";
+NSString * const JCUserActivityFromUser                      = @"fromUser";
+NSString * const JCUserActivityType                          = @"type";
+NSString * const JCUActivityTypeUserComment                  = @"userComment";
+NSString * const JCUserActivityTypeAddFriend                 = @"addFriends";
+NSString * const JCUserActivityTypeEventStatus               = @"eventStatus";
+NSString * const JCUserActivityTypeInvitedFriendsToUserEvent = @"invitedUsers";
 
 NSString * const JCUserActivityCommentOwner    = @"commentOwner";
 NSString * const JCUserActivityContent         = @"content";
 NSString * const JCUserActivityRelatedObjectId = @"relatedObjectId";
 NSString * const JCUserActivityToEvent         = @"toEvent";
 NSString * const JCUserActivityToUser          = @"toUser";
+NSString * const JCUserActivityInvitedUsers    = @"invitedUsers";
 
 #pragma - Artist
 NSString * const JCArtistArtistName            = @"artistName";
@@ -95,4 +100,24 @@ NSString * const JCSeachPageResultsDicNoUpcomingGigs                    = @"NoUp
 NSString * const JCSeachPageResultsDicResultsArtistUnknown              = @"artistUnknown";
 NSString * const JCSeachPageResultsDicResultsSortedDistanceFromIreland  = @"sortedByDistanceFromIreland";
 NSString * const JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate  = @"sortedByUpcmoingDate";
+
+
+
+#pragma - Send Intives Page
+NSString * const JCSendEventIntivesPageCreateAndSendEventInvite  = @"createAndSendIntive";
+NSString * const JCSendEventIntivesPageAddUserToExistingEvent    = @"sendIntiveToExistingEvent";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @end

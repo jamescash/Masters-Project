@@ -37,6 +37,7 @@
 @property (nonatomic) NSString *CellTitle;
 
 
+
 - (id)initWithTitle:(NSDictionary *)dictionary;
 
 @end

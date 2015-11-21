@@ -13,6 +13,8 @@
 @interface JCTimeDateLocationTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *timeDate;
 @property (weak, nonatomic) IBOutlet UILabel *VenueName;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageViewDateIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageViewLocationIcon;
 
 
 @end
@@ -34,7 +36,14 @@
 }
 
 - (void)awakeFromNib {
-    // Initialization code
+  
+    self.UIImageViewDateIcon.image = [UIImage imageNamed:@"iconDate"];
+    self.UIImageViewDateIcon.contentMode = UIViewContentModeScaleAspectFill;
+    self.UIImageViewLocationIcon.image = [UIImage imageNamed:@"iconLocation"];
+    self.UIImageViewLocationIcon.contentMode = UIViewContentModeScaleAspectFill;
+
+
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -48,7 +57,7 @@
     //[dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
     // NSDate *eventDateTime = [dateFormat dateFromString:date];
     
-    dateFormat.dateStyle = NSDateFormatterFullStyle;
+    dateFormat.dateStyle = NSDateFormatterMediumStyle;
     
     NSString *dayMonthString = [dateFormat stringFromDate:date];
     [dateFormat setDateFormat:@"' at 'HH:mm"];
@@ -58,17 +67,26 @@
 }
 
 -(NSString*)formatDateString: (NSString*)date{
+    
+    
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
     NSDate *eventDateTime = [dateFormat dateFromString:date];
-
-    dateFormat.dateStyle = NSDateFormatterFullStyle;
-
+ 
+    
+    dateFormat.dateStyle = NSDateFormatterMediumStyle;
     NSString *dayMonthString = [dateFormat stringFromDate:eventDateTime];
     [dateFormat setDateFormat:@"' at 'HH:mm"];
     NSString *timeString = [dateFormat stringFromDate:eventDateTime];
 
-    return [NSString stringWithFormat:@"%@%@",dayMonthString,timeString];
+    
+    [dateFormat setDateFormat:@"EEE"];
+    NSString *dayString = [dateFormat stringFromDate:eventDateTime];
+
+    [dateFormat setDateFormat:@"MM-dd"];
+
+    
+    return [NSString stringWithFormat:@"%@ %@%@",dayString,dayMonthString,timeString];
 }
 
 @end

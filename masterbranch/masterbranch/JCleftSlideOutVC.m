@@ -64,6 +64,10 @@
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberOfArtistLableTap)];
     [self.UIViewTouchRconiserArtist addGestureRecognizer:artisttapped];
     //[self.artist addGestureRecognizer:artisttapped];
+    self.profilePicture.userInteractionEnabled = YES;
+    UITapGestureRecognizer *profilePicTapped =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuButtonMyProfileTapped)];
+    [self.profilePicture addGestureRecognizer:profilePicTapped];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -169,6 +173,13 @@
 
 }
 
+-(void)menuButtonMyProfileTapped{
+    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"profilePage"]]
+                                                 animated:YES];
+    [self.sideMenuViewController hideMenuViewController];
+    
+    
+}
 
 - (IBAction)menuButtonHome:(id)sender {
     [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]

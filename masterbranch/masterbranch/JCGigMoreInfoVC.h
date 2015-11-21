@@ -11,12 +11,13 @@
 #import "UIScrollView+VGParallaxHeader.h"
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "JCInvteFollowHeaderVC.h"
+#import "JCUpcomingGigTableViewCell.h"
 
 
 @protocol JCGigMoreInfoVC;
 
 
-@interface JCGigMoreInfoVC : UIViewController <UITableViewDataSource,UITableViewDelegate,MGSwipeTableCellDelegate,JCInvteFollowHeaderDelegate>
+@interface JCGigMoreInfoVC : UIViewController <UITableViewDataSource,UITableViewDelegate,MGSwipeTableCellDelegate,JCInvteFollowHeaderDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate>
 @property (nonatomic,strong)eventObject *currentEvent;
 @property (nonatomic, weak) id <JCGigMoreInfoVC> JCGigMoreInfoVCDelegate;
 @end

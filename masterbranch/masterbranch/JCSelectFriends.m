@@ -13,12 +13,12 @@
 #import "JCMyFriendsCell.h"
 #import <ParseUI/ParseUI.h>
 #import "ILTranslucentView.h"
-
+#import "JCConstants.h"
 
 
 @interface JCSelectFriends ()
 
-@property (nonatomic,strong) NSArray *MyFriends;
+@property (nonatomic,strong) NSMutableArray *MyFriends;
 @property (nonatomic,strong) PFRelation *FriendRelations;
 @property (nonatomic,strong) NSMutableArray *recipents;
 
@@ -26,7 +26,7 @@
 @property (nonatomic,strong) JCParseQuerys *JCParseQuery;
 
 @property (nonatomic,strong) ILTranslucentView *blerView;
-@property (nonatomic,strong) UILabel *Lablesending;
+@property (nonatomic,weak) UILabel *Lablesending;
 @property (weak, nonatomic) IBOutlet UILabel *lablePageTitle;
 
 ////actions
@@ -44,10 +44,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.MyFriends = [[NSMutableArray alloc]init];
     sendingLong = YES;
     sent = NO;
     [self addCustomButtonOnNavBar];
     [self.tableView setContentInset:UIEdgeInsetsMake(-50,0,0,0)];
+    self.recipents = [[NSMutableArray alloc]init];
 
     self.lablePageTitle.text = @"Choose friends";
     [self.lablePageTitle setFont:[UIFont fontWithName:@"Helvetica-light" size:25]];
@@ -56,7 +58,32 @@
 
     [self.JCParseQuery getMyFriends:^(NSError *error, NSArray *response) {
         
-        self.MyFriends = response;
+        
+        
+        if ([self.tableViewType isEqualToString:JCSendEventIntivesPageAddUserToExistingEvent ]) {
+            
+            
+            //if were just adding friends to an event make sure we take out all the friends that were already invited.
+            NSArray *friendsAlreadyInvited = [self.ParseEventObject objectForKey:JCUserEventUsersEventInvited];
+            NSMutableArray *FriendsNotYetInvtied = [[NSMutableArray alloc]init];
+            [FriendsNotYetInvtied addObjectsFromArray:response];
+            
+            for (PFUser *friend in response) {
+               
+                if ([friendsAlreadyInvited containsObject:friend.objectId]) {
+                    [FriendsNotYetInvtied removeObject:friend];
+                }
+            }
+            
+            [self.MyFriends addObjectsFromArray:FriendsNotYetInvtied];
+        
+        
+        }else{
+            //this is creating an event o we can show all friends
+            //SELF.Myfirends = table view data source
+            [self.MyFriends addObjectsFromArray:response];
+         }
+        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
@@ -64,7 +91,6 @@
 
     }];
     
-    self.recipents = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -139,6 +165,42 @@
 }
 
 - (void)Send{
+    
+    if ([self.tableViewType isEqualToString:JCSendEventIntivesPageAddUserToExistingEvent]) {
+        
+        [self addBlerView];
+
+        [self.JCParseQuery addUsersToExistingParseUserEvent:self.ParseEventObject UsersToadd:self.recipents completionBlock:^(NSError *error) {
+            
+            if (error) {
+                
+            }else{
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    sent = YES;
+                   
+                 
+                    CGRect frame = self.Lablesending.frame;
+                    frame.origin.x += 40.0f;
+                    self.Lablesending.frame = frame;
+                    self.Lablesending.text = @"Done!";
+                    self.Lablesending.textAlignment = NSTextAlignmentNatural;
+                    [self performSelector:@selector(dismissViewController)
+                               withObject:self
+                               afterDelay:1];
+                    
+                    [self.recipents removeAllObjects];
+                    NSLog(@"event created");
+                    
+                });
+            }
+            
+        }];
+        
+        
+    }else{
+    
+    
     if ([self.recipents count]==0) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Try again!" message:@"Ooops please select some friends" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
         [alert show];
@@ -154,45 +216,54 @@
         
         //Seems like we have an event object lets upload it then dismiss the VC
         [self addBlerView];
-
         PFUser *currentUser = [PFUser currentUser];
-        
-        //TODO why was i adding current user to recipiect id
-        
         [self.recipents addObject:currentUser.objectId];
-        
         [self.JCParseQuery creatUserEvent:self.currentEvent invitedUsers:self.recipents complectionBlock:^(NSError *error) {
             
             if (error) {
                 //show alert view
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"oops!" message:@"Please try sending creating that event again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                 [self.recipents removeAllObjects];
-                
                 [alert show];
-            }else{
-                
+
                 sent = YES;
                 CGRect frame = self.Lablesending.frame;
                 frame.origin.x += 40.0f;
                 self.Lablesending.frame = frame;
-                self.Lablesending.text = @"Done!";
+                self.Lablesending.text = @"Failed!";
                 self.Lablesending.textAlignment = NSTextAlignmentNatural;
                 [self performSelector:@selector(dismissViewController)
                            withObject:self
                            afterDelay:1];
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    sent = YES;
+                    CGRect frame = self.Lablesending.frame;
+                    frame.origin.x += 40.0f;
+                    self.Lablesending.frame = frame;
+                    self.Lablesending.text = @"Done!";
+                    self.Lablesending.textAlignment = NSTextAlignmentNatural;
+                    [self performSelector:@selector(dismissViewController)
+                               withObject:self
+                               afterDelay:1];
+                    
+                    [self.recipents removeAllObjects];
+                    NSLog(@"event created");
                 
-                [self.recipents removeAllObjects];
-                NSLog(@"event created");
+            });
+               
             }
             
             
         }];
         
         
-      }
-    }
-    
+       }
+     }
+   }
 }
+    
+
 -(void)addBlerView{
     
     self.blerView = [[ILTranslucentView alloc] initWithFrame:self.view.frame];
