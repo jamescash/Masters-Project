@@ -335,8 +335,8 @@
             if (self.isCancelled) {
                 return nil;
             }
-            
-            NSString *imageUrl = jsonData [@"image_url"];
+            //NSLog(@"%@",jsonData);
+            NSString *imageUrl = jsonData [@"thumb_url"];
             
             NSURL *url = [NSURL URLWithString:imageUrl];
                 if (Log) {
@@ -420,7 +420,7 @@
             if (self.isCancelled) {
                 return nil;
             }
-            NSString *imageUrl = jsonData [@"image_url"];
+            NSString *imageUrl = jsonData [@"thumb_url"];
             
             NSURL *url = [NSURL URLWithString:imageUrl];
             

@@ -17,13 +17,16 @@
 #import "JCCustomCollectionCell.h"
 
 #import "JCConstants.h"
+#import "DGActivityIndicatorView.h"
 
 
 
 
 
 
-@interface JCMusicDiaryVC ()
+@interface JCMusicDiaryVC (){
+    BOOL isLoadingContent;
+}
 //properties
 @property (weak, nonatomic) IBOutlet UICollectionView *myMusicDiary;
 @property (nonatomic,strong) NSDictionary *UpcomingGigsCalander;
@@ -55,6 +58,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    isLoadingContent = YES;
+
     self.myMusicDiary.backgroundColor =  [UIColor whiteColor];
     self.JCParseQuerys =                 [JCParseQuerys sharedInstance];
     self.calendar =                      [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -446,6 +451,8 @@
 
 -(void)loadUpcomingGigs:(BOOL)forIrelandOnly{
     
+    isLoadingContent = YES;
+
 
     if (forIrelandOnly) {
         IrelandDataLoaded = YES;
@@ -453,6 +460,7 @@
         IrelandDataLoaded = NO;
     }
     
+   
     
   [self.JCParseQuerys getMyAtritsUpComingGigs:forIrelandOnly comletionblock:^(NSError *error, NSMutableArray *response) {
     
@@ -462,14 +470,16 @@
       }else{
           
           
+          
           NSArray *twoDArraySortedYears = [self sortArrayInto2DArrayContaningYears:response];
           //Now that we have our year seperated sort each year array into months
           for (NSArray *year in twoDArraySortedYears) {
               NSArray *yearArraySortedintoMonths = [self sortArrayInto2DArrayContaningMonths:year];
               //finaly add the months to our
-              [self.MusicDiaryObjectsSortedArray addObjectsFromArray:yearArraySortedintoMonths];
+            [self.MusicDiaryObjectsSortedArray addObjectsFromArray:yearArraySortedintoMonths];
           }
           
+          isLoadingContent = NO;
           dispatch_async(dispatch_get_main_queue(), ^{
               [self.myMusicDiary reloadData];
           });
@@ -584,7 +594,7 @@
 }
 
 
-#pragma mark - Navigation
+#pragma mark - Empty state
  
 // // In a storyboard-based application, you will often want to do a little preparation before navigation
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -594,16 +604,49 @@
 //     dvc.IsIrishQuery = IrelandDataLoaded;
 //}
 
+//- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+//{
+//    return [UIImage imageNamed:@"iconMenu"];
+//}
+//
+//-(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+//{
+//
+//    if (isLoadingContent) {
+//        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+//        animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+//        animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+//        animation.duration = 0.25;
+//        animation.cumulative = YES;
+//        animation.repeatCount = MAXFLOAT;
+//        return animation;
+//
+//    }
+//    return nil;
+//}
 
--(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    animation.duration = 0.25;
-    animation.cumulative = YES;
-    animation.repeatCount = MAXFLOAT;
-    return animation;
+    if (isLoadingContent) {
+        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [activityView startAnimating];
+        return activityView;
+//        UIView *PreLoader = [[UIView alloc]init];
+//        PreLoader.backgroundColor = [UIColor blackColor];
+        //DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallScaleMultiple];
+//        DGActivityIndicatorView *activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallScaleMultiple tintColor:[UIColor redColor] size:50.0f];
+////         activityIndicatorView.frame = CGRectMake((scrollView.frame.size.width/2)-25, (scrollView.frame.size.height/2)-25, 50.0f, 50.0f);
+////        activityIndicatorView.center = scrollView.center;
+////        NSLog(@"fram with %f",scrollView.bounds.size.width);
+////        NSLog(@"fram height %f",scrollView.bounds.size.height);
+//
+        //[prelaoder startAnimating];
+////        [PreLoader addSubview:activityIndicatorView];
+       return activityView;
+
+    }
+    
+    return nil;
 }
 
 -(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView

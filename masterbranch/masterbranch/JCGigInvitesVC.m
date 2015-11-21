@@ -298,7 +298,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
         NSMutableArray *InvitedUsers = [[NSMutableArray alloc]init];
         
         [InvitedUsers addObjectsFromArray:[eventToDeleteUserFrom objectForKey:JCUserEventUsersEventInvited]];
-        NSLog(@"%@",InvitedUsers);
+        //NSLog(@"%@",InvitedUsers);
         PFUser *currentuser = [PFUser currentUser];
         NSMutableArray *toDelete = [NSMutableArray array];
 
@@ -312,6 +312,8 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
         NSLog(@"%@",InvitedUsers);
         [eventToDeleteUserFrom setObject:InvitedUsers forKey:JCUserEventUsersEventInvited];
         [eventToDeleteUserFrom setObject:InvitedUsers forKey:JCUserEventUsersSubscribedForNotifications];
+        [eventToDeleteUserFrom setObject:@YES forKeyedSubscript:JCUserEventUsersEventIsBeingUpDated];
+
         [eventToDeleteUserFrom saveInBackground];
             
     }

@@ -37,7 +37,6 @@
 @implementation JCParseQuerys{
     int UpcomingGigsLoopCounter;
     BOOL methodUserIsFollowingArtist;
-
 }
 
 
@@ -99,6 +98,7 @@
        
    }];
 }
+
 -(void)getMyAtritsfromLocalDataStorage:(void(^)(NSError* error,NSArray* response))finishedGettingMyAtritsfromLocalDataStorage{
     
     
@@ -173,6 +173,7 @@
     }];
     
 };
+
 -(void)getMyFriendsfromLocalDataStorage:(void (^)(NSError *error, NSArray *response))finishedGettingMyFriendsfromLocalDataStorage{
     
     PFQuery *MyFriendsfromLocalDataStorage  = [PFUser query];
@@ -194,6 +195,7 @@
         
     }];
 };
+
 -(void)getMyFriendsfromTheServer:(void (^)(NSError *error, NSArray *response))finishedGettingMyFriendsfromTheServer{
     
     PFRelation *friendsRelation = [[PFUser currentUser] objectForKey:@"FriendsRelation"];
@@ -257,6 +259,7 @@
           }];
 
 };
+
 -(void)getMyAtritsUpComingGigs:(BOOL)onlyIrishGigs comletionblock:(void (^)(NSError*, NSMutableArray*))finishedGettingMyAtritsUpcomingGigs{
     
     
@@ -513,9 +516,6 @@
     
 }
 
-
-
-
 -(void)creatUserEvent:(eventObject*)currentEvent invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent{
     
     
@@ -564,6 +564,8 @@
             [UserEvent setObject:currentEvent.county forKey:JCUserEventUsersEventCity];
             [UserEvent setObject:recipientIds forKey:JCUserEventUsersInvited];
             [UserEvent setObject:recipientIds forKey:JCUserEventUsersSubscribedForNotifications];
+            //set this value so that notifications are only sent out to the invited array the first time the event is created
+            [UserEvent setObject:@NO forKey:JCUserEventUsersEventIsBeingUpDated];
             
             NSLog(@"%@",recipientIds);
             
@@ -573,6 +575,7 @@
                     NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
                     [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                     finishedCreatingUserEvent(error);
+                    
 
                 }else{
                     finishedCreatingUserEvent(nil);
@@ -587,6 +590,55 @@
     
 }
 
+-(void)addUsersToExistingParseUserEvent:(PFObject *)userEvent UsersToadd:(NSArray *)users completionBlock:(void (^)(NSError *))finishedAddingUsers{
+    
+    NSMutableArray *userInvited = [[NSMutableArray alloc]init];
+    [userInvited addObjectsFromArray:[userEvent objectForKey:JCUserEventUsersEventInvited]];
+    [userInvited addObjectsFromArray:users];
+    
+    NSMutableArray *userSubscribbed = [[NSMutableArray alloc]init];
+    [userSubscribbed addObjectsFromArray:[userEvent objectForKey:JCUserEventUsersSubscribedForNotifications]];
+    [userSubscribbed addObjectsFromArray:users];
+    
+    
+    [userEvent setObject:userInvited forKey:JCUserEventUsersEventInvited];
+    [userEvent setObject:userSubscribbed forKey:JCUserEventUsersSubscribedForNotifications];
+    [userEvent setObject:@YES forKey:JCUserEventUsersEventIsBeingUpDated];
+    [userEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        if (error) {
+            finishedAddingUsers(error);
+        }else{
+         
+            PFObject *intivedFriendsActivity = [PFObject objectWithClassName:JCParseClassActivity];
+            [intivedFriendsActivity setObject:userEvent forKey:JCUserActivityToEvent];
+            [intivedFriendsActivity setObject:JCUserActivityTypeInvitedFriendsToUserEvent forKey:JCUserActivityType];
+            [intivedFriendsActivity setObject:[PFUser currentUser] forKey:JCUserActivityFromUser];
+            [intivedFriendsActivity setObject:users forKey:JCUserActivityInvitedUsers];
+            [intivedFriendsActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+
+                
+                
+                NSLog(@"%@",userEvent);
+
+                if (error) {
+                    finishedAddingUsers(error);
+
+                }else{
+                    
+                    finishedAddingUsers(nil);
+
+                }
+                
+            }];
+            
+        }
+        
+        
+    }];
+    
+    
+}
 
 
 -(void)UserFollowedArtist:(eventObject *)currentEvent complectionBlock:(void (^)(NSError *))finishedSavingArtist{
@@ -711,6 +763,45 @@
         
     }];
 }
+
+-(void)isUserInterestedInEvent:(eventObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent))finishedisUserInterestedInEvent{
+    
+    PFQuery *isUserGoingToEvent = [PFQuery queryWithClassName:JCParseClassUserEvents];
+    
+    NSDate *now = [NSDate date];
+    //take three hours away from now to allow for the threshold of sometime there is gig's displayed on the homescreen after
+    //there starting time
+    NSDate *NSDate = [now dateByAddingTimeInterval:-3600*3];
+
+    //is there any events created for this event?
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventTitle equalTo:eventObject.eventTitle];
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventVenue equalTo:eventObject.venueName];
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventCity equalTo:eventObject.county];
+    [isUserGoingToEvent whereKey:JCUserEventUsersTheEventDate greaterThan:NSDate];
+    //if so do any of them have the users ID in the intived list
+    [isUserGoingToEvent whereKey:JCUserEventUsersInvited equalTo:[[PFUser currentUser]objectId]];
+    
+    [isUserGoingToEvent findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+       
+        if (error) {
+            finishedisUserInterestedInEvent(error,NO,nil);
+        }else{
+            
+            if ([objects count]>0) {
+                finishedisUserInterestedInEvent(error,YES,[objects firstObject]);
+
+            }else{
+                finishedisUserInterestedInEvent(error,NO,nil);
+
+            }
+            
+        }
+        
+        
+    }];
+    
+}
+
 
 -(void)saveArtistToBackendAndAddRelationToUser:(eventObject*)currentEvent {
     
@@ -935,11 +1026,6 @@
     }];
 }
 
-
-
-
-
-
 -(void)getPeopleThatRecentlyAddedMe:(void (^)(NSError *, NSArray *))finishedGettingPeopleThatRecentlyAddedMe{
     
     
@@ -947,7 +1033,6 @@
     [whoRecentlyAddedMe whereKey:JCUserActivityType equalTo:JCUserActivityTypeAddFriend];
     [whoRecentlyAddedMe whereKey:JCUserActivityToUser equalTo:[PFUser currentUser]];
     [whoRecentlyAddedMe orderByDescending:JCParseGeneralKeyCreatedAt];
-    
     [whoRecentlyAddedMe includeKey:JCUserActivityFromUser];
     
 
@@ -961,11 +1046,14 @@
             finishedGettingPeopleThatRecentlyAddedMe(error,nil);
         }else{
 
+
             NSMutableArray *users = [[NSMutableArray alloc]init];
             
             for (PFObject *activity in objects) {
                  PFUser *user = [activity objectForKey:JCUserActivityFromUser];
-                [users addObject:user];
+                if (user != nil) {
+                    [users addObject:user];
+                }
             }
             
             
@@ -978,8 +1066,6 @@
     
     
 }
-
-
 
 -(void)getUserEventStatus:(PFObject *)eventobject completionBlock:(void (^)(NSError *, PFObject *))finishedgetActivtyForUser{
     

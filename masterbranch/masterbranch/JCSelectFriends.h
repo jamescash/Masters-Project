@@ -14,4 +14,7 @@
 
 @interface JCSelectFriends : UITableViewController
 @property (nonatomic,strong)eventObject *currentEvent;
+@property (nonatomic,strong)NSString *tableViewType;
+@property (nonatomic,strong)PFObject *ParseEventObject;
+@property (nonatomic,strong)NSMutableDictionary *usersAttedingEvent;
 @end

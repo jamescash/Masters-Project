@@ -34,6 +34,10 @@ extern NSString * const JCUserEventUsersEventVenue;
 extern NSString * const JCUserEventUsersEventHostId;
 extern NSString * const JCUserEventUsersEventCity;
 extern NSString * const JCUserEventUsersEventInvited;
+extern NSString * const JCUserEventUsersEventDate;
+extern NSString * const JCUserEventUsersEventIsBeingUpDated;
+
+
 extern NSString * const JCUserEventUsersSubscribedForNotifications;
 //Backend UserEvents Class Local - Keys
 extern NSString * const JCUserEventUsersTypeUpcoming;
@@ -47,6 +51,7 @@ extern NSString * const JCUserActivityType;
 extern NSString * const JCUActivityTypeUserComment;
 extern NSString * const JCUserActivityTypeAddFriend;
 extern NSString * const JCUserActivityTypeEventStatus;
+extern NSString * const JCUserActivityTypeInvitedFriendsToUserEvent;
 
 extern NSString * const JCUserActivityToEvent;
 extern NSString * const JCUserActivityToUser;
@@ -54,6 +59,8 @@ extern NSString * const JCUserActivityFromUser;
 extern NSString * const JCUserActivityCommentOwner;
 extern NSString * const JCUserActivityContent;
 extern NSString * const JCUserActivityRelatedObjectId;
+extern NSString * const JCUserActivityInvitedUsers;
+
 
 #pragma - Artist
 extern NSString * const JCArtistArtistName;
@@ -94,6 +101,9 @@ extern NSString * const JCSeachPageResultsDicResultsArtistUnknown;
 extern NSString * const JCSeachPageResultsDicResultsSortedDistanceFromIreland;
 extern NSString * const JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate;
 
+#pragma - Send Intives Page
+extern NSString * const JCSendEventIntivesPageCreateAndSendEventInvite;
+extern NSString * const JCSendEventIntivesPageAddUserToExistingEvent;
 
 
 

@@ -73,6 +73,7 @@
 		897D4AED1BFB4D0C00DF54EB /* JCButtonHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AEC1BFB4D0C00DF54EB /* JCButtonHeader.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AFC1BFBA3E000DF54EB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 897D4AFB1BFBA3E000DF54EB /* CoreData.framework */; };
 		897D4B0B1BFBAA4100DF54EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		897D4B0F1BFF5D0000DF54EB /* JCUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4B0E1BFF5D0000DF54EB /* JCUserProfile.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */; settings = {ASSET_TAGS = (); }; };
 		8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989AA371BDEBC1F0029F071 /* JCConstants.m */; settings = {ASSET_TAGS = (); }; };
 		898FA8981B76418A000AEAB1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898FA8971B76418A000AEAB1 /* CFNetwork.framework */; };
@@ -263,6 +264,8 @@
 		897D4AEC1BFB4D0C00DF54EB /* JCButtonHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCButtonHeader.m; sourceTree = "<group>"; };
 		897D4AFB1BFBA3E000DF54EB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		897D4B0D1BFF5D0000DF54EB /* JCUserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserProfile.h; sourceTree = "<group>"; };
+		897D4B0E1BFF5D0000DF54EB /* JCUserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserProfile.m; sourceTree = "<group>"; };
 		8989AA331BDEAC600029F071 /* JCUserAttendingGigCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserAttendingGigCell.h; sourceTree = "<group>"; };
 		8989AA341BDEAC600029F071 /* JCUserAttendingGigCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserAttendingGigCell.m; sourceTree = "<group>"; };
 		8989AA361BDEBC1F0029F071 /* JCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCConstants.h; sourceTree = "<group>"; };
@@ -929,6 +932,15 @@
 			name = tutorial;
 			sourceTree = "<group>";
 		};
+		897D4B0C1BFF5C9D00DF54EB /* ProfilePicture */ = {
+			isa = PBXGroup;
+			children = (
+				897D4B0D1BFF5D0000DF54EB /* JCUserProfile.h */,
+				897D4B0E1BFF5D0000DF54EB /* JCUserProfile.m */,
+			);
+			name = ProfilePicture;
+			sourceTree = "<group>";
+		};
 		89AE1C561B89EBC20055DB3D /* MainVc */ = {
 			isa = PBXGroup;
 			children = (
@@ -1193,6 +1205,7 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				897D4B0C1BFF5C9D00DF54EB /* ProfilePicture */,
 				897780DA1BD6868A006B20C3 /* MyFriends/Artist */,
 				89DCC59D1BC2B62400E926A0 /* Gig Invites */,
 				89DCC5971BC1464900E926A0 /* HelperClasses */,
@@ -1446,6 +1459,7 @@
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
 				897D4AEA1BF945E500DF54EB /* GHWalkThroughView.m in Sources */,
+				897D4B0F1BFF5D0000DF54EB /* JCUserProfile.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
 				897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */,
 				897D4AE91BF945E500DF54EB /* GHWalkThroughPageCell.m in Sources */,

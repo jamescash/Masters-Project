@@ -18,6 +18,7 @@
 #import "MGSwipeButton.h"
 
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
+#import "JCConstants.h"
 
 
 
@@ -32,9 +33,9 @@
 @property (nonatomic,strong) JCHomeScreenDataController *bandsInTownAPI;
 @property (nonatomic,strong) PFUser *currentUser;
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
-@property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
-
-
+@property (strong,nonatomic) CAGradientLayer *vignetteLayer;
+@property (strong,nonatomic) PFObject *JCParseUserEvent;
+@property (strong,nonatomic) eventObject *upcomingGigOfIntrest;
 
 
 
@@ -47,6 +48,8 @@
    NSString *header2UpcomingGigs;
    NSString *timeDateLocaionCellId;
     BOOL userIsFollowingArtistMainVC;
+    BOOL userIsInterestedInEvent;
+    BOOL performSegueFromUpcomingGig;
 }
 
 
@@ -55,7 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-
+    performSegueFromUpcomingGig = NO;
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
     self.tableViewDataSource = [[NSMutableDictionary alloc]init];
@@ -74,6 +77,7 @@
     self.tableViewDataSourcekeys = @[header1Buttons,header2UpcomingGigs];
     
     [self.bandsInTownAPI getUpcomingGigsForArtist:self.currentEvent.eventTitle competionBlock:^(NSError *error, NSArray *response){
+        
         
         if (response !=nil) {
             [self.tableViewDataSource setObject:response forKey:header2UpcomingGigs];
@@ -108,12 +112,42 @@
             
         }
     }];
-
-
-
+ 
+    
+    
 }
 
 - (IBAction)FollowButton:(id)sender {
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self.JCParseQuerys isUserInterestedInEvent:self.currentEvent completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent) {
+        
+        
+        if (error) {
+            NSLog(@"%@",error);
+        }else{
+            
+            
+            if (userIsInterestedInGoingToEvent) {
+                //Save a referance to that event on the backend incase the user wants to add more people to it
+                self.JCParseUserEvent = JCParseuserEvent;
+                userIsInterestedInEvent = YES;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadData];
+                });
+            }else{
+                userIsInterestedInEvent = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadData];
+                });
+                
+            }
+        }
+        
+    }];
 }
 
 -(void)layouStickyHeaderView{
@@ -178,10 +212,12 @@
     if ([section isEqualToString:header2UpcomingGigs]) {
         JCUpcomingGigTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"upComingGig"];
         NSArray *upcomingGigs = self.tableViewDataSource[section];
+        cell.cellIndex = indexPath.row;
         [cell formatCell:[upcomingGigs objectAtIndex:indexPath.row]];
-        cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]]];
-        cell.delegate = self;
-        cell.leftSwipeSettings.transition = MGSwipeTransition3D;
+        cell.JCUpcomingGigTableViewCellDelegate = self;
+        //cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]]];
+        //cell.delegate = self;
+        //cell.leftSwipeSettings.transition = MGSwipeTransition3D;
         return cell;
     }
 
@@ -195,7 +231,7 @@
     
     if ([section isEqualToString:header1Buttons]) {
         
-        return 145;
+        return 94;
         
     }
     
@@ -216,7 +252,7 @@
         if (headerView == nil){
             headerView = [[JCInvteFollowHeaderVC alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        [headerView formatCellButtons:userIsFollowingArtistMainVC];
+        [headerView formatCellButtons:userIsFollowingArtistMainVC and:userIsInterestedInEvent];
         headerView.JCInvteFollowHeaderDelegate = self;
         return headerView;
     }else{
@@ -236,7 +272,7 @@
     
     if ([sectionTitle isEqualToString:header1Buttons]) {
         
-        return 80;
+        return 95;
     
     }
     
@@ -263,15 +299,42 @@
 }
 
 #pragma - Actions
-- (IBAction)InviteFirends:(id)sender {
+
+
+
+-(void)didClickInviteFriendsOnUpcomingGigAt:(NSInteger)cellIndex{
+    
+    NSArray *upcomingGigs = [self.tableViewDataSource objectForKey:header2UpcomingGigs];
+    self.upcomingGigOfIntrest = [upcomingGigs objectAtIndex:cellIndex];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending?" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    //actionSheet.destructiveButtonIndex = 1;
+    [actionSheet showInView:self.view];
+    
 }
 
-
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        NSLog(@"Just Me");
+    }
+    else if (buttonIndex == 1)
+    {
+        performSegueFromUpcomingGig = YES;
+        [self performSegueWithIdentifier:@"SelectFriends" sender:self];
+    }
+    
+    else if (buttonIndex == 2)
+    {
+        NSLog(@"cancel");
+    }
+}
 
 -(void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist{
     
     if (userIsFollowingArtist) {
-        NSLog(@"Follow Action");
+        
         [self.JCParseQuerys UserFollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
             
             if (error) {
@@ -286,23 +349,77 @@
         
         [self.JCParseQuerys UserUnfollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
             
-            
+            if (error) {
+                NSLog(@"Error unfollowing artist %@",error);
+            }
             
         }];
         
-        NSLog(@"UnFollow Action");
     }
     
 }
 
-//- (IBAction)FollowArtist:(id)sender {
-//    
-//    //TODO set the button to following if the users already following the artist
-//   
-//    
-//}
-
-
+-(void)didClickImIntrested:(BOOL)userIsInterested{
+    
+    
+    if (!userIsInterested) {
+        
+        if (self.JCParseUserEvent) {
+            
+            NSMutableArray *InvitedUsers = [[NSMutableArray alloc]init];
+            
+            [InvitedUsers addObjectsFromArray:[self.JCParseUserEvent objectForKey:JCUserEventUsersEventInvited]];
+            //NSLog(@"%@",InvitedUsers);
+            PFUser *currentuser = [PFUser currentUser];
+            NSMutableArray *toDelete = [NSMutableArray array];
+            
+            for (NSString *userId in InvitedUsers) {
+                if ([userId isEqualToString:currentuser.objectId] ) {
+                    [toDelete addObject:userId];
+                }
+            }
+            [InvitedUsers removeObjectsInArray:toDelete];
+            
+            NSLog(@"%@",InvitedUsers);
+            [self.JCParseUserEvent setObject:InvitedUsers forKey:JCUserEventUsersEventInvited];
+            [self.JCParseUserEvent setObject:InvitedUsers forKey:JCUserEventUsersSubscribedForNotifications];
+            [self.JCParseUserEvent setObject:@YES forKeyedSubscript:JCUserEventUsersEventIsBeingUpDated];
+            [self.JCParseUserEvent saveInBackground];
+            NSLog(@"User Removed from event");
+                
+        
+        }else{
+            NSLog(@"No User Event");
+        }
+        
+        
+        
+        
+    }else{
+        
+        
+        
+        NSArray *recipientId =  @[[[PFUser currentUser]objectId]];
+        
+        
+        [self.JCParseQuerys creatUserEvent:self.currentEvent invitedUsers:recipientId complectionBlock:^(NSError *error) {
+            
+            if (error) {
+                //show alert view
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"oops!" message:@"Please try sending creating that event again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                
+                [alert show];
+            }else{
+                
+                NSLog(@"Event created");
+                
+            }
+            
+            
+        }];
+        
+    }
+}
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -312,13 +429,45 @@
     if ([segueName isEqualToString: @"SelectFriends"]) {
         
         
-        UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
-        JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
-        //pass the senderVC a referance to the current event that need to be sent
-        SelectFreindsVC.currentEvent = self.currentEvent;
-        
-        NSLog(@"%@",SelectFreindsVC.currentEvent.eventTitle);
-        
+        if (!performSegueFromUpcomingGig) {
+            //so user wants to intive people to the current gig
+            UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
+            JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
+            //pass the senderVC a referance to the current event that need to be sent
+            
+            if (self.JCParseUserEvent) {
+                //if there a user event it means the user already has created an event so lets just add people to it
+                SelectFreindsVC.tableViewType = JCSendEventIntivesPageAddUserToExistingEvent;
+                SelectFreindsVC.ParseEventObject = self.JCParseUserEvent;
+                
+            }else{
+                //else the user is creating a new event
+                SelectFreindsVC.currentEvent = self.currentEvent;
+             }
+        }else{
+            //the user wants to intive friends to one of the artist upcoming gigs
+            //I can reuse the curently downloaded photo here
+            self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
+
+            //so user wants to intive people to the current gig
+            UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
+            JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
+            //pass the senderVC a referance to the current event that need to be sent
+            
+            if (self.JCParseUserEvent) {
+                //if there a user event it means the user already has created an event so lets just add people to it
+                //SelectFreindsVC.tableViewType = JCSendEventIntivesPageAddUserToExistingEvent;
+                //SelectFreindsVC.ParseEventObject = self.JCParseUserEvent;
+                
+            }else{
+                //else the user is creating a new event
+                performSegueFromUpcomingGig = NO;
+            self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
+                SelectFreindsVC.currentEvent = self.upcomingGigOfIntrest;
+            }
+            
+            
+        }
     }
     
 }
