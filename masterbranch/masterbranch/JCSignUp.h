@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
 @protocol JCSignUpVCDelegat;
 
 
-@interface JCSignUp : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>//,//UITextFieldDelegate>
+@interface JCSignUp : GAITrackedViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>//,//UITextFieldDelegate>
 @property (strong,nonatomic) id <JCSignUpVCDelegat>JCSignUpVCDelegat;
 
 @end

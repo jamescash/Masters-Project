@@ -10,11 +10,13 @@
 #import <Parse/Parse.h>
 #import "UIScrollView+VGParallaxHeader.h"
 #import "JCUserAttendingGigCell.h"
+#import "GAITrackedViewController.h"
 
 
 
-@interface JCInboxDetail : UIViewController <UITextFieldDelegate,UITextViewDelegate,UIActionSheetDelegate,JCUserAttendingGigCellDelegate>
+@interface JCInboxDetail : GAITrackedViewController <UITextFieldDelegate,UITextViewDelegate,UIActionSheetDelegate,JCUserAttendingGigCellDelegate>
 @property (nonatomic,strong) PFObject *userEvent;
 @property (nonatomic,strong) UIImage *selectedInviteImage;
+@property (nonatomic) BOOL isSinglePersonEvent;
 
 @end

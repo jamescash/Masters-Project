@@ -12,12 +12,13 @@
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "JCInvteFollowHeaderVC.h"
 #import "JCUpcomingGigTableViewCell.h"
+#import "GAITrackedViewController.h"
 
 
 @protocol JCGigMoreInfoVC;
 
 
-@interface JCGigMoreInfoVC : UIViewController <UITableViewDataSource,UITableViewDelegate,MGSwipeTableCellDelegate,JCInvteFollowHeaderDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate>
+@interface JCGigMoreInfoVC : GAITrackedViewController <UITableViewDataSource,UITableViewDelegate,MGSwipeTableCellDelegate,JCInvteFollowHeaderDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate>
 @property (nonatomic,strong)eventObject *currentEvent;
 @property (nonatomic, weak) id <JCGigMoreInfoVC> JCGigMoreInfoVCDelegate;
 @end

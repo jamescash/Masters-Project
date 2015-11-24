@@ -27,6 +27,7 @@ extern NSString * const JCUserEventUserGotTickets;
 //Backend UserEvents Class - Keys
 extern NSString * const JCUserEventUsersInvited;
 extern NSString * const JCUserEventUsersEventHostNameUserName;
+extern NSString * const JCUserEventUsersEventHostNameRealName;
 extern NSString * const JCUserEventUsersTheEventDate;
 extern NSString * const JCUserEventUsersEventPhoto;
 extern NSString * const JCUserEventUsersEventTitle;
@@ -72,6 +73,7 @@ extern NSString * const JCArtistArtistThumbNailImage;
 extern NSString * const JCUserUserName;
 extern NSString * const JCUserthumbNailProfilePicture;
 extern NSString * const JCUserArtistRelation;
+extern NSString * const JCUserRealName;
 
 
 
@@ -92,6 +94,7 @@ extern NSString * const BITJSONDateUnformatted;
 
 #pragma - ParseClasses
 extern NSString * const JCParseGeneralKeyCreatedAt;
+extern NSString * const JCParseGeneralKeyObjectId;
 
 #pragma - Seach Page
 //keys for results Dictionary

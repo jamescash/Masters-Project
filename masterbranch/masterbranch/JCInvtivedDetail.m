@@ -32,13 +32,10 @@
 - (void)addNavBarForPeopleAttendingGig
 {
     
-    
-    
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
     //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
-    
     [backButton setImage:[UIImage imageNamed:@"iconCancle.png"] forState:UIControlStateNormal];
     backButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)

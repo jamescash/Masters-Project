@@ -11,7 +11,7 @@
 #import "JCMyFiriendsMyArtistVC.h"
 #import "JCConstants.h"
 #import "JCAddPreampFriendsVC.h"
-
+#import "TOMSMorphingLabel.h"
 
 //%%% customizeable button attributes
 CGFloat X_BUFFER = 0.0; //%%% the number of pixels on either side of the segment
@@ -162,6 +162,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     //pageController.navigationController.navigationBar.topItem.titleView = navigationView;
     pageController.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 
+    pageController.navigationController.navigationItem.title = @"test";
     //%%% example custom buttons example:
     /*
     NSInteger width = (self.view.frame.size.width-(2*X_BUFFER))/3;
@@ -340,6 +341,8 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     if (completed) {
         self.currentPageIndex = [viewControllerArray indexOfObject:[pageViewController.viewControllers lastObject]];
     }
+    
+    self.navigationItem.title = @"hello";
 }
 
 #pragma mark - Scroll View Delegate

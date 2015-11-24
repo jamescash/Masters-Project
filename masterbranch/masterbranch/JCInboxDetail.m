@@ -19,7 +19,8 @@
 #import "RKSwipeBetweenViewControllers.h"
 #import "IHKeyboardAvoiding.h"
 #import "JCSelectFriends.h"
-
+#import <Google/Analytics.h>
+#import "GAI.h"
 
 @interface JCInboxDetail ()
 //UIElements
@@ -59,6 +60,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    //user this event object and current user to find out the current users status to this event
     [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
         
         NSString* userStatus = [userEventStatusActivity objectForKey:JCUserActivityContent];
@@ -72,39 +74,45 @@
     [self getUserAttendingEvent];
 }
 
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-   
     [self customiseNavBar];
-    [self layoutCommentBox];
+    self.screenName = @"User Event Screen";
+    //if (!self.isSinglePersonEvent) {
+        [self layoutCommentBox];
+    //}
+    
     [self layoutHeaderView];
     self.parseQuerys = [JCParseQuerys sharedInstance];
     self.eventId = self.userEvent.objectId;
     self.tableViewVC.allowsSelection = NO;
     self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
-        
-        self.userCommentActivies = response;
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableViewVC reloadData];
-        });
-     }];
+    [self getCommentForUserEventAndRefreshTableView];
     
+    
+   
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
     //add tap recongiser that will resign first responder while keybord is up and user taps anywhere
     resignKeyBoardOnTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                             action:@selector(didTapAnywhere:)];
     
-   // resignKeyBoardOnSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self
-                                                                     //action:@selector(didTapAnywhere:)];
 }
 
 
 - (IBAction)UIButtonAddMoreUsers:(id)sender {
+    
+    //Track Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"addMoreFriends_UserEventScreen" // Event label
+                                                           value:nil] build]];      // Event value
     
     if (self.userAttendingEvent) {
         [self performSegueWithIdentifier:@"addMoreFirneds" sender:self];
@@ -141,24 +149,46 @@
 }
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    static NSString *CellIdentifier = @"timeDateLocationCell";
-    JCTimeDateLocationTableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    [headerView formatCellwithParseEventObject:self.userEvent];
-    if (headerView == nil){
+    
+    static NSString *multiplePeople = @"timeDateLocationCell";
+
+    
+    if (self.isSinglePersonEvent) {
+    JCTimeDateLocationTableViewCell *singlePersonHeaderView = [tableView dequeueReusableCellWithIdentifier:@"SinglePersontEventTimeDateCell"];
+        [singlePersonHeaderView formatCellwithParseEventObjectForSingleEvent:self.userEvent];
+        return singlePersonHeaderView;
+    
+    }else{
+    
+    JCTimeDateLocationTableViewCell *headerViewMultiplePeopl = [tableView dequeueReusableCellWithIdentifier:multiplePeople];
+    [headerViewMultiplePeopl formatCellwithParseEventObject:self.userEvent];
+    [headerViewMultiplePeopl formatAreYouGoingButtonTitleWithMyStatus:self.userStatus];
+    if (headerViewMultiplePeopl == nil){
         [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
     }
-    return headerView;
+        
+        return headerViewMultiplePeopl;
+   }
+    return nil;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 115;
+    return 170;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return ([self.userCommentActivies count]+1);
+    int numberOfrows;
+    
+    if (self.isSinglePersonEvent) {
+        numberOfrows = 0;
+    }else{
+        numberOfrows = ([self.userCommentActivies count]+1);
+    }
+    
+    return numberOfrows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -168,7 +198,59 @@
         JCUserAttendingGigCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
         
         if (self.userAttendingEvent) {
-            [cell formatCell:self.userAttendingEvent andMyStatus:self.userStatus];
+            [cell formatCell:self.userAttendingEvent andMyStatus:nil];
+            
+            NSArray *usersInvited = [self.userAttendingEvent objectForKey:JCUserEventUsersInvited];
+            
+            for (int i = 0; (i < [usersInvited count]); i++) {
+                PFUser *user = [usersInvited objectAtIndex:i];
+                switch (i) {
+                    case 0:
+                        cell.UIImageUser1.file = [user objectForKey:JCUserthumbNailProfilePicture];
+                        cell.UIImageUser1.contentMode = UIViewContentModeScaleToFill;
+                        cell.UIImageUser1 = [self addLayerMaskToImageView:cell.UIImageUser1];
+                        cell.UIImageUser1.image = [UIImage imageNamed:@"loadingYellow.png"];
+                        [cell.UIImageUser1 loadInBackground];
+                        break;
+                    case 1:
+                        cell.UIImageUser2.file = [user objectForKey:JCUserthumbNailProfilePicture];
+                        cell.UIImageUser2.contentMode = UIViewContentModeScaleToFill;
+                        cell.UIImageUser2 = [self addLayerMaskToImageView:cell.UIImageUser2];
+                        cell.UIImageUser2.image = [UIImage imageNamed:@"loadingBlue.png"];
+                        [cell.UIImageUser2 loadInBackground];
+                        break;
+                    case 2:
+                        cell.UIImageUser3.file = [user objectForKey:JCUserthumbNailProfilePicture];
+                        cell.UIImageUser3.contentMode = UIViewContentModeScaleToFill;
+                        cell.UIImageUser3 = [self addLayerMaskToImageView:cell.UIImageUser3];
+                        cell.UIImageUser3.image = [UIImage imageNamed:@"loadingPink.png"];
+                        [cell.UIImageUser3 loadInBackground];
+                        break;
+                    case 3:
+                        cell.UIImageUser4.file = [user objectForKey:JCUserthumbNailProfilePicture];
+                        cell.UIImageUser4.contentMode = UIViewContentModeScaleToFill;
+                        cell.UIImageUser4 = [self addLayerMaskToImageView:cell.UIImageUser4];
+                        cell.UIImageUser4.image = [UIImage imageNamed:@"loadingBlue.png"];
+                        [cell.UIImageUser4 loadInBackground];
+                        break;
+                    case 4:
+                        cell.UIImageUser5.file = [user objectForKey:JCUserthumbNailProfilePicture];
+                        cell.UIImageUser5.contentMode = UIViewContentModeScaleToFill;
+                        cell.UIImageUser5 = [self addLayerMaskToImageView:cell.UIImageUser5];
+                        cell.UIImageUser5.image = [UIImage imageNamed:@"loadingGreen.png"];
+                        [cell.UIImageUser5 loadInBackground];
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+                
+                
+            }
+            
+            
+            
             cell.JCUserAttendingGigCellDelegate = self;
         }else{
             [cell formatCell:nil andMyStatus:nil];
@@ -190,7 +272,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return 100;
+        return 170;
     }else{
     JCCommentCell *cell = [[JCCommentCell alloc]init];
     PFObject *commentActivity = [self.userCommentActivies objectAtIndex:(indexPath.row-1)];
@@ -264,25 +346,6 @@
     
 }
 
-
--(void)keyboardOnScreen:(NSNotification *)notification
-{
-//[self.view addGestureRecognizer:resignKeyBoardOnSwipe];
-[self.view addGestureRecognizer:resignKeyBoardOnTap];
-}
--(void)keyboardWillHide:(NSNotification *) note
-{
-//[self.view removeGestureRecognizer:resignKeyBoardOnSwipe];
-[self.view removeGestureRecognizer:resignKeyBoardOnTap];
-}
-
--(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
-[self.addCommentTextfield resignFirstResponder];
-}
-
-
-#pragma mark - Helper Methods -  Animation
-
 - (void)customiseNavBar
 {
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -303,11 +366,19 @@
     self.navigationItem.leftBarButtonItem = customBarItem;
     
     self.shyNavBarManager.scrollView = self.tableViewVC;
-
+    
 }
 
--(void)BackButtonPressed{
-[self.navigationController popViewControllerAnimated:YES];
+-(void)refreshTableViewAfterUserCommented{
+    
+    
+    [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
+        
+        self.userCommentActivies = response;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableViewVC reloadData];
+        });
+    }];
 }
 
 -(PFImageView*)addLayerMaskToImageView:(PFImageView*)imageView{
@@ -322,8 +393,37 @@
 }
 
 
+#pragma mark - Keyboard on screen Methods
+
+-(void)keyboardOnScreen:(NSNotification *)notification
+{
+//[self.view addGestureRecognizer:resignKeyBoardOnSwipe];
+[self.view addGestureRecognizer:resignKeyBoardOnTap];
+}
+-(void)keyboardWillHide:(NSNotification *) note
+{
+//[self.view removeGestureRecognizer:resignKeyBoardOnSwipe];
+[self.view removeGestureRecognizer:resignKeyBoardOnTap];
+}
+-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
+[self.addCommentTextfield resignFirstResponder];
+}
+
+
+#pragma - actions
+
+-(void)BackButtonPressed{
+[self.navigationController popViewControllerAnimated:YES];
+}
+
 -(IBAction)postComment:(id)sender {
+    //Track Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"postComment_UserEventScreen" // Event label
+                                                           value:nil] build]];      // Event value
     //Trim comment and save it in a dictionary
     NSDictionary *userInfo = [NSDictionary dictionary];
     NSString *trimmedComment = [self.addCommentTextfield.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -361,8 +461,14 @@
      [self.addCommentTextfield resignFirstResponder];
 }
 
-
 -(IBAction)buttonAreYouGoing:(id)sender {
+    //Track Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"updateMyStatus_UserEventScreen" // Event label
+                                                           value:nil] build]];      // Event value
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I cant make it", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     actionSheet.destructiveButtonIndex = 1;
@@ -370,21 +476,21 @@
     
 }
 
+-(void)performSegueToPeopleAttendingPage{
+    NSLog(@"tap");
+}
 
--(void)refreshTableViewAfterUserCommented{
-    
-    
+
+-(void)getCommentForUserEventAndRefreshTableView{
     [self.parseQuerys getEventComments:self.userEvent complectionBlock:^(NSError *error, NSMutableArray *response) {
         
         self.userCommentActivies = response;
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-           [self.tableViewVC reloadData];
+            [self.tableViewVC reloadData];
         });
     }];
-}
-
--(void)performSegueToPeopleAttendingPage{
-    NSLog(@"tap");
 }
 
 #pragma - ActionSheet Delagate
@@ -433,11 +539,32 @@
         
         self.userAttendingEvent = usersAttending;
         NSArray *userInvited = [self.userEvent objectForKey:JCUserEventUsersInvited];
-        [self.userAttendingEvent setObject:userInvited forKey:JCUserEventUsersInvited];
-       
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableViewVC reloadData];
-           });
+        
+        if ([userInvited count] > 1) {
+            self.isSinglePersonEvent = NO;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableViewVC reloadData];
+            });
+        }
+        
+        
+        [self.parseQuerys getPFUserObjectsForParseUserIds:userInvited completionblock:^(NSError *error, NSArray *response) {
+            
+            if (error) {
+                NSLog(@"erroe %@",error);
+            }else{
+                [self.userAttendingEvent setObject:response forKey:JCUserEventUsersInvited];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableViewVC reloadData];
+                });
+                
+                
+            }
+            
+       } ];
+        
     }];
     
 }

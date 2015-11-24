@@ -13,14 +13,24 @@
 
 @interface JCInvteFollowHeaderVC ()
 @property (weak, nonatomic) IBOutlet UIButton *followartist;
-@property (weak, nonatomic) IBOutlet UIButton *UIButtonImIntrested;
-@property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
-@property (weak, nonatomic) IBOutlet UILabel *UILableFollowArtist;
-@property (weak, nonatomic) IBOutlet UILabel *UILableJustMe;
+@property (nonatomic,strong) JCParseQuerys    *JCParseQuerys;
+@property (weak, nonatomic) IBOutlet UILabel  *UILableFollowArtist;
+@property (weak, nonatomic) IBOutlet UILabel  *UILableJustMe;
+@property (weak, nonatomic) IBOutlet UILabel  *UILableInviteFriends;
 
-@property (weak, nonatomic) IBOutlet UILabel *UILableInviteFriends;
+@property (weak, nonatomic) IBOutlet UIButton *UIButtonImIntrested;
+
+
 
 @property (weak, nonatomic) IBOutlet UIButton *UIButtonIntiveFriends;
+
+@property (weak, nonatomic) IBOutlet UIView *UIViewHitTargetJustMe;
+@property (weak, nonatomic) IBOutlet UIView *UIViewHitTargetFollowArtist;
+@property (weak, nonatomic) IBOutlet UIView *UIViewHitTargetAddFriends;
+
+
+
+
 
 @end
 
@@ -29,7 +39,20 @@
 
 
 - (void)awakeFromNib {
+    UITapGestureRecognizer *UIViewHitTargetFollowArtist =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(UIButtonFollowAristAction)];
+    [self.UIViewHitTargetFollowArtist addGestureRecognizer:UIViewHitTargetFollowArtist];
     
+    
+    
+    UITapGestureRecognizer *UIViewHitTargetJustMe =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(UIButtonImIntresedAction)];
+    [self.UIViewHitTargetJustMe addGestureRecognizer:UIViewHitTargetJustMe];
+    
+    
+    UITapGestureRecognizer *UIViewHitTargetAddFriends =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(UIButtonAddFriendsAction)];
+    [self.UIViewHitTargetAddFriends addGestureRecognizer:UIViewHitTargetAddFriends];
    
 }
 
@@ -69,7 +92,20 @@
 
 
 - (IBAction)UIButtonImIntrested:(id)sender {
+    [self UIButtonImIntresedAction];
     
+}
+- (IBAction)buttonFollowArtist:(id)sender {
+    [self UIButtonFollowAristAction];
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
+
+
+-(void)UIButtonImIntresedAction{
     if (self.JCInvteFollowHeaderDelegate && [self.JCInvteFollowHeaderDelegate respondsToSelector:@selector(didClickImIntrested:)]) {
         
         
@@ -91,14 +127,14 @@
             self.UILableJustMe.text = @"Your Going!";
             [self.UIButtonIntiveFriends setBackgroundImage:[UIImage imageNamed:@"iconIntiveFriends"] forState:UIControlStateNormal];
             self.UILableInviteFriends.text = @"Add Friends";
-        
+            
         }
     }
+    
+    
 }
 
-    
-- (IBAction)buttonFollowArtist:(id)sender {
-    
+-(void)UIButtonFollowAristAction{
     
     if (self.JCInvteFollowHeaderDelegate && [self.JCInvteFollowHeaderDelegate respondsToSelector:@selector(didClickFollowArtistButton:)]) {
         
@@ -118,11 +154,15 @@
     }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
+-(void)UIButtonAddFriendsAction{
+      if (self.JCInvteFollowHeaderDelegate && [self.JCInvteFollowHeaderDelegate respondsToSelector:@selector(didClickAddFriendsAction)]) {
+          
+          [self.JCInvteFollowHeaderDelegate didClickAddFriendsAction];
+          
+          
+      }
 }
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

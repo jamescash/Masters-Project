@@ -19,7 +19,9 @@
 
 #import <TLYShyNavBar/TLYShyNavBarManager.h>
 #import "JCConstants.h"
-
+#import "JCToastAndAlertView.h"
+#import <Google/Analytics.h>
+#import "GAI.h"
 
 
 
@@ -36,6 +38,8 @@
 @property (strong,nonatomic) CAGradientLayer *vignetteLayer;
 @property (strong,nonatomic) PFObject *JCParseUserEvent;
 @property (strong,nonatomic) eventObject *upcomingGigOfIntrest;
+
+//@property (weak, nonatomic) IBOutlet UIView *UItest;
 
 
 
@@ -63,6 +67,7 @@
     self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
     self.tableViewDataSource = [[NSMutableDictionary alloc]init];
 
+    self.screenName = @"Gig more Info screen";
     header1Buttons = @"buttonsHeader";
     header2UpcomingGigs = @"MoreUpcomingGigs";
     timeDateLocaionCellId = @"timeDateLocationCell";
@@ -300,13 +305,20 @@
 
 #pragma - Actions
 
-
+-(void)didClickAddFriendsAction{
+    NSLog(@"didClickAddFriendsAction");
+    [self performSegueWithIdentifier:@"SelectFriends" sender:self];
+}
 
 -(void)didClickInviteFriendsOnUpcomingGigAt:(NSInteger)cellIndex{
     
     NSArray *upcomingGigs = [self.tableViewDataSource objectForKey:header2UpcomingGigs];
     self.upcomingGigOfIntrest = [upcomingGigs objectAtIndex:cellIndex];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending?" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends", nil];
+    //the user wants to intive friends to one of the artist upcoming gigs
+    //I can reuse the curently downloaded photo here
+    self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
+
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     //actionSheet.destructiveButtonIndex = 1;
     [actionSheet showInView:self.view];
@@ -317,7 +329,25 @@
 {
     if (buttonIndex == 0)
     {
-        NSLog(@"Just Me");
+        performSegueFromUpcomingGig = YES;
+        NSArray *recipientId =  @[[[PFUser currentUser]objectId]];
+        
+        
+        [self.JCParseQuerys creatUserEvent:self.currentEvent invitedUsers:recipientId complectionBlock:^(NSError *error) {
+            
+            if (error) {
+                //show alert view
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"oops!" message:@"Please try sending creating that event again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                
+                [alert show];
+            }else{
+                
+                NSLog(@"Event created");
+                
+            }
+            
+            
+        }];
     }
     else if (buttonIndex == 1)
     {
@@ -334,7 +364,13 @@
 -(void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist{
     
     if (userIsFollowingArtist) {
+        //Track Button clicks
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
         
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                              action:@"button_press"    // Event action (required)
+                                                               label:@"followArtist_GigMoreInfo" // Event label
+                                                               value:nil] build]];      // Event value
         [self.JCParseQuerys UserFollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
             
             if (error) {
@@ -343,10 +379,15 @@
                 [alert show];
                 
             };
-            
         }];
     }else{
+        //Track Button clicks
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
         
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                              action:@"button_press"    // Event action (required)
+                                                               label:@"UnfollowArtist_GigMoreInfo" // Event label
+                                                               value:nil] build]];      // Event value
         [self.JCParseQuerys UserUnfollowedArtist:self.currentEvent complectionBlock:^(NSError *error) {
             
             if (error) {
@@ -411,7 +452,15 @@
                 [alert show];
             }else{
                 
-                NSLog(@"Event created");
+                JCToastAndAlertView *toast = [[JCToastAndAlertView alloc]init];
+                [toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"%@ added to your upcoming events, now ask some friends along!",self.currentEvent.eventTitle]];
+                //Track Button clicks
+                id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+                
+                [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                                      action:@"button_press"    // Event action (required)
+                                                                       label:@"JustMe_GigMoreInfo" // Event label
+                                                                       value:nil] build]];      // Event value
                 
             }
             
@@ -445,9 +494,7 @@
                 SelectFreindsVC.currentEvent = self.currentEvent;
              }
         }else{
-            //the user wants to intive friends to one of the artist upcoming gigs
-            //I can reuse the curently downloaded photo here
-            self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
+          
 
             //so user wants to intive people to the current gig
             UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
@@ -462,7 +509,7 @@
             }else{
                 //else the user is creating a new event
                 performSegueFromUpcomingGig = NO;
-            self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
+                self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
                 SelectFreindsVC.currentEvent = self.upcomingGigOfIntrest;
             }
             

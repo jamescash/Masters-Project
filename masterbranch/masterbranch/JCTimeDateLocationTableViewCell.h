@@ -15,5 +15,9 @@
 @interface JCTimeDateLocationTableViewCell : UITableViewCell
 -(void)formatCell:(eventObject*)currentEvent;
 -(void)formatCellwithParseEventObject:(PFObject*)currentEvent;
+-(void)formatCellwithParseEventObjectForSingleEvent:(PFObject*)currentEvent;
 
+-(void)formatAreYouGoingButtonTitleWithMyStatus:(NSString*)myStatus;
 @end
+
+

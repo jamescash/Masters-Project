@@ -10,7 +10,8 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import "JCleftSlideOutVC.h"
+#import "GAITrackedViewController.h"
 
-@interface JCFBAddUserName : UIViewController < UITextFieldDelegate>
+@interface JCFBAddUserName : GAITrackedViewController < UITextFieldDelegate>
 
 @end

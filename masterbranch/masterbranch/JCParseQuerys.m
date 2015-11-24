@@ -11,6 +11,7 @@
 #import "JCMusicDiaryArtistObject.h"
 
 #import "JCConstants.h"
+#import "JCToastAndAlertView.h"
 
 
 
@@ -79,7 +80,7 @@
            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
            NSLog(@"error getting artist locally %@",error);
-       }else if ([response count]==0){
+       }else if ([response count]<2){
            [self getMyAtritsfromTheServer:^(NSError *error, NSArray *response) {
                if (error) {
                    NSLog(@"error getting artist from server %@",error);
@@ -153,7 +154,7 @@
             finishedGettingMyFriends(error,nil);
             NSLog(@"error getting friends locally %@",error);
 
-        }else if ([response count]==0){
+        }else if ([response count]<2){
             [self getMyFriendsfromTheServer:^(NSError *error, NSArray *response) {
                 if (error) {
                     NSLog(@"error getting friends from server %@",error);
@@ -274,6 +275,7 @@
             NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
             [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"error getmyartist %@",error);
+            finishedGettingMyAtritsUpcomingGigs(error,nil);
         }else{
             NSMutableArray *myartist = [[NSMutableArray alloc]init];
             [myartist addObjectsFromArray:response];
@@ -305,6 +307,8 @@
                         NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
                         [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                         NSLog(@"upComingGigsRel error %@",error);
+                        finishedGettingMyAtritsUpcomingGigs(error,nil);
+
                     }else{
 
 
@@ -477,8 +481,25 @@
             }];
     
 }
-//posting
 
+-(void)getPFUserObjectsForParseUserIds:(NSArray*)userIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUsers{
+    
+    PFQuery *getPFUserObjectsForIds = [PFUser query];
+    [getPFUserObjectsForIds whereKey:JCParseGeneralKeyObjectId containedIn:userIds];
+    
+    
+    [getPFUserObjectsForIds findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+            finishedGettingPreAmpUsers(error,nil);
+        }else{
+            finishedGettingPreAmpUsers(nil,objects);
+        }
+        
+    }];
+}
 
 
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock: (void(^)(NSError* error))finishedsavingComment{
@@ -558,6 +579,7 @@
             [UserEvent setObject:file forKey:JCUserEventUsersEventPhoto];
             [UserEvent setObject:currentEvent.eventTitle forKey:JCUserEventUsersEventTitle];
             [UserEvent setObject:[[PFUser currentUser]username] forKey:JCUserEventUsersEventHostNameUserName];
+            [UserEvent setObject:[[PFUser currentUser]objectForKey:JCUserRealName] forKeyedSubscript:JCUserEventUsersEventHostNameRealName];
             [UserEvent setObject:[self formatDateStringIntoNSDate:currentEvent.eventDate] forKey: JCUserEventUsersTheEventDate];
             [UserEvent setObject:currentEvent.venueName forKey:JCUserEventUsersEventVenue];
             [UserEvent setObject:[[PFUser currentUser]objectId] forKey:JCUserEventUsersEventHostId];
@@ -663,7 +685,8 @@
                 [[objects firstObject] pinInBackgroundWithName:@"MyArtist"];
                 
                 [self.currentUser saveInBackground];
-                
+                JCToastAndAlertView *toast = [[JCToastAndAlertView alloc]init];
+                [toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"Your following %@",currentEvent.eventTitle]];
                 
             }else{
                 
@@ -855,7 +878,7 @@
                 
                 
                 if (error) {
-                    NSString *codeString = [NSString stringWithFormat:@"%ld", [error code]];
+                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
                     [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                     //show alert view and get user to start agin
                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
@@ -877,7 +900,7 @@
                     [artist saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                         
                         if (error) {
-                            NSString *codeString = [NSString stringWithFormat:@"%ld", [error code]];
+                            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
                             [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
                             NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                             
@@ -898,6 +921,9 @@
                                     NSLog(@"Error: %@ %@", error, [error localizedDescription]);
                                 }else{
                                     
+                                    NSLog(@"following artist");
+                                    JCToastAndAlertView *toast = [[JCToastAndAlertView alloc]init];
+                                    [toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"Your following %@",currentEvent.eventTitle]];
                                     
                                     NSLog(@"artist relation should be saved");
                                 }
@@ -907,18 +933,9 @@
                         }//save artist if/else
                         
                     }];//save artit in BG
-                
-                
-                
                 }
-                
-            
             }];
-            
-          
-            
-            
-        }//save image file to backend if/else
+          }//save image file to backend if/else
         
     }];//sava image file to backend
 }

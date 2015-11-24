@@ -10,7 +10,8 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <Parse/Parse.h>
 #import "GHWalkThroughView.h"
+#import "GAITrackedViewController.h"
 
-@interface LogginScreenOne : UIViewController <GHWalkThroughViewDataSource,GHWalkThroughViewDelegate>
+@interface LogginScreenOne : GAITrackedViewController <GHWalkThroughViewDataSource,GHWalkThroughViewDelegate>
 
 @end

@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardDissmissView];
-
+    self.screenName = @"Sign up screen";
     self.UserProfilePicture.image = [UIImage imageNamed:@"buttonProfileImage.png"];
     self.UIimageBackGround.image = [UIImage imageNamed:@"backgroundLogin"];
     self.UIimageBackGround.contentMode = UIViewContentModeScaleAspectFill;
@@ -194,7 +194,7 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
 
 -(void)addProfileImage{
     [self resignFirstRespomders];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Choose Source" delegate:self cancelButtonTitle:@"cancle" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo With Camera", @"Select Photo From Library", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Choose Source" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo With Camera", @"Select Photo From Library", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     actionSheet.destructiveButtonIndex = 1;
     [actionSheet showInView:self.view];

@@ -27,6 +27,7 @@
 
 #import <Google/Analytics.h>
 #import "GAI.h"
+#import "JCToastAndAlertView.h"
 
 
 @interface AppDelegate ()
@@ -60,7 +61,7 @@
     // Optional: configure GAI options.
     GAI *gai = [GAI sharedInstance];
     gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-    [GAI sharedInstance].dispatchInterval = 0;
+    //[GAI sharedInstance].dispatchInterval = 0;
 
     //gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
@@ -75,18 +76,18 @@
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
     [self customiseUi];
     
-    [JDStatusBarNotification addStyleNamed:@"JCnotification"
-                                   prepare:^JDStatusBarStyle *(JDStatusBarStyle *style) {
-                                       style.barColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
-                                       style.textColor = [UIColor whiteColor];
-                                       style.animationType = JDStatusBarAnimationTypeBounce;
-                                       style.progressBarColor = style.textColor;
-                                       style.progressBarHeight = 7.0;
-                                       style.progressBarPosition = JDStatusBarProgressBarPositionTop;
-                                       
-                                       style.font = [UIFont fontWithName:@"HelveticaNeue-light" size:17.0];
-                                       return style;
-                                   }];
+//    [JDStatusBarNotification addStyleNamed:@"JCnotification"
+//                                   prepare:^JDStatusBarStyle *(JDStatusBarStyle *style) {
+//                                       style.barColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+//                                       style.textColor = [UIColor whiteColor];
+//                                       style.animationType = JDStatusBarAnimationTypeBounce;
+//                                       style.progressBarColor = style.textColor;
+//                                       style.progressBarHeight = 7.0;
+//                                       style.progressBarPosition = JDStatusBarProgressBarPositionTop;
+//                                       
+//                                       style.font = [UIFont fontWithName:@"HelveticaNeue-light" size:17.0];
+//                                       return style;
+//                                   }];
     return YES;
 }
 
@@ -152,12 +153,13 @@
     NSDictionary *aps = [userInfo objectForKey:@"aps"];
     NSString *alert = [aps objectForKey:@"alert"];
     
-
+    JCToastAndAlertView *InAppNotification = [[JCToastAndAlertView alloc]init];
     
+    [InAppNotification showUserUpDateToastWithMessage:alert];
     
-    [JDStatusBarNotification showWithStatus:alert dismissAfter:5.0
-                                  styleName:@"JCnotification"];
-    
+//    [JDStatusBarNotification showWithStatus:alert dismissAfter:5.0
+//                                  styleName:@"JCnotification"];
+//    
     
     //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
     

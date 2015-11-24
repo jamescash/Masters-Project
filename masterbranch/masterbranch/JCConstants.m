@@ -34,13 +34,12 @@ NSString * const JCUserEventUsersEventCity           = @"city";
 NSString * const JCUserEventUsersEventInvited        = @"invited";
 NSString * const JCUserEventUsersEventDate           = @"eventDate";
 NSString * const JCUserEventUsersEventIsBeingUpDated = @"eventBeingUpdated";
-
 NSString * const JCUserEventUsersSubscribedForNotifications = @"userSubscribedForNotifications";
-
-
-
-
 NSString * const JCUserEventUsersEventHostNameUserName = @"eventHostName";
+NSString * const JCUserEventUsersEventHostNameRealName = @"eventHostRealName";
+
+
+
 //Backend UserEvents Class Local - Keys
 NSString * const JCUserEventUsersTypeUpcoming  = @"upcoming";
 NSString * const JCUserEventUsersTypePast      = @"past";
@@ -79,6 +78,7 @@ NSString * const JCArtistArtistThumbNailImage  = @"thmbnailAtistImage";
 NSString * const JCUserUserName                 = @"username";
 NSString * const JCUserthumbNailProfilePicture  = @"thumbnailProfilePicture";
 NSString * const JCUserArtistRelation           = @"ArtistRelation";
+NSString * const JCUserRealName                 = @"realName";
 
 
 #pragma - AddmyFriendsMyArtist page type
@@ -92,6 +92,7 @@ NSString * const JCAddMyFriendsMyArtistTypeJustRecentlyAdded = @"peopleThatRecen
 
 #pragma - ParseClasses
 NSString * const JCParseGeneralKeyCreatedAt    = @"createdAt";
+NSString * const JCParseGeneralKeyObjectId     = @"objectId";
 
 #pragma - Seach Page
 //keys for results Dictionary

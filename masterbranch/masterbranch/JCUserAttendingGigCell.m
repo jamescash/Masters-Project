@@ -8,32 +8,30 @@
 
 #import "JCUserAttendingGigCell.h"
 #import "JCConstants.h"
+#import <Parse/Parse.h>
+#import "JCParseQuerys.h"
 
 
 @interface JCUserAttendingGigCell ()
 @property (weak, nonatomic) IBOutlet UILabel *labelNumberInvited;
 @property (weak, nonatomic) IBOutlet UILabel *lableNumberGotTickets;
 @property (weak, nonatomic) IBOutlet UILabel *lableNumberGoing;
-@property (weak, nonatomic) IBOutlet UIButton *buttonTitle;
+@property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
+@property (weak, nonatomic) IBOutlet UIView *UIViewHitTargetUserSelecdPeopleAttendingGIg;
 
 @end
 
 @implementation JCUserAttendingGigCell
 
 - (void)awakeFromNib {
-    self.labelNumberInvited.userInteractionEnabled = YES;
-    self.lableNumberGoing.userInteractionEnabled = YES;
-    self.lableNumberGotTickets.userInteractionEnabled = YES;
-    UITapGestureRecognizer *GotTickets =
+      UITapGestureRecognizer *userSelectedusersAttendingGig =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
-    [self.lableNumberGotTickets addGestureRecognizer:GotTickets];
-    UITapGestureRecognizer *Going =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
-    [self.lableNumberGoing addGestureRecognizer:Going];
-    UITapGestureRecognizer *Invited =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userSelectedPeopleAttedningGig)];
-    [self.labelNumberInvited addGestureRecognizer:Invited];
+    [self.UIViewHitTargetUserSelecdPeopleAttendingGIg addGestureRecognizer:userSelectedusersAttendingGig];
+}
 
+-(void)formatUserGoingImage:(PFObject *)userEvent{
+    
+      //TODO finish adding in pictures of people attending event.
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -42,34 +40,13 @@
 
 -(void)formatCell:(NSDictionary*)userattending andMyStatus:(NSString*) myStauts{
     
-    NSString *userGoingCount      = [NSString stringWithFormat:@"%d",[[userattending objectForKey:JCUserEventUserGoing]count]];
-    NSString *userGotTicketsCount = [NSString stringWithFormat:@"%d",[[userattending objectForKey:JCUserEventUserGotTickets]count]];
-    NSString *userInvitedCount    = [NSString stringWithFormat:@"%d",[[userattending objectForKey:JCUserEventUsersInvited]count]];
+    NSString *userGoingCount      = [NSString stringWithFormat:@"%u",[[userattending objectForKey:JCUserEventUserGoing]count]];
+    NSString *userGotTicketsCount = [NSString stringWithFormat:@"%u",[[userattending objectForKey:JCUserEventUserGotTickets]count]];
+    NSString *userInvitedCount    = [NSString stringWithFormat:@"%u",[[userattending objectForKey:JCUserEventUsersInvited]count]];
 
     self.lableNumberGoing.text      = userGoingCount;
     self.lableNumberGotTickets.text = userGotTicketsCount;
     self.labelNumberInvited.text    = userInvitedCount;
-    
-            if ([myStauts isEqualToString:JCUserEventUserGoing]) {
-                [self.buttonTitle setTitle:@"I'm Going!" forState:UIControlStateNormal];
-    
-            }else if ([myStauts isEqualToString:JCUserEventUserGotTickets]){
-                [self.buttonTitle setTitle:@"I'm Going and I have Tickets!!" forState:UIControlStateNormal];
-    
-    
-            }else if ([myStauts isEqualToString:JCUserEventUserMaybeGoing]){
-                [self.buttonTitle setTitle:@"I might attend!" forState:UIControlStateNormal];
-    
-    
-            }else if ([myStauts isEqualToString:JCUserEventUserNotGoing]){
-                [self.buttonTitle setTitle:@"I cant make it" forState:UIControlStateNormal];
-    
-    
-            }else if (myStauts == nil){
-                [self.buttonTitle setTitle:@"Are you going?" forState:UIControlStateNormal];
-            }
-    
-    
 }
 
 -(void)userSelectedPeopleAttedningGig{

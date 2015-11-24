@@ -34,7 +34,7 @@
 
 
 -(void)getPreAmpUsersThatMatchTheseFBids:(NSMutableArray*)FBIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUser;
-
+-(void)getPFUserObjectsForParseUserIds:(NSArray*)userIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUsers;
 
 
 -(void)getPeopleThatRecentlyAddedMe:(void(^)(NSError* error,NSArray* response))finishedGettingPeopleThatRecentlyAddedMe;

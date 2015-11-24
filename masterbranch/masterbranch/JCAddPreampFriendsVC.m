@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.screenName = @"Add PreampFriends Screen";
     self.searchbarVC.placeholder = @"search by username";
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     //self.userFbId = [[PFUser currentUser] objectForKey:@"facebookId"];

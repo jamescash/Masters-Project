@@ -174,6 +174,7 @@
 }
 
 -(void)menuButtonMyProfileTapped{
+    
     [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"profilePage"]]
                                                  animated:YES];
     [self.sideMenuViewController hideMenuViewController];

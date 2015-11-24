@@ -15,6 +15,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *VenueName;
 @property (weak, nonatomic) IBOutlet UIImageView *UIImageViewDateIcon;
 @property (weak, nonatomic) IBOutlet UIImageView *UIImageViewLocationIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageViewInvitedYou;
+@property (weak, nonatomic) IBOutlet UIButton *UIButtonTitleMyStatus;
+@property (weak, nonatomic) IBOutlet UILabel *UILableUserNameInvitedYou;
 
 
 @end
@@ -25,11 +28,74 @@
     self.timeDate.text = [self formatNSdateTostring:[currentEvent objectForKey:JCUserEventUsersTheEventDate]];
     NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",[currentEvent objectForKey:@"eventVenue"],[currentEvent objectForKey:@"city"]];
     self.VenueName.text = venueInfo;
+    
+    NSString *informationString;
+    
+    NSString *eventHostUserName = [currentEvent objectForKey:JCUserEventUsersEventHostNameUserName];
+    NSString *eventTitle = [currentEvent objectForKey:JCUserEventUsersEventTitle];
+    
+    
+    
+    if ([eventHostUserName isEqualToString:[[PFUser currentUser]username]]) {
+        informationString = [NSString stringWithFormat:@"You asked your friends to see %@ with you",eventTitle];
+    }else{
+        
+        NSString *eventHostRealName = [currentEvent objectForKey:JCUserEventUsersEventHostNameRealName];
+        
+        if (eventHostRealName != nil) {
+            informationString = [NSString stringWithFormat:@"%@ asked you to see %@",eventHostRealName,eventTitle];
+        }else{
+           informationString = [NSString stringWithFormat:@"%@ asked you to see %@",eventHostUserName,eventTitle];
+        }
+      }
+    
+    
+    self.UILableUserNameInvitedYou.text = informationString;
 }
 
 
--(void)formatCell:(eventObject *)currentEvent{
+-(void)formatCellwithParseEventObjectForSingleEvent:(PFObject*)currentEvent{
     
+    self.timeDate.text = [self formatNSdateTostring:[currentEvent objectForKey:JCUserEventUsersTheEventDate]];
+    NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",[currentEvent objectForKey:@"eventVenue"],[currentEvent objectForKey:@"city"]];
+    self.VenueName.text = venueInfo;
+    NSString *eventTitle = [currentEvent objectForKey:JCUserEventUsersEventTitle];
+
+    self.UILableUserNameInvitedYou.text = [NSString stringWithFormat:@"Looks like your going to see %@ by yourself, ask some frineds to join you",eventTitle];
+    
+    
+    
+}
+
+
+-(void)formatAreYouGoingButtonTitleWithMyStatus:(NSString *)myStatus{
+    if ([myStatus isEqualToString:JCUserEventUserGoing]) {
+        //[self.UIButtonTitleMyStatus setTitle:@"I'm Going!" forState:UIControlStateNormal];
+        [self.UIButtonTitleMyStatus setBackgroundImage:[UIImage imageNamed:@"buttonImGoing"] forState:UIControlStateNormal];
+        
+    }else if ([myStatus isEqualToString:JCUserEventUserGotTickets]){
+        //[self.UIButtonTitleMyStatus setTitle:@"I'm Going and I have Tickets!!" forState:UIControlStateNormal];
+        [self.UIButtonTitleMyStatus setBackgroundImage:[UIImage imageNamed:@"buttonGotTickets"] forState:UIControlStateNormal];
+
+        
+    }else if ([myStatus isEqualToString:JCUserEventUserMaybeGoing]){
+        //[self.UIButtonTitleMyStatus setTitle:@"I might attend!" forState:UIControlStateNormal];
+        [self.UIButtonTitleMyStatus setBackgroundImage:[UIImage imageNamed:@"buttonMaybe"] forState:UIControlStateNormal];
+
+        
+    }else if ([myStatus isEqualToString:JCUserEventUserNotGoing]){
+        //[self.UIButtonTitleMyStatus setTitle:@"I cant make it" forState:UIControlStateNormal];
+        [self.UIButtonTitleMyStatus setBackgroundImage:[UIImage imageNamed:@"buttonCantMakeIt"] forState:UIControlStateNormal];
+
+        
+    }else if (myStatus == nil){
+        //[self.UIButtonTitleMyStatus setTitle:@"Are you going?" forState:UIControlStateNormal];
+        [self.UIButtonTitleMyStatus setBackgroundImage:[UIImage imageNamed:@"buttonAreYouGoing"] forState:UIControlStateNormal];
+
+    }
+}
+
+-(void)formatCell:(eventObject *)currentEvent{
     self.timeDate.text = [self formatDateString:currentEvent.eventDate];
     NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",currentEvent.venueName,currentEvent.county];
     self.VenueName.text = venueInfo;
@@ -41,9 +107,8 @@
     self.UIImageViewDateIcon.contentMode = UIViewContentModeScaleAspectFill;
     self.UIImageViewLocationIcon.image = [UIImage imageNamed:@"iconLocation"];
     self.UIImageViewLocationIcon.contentMode = UIViewContentModeScaleAspectFill;
-
-
-
+    self.UIImageViewInvitedYou.image = [UIImage imageNamed:@"iconDate"];
+    self.UIImageViewLocationIcon.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
