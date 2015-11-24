@@ -18,15 +18,15 @@
 
 #import "JCConstants.h"
 #import "DGActivityIndicatorView.h"
+#import "JCMusicDiaryPreLoader.h"
 
 
 
 
 
 
-@interface JCMusicDiaryVC (){
-    BOOL isLoadingContent;
-}
+@interface JCMusicDiaryVC ()
+
 //properties
 @property (weak, nonatomic) IBOutlet UICollectionView *myMusicDiary;
 @property (nonatomic,strong) NSDictionary *UpcomingGigsCalander;
@@ -54,12 +54,14 @@
 @implementation JCMusicDiaryVC{
     NSInteger monthIndex;
     BOOL IrelandDataLoaded;
+    BOOL isLoadingContent;
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     isLoadingContent = YES;
-
+    self.screenName = @"Discovery Screen";
     self.myMusicDiary.backgroundColor =  [UIColor whiteColor];
     self.JCParseQuerys =                 [JCParseQuerys sharedInstance];
     self.calendar =                      [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -466,7 +468,8 @@
     
       if (error) {
           NSLog(@"error getting artits gig music diary %@",error);
-          
+          isLoadingContent = NO;
+
       }else{
           
           
@@ -577,17 +580,26 @@
 
 -(void)IrelandUkManager {
     
-    if (IrelandDataLoaded) {
-        [self emptyCollectionView];
-        [self.searchButton setImage:[UIImage imageNamed:@"iconUK.png"] forState:UIControlStateNormal];
+    
+    if (!isLoadingContent) {
+        
+        isLoadingContent  = YES;
 
-        [self loadUpcomingGigs:NO];
-    }else{
-        [self emptyCollectionView];
-        [self.searchButton setImage:[UIImage imageNamed:@"iconIre.png"] forState:UIControlStateNormal];
-
-        [self loadUpcomingGigs:YES];
+        if (IrelandDataLoaded) {
+            [self emptyCollectionView];
+            [self.searchButton setImage:[UIImage imageNamed:@"iconUK.png"] forState:UIControlStateNormal];
+            
+            [self loadUpcomingGigs:NO];
+        }else{
+            [self emptyCollectionView];
+            [self.searchButton setImage:[UIImage imageNamed:@"iconIre.png"] forState:UIControlStateNormal];
+            
+            [self loadUpcomingGigs:YES];
+        }
     }
+    
+
+
 }
 -(void)menuButtonPressed{
 [self.sideMenuViewController presentLeftMenuViewController];
@@ -596,53 +608,28 @@
 
 #pragma mark - Empty state
  
-// // In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//     
-//     JCGigsComingUpInThisMonthVC *dvc = (JCGigsComingUpInThisMonthVC*)segue.destinationViewController;
-//     dvc.diaryObject = self.selectedObject;
-//     dvc.IsIrishQuery = IrelandDataLoaded;
-//}
 
-//- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
-//{
-//    return [UIImage imageNamed:@"iconMenu"];
-//}
-//
-//-(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
-//{
-//
-//    if (isLoadingContent) {
-//        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-//        animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-//        animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-//        animation.duration = 0.25;
-//        animation.cumulative = YES;
-//        animation.repeatCount = MAXFLOAT;
-//        return animation;
-//
-//    }
-//    return nil;
-//}
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (isLoadingContent) {
-        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [activityView startAnimating];
-        return activityView;
-//        UIView *PreLoader = [[UIView alloc]init];
-//        PreLoader.backgroundColor = [UIColor blackColor];
-        //DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallScaleMultiple];
-//        DGActivityIndicatorView *activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallScaleMultiple tintColor:[UIColor redColor] size:50.0f];
-////         activityIndicatorView.frame = CGRectMake((scrollView.frame.size.width/2)-25, (scrollView.frame.size.height/2)-25, 50.0f, 50.0f);
-////        activityIndicatorView.center = scrollView.center;
-////        NSLog(@"fram with %f",scrollView.bounds.size.width);
-////        NSLog(@"fram height %f",scrollView.bounds.size.height);
-//
-        //[prelaoder startAnimating];
-////        [PreLoader addSubview:activityIndicatorView];
-       return activityView;
+
+        JCMusicDiaryPreLoader *musicDiaryPreLoder = [JCMusicDiaryPreLoader instantiateFromNib];
+
+        musicDiaryPreLoder.frame = self.myMusicDiary.frame;
+        
+        
+        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
+        prelaoder.center = musicDiaryPreLoder.center;
+        [musicDiaryPreLoder addSubview:prelaoder];
+        musicDiaryPreLoder.UILableTextString.text = @"Using your artist to build your personal discovery calander";
+        [prelaoder startAnimating];
+        
+        musicDiaryPreLoder.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+
+       return musicDiaryPreLoder;
 
     }
     

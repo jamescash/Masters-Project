@@ -14,7 +14,8 @@
 #import <ParseUI/ParseUI.h>
 #import "ILTranslucentView.h"
 #import "JCConstants.h"
-
+#import <Google/Analytics.h>
+#import "GAI.h"
 
 @interface JCSelectFriends ()
 
@@ -166,6 +167,10 @@
 
 - (void)Send{
     
+    
+    //Track Button clicks
+ 
+    
     if ([self.tableViewType isEqualToString:JCSendEventIntivesPageAddUserToExistingEvent]) {
         
         [self addBlerView];
@@ -214,7 +219,15 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }else {
         
+        
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                              action:@"button_press"    // Event action (required)
+                                                               label:@"CreatEvent_SelectUserScreen" // Event label
+                                                               value:nil] build]];      // Event value
         //Seems like we have an event object lets upload it then dismiss the VC
+       
         [self addBlerView];
         PFUser *currentUser = [PFUser currentUser];
         [self.recipents addObject:currentUser.objectId];

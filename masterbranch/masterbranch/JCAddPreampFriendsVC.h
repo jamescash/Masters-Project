@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface JCAddPreampFriendsVC : UIViewController
+@interface JCAddPreampFriendsVC : GAITrackedViewController
 @property (nonatomic,strong) NSMutableArray *myFriends;
 
 @end

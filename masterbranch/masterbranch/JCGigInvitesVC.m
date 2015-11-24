@@ -26,6 +26,8 @@
 #import "MGSwipeButton.h"
 #import <objc/runtime.h>
 
+#import "DGActivityIndicatorView.h"
+#import "JCMusicDiaryPreLoader.h"
 
 @interface JCGigInvitesVC ()
 //UI elements
@@ -50,16 +52,19 @@
 
 @implementation JCGigInvitesVC{
     BOOL blerViewOn;
+    BOOL isLoading;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    isLoading = YES;
     [self addCustomButtonOnNavBar];
     self.tableViewDataSource = [[NSMutableArray alloc]init];
     self.tableViewHeader.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
     self.userEventsType = JCUserEventUsersTypeUpcoming;
     self.JCParseQuery = [JCParseQuerys sharedInstance];
     self.imageFiles = [[NSMutableArray alloc]init];
+    self.screenName = @"Upcoming Gigs Screen";
     
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeUpcoming completionblock:^(NSError *error, NSArray *response) {
         
@@ -71,7 +76,7 @@
             //returns an array of user events based on the the type Key;
             //[self.tableViewDataSource removeAllObjects];
             [self.tableViewDataSource addObjectsFromArray:response];
-            
+            isLoading = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
             });
@@ -86,22 +91,32 @@
 }
 
 #pragma - empty Datasource delagte
-
-//- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
-//{
-//    return [UIImage imageNamed:@"backgroundLogin.png"];
-//}
-
--(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    animation.duration = 0.25;
-    animation.cumulative = YES;
-    animation.repeatCount = MAXFLOAT;
-    return animation;
+    if (isLoading) {
+        
+        JCMusicDiaryPreLoader *musicDiaryPreLoder = [JCMusicDiaryPreLoader instantiateFromNib];
+        
+        musicDiaryPreLoder.frame = self.MyGigInvitesTable.frame;
+        
+        
+        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
+        prelaoder.center = musicDiaryPreLoder.center;
+        [musicDiaryPreLoder addSubview:prelaoder];
+        musicDiaryPreLoder.UILableTextString.text = @"Loaing your gigs..";
+        [prelaoder startAnimating];
+        
+        musicDiaryPreLoder.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+        
+        return musicDiaryPreLoder;
+        
+    }
+    
+    return nil;
 }
+
 
 -(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
@@ -231,13 +246,34 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
  
     
 }
+
+
+
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showEvent"]) {
         JCInboxDetail *destinationVC = (JCInboxDetail*) segue.destinationViewController;
+        NSArray *numberOfPepleIntived = [self.selectedInvite objectForKey:JCUserEventUsersInvited];
+        
+        //TODO some extra cheaks here to make sure its that one
+        if ([numberOfPepleIntived count] == 1) {
+            
+            NSString *personIntiveObjectId = [numberOfPepleIntived firstObject];
+            
+            if ([personIntiveObjectId isEqualToString:[[PFUser currentUser]objectId]]) {
+                //It is a single person event and the current user did creat that event 
+                destinationVC.isSinglePersonEvent = YES;
+             }
+         }
+        
         destinationVC.userEvent = self.selectedInvite;
         destinationVC.selectedInviteImage = self.selectedInviteImage;
+        
     }
 }
+
+
+
 -(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
     
     // if we fetched already, just return it via the completion block

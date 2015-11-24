@@ -104,7 +104,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
+    self.screenName = @"Home Screen";
    
     [self getlocationAndWaitforUpdateThenGetDataForCollectionView];
     
@@ -129,9 +129,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"HomeScreen"];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
 }
 
 #pragma mark - UICollectionView Datasource
@@ -216,6 +214,13 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self PerformNavigationForItemAtIndex:indexPath];
+    //Track Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"GigMoreInfo_HomeScreen" // Event label
+                                                           value:nil] build]];      // Event value
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout

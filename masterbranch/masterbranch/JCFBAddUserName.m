@@ -32,7 +32,8 @@
     self.userImage.image = [UIImage imageNamed:@"loadingstrokeYellow.png"];
     self.userFacebookName.text = @"loading...";
     [self getUsersFacebookData];
-    
+    self.screenName = @"Loggin Facebook username Screen";
+
     
     
     //register for keyboard notification

@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_CCBottomRefreshControl 5
 #define COCOAPODS_VERSION_PATCH_CCBottomRefreshControl 1
 
+// CRToast
+#define COCOAPODS_POD_AVAILABLE_CRToast
+#define COCOAPODS_VERSION_MAJOR_CRToast 0
+#define COCOAPODS_VERSION_MINOR_CRToast 0
+#define COCOAPODS_VERSION_PATCH_CRToast 9
+
 // CSStickyHeaderFlowLayout
 #define COCOAPODS_POD_AVAILABLE_CSStickyHeaderFlowLayout
 #define COCOAPODS_VERSION_MAJOR_CSStickyHeaderFlowLayout 0
@@ -69,8 +75,8 @@
 // DZNEmptyDataSet
 #define COCOAPODS_POD_AVAILABLE_DZNEmptyDataSet
 #define COCOAPODS_VERSION_MAJOR_DZNEmptyDataSet 1
-#define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 7
-#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 2
+#define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 6
+#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 1
 
 // Google/Analytics
 #define COCOAPODS_POD_AVAILABLE_Google_Analytics
@@ -136,7 +142,7 @@
 #define COCOAPODS_POD_AVAILABLE_MGSwipeTableCell
 #define COCOAPODS_VERSION_MAJOR_MGSwipeTableCell 1
 #define COCOAPODS_VERSION_MINOR_MGSwipeTableCell 5
-#define COCOAPODS_VERSION_PATCH_MGSwipeTableCell 2
+#define COCOAPODS_VERSION_PATCH_MGSwipeTableCell 3
 
 // MYNStickyFlowLayout
 #define COCOAPODS_POD_AVAILABLE_MYNStickyFlowLayout
@@ -179,6 +185,12 @@
 #define COCOAPODS_VERSION_MAJOR_TLYShyNavBar 0
 #define COCOAPODS_VERSION_MINOR_TLYShyNavBar 10
 #define COCOAPODS_VERSION_PATCH_TLYShyNavBar 1
+
+// TOMSMorphingLabel
+#define COCOAPODS_POD_AVAILABLE_TOMSMorphingLabel
+#define COCOAPODS_VERSION_MAJOR_TOMSMorphingLabel 0
+#define COCOAPODS_VERSION_MINOR_TOMSMorphingLabel 5
+#define COCOAPODS_VERSION_PATCH_TOMSMorphingLabel 1
 
 // VGParallaxHeader
 #define COCOAPODS_POD_AVAILABLE_VGParallaxHeader

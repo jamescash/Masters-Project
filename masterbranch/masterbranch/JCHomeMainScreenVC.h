@@ -30,6 +30,7 @@
 #import "AppDelegate.h"
 
 #import "JCGigMoreInfoVC.h"
+#import "GAITrackedViewController.h"
 
 
 
@@ -38,7 +39,7 @@
 @protocol MainScreenCollectionViewDelegate;
 
 
-@interface JCHomeMainScreenVC : UIViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSocailStreamControllerDelegate,JCGigMoreInfoVC,CLLocationManagerDelegate>
+@interface JCHomeMainScreenVC : GAITrackedViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSocailStreamControllerDelegate,JCGigMoreInfoVC,CLLocationManagerDelegate>
 
 //JCSearchPageDelegate
 

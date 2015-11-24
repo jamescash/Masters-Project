@@ -23,4 +23,5 @@
 @protocol JCInvteFollowHeaderDelegate <NSObject>
 - (void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist;
 - (void)didClickImIntrested:(BOOL)userIsInterested;
+- (void)didClickAddFriendsAction;
 @end

@@ -10,9 +10,10 @@
 #import <Parse/Parse.h>
 #import "JCMyArtistCell.h"
 #import "UIScrollView+EmptyDataSet.h"
+#import "GAITrackedViewController.h"
 
 
-@interface JCMyFiriendsMyArtistVC : UIViewController <JCMyArtistCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
+@interface JCMyFiriendsMyArtistVC : GAITrackedViewController <JCMyArtistCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 @property (nonatomic,strong) NSString *tableViewType;
 @property (nonatomic,strong) PFObject *currentUserEvent;
 @property (nonatomic,strong) NSMutableArray *myFriends;

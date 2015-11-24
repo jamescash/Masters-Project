@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self customiseNavBar];
     // Do any additional setup after loading the view.
 }
 
@@ -28,28 +29,32 @@
 
 - (void)customiseNavBar
 {
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
     //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
     
-    [backButton setImage:[UIImage imageNamed:@"iconBack.png"] forState:UIControlStateNormal];
-    backButton.adjustsImageWhenDisabled = NO;
+    [menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
+    //[menuButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateHighlighted];
+    menuButton.adjustsImageWhenDisabled = NO;
     //set the frame of the button to the size of the image (see note below)
-    backButton.frame = CGRectMake(0, 0, 40, 40);
-    backButton.opaque = YES;
+    menuButton.frame = CGRectMake(0, 0, 40, 40);
+    menuButton.opaque = YES;
     
-    [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [menuButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     //create a UIBarButtonItem with the button as a custom view
-    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+    
+    self.navigationItem.title = @"Profile Page (Under construction)";
     
     self.navigationItem.leftBarButtonItem = customBarItem;
     
+    self.navigationItem.hidesBackButton = YES;
+    
+    
 }
 -(void)BackButtonPressed{
-    
     [self.sideMenuViewController presentLeftMenuViewController];
-
 }
 
 /*

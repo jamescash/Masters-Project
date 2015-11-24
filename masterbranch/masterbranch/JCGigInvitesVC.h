@@ -10,10 +10,11 @@
 #import "JCDropDownMenu.h"
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "UIScrollView+EmptyDataSet.h"
+#import "GAITrackedViewController.h"
 
 
 
-@interface JCGigInvitesVC : UIViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte,MGSwipeTableCellDelegate,UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
+@interface JCGigInvitesVC : GAITrackedViewController <UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,JCDropDownMenuDelagte,MGSwipeTableCellDelegate,UIAlertViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @end
 

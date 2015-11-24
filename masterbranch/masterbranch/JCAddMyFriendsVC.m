@@ -42,6 +42,7 @@
 
 @implementation JCAddMyFriendsVC{
     bool isFacebookSearch;
+    
 }
 
 - (void)viewDidLoad {

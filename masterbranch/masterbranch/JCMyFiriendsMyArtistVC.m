@@ -20,7 +20,9 @@
 
 #import "RKSwipeBetweenViewControllers.h"
 
+#import "JCMusicDiaryPreLoader.h"
 
+#import "DGActivityIndicatorView.h"
 
 
 @interface JCMyFiriendsMyArtistVC () <UITableViewDataSource,UITableViewDelegate>
@@ -38,11 +40,13 @@
 @implementation JCMyFiriendsMyArtistVC{
     NSString *firendskey;
     NSString *artistkey;
+    BOOL isLoading;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
+   
+    isLoading = YES;
     self.imageFiles = [[NSMutableArray alloc]init];
     
     self.tableView.emptyDataSetSource = self;
@@ -81,6 +85,8 @@
 
         [self setupNavBarForScreen:self.tableViewType];
          self.navigationItem.title = @"My Friends";
+        self.screenName = @"myFriends Screen";
+        
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
             
             self.tableViewDataSource = [[NSMutableArray alloc]init];
@@ -89,7 +95,8 @@
             [self.myFriends addObjectsFromArray:response];
 
 
-            
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
                  });
@@ -97,6 +104,7 @@
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
          self.navigationItem.title = @"My artist";
         [self addNavBarForMyFriendsMyAritst];
+        self.screenName = @"myArtist Screen";
 
         [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
             
@@ -107,6 +115,8 @@
                  PFFile *imageFile = [artist objectForKey:@"thmbnailAtistImage"];
                 [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
             }
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                  [self.tableView reloadData];
             });
@@ -120,6 +130,8 @@
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGoing completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
             [self.tableViewDataSource addObjectsFromArray:userGoing];
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -133,6 +145,8 @@
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserGotTickets completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
             [self.tableViewDataSource addObjectsFromArray:userGoing];
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -147,6 +161,8 @@
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserMaybeGoing completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
             [self.tableViewDataSource addObjectsFromArray:userGoing];
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -161,6 +177,8 @@
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUsersEventInvited completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
             [self.tableViewDataSource addObjectsFromArray:userGoing];
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -169,7 +187,8 @@
         
         
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
-        
+        self.screenName = @"Facebook Friends Screen";
+
         [self addcontentOffsetForPageView];
         [self getusersFacebookfriebndsAndRealodTableView];
         
@@ -179,7 +198,8 @@
         [self.JCParseQuerys getPeopleThatRecentlyAddedMe:^(NSError *error, NSArray *response) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
             [self.tableViewDataSource addObjectsFromArray:response];
-            
+            isLoading = NO;
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
@@ -384,33 +404,6 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    }
 }
 
-//-(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
-//    
-//    // if we fetched already, just return it via the completion block
-//    UIImage *existingImage = self.imageFiles[indexPath.row][@"image"];
-//    
-//    if (existingImage){
-//        completion(existingImage, nil);
-//    }
-//    
-//    PFFile *pfFile = self.imageFiles[indexPath.row][@"pfFile"];
-//    
-//    if (!pfFile) {
-//      UIImage *eventImage = [UIImage imageNamed:@"loadingYellow.png"];
-//        completion(eventImage, nil);
-//    }
-//    
-//    [pfFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-//        if (!error) {
-//            UIImage *eventImage = [UIImage imageWithData:imageData];
-//           self.imageFiles[indexPath.row][@"image"] = eventImage;
-//            completion(eventImage, nil);
-//        } else {
-//            completion(nil, error);
-//        }
-//    }];
-//}
-
 #pragma - HelperMethods
 
 -(void)didClickUnFollowArtistButton:(NSInteger)cellIndex{
@@ -476,6 +469,8 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
                 NSLog(@"error getting Users for FBIds %@",error);
             }else{
                 self.tableViewDataSource = response;
+                isLoading = NO;
+
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
                 });
@@ -546,15 +541,30 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
 }
 
--(CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    animation.duration = 0.25;
-    animation.cumulative = YES;
-    animation.repeatCount = MAXFLOAT;
-    return animation;
+    if (isLoading) {
+        
+        JCMusicDiaryPreLoader *musicDiaryPreLoder = [JCMusicDiaryPreLoader instantiateFromNib];
+        
+        musicDiaryPreLoder.frame = self.tableView.frame;
+        
+//        
+//        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
+//        prelaoder.center = musicDiaryPreLoder.center;
+//        [musicDiaryPreLoder addSubview:prelaoder];
+        musicDiaryPreLoder.UILableTextString.text = @"Loading..";
+//        [prelaoder startAnimating];
+        
+        musicDiaryPreLoder.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+        
+        return musicDiaryPreLoder;
+        
+    }
+    
+    return nil;
 }
 
 -(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView

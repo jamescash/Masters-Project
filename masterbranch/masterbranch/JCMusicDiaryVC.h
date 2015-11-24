@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "UIScrollView+EmptyDataSet.h"
+#import "GAITrackedViewController.h"
 
-@interface JCMusicDiaryVC : UIViewController <DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
+@interface JCMusicDiaryVC : GAITrackedViewController <DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @end

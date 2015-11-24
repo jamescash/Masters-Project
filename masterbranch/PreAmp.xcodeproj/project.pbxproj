@@ -127,6 +127,9 @@
 		89F51DF41B1E1B3A004E9055 /* masterbranchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DF31B1E1B3A004E9055 /* masterbranchTests.m */; };
 		89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DFE1B1E1C49004E9055 /* eventObject.m */; };
 		89F52E061BC7EC3100EF5C00 /* JCUserEventInvitesTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F52E051BC7EC3100EF5C00 /* JCUserEventInvitesTableView.m */; settings = {ASSET_TAGS = (); }; };
+		89F756631C0386EE002E4B0B /* JCMusicDiaryPreLoader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89F756621C0386ED002E4B0B /* JCMusicDiaryPreLoader.xib */; settings = {ASSET_TAGS = (); }; };
+		89F756661C0388B8002E4B0B /* JCMusicDiaryPreLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756651C0388B8002E4B0B /* JCMusicDiaryPreLoader.m */; settings = {ASSET_TAGS = (); }; };
+		89F7566A1C046C92002E4B0B /* JCToastAndAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756691C046C92002E4B0B /* JCToastAndAlertView.m */; settings = {ASSET_TAGS = (); }; };
 		89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */; };
 		89FAA9111B90A7AA00012ED5 /* JCAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA9101B90A7AA00012ED5 /* JCAnnotation.m */; };
 		A5DD715AA95F080A876F2C8B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C529EED248564E7B26AF038E /* libPods.a */; };
@@ -352,6 +355,11 @@
 		89F51DFE1B1E1C49004E9055 /* eventObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eventObject.m; sourceTree = "<group>"; };
 		89F52E041BC7EC3100EF5C00 /* JCUserEventInvitesTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserEventInvitesTableView.h; sourceTree = "<group>"; };
 		89F52E051BC7EC3100EF5C00 /* JCUserEventInvitesTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserEventInvitesTableView.m; sourceTree = "<group>"; };
+		89F756621C0386ED002E4B0B /* JCMusicDiaryPreLoader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCMusicDiaryPreLoader.xib; sourceTree = "<group>"; };
+		89F756641C0388B8002E4B0B /* JCMusicDiaryPreLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryPreLoader.h; sourceTree = "<group>"; };
+		89F756651C0388B8002E4B0B /* JCMusicDiaryPreLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryPreLoader.m; sourceTree = "<group>"; };
+		89F756681C046C92002E4B0B /* JCToastAndAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCToastAndAlertView.h; sourceTree = "<group>"; };
+		89F756691C046C92002E4B0B /* JCToastAndAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCToastAndAlertView.m; sourceTree = "<group>"; };
 		89FAA90C1B8D044F00012ED5 /* JCSearchPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageCell.h; sourceTree = "<group>"; };
 		89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageCell.m; sourceTree = "<group>"; };
 		89FAA90F1B90A7AA00012ED5 /* JCAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAnnotation.h; sourceTree = "<group>"; };
@@ -1205,6 +1213,8 @@
 		89F51DD61B1E1B39004E9055 /* masterbranch */ = {
 			isa = PBXGroup;
 			children = (
+				89F756671C046C65002E4B0B /* Toast */,
+				89F756611C0386C6002E4B0B /* PreLoaderXIB */,
 				897D4B0C1BFF5C9D00DF54EB /* ProfilePicture */,
 				897780DA1BD6868A006B20C3 /* MyFriends/Artist */,
 				89DCC59D1BC2B62400E926A0 /* Gig Invites */,
@@ -1242,6 +1252,25 @@
 				89F51DF21B1E1B3A004E9055 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89F756611C0386C6002E4B0B /* PreLoaderXIB */ = {
+			isa = PBXGroup;
+			children = (
+				89F756621C0386ED002E4B0B /* JCMusicDiaryPreLoader.xib */,
+				89F756641C0388B8002E4B0B /* JCMusicDiaryPreLoader.h */,
+				89F756651C0388B8002E4B0B /* JCMusicDiaryPreLoader.m */,
+			);
+			name = PreLoaderXIB;
+			sourceTree = "<group>";
+		};
+		89F756671C046C65002E4B0B /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				89F756681C046C92002E4B0B /* JCToastAndAlertView.h */,
+				89F756691C046C92002E4B0B /* JCToastAndAlertView.m */,
+			);
+			name = Toast;
 			sourceTree = "<group>";
 		};
 		A616CA72A1884F06C1AAD33B /* Pods */ = {
@@ -1375,6 +1404,7 @@
 			files = (
 				897280DF1BC3386F00569648 /* HeaderView.xib in Resources */,
 				8969D0151BC93C6E00A0FCED /* Main.storyboard in Resources */,
+				89F756631C0386EE002E4B0B /* JCMusicDiaryPreLoader.xib in Resources */,
 				89F51DE81B1E1B39004E9055 /* LaunchScreen.xib in Resources */,
 				89F51DE51B1E1B39004E9055 /* Images.xcassets in Resources */,
 				897280DD1BC3386F00569648 /* HeaderViewWithImage.xib in Resources */,
@@ -1430,6 +1460,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89FAA9111B90A7AA00012ED5 /* JCAnnotation.m in Sources */,
+				89F7566A1C046C92002E4B0B /* JCToastAndAlertView.m in Sources */,
 				891237FB1B400ADB00E7C6CA /* JCFeedObject.m in Sources */,
 				8969D01E1BC94FA200A0FCED /* JCEventInviteCell.m in Sources */,
 				897D4AED1BFB4D0C00DF54EB /* JCButtonHeader.m in Sources */,
@@ -1516,6 +1547,7 @@
 				8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */,
 				897D4AD91BF60AA000DF54EB /* LogginScreenOne.m in Sources */,
 				89D88ED01BADED1A002286FD /* JCSelectFriends.m in Sources */,
+				89F756661C0388B8002E4B0B /* JCMusicDiaryPreLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,8 @@
 
 #import "LogginScreenOne.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-
+#import <Google/Analytics.h>
+#import "GAI.h"
 
 static NSString * const tutDiscriptionPagg1 = @"Welcome to Preamp, find gig's happening around you";
 
@@ -30,6 +31,8 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.screenName = @"Loggin Screen One";
+
     //self.UIimageBackground = [self addVinettLayerToBackGroundToImage:self.UIimageBackground];
 
     self.UIimageBackground.image = [UIImage imageNamed:@"backgroundLogin"];
@@ -81,6 +84,15 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me",@"user_friends"];
     
+    
+    //Track Facebook Loggin Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"signup_Facebook" // Event label
+                                                           value:nil] build]];      // Event value
+    
     //Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
@@ -115,10 +127,31 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
 }
 
 #pragma - Tutorial Data source
+- (IBAction)UIButtonRegisterWithFacebook:(id)sender {
+    
+    
+    //Track Facebook Loggin Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"Signup_Email" // Event label
+                                                           value:nil] build]];      // Event value
+}
 
 -(NSInteger) numberOfPages
 {
     return 4;
+}
+- (IBAction)UIButtonLoggin:(id)sender {
+    
+    //Track Button clicks
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"loggin" // Event label
+                                                           value:nil] build]];      // Event value
 }
 
 - (void) configurePage:(GHWalkThroughPageCell *)cell atIndex:(NSInteger)index
