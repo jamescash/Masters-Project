@@ -16,6 +16,7 @@ extern NSString * const JCParseClassUserEvents;
 extern NSString * const JCParseClassActivity;
 extern NSString * const JCParseClassUser;
 extern NSString * const JCParseClassArtist;
+extern NSString * const JCParseClassEvent;
 
 
 //Backend UserEvents Class - Keys
@@ -74,7 +75,13 @@ extern NSString * const JCUserUserName;
 extern NSString * const JCUserthumbNailProfilePicture;
 extern NSString * const JCUserArtistRelation;
 extern NSString * const JCUserRealName;
+extern NSString * const JCUserProfilePicture;
 
+#pragma - UpcomingGig
+extern NSString * const JCUpcomingEventArtistName;
+extern NSString * const JCUpcomingEventDateTimeString;
+extern NSString * const JCUpcomingEventVenueName;
+extern NSString * const JCUpcomingEventVenueCity;
 
 
 #pragma - AddmyFriendsMyArtist page type
@@ -101,8 +108,10 @@ extern NSString * const JCParseGeneralKeyObjectId;
 extern NSString * const JCSeachPageResultsDicNoUpcomingGigs;
 extern NSString * const JCSeachPageResultsDicResults;
 extern NSString * const JCSeachPageResultsDicResultsArtistUnknown;
-extern NSString * const JCSeachPageResultsDicResultsSortedDistanceFromIreland;
-extern NSString * const JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate;
+extern NSString * const JCSeachPageResultsDicResultsInIreland;
+extern NSString * const JCSeachPageResultsDicResultsOtherTourDates;
+extern NSString * const JCSeachPageResultsDicResultsNearIreland;
+extern NSString * const JCSeachPageResultsDicResultsNoIrishTourDates;
 
 #pragma - Send Intives Page
 extern NSString * const JCSendEventIntivesPageCreateAndSendEventInvite;

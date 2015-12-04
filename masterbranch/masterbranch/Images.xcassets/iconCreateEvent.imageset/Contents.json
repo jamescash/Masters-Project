@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "iconCreateEvent.png",
       "scale" : "1x"
     },
     {

@@ -23,11 +23,6 @@
     if (self) {
         
         
-        //NSLog(@"%@",object);
-        
-        //TODO assign the event object a uniqe so I can use it to romove resultes from the serch array when
-        //they match with a switch statment
-        
         //Made the parse call a shared instance so its only initiated once to save memory
          _pasre = [EventObjectParser sharedInstance];
         
@@ -35,24 +30,21 @@
          //Make a new photoDownload for every event
          self.photoDownload = [[JCPhotoDownLoadRecord alloc]init];
          self.artistNames = [[NSMutableArray alloc]init];
-
-        
-            NSDictionary *artistdic = object [@"artists"];
-            //Array contaning a dictionarry with all the artsit at the event
-            NSArray *artists = object [@"artists"];
-            //Dictionary contain artist info
-        
-            ///TODO add defensive code here if theres no artist dic at 0 the app crashes 
-            //TO parse thisJSON correctly
-                if ([artists count]==0) {
-                    NSLog(@"no artist");
-                    return nil;
-                    }
-        
-        
-            NSDictionary *artistinfo = artists [0];
-            //dictionart contaning all the venue infrmation
-            NSDictionary *venue = object [@"venue"];
+         self.isInIreland = NO;
+         self.isNearIreland = NO;
+         NSDictionary *artistdic = object [@"artists"];
+         //Array contaning a dictionarry with all the artsit at the event
+         NSArray *artists = object [@"artists"];
+        //TODO parse thisJSON correctly
+            if ([artists count]==0) {
+                NSLog(@"no artist found for event");
+                return nil;
+                }
+        self.userIsInterestedInEvent = NO;
+        self.isUserInterestedInUpcomingGigFinishedLoading = NO;
+        NSDictionary *artistinfo = artists [0];
+        //dictionart contaning all the venue infrmation
+        NSDictionary *venue = object [@"venue"];
             
             //while loop and i counter to itterate each sningle artist in returened json event
             if ([artistdic count] > 1 ) {
@@ -93,8 +85,6 @@
                             self.photoDownload.artistMbid = @"error";
                         }else{
                             self.mbidNumber = artistinfo[@"mbid"];
-                            //TODO is making self.mbidNumber = to photodownload ringht here?
-
                             self.photoDownload.artistMbid = self.mbidNumber;
                         };
                     
@@ -107,8 +97,6 @@
                     self.photoDownload.name = @"error";
                 }
              }
-       
-        
             self.venueName = venue [@"name"];
             self.InstaSearchQuery = [self.pasre makeInstagramSearch:self.eventTitle];
             self.photoDownload.name = self.InstaSearchQuery;
@@ -117,26 +105,28 @@
                                };
             self.country = venue[@"country"];
             self.county = venue[@"city"];
+        
+            if ([self.country isEqualToString:@"Ireland"]){
+                self.isInIreland = YES;
+                self.isNearIreland = NO;
+            }
+        
+        
             self.eventDate = object[@"datetime"];
             self.formattedDateTime = object[@"formatted_datetime"];
             self.InstaTimeStamp = [self.pasre getUnixTimeStamp:object[@"datetime"]];
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
         
-            self.status = [self.pasre GetEventStatus:object [@"datetime"]];
-        
-        
-        
-        
+            //self.status = [self.pasre GetEventStatus:object [@"datetime"]];
             //Go off and calulate the distance from Ireland
-            //TODO add an if statment around this so it only calculate form the search results it unsed infromation on
-            //the homescreen events
             NSString *latitude = self.LatLong[@"lat"];
             NSString *Long = self.LatLong[@"long"];
             self.aLocation = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[Long doubleValue]];
             self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
         
-            //get ticket information. 
-            
+            if (self.DistanceFromIreland<4000&&!self.isInIreland) {
+                self.isNearIreland = YES;
+            }
         
        }
     

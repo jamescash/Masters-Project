@@ -80,24 +80,6 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)UserSelectedLogOut{
-
-    NSLog(@"logout");
-    
-    
-    [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
-        [PFObject unpinAllInBackground:response];
-    }];
-    
-    [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
-        [PFObject unpinAllInBackground:response];
-     }];
-    [PFObject unpinAllObjectsInBackgroundWithName:@"MyArtist"];
-    [PFObject unpinAllObjectsInBackgroundWithName:@"MyFriends"];
-    [PFUser logOut];
-    [self performSegueWithIdentifier:@"showLoginPage" sender:self];
-    
-}
 
 #pragma mark UITableView Datasource
 
@@ -200,8 +182,5 @@
     [self.sideMenuViewController hideMenuViewController];
 }
 
-- (IBAction)logout:(id)sender {
-    
-   [self UserSelectedLogOut];
-}
+
 @end

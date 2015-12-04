@@ -219,7 +219,7 @@
     
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
                                                           action:@"button_press"    // Event action (required)
-                                                           label:@"GigMoreInfo_HomeScreen" // Event label
+                                                           label:@"Gig_HomeScreen" // Event label
                                                            value:nil] build]];      // Event value
 }
 
@@ -302,6 +302,7 @@
 
 -(void)JCURLRetrieverDidFinish:(JCURLRetriever *)downloader{
     
+
     NSIndexPath *indexPath = downloader.indexPathInTableView;
     
     JCPhotoDownLoadRecord *theRecord = downloader.photoRecord;

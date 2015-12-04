@@ -31,17 +31,15 @@
 @property (weak, nonatomic) IBOutlet PFImageView *UIimageUserImageAddCommentTextField;
 - (IBAction)postComment:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *postButton;
 
 - (IBAction)buttonAreYouGoing:(id)sender;
-
-
 //Classes
 @property (nonatomic,strong) JCParseQuerys *parseQuerys;
 //properties
 @property (nonatomic,strong) NSMutableArray *userCommentActivies;
 @property (nonatomic,strong) NSString *eventId;
 @property (nonatomic,strong) NSString *userStatus;
-
 @property (nonatomic,strong) NSMutableDictionary *userAttendingEvent;
 @property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 
@@ -59,6 +57,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    
+    
     
     //user this event object and current user to find out the current users status to this event
     [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
@@ -82,9 +83,18 @@
 
     [self customiseNavBar];
     self.screenName = @"User Event Screen";
-    //if (!self.isSinglePersonEvent) {
+    if (!self.isSinglePersonEvent) {
         [self layoutCommentBox];
-    //}
+        NSLog(@"is NOT single person event");
+        
+    }else{
+        NSLog(@"is single person event");
+        
+        //self.addCommentTextfield.hidden = YES;
+        //self.postButton.hidden = YES;
+        self.addCommentView.hidden = YES;
+    }
+    
     
     [self layoutHeaderView];
     self.parseQuerys = [JCParseQuerys sharedInstance];
@@ -312,6 +322,9 @@
 
 -(void)layoutCommentBox{
     
+    self.addCommentTextfield.hidden = NO;
+    self.postButton.hidden = NO;
+    self.addCommentView.hidden = NO;
     self.addCommentTextfield.text = @"Add comment here...";
     self.addCommentTextfield.textColor = [UIColor lightGrayColor];
     self.addCommentTextfield.clipsToBounds = YES;
@@ -342,7 +355,7 @@
     [[headerView.HeaderImageView  layer] addSublayer:self.vignetteLayer];
     [self.tableViewVC setParallaxHeaderView:headerView
                                        mode:VGParallaxHeaderModeFill
-                                     height:200];
+                                     height:170];
     
 }
 
@@ -469,7 +482,7 @@
                                                           action:@"button_press"    // Event action (required)
                                                            label:@"updateMyStatus_UserEventScreen" // Event label
                                                            value:nil] build]];      // Event value
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I cant make it", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Are you attending?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"I'm Going", @"I'm Going and I have my ticket",@"Maybe", @"I can't make it", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     actionSheet.destructiveButtonIndex = 1;
     [actionSheet showInView:self.view];
@@ -543,8 +556,15 @@
         if ([userInvited count] > 1) {
             self.isSinglePersonEvent = NO;
             
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableViewVC reloadData];
+                if (!self.isSinglePersonEvent) {
+                    [self layoutCommentBox];
+                    
+                }else{
+                    self.addCommentView.hidden = YES;
+                }
             });
         }
         

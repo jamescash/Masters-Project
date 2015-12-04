@@ -17,3 +17,4 @@ pod 'DGActivityIndicatorView'
 pod 'Google/Analytics'
 pod "TOMSMorphingLabel", "~> 0.5"
 pod 'CRToast', '~> 0.0.7'
+pod 'SCLAlertView-Objective-C'

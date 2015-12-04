@@ -20,7 +20,7 @@
 @interface JCSearchPage : GAITrackedViewController <UISearchBarDelegate, UISearchDisplayDelegate,JCSearchPageHTTPClientdelegate,MGSwipeTableCellDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,JCSortButtonsCellDelagate>
 
 //@property (nonatomic,weak) id <JCSearchPageDelegate>JCSearchPageDelegate;
-
+@property (nonatomic,weak)NSString *artistName;
 
 @end
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="JCSearchResultsHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mez-6c-Tzq" customClass="PFImageView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czF-Ho-CcO">
+                    <rect key="frame" x="20" y="551.5" width="455" height="36"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="56a-43-Kz5">
+                    <rect key="frame" x="542" y="548" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="CWj-tA-LPy"/>
+                        <constraint firstAttribute="height" constant="20" id="cuk-Zw-PYn"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="follow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z0g-Gh-OI8">
+                    <rect key="frame" x="534" y="572" width="36" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="z0g-Gh-OI8" firstAttribute="top" secondItem="56a-43-Kz5" secondAttribute="bottom" constant="4" id="1kD-IT-qgQ"/>
+                <constraint firstItem="mez-6c-Tzq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4Dg-bP-RKk"/>
+                <constraint firstAttribute="bottom" secondItem="czF-Ho-CcO" secondAttribute="bottom" constant="12.5" id="9Lj-Hm-FWR"/>
+                <constraint firstAttribute="trailing" secondItem="czF-Ho-CcO" secondAttribute="trailing" constant="125" id="Jqf-RB-0If"/>
+                <constraint firstAttribute="trailing" secondItem="mez-6c-Tzq" secondAttribute="trailing" id="K66-gK-dwG"/>
+                <constraint firstItem="z0g-Gh-OI8" firstAttribute="centerX" secondItem="56a-43-Kz5" secondAttribute="centerX" id="Tl1-RX-ceb"/>
+                <constraint firstAttribute="trailing" secondItem="z0g-Gh-OI8" secondAttribute="trailing" constant="30" id="UGA-G5-YVk"/>
+                <constraint firstAttribute="bottom" secondItem="mez-6c-Tzq" secondAttribute="bottom" id="p7E-8H-vHs"/>
+                <constraint firstItem="czF-Ho-CcO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="sxg-7a-F3M"/>
+                <constraint firstItem="mez-6c-Tzq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vM5-Xv-e5e"/>
+                <constraint firstAttribute="bottom" secondItem="z0g-Gh-OI8" secondAttribute="bottom" constant="12" id="xGL-dd-6a5"/>
+            </constraints>
+            <connections>
+                <outlet property="ArtistName" destination="czF-Ho-CcO" id="WDq-iz-Mma"/>
+                <outlet property="HeaderImageView" destination="mez-6c-Tzq" id="SGn-G5-aFb"/>
+                <outlet property="UIImageViewFollwIcon" destination="56a-43-Kz5" id="2R9-v4-LKN"/>
+                <outlet property="UILableFollowLable" destination="z0g-Gh-OI8" id="FMZ-TM-sK7"/>
+            </connections>
+        </view>
+    </objects>
+</document>

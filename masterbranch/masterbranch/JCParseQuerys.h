@@ -34,6 +34,7 @@
 
 
 -(void)getPreAmpUsersThatMatchTheseFBids:(NSMutableArray*)FBIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUser;
+
 -(void)getPFUserObjectsForParseUserIds:(NSArray*)userIds completionblock:(void(^)(NSError* error,NSArray* response))finishedGettingPreAmpUsers;
 
 
@@ -53,7 +54,7 @@
 -(void)saveCommentToBackend:(NSDictionary*)userInfo complectionBlock:(void(^)(NSError* error))finishedsavingComment;
 
 -(void)creatUserEvent:(eventObject*)eventObject invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent;
-//Async Iamge Downloader for tableView
+-(void)creatUserEventForParseEventObjct:(PFObject*)eventObjct witheventImage:(UIImage*)eventImage invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent;
 
 -(void)addUsersToExistingParseUserEvent:(PFObject*)userEvent UsersToadd:(NSArray*)users completionBlock:(void(^)(NSError* error))finishedAddingUsers;
 
@@ -75,7 +76,7 @@
 -(void)isUserFollowingArtist:(eventObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsFollowingArtist))finishedisUserFollowingArtist;
 
 -(void)isUserInterestedInEvent:(eventObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent))finishedisUserInterestedInEvent;
-
+-(void)isUserInterestedInParseEvent:(PFObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsInterestedInGoingToEvent,PFObject* JCParseUserEvent))finishedisUserInterestedInEvent;
 
 #pragma - Delete
 

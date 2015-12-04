@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "eventObject.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 
 
-@interface JCSelectFriends : UITableViewController
+@interface JCSelectFriends : UITableViewController <DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 @property (nonatomic,strong)eventObject *currentEvent;
 @property (nonatomic,strong)NSString *tableViewType;
 @property (nonatomic,strong)PFObject *ParseEventObject;

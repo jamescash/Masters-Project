@@ -271,12 +271,23 @@
     //we need to go get our artist relation
     [self getMyAtrits:^(NSError *error, NSArray *response) {
         
+
+        
         if (error) {
             NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
             [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
             NSLog(@"error getmyartist %@",error);
             finishedGettingMyAtritsUpcomingGigs(error,nil);
         }else{
+            
+
+            if ([response count]==0) {
+                NSMutableArray *returnArray = [[NSMutableArray alloc]init];
+                [returnArray addObjectsFromArray:response];
+                finishedGettingMyAtritsUpcomingGigs(nil,returnArray);
+
+            }
+            
             NSMutableArray *myartist = [[NSMutableArray alloc]init];
             [myartist addObjectsFromArray:response];
             UpcomingGigsLoopCounter = 0;
@@ -324,7 +335,8 @@
                         
 
                         UpcomingGigsLoopCounter ++;
-                        
+                       
+
                         
                         if (UpcomingGigsLoopCounter == ([myartist count])) {
 
@@ -612,6 +624,72 @@
     
 }
 
+-(void)creatUserEventForParseEventObjct:(PFObject*)eventObjct witheventImage:(UIImage*)eventImage invitedUsers: (NSArray*)recipientIds complectionBlock:(void(^)(NSError* error))finishedCreatingUserEvent{
+    
+    
+    
+    NSData *fileData;
+    NSString *fileName;
+    NSString *fileType;
+    
+    fileData = UIImagePNGRepresentation(eventImage);
+    fileName = @"image.png";
+    fileType = @"EventImage";
+    
+    PFFile *file = [PFFile fileWithName:fileName data:fileData];
+    
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        //chaning the two asynrons upplaods to parse so users dont have to wait and only the second one happens if the first one
+        //is sucesful
+        
+        
+        if (error) {
+            NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+            [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+            finishedCreatingUserEvent(error);
+            
+        }else{
+            //file saved sucessfully now lets link it with a PFobject so we can send it
+            PFObject *UserEvent = [PFObject objectWithClassName:JCParseClassUserEvents];
+            [UserEvent setObject:file forKey:JCUserEventUsersEventPhoto];
+            [UserEvent setObject:[eventObjct objectForKey:JCUpcomingEventArtistName] forKey:JCUserEventUsersEventTitle];
+            [UserEvent setObject:[[PFUser currentUser]username] forKey:JCUserEventUsersEventHostNameUserName];
+            [UserEvent setObject:[[PFUser currentUser]objectForKey:JCUserRealName] forKeyedSubscript:JCUserEventUsersEventHostNameRealName];
+            
+             NSDate *dateTime = [self formatDateStringIntoNSDate:[eventObjct objectForKey:JCUpcomingEventDateTimeString]];
+            
+            [UserEvent setObject:dateTime forKey:JCUserEventUsersTheEventDate];
+            
+            [UserEvent setObject:[eventObjct objectForKey:JCUpcomingEventVenueName] forKey:JCUserEventUsersEventVenue];
+            [UserEvent setObject:[[PFUser currentUser]objectId] forKey:JCUserEventUsersEventHostId];
+            [UserEvent setObject:[eventObjct objectForKey:JCUpcomingEventVenueCity] forKey:JCUserEventUsersEventCity];
+            [UserEvent setObject:recipientIds forKey:JCUserEventUsersInvited];
+            [UserEvent setObject:recipientIds forKey:JCUserEventUsersSubscribedForNotifications];
+            //set this value so that notifications are only sent out to the invited array the first time the event is created
+            [UserEvent setObject:@NO forKey:JCUserEventUsersEventIsBeingUpDated];
+            
+            [UserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                if (error) {
+                    NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+                    [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+                    finishedCreatingUserEvent(error);
+                    
+                    
+                }else{
+                    finishedCreatingUserEvent(nil);
+                }
+                
+            }];
+            
+        }
+        
+    }];
+    
+    
+}
+
 -(void)addUsersToExistingParseUserEvent:(PFObject *)userEvent UsersToadd:(NSArray *)users completionBlock:(void (^)(NSError *))finishedAddingUsers{
     
     NSMutableArray *userInvited = [[NSMutableArray alloc]init];
@@ -789,26 +867,32 @@
 
 -(void)isUserInterestedInEvent:(eventObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent))finishedisUserInterestedInEvent{
     
+    
     PFQuery *isUserGoingToEvent = [PFQuery queryWithClassName:JCParseClassUserEvents];
     
-    NSDate *now = [NSDate date];
+    //NSDate *now = [NSDate date];
     //take three hours away from now to allow for the threshold of sometime there is gig's displayed on the homescreen after
     //there starting time
-    NSDate *NSDate = [now dateByAddingTimeInterval:-3600*3];
+    
+    //NSDate *NSDate = [now dateByAddingTimeInterval:-3600*3];
 
     //is there any events created for this event?
     [isUserGoingToEvent whereKey:JCUserEventUsersEventTitle equalTo:eventObject.eventTitle];
     [isUserGoingToEvent whereKey:JCUserEventUsersEventVenue equalTo:eventObject.venueName];
     [isUserGoingToEvent whereKey:JCUserEventUsersEventCity equalTo:eventObject.county];
-    [isUserGoingToEvent whereKey:JCUserEventUsersTheEventDate greaterThan:NSDate];
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventDate equalTo:[self formatDateStringIntoNSDate:eventObject.eventDate]];
+    //[isUserGoingToEvent whereKey:JCUserEventUsersTheEventDate greaterThan:NSDate];
     //if so do any of them have the users ID in the intived list
     [isUserGoingToEvent whereKey:JCUserEventUsersInvited equalTo:[[PFUser currentUser]objectId]];
     
     [isUserGoingToEvent findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
        
+        
+        
         if (error) {
             finishedisUserInterestedInEvent(error,NO,nil);
         }else{
+            
             
             if ([objects count]>0) {
                 finishedisUserInterestedInEvent(error,YES,[objects firstObject]);
@@ -825,6 +909,44 @@
     
 }
 
+-(void)isUserInterestedInParseEvent:(PFObject*)eventObject completionBlock:(void(^)(NSError* error,BOOL userIsInterestedInGoingToEvent,PFObject* JCParseUserEvent))finishedisUserInterestedInEvent{
+ 
+    PFQuery *isUserGoingToEvent = [PFQuery queryWithClassName:JCParseClassUserEvents];
+    
+    NSDate *now = [NSDate date];
+    //take three hours away from now to allow for the threshold of sometime there is gig's displayed on the homescreen after
+    //there starting time
+    NSDate *NSDate = [now dateByAddingTimeInterval:-3600*3];
+    
+    //is there any events created for this event?
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventTitle equalTo:[eventObject objectForKey:JCUpcomingEventArtistName]];
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventVenue equalTo:[eventObject objectForKey:JCUpcomingEventVenueName]];
+    [isUserGoingToEvent whereKey:JCUserEventUsersEventCity equalTo:[eventObject objectForKey:JCUpcomingEventVenueCity]];
+    [isUserGoingToEvent whereKey:JCUserEventUsersTheEventDate greaterThan:NSDate];
+    //if so do any of them have the users ID in the intived list
+    [isUserGoingToEvent whereKey:JCUserEventUsersInvited equalTo:[[PFUser currentUser]objectId]];
+    
+    [isUserGoingToEvent findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (error) {
+            finishedisUserInterestedInEvent(error,NO,nil);
+        }else{
+            
+            if ([objects count]>0) {
+                finishedisUserInterestedInEvent(error,YES,[objects firstObject]);
+                
+            }else{
+                finishedisUserInterestedInEvent(error,NO,nil);
+                
+            }
+            
+        }
+        
+        
+    }];
+
+
+}
 
 -(void)saveArtistToBackendAndAddRelationToUser:(eventObject*)currentEvent {
     

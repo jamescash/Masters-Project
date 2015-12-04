@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIScrollView+VGParallaxHeader.h"
 
 @interface JCUserProfile : UIViewController
 

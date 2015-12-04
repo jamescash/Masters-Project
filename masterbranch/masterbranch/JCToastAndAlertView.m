@@ -8,7 +8,7 @@
 
 #import "JCToastAndAlertView.h"
 #import "CRToast.h"
-
+#import "SCLAlertView.h"
 
 @interface JCToastAndAlertView ()
 @property (nonatomic,strong) NSDictionary *userUpDateToast;
@@ -16,18 +16,6 @@
 @end
 
 @implementation JCToastAndAlertView
-
-
-//- (instancetype)init
-//{
-//    self = [super init];
-//    if (self) {
-//        [self creatUserUpDateToast];
-//    }
-//    return self;
-//}
-
-
 
 
 -(void)showUserUpDateToastWithMessage:(NSString*)message{
@@ -49,7 +37,7 @@
                              kCRToastCaptureDefaultWindowKey:@(NO),
                              kCRToastAnimationOutTimeIntervalKey: @(.3),
                              kCRToastAnimationInTimeIntervalKey:@(.3),
-                             kCRToastTimeIntervalKey:@(4),
+                             kCRToastTimeIntervalKey:@(3),
                              };
     
     
@@ -60,6 +48,22 @@
                                 completionBlock:^{
                                     NSLog(@"Completed");
                                 }];
+    
+}
+
+-(void)showLoadingAlertViewWithMessage:(NSString*)message andTitle:(NSString*)title inUIViewController:(UIViewController*)UIViewController {
+    
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    
+    alert.shouldDismissOnTapOutside = NO;
+    //alert.backgroundType = Blur;
+    
+    
+    alert.customViewColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+
+
+    [alert showWaiting:UIViewController title:title subTitle:message closeButtonTitle:nil duration:5.0f];
+
     
 }
 

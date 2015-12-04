@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *UIImageViewInvitedYou;
 @property (weak, nonatomic) IBOutlet UIButton *UIButtonTitleMyStatus;
 @property (weak, nonatomic) IBOutlet UILabel *UILableUserNameInvitedYou;
+@property (weak, nonatomic) IBOutlet UIView *UIViewGuesterRecogniserShowMoreInfo;
 
 
 @end
@@ -25,6 +26,7 @@
 @implementation JCTimeDateLocationTableViewCell
 
 -(void)formatCellwithParseEventObject:(PFObject*)currentEvent{
+    
     self.timeDate.text = [self formatNSdateTostring:[currentEvent objectForKey:JCUserEventUsersTheEventDate]];
     NSString *venueInfo = [NSString stringWithFormat:@"%@ - %@",[currentEvent objectForKey:@"eventVenue"],[currentEvent objectForKey:@"city"]];
     self.VenueName.text = venueInfo;
@@ -62,9 +64,6 @@
     NSString *eventTitle = [currentEvent objectForKey:JCUserEventUsersEventTitle];
 
     self.UILableUserNameInvitedYou.text = [NSString stringWithFormat:@"Looks like your going to see %@ by yourself, ask some frineds to join you",eventTitle];
-    
-    
-    
 }
 
 
@@ -107,8 +106,21 @@
     self.UIImageViewDateIcon.contentMode = UIViewContentModeScaleAspectFill;
     self.UIImageViewLocationIcon.image = [UIImage imageNamed:@"iconLocation"];
     self.UIImageViewLocationIcon.contentMode = UIViewContentModeScaleAspectFill;
-    self.UIImageViewInvitedYou.image = [UIImage imageNamed:@"iconDate"];
+    self.UIImageViewInvitedYou.image = [UIImage imageNamed:@"iconFriendsInvite"];
     self.UIImageViewLocationIcon.contentMode = UIViewContentModeScaleAspectFill;
+    
+    UITapGestureRecognizer *showMoreInfo = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapShowGigMoreInfo)];
+    [self.UIViewGuesterRecogniserShowMoreInfo addGestureRecognizer:showMoreInfo];
+    
+}
+
+-(void)didTapShowGigMoreInfo{
+    if (self.JCTimeDateLocationTableViewCellDelagate && [self.JCTimeDateLocationTableViewCellDelagate respondsToSelector:@selector(didTapShowGigMoreInfo)]) {
+    
+        [self.JCTimeDateLocationTableViewCellDelagate didTapShowGigMoreInfo];
+    
+    
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

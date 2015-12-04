@@ -22,9 +22,8 @@
 -(void)getArtistImage:(NSString*)artistname andMbidNumber:(NSString*)mbidNumber competionBlock:(void(^)(NSError* error,NSDictionary *artistInfo))finishedGettingArtistImage;
 
 #pragma - Get - Echo Nets
-//in the middle of refactoring search
 -(void)getmbidNumberfor:(NSString*)artistname competionBlock:(void(^)(NSError* error,NSString* mbid))finishedGettingSearchResults;
 
-
+-(void)getArtistSuggestionsForSearchQuery:(NSString*)searchQuery competionBlock:(void(^)(NSError* error,NSArray* artistSuggestions))finishedGettingArtistSuggestionsForSearchQuery;
 
 @end

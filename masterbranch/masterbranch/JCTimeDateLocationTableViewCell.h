@@ -11,13 +11,18 @@
 #import <Parse/Parse.h>
 
 
+@protocol JCTimeDateLocationTableViewCell;
+
 
 @interface JCTimeDateLocationTableViewCell : UITableViewCell
 -(void)formatCell:(eventObject*)currentEvent;
 -(void)formatCellwithParseEventObject:(PFObject*)currentEvent;
 -(void)formatCellwithParseEventObjectForSingleEvent:(PFObject*)currentEvent;
-
 -(void)formatAreYouGoingButtonTitleWithMyStatus:(NSString*)myStatus;
+@property (nonatomic, weak) id <JCTimeDateLocationTableViewCell> JCTimeDateLocationTableViewCellDelagate;
 @end
 
 
+@protocol JCTimeDateLocationTableViewCell <NSObject>
+- (void)didTapShowGigMoreInfo;
+@end

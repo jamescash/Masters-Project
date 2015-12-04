@@ -16,6 +16,10 @@
 #import "JCConstants.h"
 #import <Google/Analytics.h>
 #import "GAI.h"
+#import "DGActivityIndicatorView.h"
+#import "JCMusicDiaryPreLoader.h"
+#import "JCToastAndAlertView.h"
+
 
 @interface JCSelectFriends ()
 
@@ -29,7 +33,7 @@
 @property (nonatomic,strong) ILTranslucentView *blerView;
 @property (nonatomic,weak) UILabel *Lablesending;
 @property (weak, nonatomic) IBOutlet UILabel *lablePageTitle;
-
+@property (nonatomic,strong)JCToastAndAlertView *loadingAlert;
 ////actions
 //- (IBAction)CancleButton:(id)sender;
 //- (IBAction)Send:(id)sender;
@@ -48,13 +52,12 @@
     self.MyFriends = [[NSMutableArray alloc]init];
     sendingLong = YES;
     sent = NO;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
     [self addCustomButtonOnNavBar];
     [self.tableView setContentInset:UIEdgeInsetsMake(-50,0,0,0)];
     self.recipents = [[NSMutableArray alloc]init];
 
-    self.lablePageTitle.text = @"Choose friends";
-    [self.lablePageTitle setFont:[UIFont fontWithName:@"Helvetica-light" size:25]];
-    self.lablePageTitle.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
     _JCParseQuery = [JCParseQuerys sharedInstance];
 
     [self.JCParseQuery getMyFriends:^(NSError *error, NSArray *response) {
@@ -168,147 +171,34 @@
 - (void)Send{
     
     
-    //Track Button clicks
- 
-    
     if ([self.tableViewType isEqualToString:JCSendEventIntivesPageAddUserToExistingEvent]) {
         
-        [self addBlerView];
-
-        [self.JCParseQuery addUsersToExistingParseUserEvent:self.ParseEventObject UsersToadd:self.recipents completionBlock:^(NSError *error) {
-            
-            if (error) {
-                
-            }else{
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    sent = YES;
-                   
-                 
-                    CGRect frame = self.Lablesending.frame;
-                    frame.origin.x += 40.0f;
-                    self.Lablesending.frame = frame;
-                    self.Lablesending.text = @"Done!";
-                    self.Lablesending.textAlignment = NSTextAlignmentNatural;
-                    [self performSelector:@selector(dismissViewController)
-                               withObject:self
-                               afterDelay:1];
-                    
-                    [self.recipents removeAllObjects];
-                    NSLog(@"event created");
-                    
-                });
-            }
-            
-        }];
-        
-        
+        [self adduserToExistingUserEvent];
     }else{
-    
-    
+        
+        //create a new event
     if ([self.recipents count]==0) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Try again!" message:@"Ooops please select some friends" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
         [alert show];
     }else{
     
-        
-    //defensive code
     if (self.currentEvent == nil) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Try again!" message:@"Ooops something went wrong" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
         [alert show];
         [self dismissViewControllerAnimated:YES completion:nil];
     }else {
         
-        
-        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-        
-        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
-                                                              action:@"button_press"    // Event action (required)
-                                                               label:@"CreatEvent_SelectUserScreen" // Event label
-                                                               value:nil] build]];      // Event value
-        //Seems like we have an event object lets upload it then dismiss the VC
-       
-        [self addBlerView];
-        PFUser *currentUser = [PFUser currentUser];
-        [self.recipents addObject:currentUser.objectId];
-        [self.JCParseQuery creatUserEvent:self.currentEvent invitedUsers:self.recipents complectionBlock:^(NSError *error) {
-            
-            if (error) {
-                //show alert view
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"oops!" message:@"Please try sending creating that event again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
-                [self.recipents removeAllObjects];
-                [alert show];
-
-                sent = YES;
-                CGRect frame = self.Lablesending.frame;
-                frame.origin.x += 40.0f;
-                self.Lablesending.frame = frame;
-                self.Lablesending.text = @"Failed!";
-                self.Lablesending.textAlignment = NSTextAlignmentNatural;
-                [self performSelector:@selector(dismissViewController)
-                           withObject:self
-                           afterDelay:1];
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    sent = YES;
-                    CGRect frame = self.Lablesending.frame;
-                    frame.origin.x += 40.0f;
-                    self.Lablesending.frame = frame;
-                    self.Lablesending.text = @"Done!";
-                    self.Lablesending.textAlignment = NSTextAlignmentNatural;
-                    [self performSelector:@selector(dismissViewController)
-                               withObject:self
-                               afterDelay:1];
-                    
-                    [self.recipents removeAllObjects];
-                    NSLog(@"event created");
-                
-            });
-               
-            }
-            
-            
-        }];
-        
-        
-       }
+        [self createNewUserEventAndAddUsers];
+        }
      }
    }
 }
-    
 
--(void)addBlerView{
+-(void)addCustomButtonOnNavBar{
     
-    self.blerView = [[ILTranslucentView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:self.blerView];
-    self.Lablesending = [[UILabel alloc]initWithFrame:CGRectMake(0 , 0, 200, 40)];
-    
-    self.Lablesending.text = @"Creating event...";
-    self.Lablesending.clipsToBounds = YES;
-    self.Lablesending.textAlignment = NSTextAlignmentLeft;
-    [self.Lablesending setBackgroundColor:[UIColor clearColor]];
-    [self.Lablesending setFont:[UIFont fontWithName:@"Helvetica-light" size:25]];
-    self.Lablesending.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
-    self.Lablesending.center = self.blerView.center;
-    CGRect frame = self.Lablesending.frame;
-    frame.origin.x += 20.0f;
-    frame.origin.y += -40.0f;
-    self.Lablesending.frame = frame;
-    
-    [self.blerView addSubview:self.Lablesending];
-    
-    self.blerView.translucentAlpha = .9;
-    self.blerView.translucentStyle = UIBarStyleDefault;
-    self.blerView.translucentTintColor = [UIColor clearColor];
-    self.blerView.backgroundColor = [UIColor clearColor];
-    
-    NSTimer* timer = [NSTimer timerWithTimeInterval: .5f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-}
-
-- (void)addCustomButtonOnNavBar
-{
-    
+    self.lablePageTitle.text = @"Choose friends";
+    [self.lablePageTitle setFont:[UIFont fontWithName:@"Helvetica-light" size:25]];
+    self.lablePageTitle.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
     
     UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -337,25 +227,121 @@
     
     
 }
--(void)updateLabel{
-    
-    if (!sent) {
-        if (sendingLong) {
-            self.Lablesending.text = @"Creating event..";
-            sendingLong = NO;
-            
-        }else{
-            self.Lablesending.text = @"Creating event...";
-            sendingLong = YES;
-            
-        }
-    }
-    
-};
 
 -(void)dismissViewController{
     [self dismissViewControllerAnimated:YES completion:nil];
 
 };
+-(void)adduserToExistingUserEvent{
+
+    
+    //scroll to the top and then show a loading animation
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    [self.tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+    
+    
+    NSString *title = @"Loading";
+    NSString *message = @"Adding friends to event";
+    
+    NSDictionary *loadingAlertText = @{@"message":message,@"title":title};
+    NSArray *arr = [NSArray arrayWithObject:NSDefaultRunLoopMode];
+
+    [self performSelector:@selector(showLoadingAlertViewwithText:) withObject:loadingAlertText afterDelay:.4 inModes:arr];
+    
+    
+    [self.JCParseQuery addUsersToExistingParseUserEvent:self.ParseEventObject UsersToadd:self.recipents completionBlock:^(NSError *error) {
+        
+        if (error) {
+            
+        }else{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+        
+                [self performSelector:@selector(dismissViewController)
+                           withObject:self
+                           afterDelay:2];
+                
+                [self.recipents removeAllObjects];
+                NSLog(@"event created");
+                
+            });
+        }
+        
+    }];
+    
+    
+}
+
+-(void)showLoadingAlertViewwithText:(NSDictionary*)test {
+    NSString *massage = [test objectForKey:@"message"];
+    NSString *title = [test objectForKey:@"title"];
+    self.loadingAlert = [[JCToastAndAlertView alloc]init];
+    [self.loadingAlert showLoadingAlertViewWithMessage:massage andTitle:title inUIViewController:self];
+}
+
+
+
+-(void)createNewUserEventAndAddUsers{
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                          action:@"button_press"    // Event action (required)
+                                                           label:@"CreatEvent_SelectUserScreen" // Event label
+                                                           value:nil] build]];      // Event value
+    //Seems like we have an event object lets upload it then dismiss the VC
+    //scroll to the top and then show a loading animation
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    [self.tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+    
+    
+    NSString *title = @"Creating event...";
+    NSString *message = @"Inviting friends and adding event to your upcoming gigs";
+    
+    NSDictionary *loadingAlertText = @{@"message":message,@"title":title};
+    NSArray *arr = [NSArray arrayWithObject:NSDefaultRunLoopMode];
+    
+    [self performSelector:@selector(showLoadingAlertViewwithText:) withObject:loadingAlertText afterDelay:.4 inModes:arr];
+    PFUser *currentUser = [PFUser currentUser];
+    [self.recipents addObject:currentUser.objectId];
+    [self.JCParseQuery creatUserEvent:self.currentEvent invitedUsers:self.recipents complectionBlock:^(NSError *error) {
+        
+        if (error) {
+            //show alert view
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"oops!" message:@"Please try sending creating that event again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+            [self.recipents removeAllObjects];
+            [alert show];
+            
+
+            [self performSelector:@selector(dismissViewController)
+                       withObject:self
+                       afterDelay:1];
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                [self performSelector:@selector(dismissViewController)
+                           withObject:self
+                           afterDelay:2];
+                
+                [self.recipents removeAllObjects];
+                NSLog(@"event created");
+                
+            });
+            
+        }
+        
+        
+    }];
+    
+    
+    
+}
+
 
 @end

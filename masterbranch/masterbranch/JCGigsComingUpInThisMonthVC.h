@@ -11,12 +11,13 @@
 #import "UIScrollView+VGParallaxHeader.h"
 #import "JCMusicDiaryArtistObject.h"
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
+#import "JCUpcomingGigTableViewCell.h"
 
 
 
 
 
-@interface JCGigsComingUpInThisMonthVC : UIViewController <MGSwipeTableCellDelegate>
+@interface JCGigsComingUpInThisMonthVC : UIViewController <MGSwipeTableCellDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate>
 @property (nonatomic,strong)JCMusicDiaryArtistObject *diaryObject;
 @property (nonatomic) BOOL IsIrishQuery;
 @end

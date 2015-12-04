@@ -16,17 +16,17 @@
 
 
 @interface JCUpcomingGigTableViewCell : MGSwipeTableCell
--(void)formatCell:(eventObject*)currentEvent;
--(void)formatCellwith:(PFObject*)upcomingGig;
+-(void)formatCell:(eventObject *)currentEvent userIsInterested:(BOOL)userIsInterested;
+-(void)formatCellwith:(PFObject*)upcomingGig userIsInterested:(BOOL)userIsInterested;
 @property (assign, nonatomic) NSInteger cellIndex;
-
-
-@property (weak, nonatomic) id<JCUpcomingGigTableViewCellDelegate>JCUpcomingGigTableViewCellDelegate;
-
-
+@property (strong, nonatomic) NSIndexPath *cellIndexNSIndexPath;
+@property (weak, nonatomic) id <JCUpcomingGigTableViewCellDelegate>JCUpcomingGigTableViewCellDelegate;
 @end
 
 
 @protocol JCUpcomingGigTableViewCellDelegate <NSObject>
+@optional
 - (void)didClickInviteFriendsOnUpcomingGigAt:(NSInteger)cellIndex;
+@optional
+- (void)didClickInviteFriendsOnUpcomingGigAtNSIndexPath:(NSIndexPath*)cellIndex;
 @end

@@ -18,10 +18,27 @@
     
     self.MainImageView.image = image;
     self.MainImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.MainImageView = [self addLayerMaskToImageView:self.MainImageView];
+    //self.MainImageView = [self addLayerMaskToImageView:self.MainImageView withConorRadious:0];
+    
+    self.MainImageView = [self addLayerMaskToImageView:self.MainImageView withConorRadious:0 width:self.frame.size.width height:self.frame.size.height frameinsetX:0 frameInsetY:0];
     self.CellTitle.text = artistName;
     self.venue.text = venueName;
 }
+
+-(void)setImageForMusicDiary:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName{
+    
+    //self.backgroundColor = [UIColor colorWithRed:239.0f/255.0f green:239.0f/255.0f blue:244.0f/255.0f alpha:.6f];
+
+    //[self prefix_addUpperBorder];
+    self.MainImageView.image = image;
+    self.MainImageView.contentMode = UIViewContentModeScaleAspectFill;
+    //self.MainImageView = [self addLayerMaskToImageView:self.MainImageView withConorRadious:150];
+    
+    self.MainImageView = [self addLayerMaskToImageView:self.MainImageView withConorRadious:self.MainImageView.frame.size.width/2 width:90 height:90 frameinsetX:4 frameInsetY:10];
+    self.CellTitle.text = artistName;
+    self.venue.text = venueName;
+}
+
 
 -(void)startLoadingAnimation{
     
@@ -61,12 +78,22 @@
     [self.vignetteLayer removeFromSuperlayer];
     
 }
--(UIImageView*)addLayerMaskToImageView:(UIImageView*)imageView{
+
+//- (void)prefix_addUpperBorder
+//{
+//    CALayer *upperBorder = [CALayer layer];
+//    upperBorder.backgroundColor = [[UIColor lightGrayColor] CGColor];
+//    upperBorder.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 2.0f);
+//    [self.layer addSublayer:upperBorder];
+//}
+
+
+-(UIImageView*)addLayerMaskToImageView:(UIImageView*)imageView withConorRadious: (int)conorRadious width:(int)width height:(int)height frameinsetX:(int)insetX frameInsetY:(int)insetY {
     UIBezierPath *maskPath;
-    maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(0,0)];
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, width, height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(conorRadious,conorRadious)];
     
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    maskLayer.frame = CGRectMake(insetY, insetX, width, height);
     maskLayer.path = maskPath.CGPath;
     imageView.layer.mask = maskLayer;
     return imageView;

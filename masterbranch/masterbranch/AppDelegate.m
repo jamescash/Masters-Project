@@ -52,18 +52,21 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
-    
-    // Configure tracker from GoogleService-Info.plist.
-    NSError *configureError;
-    [[GGLContext sharedInstance] configureWithError:&configureError];
-    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-    
-    // Optional: configure GAI options.
-    GAI *gai = [GAI sharedInstance];
-    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-    //[GAI sharedInstance].dispatchInterval = 0;
-
-    //gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:.5] ;
+    pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    pageControl.backgroundColor = [UIColor clearColor];
+//    // Configure tracker from GoogleService-Info.plist.
+//    NSError *configureError;
+//    [[GGLContext sharedInstance] configureWithError:&configureError];
+//    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+//    
+//    // Optional: configure GAI options.
+//    GAI *gai = [GAI sharedInstance];
+//    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+//    //[GAI sharedInstance].dispatchInterval = 0;
+//
+//    //gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
     
     

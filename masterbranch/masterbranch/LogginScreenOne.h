@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <Parse/Parse.h>
-#import "GHWalkThroughView.h"
 #import "GAITrackedViewController.h"
+#import "JCTutorialPageViewController.h"
 
-@interface LogginScreenOne : GAITrackedViewController <GHWalkThroughViewDataSource,GHWalkThroughViewDelegate>
+@interface LogginScreenOne : GAITrackedViewController //<UIPageViewControllerDataSource>//<GHWalkThroughViewDataSource,GHWalkThroughViewDelegate>
 
+//@property (strong, nonatomic) UIPageViewController *pageViewController;
+//@property (strong, nonatomic) NSArray *pageTitles;
+@property NSUInteger pageIndex;
 @end

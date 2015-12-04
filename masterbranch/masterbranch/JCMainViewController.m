@@ -83,6 +83,9 @@
         if (!error && imageData){
          
         menuViewController.profilePicture.image = [UIImage imageWithData:imageData];
+            menuViewController.profilePicture = [self addLayerMaskToImageView:menuViewController.profilePicture];
+            menuViewController.profilePicture.contentMode = UIViewContentModeScaleAspectFill;
+            
 //        menuViewController.profilePicture.layer.cornerRadius = menuViewController.profilePicture.frame.size.height /2;
 //        menuViewController.profilePicture.layer.masksToBounds = YES;
 //        menuViewController.profilePicture.layer.borderWidth = 0;
@@ -123,6 +126,15 @@
     return UIStatusBarStyleDefault;
 }
 
-
+-(UIImageView*)addLayerMaskToImageView:(UIImageView*)imageView{
+    UIBezierPath *maskPath;
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(0, 0)];
+    
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height);
+    maskLayer.path = maskPath.CGPath;
+    imageView.layer.mask = maskLayer;
+    return imageView;
+}
 
 @end

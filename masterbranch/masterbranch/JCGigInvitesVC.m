@@ -103,7 +103,7 @@
         DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
         prelaoder.center = musicDiaryPreLoder.center;
         [musicDiaryPreLoder addSubview:prelaoder];
-        musicDiaryPreLoder.UILableTextString.text = @"Loaing your gigs..";
+        musicDiaryPreLoder.UILableTextString.text = @"Loading your gigs..";
         [prelaoder startAnimating];
         
         musicDiaryPreLoder.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
@@ -385,7 +385,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
                                             action:@selector(RightnavItemTapped)];
     
     [self.navBarDropDown addGestureRecognizer:navbarRightButtonTapped];
-    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconCalender.png"]];
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconDropDown"]];
     contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
     [self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
     

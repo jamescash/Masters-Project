@@ -11,6 +11,7 @@
 #import "EventObjectParser.h"
 #import "eventObject.h"
 #import "JCConstants.h"
+#import "JCSearchResultsObject.h"
 
 @interface JCHomeScreenDataController ()
 
@@ -40,6 +41,7 @@
 }
 
 #pragma - Bandsintown
+
 -(void)getEventsforDate:(NSDate *)date usingLocation:(NSString *)latitude Longditude:(NSString *)longditude competionBlock:(void (^)(NSError *, NSArray *))finishedGettingMyAtrits{
     
 
@@ -121,16 +123,20 @@
 
 -(void)getArtistUpComingEventsForArtistSearch:(NSString*)artistname andMbidNumber:(NSString*)mbidNumber competionBlock:(void(^)(NSError* error,NSDictionary* results))finishedGettingSearchResults{
     
+    
     NSString *endpoint = [NSString stringWithFormat:@"http://api.bandsintown.com/artists/%@/events.json?artist_id=mbid_%@&api_version=2.0&app_id=PreAmp",artistname,mbidNumber];
+    
     
     NSURL *url = [NSURL URLWithString:endpoint];
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
+            
             finishedGettingSearchResults(error,nil);
         }else{
             
             NSArray *JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            
             
             if ([JSONresults count]== 0 ) {
                 NSDictionary *results = @{JCSeachPageResultsDicResults:JCSeachPageResultsDicNoUpcomingGigs};
@@ -171,51 +177,96 @@
                     }
                 }];
                 
-                NSMutableArray *resultesOrderedByUpcomingData = [[NSMutableArray alloc]init];
-                
-                [resultesOrderedByUpcomingData addObjectsFromArray:fullArrayOfSearchResults];
                 
                 
-                //sort the results in distance from irlenad
-                NSSortDescriptor *sortInDistanceFromIreland;
-                sortInDistanceFromIreland = [[NSSortDescriptor alloc] initWithKey:@"DistanceFromIreland"
-                                                                        ascending:YES];
-                NSArray *sortDescriptors = [NSArray arrayWithObject:sortInDistanceFromIreland];
-                NSArray *SearchResultsSortedInDistanceFromIreland;
-                SearchResultsSortedInDistanceFromIreland = [resultesOrderedByUpcomingData sortedArrayUsingDescriptors:sortDescriptors];
+                NSMutableArray *tourDatesInIrelnad = [[NSMutableArray alloc]init];
+                NSMutableArray *tourDatesNearIrelnad = [[NSMutableArray alloc]init];
+                NSMutableArray *OtherTourDates = [[NSMutableArray alloc]init];
+
                 
-                // put them into a mutable array so they can be eddited
-                NSMutableArray *searchResultsSortedDistanceFromIrelandInMutableArry = [[NSMutableArray alloc]init];
-                [searchResultsSortedDistanceFromIrelandInMutableArry addObjectsFromArray:SearchResultsSortedInDistanceFromIreland];
-                
-                
-                NSMutableArray *InIreland = [[NSMutableArray alloc]init];
-                
-                //switchCounter = 0;
-                
-                
-                //Find all the gigs that are in Irelnad add them to there own array
-                for (eventObject *obj in searchResultsSortedDistanceFromIrelandInMutableArry) {
+                for (eventObject *upcomingGig in fullArrayOfSearchResults) {
                     
-                    if ([obj.country isEqualToString:@"Ireland"]) {
-                        
-                        [InIreland addObject:obj];
+                    if (upcomingGig.isInIreland) {
+                        [tourDatesInIrelnad addObject:upcomingGig];
+                    }else if (upcomingGig.isNearIreland){
+                        [tourDatesNearIrelnad addObject:upcomingGig];
+                    }else{
+                        [OtherTourDates addObject:upcomingGig];
                     }
-                 };
+                 }
                 
-                //remove Irish gigs from array before it goes for more sorting
-                 [searchResultsSortedDistanceFromIrelandInMutableArry removeObjectsInArray:InIreland];
-                NSMutableArray *EmptyArray = [[NSMutableArray alloc]init];
+                tourDatesInIrelnad = [self sortArrayByUpcomingDate:tourDatesInIrelnad];
+                tourDatesNearIrelnad = [self sortArrayByUpcomingDate:tourDatesNearIrelnad];
+                OtherTourDates = [self sortArrayByUpcomingDate:OtherTourDates];
+    
+                NSMutableDictionary *sortedResultsDic = [[NSMutableDictionary alloc]init];
                 
-                NSDictionary *reultsSortedIndistanceFromIreland = @{@"In Ireland":InIreland,@"Around Ireland":searchResultsSortedDistanceFromIrelandInMutableArry,@"Blank Section":EmptyArray};
+                //if ([tourDatesInIrelnad count]!= 0) {
+                    [sortedResultsDic setObject:tourDatesInIrelnad forKey:JCSeachPageResultsDicResultsInIreland];
+                //}else{
+                 //   [sortedResultsDic setObject:JCSeachPageResultsDicResultsNoIrishTourDates forKey:JCSeachPageResultsDicResultsInIreland];
+                //}//
                 
-                NSDictionary *resultsSortdedByUpcmoingDate = @{@"Sorted by date":resultesOrderedByUpcomingData,@"Blank Section":EmptyArray};
+                if ([tourDatesNearIrelnad count]!= 0) {
+                    [sortedResultsDic setObject:tourDatesNearIrelnad forKey:JCSeachPageResultsDicResultsNearIreland];
+                }
+                
+               // if ([OtherTourDates count]!=0) {
+                    [sortedResultsDic setObject:OtherTourDates forKey:JCSeachPageResultsDicResultsOtherTourDates];
+               // }
+                
+                
+                NSDictionary *results = @{ JCSeachPageResultsDicResults:sortedResultsDic};
+             
+
+                finishedGettingSearchResults(nil,results);
+
+                
+//                NSMutableArray *resultesOrderedByUpcomingData = [[NSMutableArray alloc]init];
+//                
+//                [resultesOrderedByUpcomingData addObjectsFromArray:fullArrayOfSearchResults];
+//                
+//                
+//                //sort the results in distance from irlenad
+//                NSSortDescriptor *sortInDistanceFromIreland;
+//                sortInDistanceFromIreland = [[NSSortDescriptor alloc] initWithKey:@"DistanceFromIreland"
+//                                                                        ascending:YES];
+//                NSArray *sortDescriptors = [NSArray arrayWithObject:sortInDistanceFromIreland];
+//                NSArray *SearchResultsSortedInDistanceFromIreland;
+//                SearchResultsSortedInDistanceFromIreland = [resultesOrderedByUpcomingData sortedArrayUsingDescriptors:sortDescriptors];
+//                
+//                // put them into a mutable array so they can be eddited
+//                NSMutableArray *searchResultsSortedDistanceFromIrelandInMutableArry = [[NSMutableArray alloc]init];
+//                [searchResultsSortedDistanceFromIrelandInMutableArry addObjectsFromArray:SearchResultsSortedInDistanceFromIreland];
+//                
+//                
+//                NSMutableArray *InIreland = [[NSMutableArray alloc]init];
+//                
+//                //switchCounter = 0;
+//                
+//                
+//                //Find all the gigs that are in Irelnad add them to there own array
+//                for (eventObject *obj in searchResultsSortedDistanceFromIrelandInMutableArry) {
+//                    
+//                    if ([obj.country isEqualToString:@"Ireland"]) {
+//                        
+//                        [InIreland addObject:obj];
+//                    }
+//                 };
+//                
+//                //remove Irish gigs from array before it goes for more sorting
+//                 [searchResultsSortedDistanceFromIrelandInMutableArry removeObjectsInArray:InIreland];
+//                NSMutableArray *EmptyArray = [[NSMutableArray alloc]init];
+                
+               // NSDictionary *reultsSortedIndistanceFromIreland = @{@"In Ireland":tourDatesInIrelnad,@"Around Ireland":tourDatesNearIrelnad,@"Blank Section":EmptyArray};
+                
+                //NSDictionary *resultsSortdedByUpcmoingDate = @{@"Sorted by date":resultesOrderedByUpcomingData,@"Blank Section":EmptyArray};
                  //2D Array sorted with Irish gigs ontop and second array with gig ordered by distance from Irlenad
                  //[searchResultsSortedDistanceFromIrelandInMutableArry insertObject:InIreland atIndex:0];
                
-                NSDictionary *results = @{ JCSeachPageResultsDicResults:@{JCSeachPageResultsDicResultsSortedDistanceFromIreland:reultsSortedIndistanceFromIreland,JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate:resultsSortdedByUpcmoingDate}};
+               // NSDictionary *results = @{ JCSeachPageResultsDicResults:@{JCSeachPageResultsDicResultsSortedDistanceFromIreland:reultsSortedIndistanceFromIreland,JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate:resultsSortdedByUpcmoingDate}};
                
-                finishedGettingSearchResults(nil,results);
+                //finishedGettingSearchResults(nil,results);
                 
             }
             
@@ -244,7 +295,6 @@
        
     NSDictionary *JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             
-            NSLog(@"%@",JSONresults);
             NSDictionary *returnDic;
             NSString *URLString = [JSONresults objectForKey:@"thumb_url"];
             NSString *artistName = [JSONresults objectForKey:@"name"];
@@ -322,6 +372,47 @@
 }
 
 
+-(void)getArtistSuggestionsForSearchQuery:(NSString*)searchQuery competionBlock:(void(^)(NSError* error,NSArray* artistSuggestions))finishedGettingArtistSuggestionsForSearchQuery{
+    
+    
+   NSString *endpoint = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/artist/suggest?api_key=VLWOTTE5BDW9KEQEK&name=%@&results=7",searchQuery];
+    
+    AFHTTPRequestOperationManager *echoNestRequest = [AFHTTPRequestOperationManager manager];
+    [echoNestRequest GET:endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+        NSDictionary *response = [responseObject objectForKey:@"response"];
+        NSArray *artist = [response objectForKey:@"artists"];
+        NSMutableArray *returnArray = [[NSMutableArray alloc]init];
+        
+        [artist  enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            
+            JCSearchResultsObject *artist = [[JCSearchResultsObject alloc]initWithJsonRsult:obj];
+            
+            if (artist != nil){
+                //cheack to so if we didnt kill that event object in any other class's
+                //then add it to the array
+               [returnArray addObject:artist];
+            }
+        }];
+        
+        
+        finishedGettingArtistSuggestionsForSearchQuery(nil,returnArray);
+    
+    
+    
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        finishedGettingArtistSuggestionsForSearchQuery(error,nil);
+    }];
+
+
+}
+
+
+
+
+#pragma - Helper Method
+
 -(NSString*)formatDateForAPIcall:(NSDate*)date{
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -333,7 +424,22 @@
     return formattedDate;
 };
 
-#pragma - Helper Method
+
+-(NSMutableArray*)sortArrayByUpcomingDate:(NSMutableArray*)arrayToBeSorted{
+    
+    //sort the results in distance from irlenad
+    NSSortDescriptor *sortByUpcomingDate;
+    sortByUpcomingDate = [[NSSortDescriptor alloc] initWithKey:@"eventDate"
+                                                            ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByUpcomingDate];
+    NSMutableArray *sortedArray = [[NSMutableArray alloc]init];
+   [sortedArray addObjectsFromArray:[arrayToBeSorted sortedArrayUsingDescriptors:sortDescriptors]];
+    
+    return sortedArray;
+    
+}
+
+
 
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSArray *)array
 {

@@ -51,7 +51,8 @@ PODS:
   - NSDate+TimeAgo (1.0.3)
   - PureLayout (3.0.1)
   - RESideMenu (4.0.7)
-  - RSDayFlow (1.2.0)
+  - RSDayFlow (1.3.0)
+  - SCLAlertView-Objective-C (0.7.9)
   - TLYShyNavBar (0.10.1)
   - TOMSMorphingLabel (0.5.1)
   - VGParallaxHeader (0.0.6):
@@ -73,6 +74,7 @@ DEPENDENCIES:
   - NSDate+TimeAgo
   - RESideMenu (~> 4.0.7)
   - RSDayFlow
+  - SCLAlertView-Objective-C
   - TLYShyNavBar (~> 0.10.1)
   - TOMSMorphingLabel (~> 0.5)
   - VGParallaxHeader
@@ -99,7 +101,8 @@ SPEC CHECKSUMS:
   NSDate+TimeAgo: 416f55d2696d3744c313091c5a9280d47f8238fe
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
-  RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60
+  RSDayFlow: d9dbd8a7f0d57019a482220e5f3ed9d836fdb397
+  SCLAlertView-Objective-C: e36ab12dc1ec4ff6f932888083b21d71a3a1ad23
   TLYShyNavBar: abeab693235fc21b5bd9c8de6e971da62fc3d1d9
   TOMSMorphingLabel: 3e88a2bf5257f8993ebc51fb3109187a0bfb2c4d
   VGParallaxHeader: 1213aba58c9b0aea84f9e81ad526fde57aa4fe48

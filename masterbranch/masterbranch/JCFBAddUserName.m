@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel     *userFacebookName;
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 - (IBAction)userSelectedDone:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageBackRound;
 
 @end
 
@@ -33,7 +34,7 @@
     self.userFacebookName.text = @"loading...";
     [self getUsersFacebookData];
     self.screenName = @"Loggin Facebook username Screen";
-
+    self.UIImageBackRound.image = [UIImage imageNamed:@"backgroundLogin"];
     
     
     //register for keyboard notification
@@ -154,19 +155,36 @@
 
 
 - (IBAction)userSelectedDone:(id)sender {
+    
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc]
+                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    activityView.center=self.view.center;
+    activityView.color = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    [activityView startAnimating];
+    [self.view addSubview:activityView];
+    
     NSString *userName = [self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
    
     if ([userName length] == 0 ) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a username!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
     }else if([userName length]>15){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a username under 10 characters long!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
     }else if ([userName length]<3){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a username more then 3 characters long!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
     }else if (![self validateUserName:userName]){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure your username only contains letters or numbers with no white space" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
     }else{
         
@@ -175,6 +193,8 @@
             
             if (usernameExists) {
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Username is already taken" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [activityView stopAnimating];
+
                 [alert show];
             }else{
                 
@@ -183,6 +203,10 @@
                 [[PFUser currentUser] setObject:userName forKey:@"username"];
                 [[PFUser currentUser] setObject:lowercaseUserName forKey:@"searchUsername"];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    [activityView stopAnimating];
+
+                    [self dismissViewControllerAnimated:YES completion:nil];
+
                     [self performSegueWithIdentifier:@"unwindHomeScreenCollectionView" sender:self];
                     NSLog(@"all signed up");
                 }];
