@@ -15,11 +15,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *CellTitle;
 @property (weak, nonatomic) IBOutlet UILabel *venue;
 @property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageMusicDiaryBG;
 
 -(void)startLoadingAnimation;
 -(void)stopLoadingAnimation;
 -(void)removeVinettLayer;
 -(void)addVinettLayer;
+
+-(void)setImageForMusicDiary:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName;
 
 -(void)setImage:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName;
 @property (strong,nonatomic ) DGActivityIndicatorView *activityIndicatorView;

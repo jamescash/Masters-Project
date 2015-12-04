@@ -12,7 +12,6 @@
 //calss named badly, this class does all the BIT API calls.
 #import "JCHomeScreenDataController.h"
 #import "JCUpcomingGigTableViewCell.h"
-#import "JCTimeDateLocationTableViewCell.h"
 #import "JCParseQuerys.h"
 #import "JCSelectFriends.h"
 #import "MGSwipeButton.h"
@@ -23,6 +22,7 @@
 #import <Google/Analytics.h>
 #import "GAI.h"
 
+#import "JCGigMoreInfoDetailedView.h"
 
 
 
@@ -38,7 +38,8 @@
 @property (strong,nonatomic) CAGradientLayer *vignetteLayer;
 @property (strong,nonatomic) PFObject *JCParseUserEvent;
 @property (strong,nonatomic) eventObject *upcomingGigOfIntrest;
-
+@property (strong,nonatomic) NSMutableArray *upcomingGigsUserIsInterestedIn;
+@property (strong,nonatomic) NSMutableArray *upcomingGigsUserIsInterestedInUserEventObjects;
 //@property (weak, nonatomic) IBOutlet UIView *UItest;
 
 
@@ -77,6 +78,9 @@
     [self layouStickyHeaderView];
     
     
+    self.upcomingGigsUserIsInterestedIn = [[NSMutableArray alloc]init];
+    self.upcomingGigsUserIsInterestedInUserEventObjects = [[NSMutableArray alloc]init];
+    
     NSArray *timeDateLocaionCellIdArray = @[timeDateLocaionCellId];
     [self.tableViewDataSource setObject:timeDateLocaionCellIdArray forKey:header1Buttons];
     self.tableViewDataSourcekeys = @[header1Buttons,header2UpcomingGigs];
@@ -85,15 +89,55 @@
         
         
         if (response !=nil) {
-            [self.tableViewDataSource setObject:response forKey:header2UpcomingGigs];
-
+            //Remove the first gig from all response as thats that gig the user is already looking at
+            NSMutableArray *upcomingGigs = [[NSMutableArray alloc]init];
+            [upcomingGigs addObjectsFromArray:response];
+            eventObject *firstGig = [upcomingGigs firstObject];
+            [upcomingGigs removeObject:firstGig];
+            
+            [self.tableViewDataSource setObject:upcomingGigs forKey:header2UpcomingGigs];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.TableViewVC reloadData];
+            });
+            
+            
+            eventObject *lastObject = [upcomingGigs lastObject];
+            
+            //Loop through all the upcoming gigs and find out what one the user is intrested in.
+            for (eventObject *upcomingGig in upcomingGigs) {
+                
+                
+                [self.JCParseQuerys isUserInterestedInEvent:upcomingGig completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent) {
+                    
+                    
+                    if (error) {
+                        NSLog(@"%@ error",error);
+                    }else{
+                        
+                        
+                        if (userIsInterestedInGoingToEvent) {
+                            [self.upcomingGigsUserIsInterestedIn addObject:upcomingGig];
+                            [self.upcomingGigsUserIsInterestedInUserEventObjects addObject:JCParseuserEvent];
+                        }
+                    }
+                    
+                    
+                    if (upcomingGig == lastObject) {
+                        if ([response count] > 6) {
+                            [self performSelector:@selector(realoadData) withObject:self afterDelay:.6];
+                            
+                        }else{
+                            [self performSelector:@selector(realoadData) withObject:self afterDelay:.2];
+                            
+                        }
+                    }
+    
+                }];
+            }
         }
-         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.TableViewVC reloadData];
-        });
     }];
 
-    
     [self.JCParseQuerys isUserFollowingArtist:self.currentEvent completionBlock:^(NSError *error, BOOL IsFollowingArtist) {
         
         if (error) {
@@ -121,13 +165,20 @@
     
     
 }
+-(void)realoadData{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.TableViewVC reloadData];
+    });
+    
+}
 
 - (IBAction)FollowButton:(id)sender {
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    performSegueFromUpcomingGig = NO;
+
     [self.JCParseQuerys isUserInterestedInEvent:self.currentEvent completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent) {
         
         
@@ -211,18 +262,34 @@
     if ([section isEqualToString:header1Buttons]) {
         JCTimeDateLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:timeDateLocaionCellId];
         [cell formatCell:self.currentEvent];
+        cell.JCTimeDateLocationTableViewCellDelagate = self;
         return cell;
     }
     
     if ([section isEqualToString:header2UpcomingGigs]) {
+        
         JCUpcomingGigTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"upComingGig"];
         NSArray *upcomingGigs = self.tableViewDataSource[section];
-        cell.cellIndex = indexPath.row;
-        [cell formatCell:[upcomingGigs objectAtIndex:indexPath.row]];
-        cell.JCUpcomingGigTableViewCellDelegate = self;
-        //cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Invite Friends" icon:nil backgroundColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f]]];
-        //cell.delegate = self;
-        //cell.leftSwipeSettings.transition = MGSwipeTransition3D;
+        eventObject *upcomingGig = [upcomingGigs objectAtIndex:indexPath.row];
+        BOOL userIsInteresedInThisUpComingGig;
+       // NSLog(@"gigCXXXXXXX %@",upcomingGig.eventDate);
+
+        //NSLog(@"%@",self.upcomingGigsUserIsInterestedIn);
+//        for (eventObject *gig in self.upcomingGigsUserIsInterestedIn) {
+//            NSLog(@"Array ....... %@",gig.eventDate);
+//        }
+        
+        if ([self.upcomingGigsUserIsInterestedIn containsObject:upcomingGig]) {
+            NSLog(@"Interested");
+            userIsInteresedInThisUpComingGig = YES;
+        }else{
+            userIsInteresedInThisUpComingGig = NO;
+        }
+
+         cell.cellIndex = indexPath.row;
+        [cell formatCell:upcomingGig userIsInterested:userIsInteresedInThisUpComingGig];
+         cell.JCUpcomingGigTableViewCellDelegate = self;
+       
         return cell;
     }
 
@@ -241,7 +308,7 @@
     }
     
     if ([section isEqualToString:header2UpcomingGigs]) {
-        return 85;
+        return 110;
 
     }
     
@@ -306,7 +373,6 @@
 #pragma - Actions
 
 -(void)didClickAddFriendsAction{
-    NSLog(@"didClickAddFriendsAction");
     [self performSegueWithIdentifier:@"SelectFriends" sender:self];
 }
 
@@ -318,22 +384,52 @@
     //I can reuse the curently downloaded photo here
     self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
 
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    //actionSheet.destructiveButtonIndex = 1;
-    [actionSheet showInView:self.view];
+    
+    //find out if user is already going to this upcoming gig and respond appropriatly.
+    
+    if ([self.upcomingGigsUserIsInterestedIn containsObject:self.upcomingGigOfIntrest]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends",@"View on map",nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+        [actionSheet showInView:self.view];
+    }else{
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends",@"View on map", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+        [actionSheet showInView:self.view];
+     }
+    
+    
+    
     
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
+    
+    if ([self.upcomingGigsUserIsInterestedIn containsObject:self.upcomingGigOfIntrest]) {
+       
+        if (buttonIndex == 0) {
+            performSegueFromUpcomingGig = YES;
+            [self performSegueWithIdentifier:@"SelectFriends" sender:self];
+        }else if (buttonIndex == 1){
+            performSegueFromUpcomingGig = YES;
+            [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
+        }else if (buttonIndex == 1){
+            NSLog(@"cancel");
+        }
+    
+    
+    
+    }else{
+    
+    
     if (buttonIndex == 0)
     {
         performSegueFromUpcomingGig = YES;
         NSArray *recipientId =  @[[[PFUser currentUser]objectId]];
         
         
-        [self.JCParseQuerys creatUserEvent:self.currentEvent invitedUsers:recipientId complectionBlock:^(NSError *error) {
+        [self.JCParseQuerys creatUserEvent:self.upcomingGigOfIntrest invitedUsers:recipientId complectionBlock:^(NSError *error) {
             
             if (error) {
                 //show alert view
@@ -342,8 +438,10 @@
                 [alert show];
             }else{
                 
-                NSLog(@"Event created");
-                
+                [self.upcomingGigsUserIsInterestedIn addObject:self.upcomingGigOfIntrest];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                [self.TableViewVC reloadData];
+                });
             }
             
             
@@ -357,7 +455,11 @@
     
     else if (buttonIndex == 2)
     {
-        NSLog(@"cancel");
+        performSegueFromUpcomingGig = YES;
+
+        [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
+
+    }
     }
 }
 
@@ -495,31 +597,77 @@
              }
         }else{
           
-
-            //so user wants to intive people to the current gig
             UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
             JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
-            //pass the senderVC a referance to the current event that need to be sent
             
-            if (self.JCParseUserEvent) {
-                //if there a user event it means the user already has created an event so lets just add people to it
+            if ([self.upcomingGigsUserIsInterestedIn containsObject:self.upcomingGigOfIntrest]) {
+                //NSLog(@"add artist to exisiting event");
                 //SelectFreindsVC.tableViewType = JCSendEventIntivesPageAddUserToExistingEvent;
-                //SelectFreindsVC.ParseEventObject = self.JCParseUserEvent;
                 
+                
+                for (PFObject *userEvent in self.upcomingGigsUserIsInterestedInUserEventObjects) {
+                    
+                    
+                    NSDate *userEventDateTime = [userEvent objectForKey:JCUserEventUsersEventDate];
+                    NSString *upcomingGigDateTime = self.upcomingGigOfIntrest.eventDate;
+                    
+                    //NSLog(@"userevent Date Time %@",userEventDateTime);
+                    //NSLog(@"upcomingGigDateTime %@",upcomingGigDateTime);
+
+                    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                    [dateFormat setDateFormat:@"yyy-MM-dd'T'HH:mm:ss"];
+                    NSDate *upcomingEventDateTimeFormatted = [dateFormat dateFromString:upcomingGigDateTime];
+                    
+                    NSString *userEventVenue = [userEvent objectForKey:JCUserEventUsersEventCity];
+                    NSString *upcomingGigCity = self.upcomingGigOfIntrest.county;
+                    
+                    if ([userEventDateTime isEqual:upcomingEventDateTimeFormatted]&&[userEventVenue isEqualToString:upcomingGigCity]) {
+                        NSLog(@"IT WORKED");
+                        
+                        UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
+                        JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
+                        SelectFreindsVC.tableViewType = JCSendEventIntivesPageAddUserToExistingEvent;
+                        SelectFreindsVC.ParseEventObject = userEvent;
+                        
+                    }
+                    
+                    
+                };
+                //SelectFreindsVC.currentEvent = self.upcomingGigOfIntrest;
+
+            
             }else{
-                //else the user is creating a new event
-                performSegueFromUpcomingGig = NO;
-                self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
+             
+                
+                
                 SelectFreindsVC.currentEvent = self.upcomingGigOfIntrest;
+
+                
+                //NSLog(@"make new gig");
+                
             }
             
+        
             
         }
+    }else if ([segue.identifier isEqualToString:@"showMoreInfo"]){
+        
+        JCGigMoreInfoDetailedView *DVC = (JCGigMoreInfoDetailedView*)[segue destinationViewController];
+        if (!performSegueFromUpcomingGig) {
+            DVC.currentEventEventObject = self.currentEvent;
+
+        }else{
+            DVC.currentEventEventObject = self.upcomingGigOfIntrest;
+        }
+        
     }
     
 }
 
 
+-(void)didTapShowGigMoreInfo{
+    [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
+}
 
 #pragma - Helper Methods
 

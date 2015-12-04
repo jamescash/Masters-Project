@@ -15,6 +15,7 @@ NSString * const JCParseClassUserEvents        = @"UserEvent";
 NSString * const JCParseClassActivity          = @"Activity";
 NSString * const JCParseClassUser              = @"User";
 NSString * const JCParseClassArtist            = @"Artist";
+NSString * const JCParseClassEvent             = @"Event";
 
 
 //UserEvents Keys
@@ -71,14 +72,17 @@ NSString * const JCArtistArtistMbidNumber      = @"mbidNumber";
 NSString * const JCArtistArtistThumbNailImage  = @"thmbnailAtistImage";
 
 
-
-
-
 #pragma - Users
 NSString * const JCUserUserName                 = @"username";
 NSString * const JCUserthumbNailProfilePicture  = @"thumbnailProfilePicture";
 NSString * const JCUserArtistRelation           = @"ArtistRelation";
 NSString * const JCUserRealName                 = @"realName";
+NSString * const JCUserProfilePicture           = @"profilePicture";
+
+
+#pragma - UpcomingGig
+NSString * const JCUpcomingEventArtistName      = @"artistName";
+NSString * const JCUpcomingEventDateTimeString  = @"datetime";
 
 
 #pragma - AddmyFriendsMyArtist page type
@@ -93,14 +97,18 @@ NSString * const JCAddMyFriendsMyArtistTypeJustRecentlyAdded = @"peopleThatRecen
 #pragma - ParseClasses
 NSString * const JCParseGeneralKeyCreatedAt    = @"createdAt";
 NSString * const JCParseGeneralKeyObjectId     = @"objectId";
+NSString * const JCUpcomingEventVenueName      = @"venueName";
+NSString * const JCUpcomingEventVenueCity      = @"city";
 
 #pragma - Seach Page
 //keys for results Dictionary
-NSString * const JCSeachPageResultsDicResults                           = @"results";
-NSString * const JCSeachPageResultsDicNoUpcomingGigs                    = @"NoUpcomingGigs";
-NSString * const JCSeachPageResultsDicResultsArtistUnknown              = @"artistUnknown";
-NSString * const JCSeachPageResultsDicResultsSortedDistanceFromIreland  = @"sortedByDistanceFromIreland";
-NSString * const JCSeachPageResultsDicResultsSortedOrderOfUpcmoingDate  = @"sortedByUpcmoingDate";
+NSString * const JCSeachPageResultsDicResults                    = @"results";
+NSString * const JCSeachPageResultsDicNoUpcomingGigs             = @"NoUpcomingGigs";
+NSString * const JCSeachPageResultsDicResultsArtistUnknown       = @"artistUnknown";
+NSString * const JCSeachPageResultsDicResultsInIreland           = @"inIreland";
+NSString * const JCSeachPageResultsDicResultsOtherTourDates      = @"OtherTourDates";
+NSString * const JCSeachPageResultsDicResultsNearIreland         = @"nearIreland";
+NSString * const JCSeachPageResultsDicResultsNoIrishTourDates    = @"noIrishTourDates";
 
 
 

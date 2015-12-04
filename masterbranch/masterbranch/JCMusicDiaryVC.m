@@ -117,13 +117,17 @@
     if (daryObject.artistImage) {
   
         [cell stopLoadingAnimation];
-        [cell setImage:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
-        [cell addVinettLayer];
+        [cell setImageForMusicDiary:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
+        //[cell setImage:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
+        //cell.UIImageMusicDiaryBG.image = [UIImage imageNamed:@"loadingGreyPlane"];
+        //cell.MainImageView.image =
+        //[cell addVinettLayer];
 
     }else{
+        
         [cell startLoadingAnimation];
         //cell.backgroundColor = [UIColor lightGrayColor];
-        cell.MainImageView.image = [UIImage imageNamed:@"loadingGreyPlane"];
+        cell.UIImageMusicDiaryBG.image = [UIImage imageNamed:@"loadingGreyPlane"];
         [cell removeVinettLayer];
         cell.CellTitle.text = @"";
         cell.venue.text = @"";
@@ -192,8 +196,8 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat cellLeg = ((self.myMusicDiary.frame.size.width/2)-1);
-    return CGSizeMake(cellLeg,cellLeg);
+    CGFloat cellLeg = ((self.myMusicDiary.frame.size.width/3)-1);
+    return CGSizeMake(cellLeg,cellLeg + 30);
 }
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -463,7 +467,7 @@
     }
     
    
-    
+
   [self.JCParseQuerys getMyAtritsUpComingGigs:forIrelandOnly comletionblock:^(NSError *error, NSMutableArray *response) {
     
       if (error) {
@@ -484,6 +488,7 @@
           
           isLoadingContent = NO;
           dispatch_async(dispatch_get_main_queue(), ^{
+              NSLog(@"XXXXXXX XXXXXX XXXXX isLoading %d",isLoadingContent);
               [self.myMusicDiary reloadData];
           });
       }
@@ -612,6 +617,8 @@
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
+    
+    
     if (isLoadingContent) {
 
         JCMusicDiaryPreLoader *musicDiaryPreLoder = [JCMusicDiaryPreLoader instantiateFromNib];
@@ -622,7 +629,7 @@
         DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
         prelaoder.center = musicDiaryPreLoder.center;
         [musicDiaryPreLoder addSubview:prelaoder];
-        musicDiaryPreLoder.UILableTextString.text = @"Using your artist to build your personal discovery calander";
+        musicDiaryPreLoder.UILableTextString.text = @"Building your personal discovery calendar from the artist's that you follow";
         [prelaoder startAnimating];
         
         musicDiaryPreLoder.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
@@ -649,7 +656,7 @@
 
 -(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"We automatically add your artist's upcoming Irish gigs to your gig diary, so go follow some artist! ";
+    NSString *text = @"We automatically add your artist's upcoming Irish gigs to your gig diary, so go follow some artist";
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;

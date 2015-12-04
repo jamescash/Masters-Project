@@ -35,6 +35,10 @@
 @property (nonatomic) int DistanceFromIreland;
 @property (nonatomic) JCPhotoDownLoadRecord *photoDownload;
 @property (nonatomic) NSString *CellTitle;
+@property (nonatomic) BOOL isInIreland;
+@property (nonatomic) BOOL isNearIreland;
+@property (nonatomic) BOOL userIsInterestedInEvent;
+@property (nonatomic) BOOL isUserInterestedInUpcomingGigFinishedLoading;
 
 
 

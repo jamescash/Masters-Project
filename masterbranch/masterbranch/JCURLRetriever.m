@@ -43,15 +43,19 @@
         
 
         if (![self.photoRecord.artistMbid  isEqual: @"error"]) {
+            //first try bandsintown with MBID
             self.photoRecord.URL = [self getimageURLfromBandsintownwithartistMBID];
         }
         if ((self.photoRecord.URL == nil)) {
+            //Second try bandsintown with artist name
             self.photoRecord.URL = [self getimageURLfromBandsintownwithartistName];
         }
-        if ((self.photoRecord.URL == nil)&&![self.photoRecord.artistMbid  isEqual: @"error"]) {
+        if ((self.photoRecord.URL == nil)&&![self.photoRecord.artistMbid isEqual: @"error"]) {
+            //thid try echo nest with MBID
             self.photoRecord.URL = [self getimageURLFromEchoNestWithMBID];
         }
         if ((self.photoRecord.URL == nil)) {
+            //last try echo nest woth just artsit name
            self.photoRecord.URL = [self getimageURLFromEchoNestWithArtistName];
         }
          if ((self.photoRecord.URL == nil)) {
@@ -68,16 +72,10 @@
         
     [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JCURLRetrieverDidFinish:) withObject:self waitUntilDone:NO];
 
-        
-        
-        //TODO add more image nets here to that all request for users are filled with an image url
-        
-
     
     }
 }
 
-//TODO make these two functions into one
 //http://developer.echonest.com/api/v4/artist/images?api_key=VLWOTTE5BDW9KEQEK&id=musicbrainz:artist:a74b1b7f-71a5-4011-9441-d0b5e4122711&format=json&results=15&start=0&license=unknown
 
 -(NSURL*)getimageURLFromEchoNestWithMBID{
@@ -266,7 +264,7 @@
         if (Log) {
             NSLog(@"%@",endpoint);
 
-            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST %@",error);
+            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name ECHO NEST %@",[error localizedDescription]);
             return nil;
 
         }
@@ -352,7 +350,7 @@
         }
             if (Log) {
                 NSLog(@"%@",endpoint);
-            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN %@",error);
+            NSLog(@"JSON ERROR adding coverpicture URL artsit search with name BANDSINTOWN %@",[error localizedDescription]);
                 
                 return nil;
 

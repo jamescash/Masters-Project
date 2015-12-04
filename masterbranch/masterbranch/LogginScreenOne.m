@@ -10,21 +10,16 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Google/Analytics.h>
 #import "GAI.h"
+#import "JCTutorialPageViewController.h"
 
-static NSString * const tutDiscriptionPagg1 = @"Welcome to Preamp, find gig's happening around you";
 
-static NSString * const tutDiscriptionPagg2 = @"Found one you like? Ask all your friends to come along";
-
-static NSString * const tutDiscriptionPagg3 = @"Instantly collaborate and find out who is interested in going";
-
-static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an create a gig diary from all their upcoming Irish gig's";
 
 @interface LogginScreenOne ()
 @property (weak, nonatomic) IBOutlet UIImageView *UIimageBackground;
 @property (nonatomic, strong) NSArray* descStrings;
 @property (nonatomic, strong) UILabel* welcomeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageLoginLogo;
 
-@property (nonatomic,strong) GHWalkThroughView *tutorialView;
 @end
 
 @implementation LogginScreenOne
@@ -33,28 +28,7 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
     [super viewDidLoad];
     self.screenName = @"Loggin Screen One";
 
-    //self.UIimageBackground = [self addVinettLayerToBackGroundToImage:self.UIimageBackground];
-
-    self.UIimageBackground.image = [UIImage imageNamed:@"backgroundLogin"];
-    self.UIimageBackground.contentMode = UIViewContentModeScaleAspectFill;
-    self.descStrings = [NSArray arrayWithObjects:tutDiscriptionPagg1,tutDiscriptionPagg2, tutDiscriptionPagg3, tutDiscriptionPagg4, nil];
-
-    CGRect frame = self.view.frame;
-    frame.size.height = self.view.frame.size.height - 130;
-    
-    self.tutorialView = [[GHWalkThroughView alloc] initWithFrame:frame];
-    [self.tutorialView setDataSource:self];
-     self.tutorialView.backgroundColor = [UIColor clearColor];
-    [self.tutorialView setWalkThroughDirection:GHWalkThroughViewDirectionHorizontal];
-//    UILabel* welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
-//    welcomeLabel.text = @"Welcome";
-//    welcomeLabel.font = [UIFont fontWithName:@"HelveticaNeue-light" size:30];
-//    welcomeLabel.textColor = [UIColor whiteColor];
-//    welcomeLabel.textAlignment = NSTextAlignmentCenter;
-//    self.welcomeLabel = welcomeLabel;
-    [self.tutorialView setFloatingHeaderView:self.welcomeLabel];
-    [self.tutorialView showInView:self.view animateDuration:.03];
-    //[self.view addSubview:ghView];
+    self.UIImageLoginLogo.image = [UIImage imageNamed:@"LogoPreAmp"];
 }
 
 
@@ -126,6 +100,10 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
     
 }
 
+
+
+
+
 #pragma - Tutorial Data source
 - (IBAction)UIButtonRegisterWithFacebook:(id)sender {
     
@@ -138,11 +116,6 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
                                                            label:@"Signup_Email" // Event label
                                                            value:nil] build]];      // Event value
 }
-
--(NSInteger) numberOfPages
-{
-    return 4;
-}
 - (IBAction)UIButtonLoggin:(id)sender {
     
     //Track Button clicks
@@ -154,23 +127,8 @@ static NSString * const tutDiscriptionPagg4 = @"Follow your favourite artists an
                                                            value:nil] build]];      // Event value
 }
 
-- (void) configurePage:(GHWalkThroughPageCell *)cell atIndex:(NSInteger)index
-{
 
-    cell.title = [NSString stringWithFormat:@"Welcome to Preamp"];
-    //cell.titleImage = [UIImage imageNamed:[NSString stringWithFormat:@"title%ld", index+1]];
-    cell.titleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-    cell.titleImage = [UIImage imageNamed:[NSString stringWithFormat:@"tutorialScreen%ld",index+1]];
-    cell.imgPositionY = -380;
-    cell.titlePositionY = 405;
-    cell.descPositionY = 390;
-    cell.desc = [self.descStrings objectAtIndex:index];
-}
 
-- (UIImage*) bgImageforPage:(NSInteger)index
-{
-    UIImage* image = [UIImage imageNamed:@"bgimage"];
-    return image;
-}
+
 
 @end

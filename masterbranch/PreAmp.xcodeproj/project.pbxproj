@@ -68,8 +68,6 @@
 		897D4ADC1BF7BCBC00DF54EB /* JCSearchHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4ADB1BF7BCBC00DF54EB /* JCSearchHeaders.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AE01BF89FB100DF54EB /* JCSortButtonsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4ADF1BF89FB100DF54EB /* JCSortButtonsCell.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AE31BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE21BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m */; settings = {ASSET_TAGS = (); }; };
-		897D4AE91BF945E500DF54EB /* GHWalkThroughPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */; settings = {ASSET_TAGS = (); }; };
-		897D4AEA1BF945E500DF54EB /* GHWalkThroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AED1BFB4D0C00DF54EB /* JCButtonHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 897D4AEC1BFB4D0C00DF54EB /* JCButtonHeader.m */; settings = {ASSET_TAGS = (); }; };
 		897D4AFC1BFBA3E000DF54EB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 897D4AFB1BFBA3E000DF54EB /* CoreData.framework */; };
 		897D4B0B1BFBAA4100DF54EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
@@ -130,6 +128,20 @@
 		89F756631C0386EE002E4B0B /* JCMusicDiaryPreLoader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89F756621C0386ED002E4B0B /* JCMusicDiaryPreLoader.xib */; settings = {ASSET_TAGS = (); }; };
 		89F756661C0388B8002E4B0B /* JCMusicDiaryPreLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756651C0388B8002E4B0B /* JCMusicDiaryPreLoader.m */; settings = {ASSET_TAGS = (); }; };
 		89F7566A1C046C92002E4B0B /* JCToastAndAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756691C046C92002E4B0B /* JCToastAndAlertView.m */; settings = {ASSET_TAGS = (); }; };
+		89F7566F1C075E9B002E4B0B /* JCUserProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7566E1C075E9B002E4B0B /* JCUserProfileHeaderView.m */; settings = {ASSET_TAGS = (); }; };
+		89F756711C0761AE002E4B0B /* JCUserProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89F756701C0761AE002E4B0B /* JCUserProfileHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
+		89F756751C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756741C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.m */; settings = {ASSET_TAGS = (); }; };
+		89F756781C0C9254002E4B0B /* JCSearchResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756771C0C9254002E4B0B /* JCSearchResultsCell.m */; settings = {ASSET_TAGS = (); }; };
+		89F7567B1C0C95D9002E4B0B /* JCSearchResultsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7567A1C0C95D9002E4B0B /* JCSearchResultsObject.m */; settings = {ASSET_TAGS = (); }; };
+		89F7567E1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7567D1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.m */; settings = {ASSET_TAGS = (); }; };
+		89F756821C0DCB6A002E4B0B /* JCSearchPageDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756811C0DCB6A002E4B0B /* JCSearchPageDetailView.m */; settings = {ASSET_TAGS = (); }; };
+		89F756851C0E0A61002E4B0B /* JCNoIrishGigsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756841C0E0A61002E4B0B /* JCNoIrishGigsCell.m */; settings = {ASSET_TAGS = (); }; };
+		89F756871C0F1EDE002E4B0B /* JCSearchResultsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89F756861C0F1EDE002E4B0B /* JCSearchResultsHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
+		89F7568A1C0F1F1F002E4B0B /* JCSearchResultsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756891C0F1F1F002E4B0B /* JCSearchResultsHeaderView.m */; settings = {ASSET_TAGS = (); }; };
+		89F7568D1C107660002E4B0B /* JCTutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7568C1C107660002E4B0B /* JCTutorialPageViewController.m */; settings = {ASSET_TAGS = (); }; };
+		89F756901C108934002E4B0B /* JCTutorialRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7568F1C108934002E4B0B /* JCTutorialRootVC.m */; settings = {ASSET_TAGS = (); }; };
+		89F756941C10994F002E4B0B /* JCTerm&ConditionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756931C10994F002E4B0B /* JCTerm&ConditionsVC.m */; settings = {ASSET_TAGS = (); }; };
+		89F756971C10C1AC002E4B0B /* JCRecoverPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756961C10C1AC002E4B0B /* JCRecoverPassword.m */; settings = {ASSET_TAGS = (); }; };
 		89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */; };
 		89FAA9111B90A7AA00012ED5 /* JCAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA9101B90A7AA00012ED5 /* JCAnnotation.m */; };
 		A5DD715AA95F080A876F2C8B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C529EED248564E7B26AF038E /* libPods.a */; };
@@ -259,10 +271,6 @@
 		897D4ADF1BF89FB100DF54EB /* JCSortButtonsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSortButtonsCell.m; sourceTree = "<group>"; };
 		897D4AE11BF8BD7C00DF54EB /* JCAddPreampFriendsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAddPreampFriendsVC.h; sourceTree = "<group>"; };
 		897D4AE21BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAddPreampFriendsVC.m; sourceTree = "<group>"; };
-		897D4AE51BF945E500DF54EB /* GHWalkThroughPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHWalkThroughPageCell.h; sourceTree = "<group>"; };
-		897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHWalkThroughPageCell.m; sourceTree = "<group>"; };
-		897D4AE71BF945E500DF54EB /* GHWalkThroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHWalkThroughView.h; sourceTree = "<group>"; };
-		897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHWalkThroughView.m; sourceTree = "<group>"; };
 		897D4AEB1BFB4D0C00DF54EB /* JCButtonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCButtonHeader.h; sourceTree = "<group>"; };
 		897D4AEC1BFB4D0C00DF54EB /* JCButtonHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCButtonHeader.m; sourceTree = "<group>"; };
 		897D4AFB1BFBA3E000DF54EB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -360,6 +368,32 @@
 		89F756651C0388B8002E4B0B /* JCMusicDiaryPreLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryPreLoader.m; sourceTree = "<group>"; };
 		89F756681C046C92002E4B0B /* JCToastAndAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCToastAndAlertView.h; sourceTree = "<group>"; };
 		89F756691C046C92002E4B0B /* JCToastAndAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCToastAndAlertView.m; sourceTree = "<group>"; };
+		89F7566D1C075E9B002E4B0B /* JCUserProfileHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUserProfileHeaderView.h; sourceTree = "<group>"; };
+		89F7566E1C075E9B002E4B0B /* JCUserProfileHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUserProfileHeaderView.m; sourceTree = "<group>"; };
+		89F756701C0761AE002E4B0B /* JCUserProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCUserProfileHeaderView.xib; sourceTree = "<group>"; };
+		89F756731C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageResultsVCViewController.h; sourceTree = "<group>"; };
+		89F756741C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageResultsVCViewController.m; sourceTree = "<group>"; };
+		89F756761C0C9254002E4B0B /* JCSearchResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchResultsCell.h; sourceTree = "<group>"; };
+		89F756771C0C9254002E4B0B /* JCSearchResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchResultsCell.m; sourceTree = "<group>"; };
+		89F756791C0C95D9002E4B0B /* JCSearchResultsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchResultsObject.h; sourceTree = "<group>"; };
+		89F7567A1C0C95D9002E4B0B /* JCSearchResultsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchResultsObject.m; sourceTree = "<group>"; };
+		89F7567C1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGigMoreInfoDetailedView.h; sourceTree = "<group>"; };
+		89F7567D1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGigMoreInfoDetailedView.m; sourceTree = "<group>"; };
+		89F756801C0DCB6A002E4B0B /* JCSearchPageDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageDetailView.h; sourceTree = "<group>"; };
+		89F756811C0DCB6A002E4B0B /* JCSearchPageDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageDetailView.m; sourceTree = "<group>"; };
+		89F756831C0E0A61002E4B0B /* JCNoIrishGigsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNoIrishGigsCell.h; sourceTree = "<group>"; };
+		89F756841C0E0A61002E4B0B /* JCNoIrishGigsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNoIrishGigsCell.m; sourceTree = "<group>"; };
+		89F756861C0F1EDE002E4B0B /* JCSearchResultsHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCSearchResultsHeaderView.xib; sourceTree = "<group>"; };
+		89F756881C0F1F1F002E4B0B /* JCSearchResultsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchResultsHeaderView.h; sourceTree = "<group>"; };
+		89F756891C0F1F1F002E4B0B /* JCSearchResultsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchResultsHeaderView.m; sourceTree = "<group>"; };
+		89F7568B1C107660002E4B0B /* JCTutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCTutorialPageViewController.h; sourceTree = "<group>"; };
+		89F7568C1C107660002E4B0B /* JCTutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCTutorialPageViewController.m; sourceTree = "<group>"; };
+		89F7568E1C108934002E4B0B /* JCTutorialRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCTutorialRootVC.h; sourceTree = "<group>"; };
+		89F7568F1C108934002E4B0B /* JCTutorialRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCTutorialRootVC.m; sourceTree = "<group>"; };
+		89F756921C10994F002E4B0B /* JCTerm&ConditionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCTerm&ConditionsVC.h"; sourceTree = "<group>"; };
+		89F756931C10994F002E4B0B /* JCTerm&ConditionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCTerm&ConditionsVC.m"; sourceTree = "<group>"; };
+		89F756951C10C1AC002E4B0B /* JCRecoverPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCRecoverPassword.h; sourceTree = "<group>"; };
+		89F756961C10C1AC002E4B0B /* JCRecoverPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCRecoverPassword.m; sourceTree = "<group>"; };
 		89FAA90C1B8D044F00012ED5 /* JCSearchPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageCell.h; sourceTree = "<group>"; };
 		89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageCell.m; sourceTree = "<group>"; };
 		89FAA90F1B90A7AA00012ED5 /* JCAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAnnotation.h; sourceTree = "<group>"; };
@@ -558,6 +592,8 @@
 				8954EC211B87526000BBA658 /* JCPhotoFiltering.m */,
 				8954EC231B87796F00BBA658 /* JCURLRetriever.h */,
 				8954EC241B87796F00BBA658 /* JCURLRetriever.m */,
+				89F756791C0C95D9002E4B0B /* JCSearchResultsObject.h */,
+				89F7567A1C0C95D9002E4B0B /* JCSearchResultsObject.m */,
 			);
 			name = "EventObjectAPI ";
 			sourceTree = "<group>";
@@ -568,6 +604,8 @@
 				897780CE1BD1101B006B20C3 /* custom views */,
 				894105071BD0FF10006BCB29 /* JCGigMoreInfoVC.h */,
 				894105081BD0FF10006BCB29 /* JCGigMoreInfoVC.m */,
+				89F7567C1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.h */,
+				89F7567D1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.m */,
 			);
 			name = NewHappeningTonightVC;
 			sourceTree = "<group>";
@@ -586,6 +624,8 @@
 		8954EC111B873B2000BBA658 /* HomeScreenVC */ = {
 			isa = PBXGroup;
 			children = (
+				89F7567F1C0DCB41002E4B0B /* Search page Detail View */,
+				89F756721C0C85D3002E4B0B /* Search Page List Results */,
 				8917A4471B7F64E6004E2948 /* SearchPageControler */,
 				891F84AA1BE2699000C110D7 /* CustomSegue */,
 				89D88ED41BB0529F002286FD /* HomescreenNavVC */,
@@ -637,6 +677,7 @@
 		8954EC311B8893F500BBA658 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				89F756911C109921002E4B0B /* Privicy Policy */,
 				897D4AE41BF945A500DF54EB /* tutorial */,
 				897D4AD61BF60A7C00DF54EB /* LoginScreenOne */,
 				897780ED1BD8F697006B20C3 /* facebookUserName */,
@@ -827,6 +868,8 @@
 			children = (
 				892E40EF1B766FF700B60275 /* JCloginVC.h */,
 				892E40F01B766FF700B60275 /* JCloginVC.m */,
+				89F756951C10C1AC002E4B0B /* JCRecoverPassword.h */,
+				89F756961C10C1AC002E4B0B /* JCRecoverPassword.m */,
 			);
 			name = loggin;
 			sourceTree = "<group>";
@@ -921,8 +964,6 @@
 		897D4ADD1BF89F8200DF54EB /* custom Classes */ = {
 			isa = PBXGroup;
 			children = (
-				897D4ADA1BF7BCBC00DF54EB /* JCSearchHeaders.h */,
-				897D4ADB1BF7BCBC00DF54EB /* JCSearchHeaders.m */,
 				897D4ADE1BF89FB100DF54EB /* JCSortButtonsCell.h */,
 				897D4ADF1BF89FB100DF54EB /* JCSortButtonsCell.m */,
 			);
@@ -932,10 +973,10 @@
 		897D4AE41BF945A500DF54EB /* tutorial */ = {
 			isa = PBXGroup;
 			children = (
-				897D4AE51BF945E500DF54EB /* GHWalkThroughPageCell.h */,
-				897D4AE61BF945E500DF54EB /* GHWalkThroughPageCell.m */,
-				897D4AE71BF945E500DF54EB /* GHWalkThroughView.h */,
-				897D4AE81BF945E500DF54EB /* GHWalkThroughView.m */,
+				89F7568B1C107660002E4B0B /* JCTutorialPageViewController.h */,
+				89F7568C1C107660002E4B0B /* JCTutorialPageViewController.m */,
+				89F7568E1C108934002E4B0B /* JCTutorialRootVC.h */,
+				89F7568F1C108934002E4B0B /* JCTutorialRootVC.m */,
 			);
 			name = tutorial;
 			sourceTree = "<group>";
@@ -945,6 +986,9 @@
 			children = (
 				897D4B0D1BFF5D0000DF54EB /* JCUserProfile.h */,
 				897D4B0E1BFF5D0000DF54EB /* JCUserProfile.m */,
+				89F7566D1C075E9B002E4B0B /* JCUserProfileHeaderView.h */,
+				89F7566E1C075E9B002E4B0B /* JCUserProfileHeaderView.m */,
+				89F756701C0761AE002E4B0B /* JCUserProfileHeaderView.xib */,
 			);
 			name = ProfilePicture;
 			sourceTree = "<group>";
@@ -1273,6 +1317,42 @@
 			name = Toast;
 			sourceTree = "<group>";
 		};
+		89F756721C0C85D3002E4B0B /* Search Page List Results */ = {
+			isa = PBXGroup;
+			children = (
+				89F756761C0C9254002E4B0B /* JCSearchResultsCell.h */,
+				89F756771C0C9254002E4B0B /* JCSearchResultsCell.m */,
+				89F756731C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.h */,
+				89F756741C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.m */,
+			);
+			name = "Search Page List Results";
+			sourceTree = "<group>";
+		};
+		89F7567F1C0DCB41002E4B0B /* Search page Detail View */ = {
+			isa = PBXGroup;
+			children = (
+				89F756861C0F1EDE002E4B0B /* JCSearchResultsHeaderView.xib */,
+				89F756881C0F1F1F002E4B0B /* JCSearchResultsHeaderView.h */,
+				89F756891C0F1F1F002E4B0B /* JCSearchResultsHeaderView.m */,
+				897D4ADA1BF7BCBC00DF54EB /* JCSearchHeaders.h */,
+				897D4ADB1BF7BCBC00DF54EB /* JCSearchHeaders.m */,
+				89F756801C0DCB6A002E4B0B /* JCSearchPageDetailView.h */,
+				89F756811C0DCB6A002E4B0B /* JCSearchPageDetailView.m */,
+				89F756831C0E0A61002E4B0B /* JCNoIrishGigsCell.h */,
+				89F756841C0E0A61002E4B0B /* JCNoIrishGigsCell.m */,
+			);
+			name = "Search page Detail View";
+			sourceTree = "<group>";
+		};
+		89F756911C109921002E4B0B /* Privicy Policy */ = {
+			isa = PBXGroup;
+			children = (
+				89F756921C10994F002E4B0B /* JCTerm&ConditionsVC.h */,
+				89F756931C10994F002E4B0B /* JCTerm&ConditionsVC.m */,
+			);
+			name = "Privicy Policy";
+			sourceTree = "<group>";
+		};
 		A616CA72A1884F06C1AAD33B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1407,6 +1487,8 @@
 				89F756631C0386EE002E4B0B /* JCMusicDiaryPreLoader.xib in Resources */,
 				89F51DE81B1E1B39004E9055 /* LaunchScreen.xib in Resources */,
 				89F51DE51B1E1B39004E9055 /* Images.xcassets in Resources */,
+				89F756711C0761AE002E4B0B /* JCUserProfileHeaderView.xib in Resources */,
+				89F756871C0F1EDE002E4B0B /* JCSearchResultsHeaderView.xib in Resources */,
 				897280DD1BC3386F00569648 /* HeaderViewWithImage.xib in Resources */,
 				897D4B0B1BFBAA4100DF54EB /* GoogleService-Info.plist in Resources */,
 			);
@@ -1472,15 +1554,20 @@
 				8918BEC31BEF6430005EE92B /* RKSwipeBetweenViewControllers.m in Sources */,
 				894105091BD0FF10006BCB29 /* JCGigMoreInfoVC.m in Sources */,
 				897780E41BD7B00E006B20C3 /* JCMyFriendsCell.m in Sources */,
+				89F756781C0C9254002E4B0B /* JCSearchResultsCell.m in Sources */,
 				8936A6431B23337C00748803 /* MapView.m in Sources */,
 				897D4AE01BF89FB100DF54EB /* JCSortButtonsCell.m in Sources */,
 				8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */,
 				897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */,
+				89F756901C108934002E4B0B /* JCTutorialRootVC.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
+				89F756941C10994F002E4B0B /* JCTerm&ConditionsVC.m in Sources */,
 				89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */,
 				89D88EC81BACAFA2002286FD /* JCAddFriendsVC.m in Sources */,
 				8969D01A1BC93D4600A0FCED /* JCGigInvitesVC.m in Sources */,
 				897780F41BDA5B44006B20C3 /* JCMusicDiaryArtistObject.m in Sources */,
+				89F7568A1C0F1F1F002E4B0B /* JCSearchResultsHeaderView.m in Sources */,
+				89F756971C10C1AC002E4B0B /* JCRecoverPassword.m in Sources */,
 				89D88EEA1BB97A4F002286FD /* JCDatePickerView.m in Sources */,
 				891F84A91BE19B1D00C110D7 /* ILTranslucentView.m in Sources */,
 				897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */,
@@ -1489,11 +1576,10 @@
 				897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
 				897281621BC553FF00569648 /* JCCommentCell.m in Sources */,
-				897D4AEA1BF945E500DF54EB /* GHWalkThroughView.m in Sources */,
 				897D4B0F1BFF5D0000DF54EB /* JCUserProfile.m in Sources */,
 				89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */,
+				89F7566F1C075E9B002E4B0B /* JCUserProfileHeaderView.m in Sources */,
 				897280DC1BC3386F00569648 /* HeaderViewWithImage.m in Sources */,
-				897D4AE91BF945E500DF54EB /* GHWalkThroughPageCell.m in Sources */,
 				89B376D11BCC10F5006231A7 /* JCDatePickerLayout.m in Sources */,
 				89BA5EAA1BCFD4250049DC8D /* JCHomeScreenDataController.m in Sources */,
 				897780DD1BD686CC006B20C3 /* JCMyFiriendsMyArtistVC.m in Sources */,
@@ -1503,6 +1589,7 @@
 				89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */,
 				89D88EED1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m in Sources */,
 				891F84A61BE1994D00C110D7 /* UIERealTimeBlurView.m in Sources */,
+				89F7567B1C0C95D9002E4B0B /* JCSearchResultsObject.m in Sources */,
 				89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */,
 				89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
@@ -1511,14 +1598,18 @@
 				895AECAE1BA87D7A001D27E3 /* JCProfilePage.m in Sources */,
 				89F51DDA1B1E1B39004E9055 /* main.m in Sources */,
 				89BA5EA61BCD2DC90049DC8D /* JCMusicDiaryObject.m in Sources */,
+				89F756821C0DCB6A002E4B0B /* JCSearchPageDetailView.m in Sources */,
 				89AE1C521B88DAE30055DB3D /* JCMainViewController.m in Sources */,
 				89D88EDF1BB730DA002286FD /* MLVignetteView.m in Sources */,
 				89D88ECC1BADD68A002286FD /* JCInbox.m in Sources */,
 				89AE1C551B89EBBB0055DB3D /* JCHappeningTonightHeaderVC.m in Sources */,
 				89D88ED71BB052D6002286FD /* JChomeScreenNavVC.m in Sources */,
+				89F756751C0C85FB002E4B0B /* JCSearchPageResultsVCViewController.m in Sources */,
 				8989AA351BDEAC600029F071 /* JCUserAttendingGigCell.m in Sources */,
 				89F51DFF1B1E1C49004E9055 /* eventObject.m in Sources */,
 				8954EC221B87526000BBA658 /* JCPhotoFiltering.m in Sources */,
+				89F756851C0E0A61002E4B0B /* JCNoIrishGigsCell.m in Sources */,
+				89F7567E1C0CDA33002E4B0B /* JCGigMoreInfoDetailedView.m in Sources */,
 				891238091B40370D00E7C6CA /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				89BDB1A11BCA666C00ECD8BA /* JCMusicDiaryVC.m in Sources */,
 				8917A44A1B7F6517004E2948 /* JCSearchPage.m in Sources */,
@@ -1533,6 +1624,7 @@
 				89215C881BE1095D0035CFEB /* JCDropDownMenu.m in Sources */,
 				897D4AE31BF8BD7C00DF54EB /* JCAddPreampFriendsVC.m in Sources */,
 				8954EC251B87796F00BBA658 /* JCURLRetriever.m in Sources */,
+				89F7568D1C107660002E4B0B /* JCTutorialPageViewController.m in Sources */,
 				897780E11BD79AD5006B20C3 /* JCMyArtistCell.m in Sources */,
 				8969D0121BC8385200A0FCED /* JCInvitationCell.m in Sources */,
 				8954EBC11B80A97C00BBA658 /* JCSearchPageHTTPClient.m in Sources */,
@@ -1712,6 +1804,7 @@
 				);
 				PRODUCT_NAME = PreAmp;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -1759,6 +1852,7 @@
 				);
 				PRODUCT_NAME = PreAmp;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

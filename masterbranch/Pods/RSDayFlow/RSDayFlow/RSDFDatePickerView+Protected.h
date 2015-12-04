@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSDFDatePickerView.h"
+#import <RSDayFlow/RSDFDatePickerView.h>
 
 /**
  The methods in the RSDFDatePickerViewProtectedMethods category
@@ -40,6 +40,7 @@
  @return The date that corresponds to the specified cell in the date picker view.
  */
 - (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath;
+
 /**
  Returns the date of the first day of the month that corresponds to the specified section in the date picker view.
  

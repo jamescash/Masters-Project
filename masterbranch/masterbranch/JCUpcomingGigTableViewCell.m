@@ -7,12 +7,16 @@
 //
 
 #import "JCUpcomingGigTableViewCell.h"
+#import "JCConstants.h"
 
 @interface JCUpcomingGigTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *dataTime;
 @property (weak, nonatomic) IBOutlet UILabel *venueAdress;
 @property (weak, nonatomic) IBOutlet UILabel *venueName;
 @property (weak, nonatomic) IBOutlet UIButton *UIButtonIntiveFriends;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageViewImGoingIcon;
+@property (weak, nonatomic) IBOutlet UILabel *UILableUserInterested;
+@property (weak, nonatomic) IBOutlet UIView *UIViewhitTargetMoreInfo;
 
 
 @end
@@ -21,9 +25,18 @@
 @implementation JCUpcomingGigTableViewCell
 
 
--(void)formatCell:(eventObject *)currentEvent{
+-(void)formatCell:(eventObject *)currentEvent userIsInterested:(BOOL)userIsInterested {
    
-    //NSLog(@"%@",[currentEvent );
+    
+    if (userIsInterested) {
+        self.UILableUserInterested.text = @"You'er going!";
+        self.UIImageViewImGoingIcon.image = [UIImage imageNamed:@"iconJustMeGoing"];
+        
+    }else{
+        self.UILableUserInterested.text = nil;
+        self.UIImageViewImGoingIcon.image = nil;
+    }
+    
     
     self.venueName.text = currentEvent.venueName;
     self.dataTime.text = [self formatDateString:currentEvent.eventDate];
@@ -31,16 +44,36 @@
     self.venueAdress.text = currentEvent.county;
 
 }
--(void)formatCellwith:(PFObject*)upcomingGig{
+
+-(void)formatCellwith:(PFObject*)upcomingGig userIsInterested:(BOOL)userIsInterested {
+    
+    if (userIsInterested) {
+        self.UILableUserInterested.text = @"You'er going!";
+        self.UIImageViewImGoingIcon.image = [UIImage imageNamed:@"iconJustMeGoing"];
+
+    }else{
+        self.UILableUserInterested.text = nil;
+        self.UIImageViewImGoingIcon.image = nil;
+    }
+    
+    //self.UIImageViewImGoingIcon.contentMode = UIViewContentModeScaleAspectFill;
     self.venueName.text = [upcomingGig objectForKey:@"venueName"];
-    self.dataTime.text = [upcomingGig objectForKey:@"formatted_datetime"];
+    NSString *dateTime = [upcomingGig objectForKey:JCUpcomingEventDateTimeString];
+    self.dataTime.text = [self formatDateString:dateTime];
     self.dataTime.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:.6f];
     self.venueAdress.text = [upcomingGig objectForKey:@"city"];
     
 }
 
+
+
 - (void)awakeFromNib {
-    // Initialization code
+    
+
+    UITapGestureRecognizer *moreInFoButtonHit = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(moreInfoButtonHit)];
+    
+    [self.UIViewhitTargetMoreInfo addGestureRecognizer:moreInFoButtonHit];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -75,14 +108,26 @@
 - (IBAction)UIbuttonIntiveFriendsToUpcomingGig:(id)sender {
     
     
-    
-    if (self.JCUpcomingGigTableViewCellDelegate && [self.JCUpcomingGigTableViewCellDelegate respondsToSelector:@selector(didClickInviteFriendsOnUpcomingGigAt:)])
-    {
-        [self.JCUpcomingGigTableViewCellDelegate didClickInviteFriendsOnUpcomingGigAt:self.cellIndex];
-        
-    }
+    [self moreInfoButtonHit];
     
 }
 
+
+-(void)moreInfoButtonHit{
+    
+    if (self.JCUpcomingGigTableViewCellDelegate && [self.JCUpcomingGigTableViewCellDelegate respondsToSelector:@selector(didClickInviteFriendsOnUpcomingGigAt:)])
+    {
+    [self.JCUpcomingGigTableViewCellDelegate didClickInviteFriendsOnUpcomingGigAt:self.cellIndex];
+        
+    }
+    
+    
+    if (self.JCUpcomingGigTableViewCellDelegate && [self.JCUpcomingGigTableViewCellDelegate respondsToSelector:@selector(didClickInviteFriendsOnUpcomingGigAtNSIndexPath:)])
+    {
+        
+    [self.JCUpcomingGigTableViewCellDelegate didClickInviteFriendsOnUpcomingGigAtNSIndexPath:self.cellIndexNSIndexPath];
+        
+    }
+}
 
 @end

@@ -213,56 +213,14 @@
 
 -(int)DistanceFromIreland:(CLLocation*)eventLocation{
     
-    
-   
-    
-
-    
     NSString *Irelandslatitude = @"53.346452";
     NSString *IrelandsLong = @"-7.844238";
     
     CLLocation *ireland = [[CLLocation alloc] initWithLatitude:[Irelandslatitude doubleValue] longitude:[IrelandsLong doubleValue]];
 
-    
     CLLocationDistance meters = [eventLocation distanceFromLocation:ireland];
-    
-    //NSLog(@"%f",meters/1000);
-    
-    
-    
-     // 53.0000° N, 8.0000° W
-    
-    //CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    
-
-//     [geocoder reverseGeocodeLocation:eventLocation // You can pass aLocation here instead
-//                   completionHandler:^(NSArray *placemarks, NSError *error) {
-//                       
-//                       dispatch_async(dispatch_get_main_queue(),^ {
-//                           // do stuff with placemarks on the main thread
-//                           
-//                           if (placemarks.count == 1) {
-//                               
-//                               CLPlacemark *place = [placemarks objectAtIndex:0];
-//                               
-//                               NSString *country = place.country;
-//                               
-//                               NSLog(@"%@",country);
-//                               
-//                              // NSLog(@"placemarker Full %@",placemarks);
-//                               
-//                              // NSString *zipString = [place.addressDictionary valueForKey:@"ZIP"];
-//                               
-//                               //[self performSelectorInBackground:@selector(showWeatherFor:) withObject:zipString];
-//                               
-//                           }
-//                           
-//                       });
-//                       
-//                   }];
-    
+   
     int KM = meters/1000;
-    
     
     return KM;
 };

@@ -74,7 +74,7 @@
     
     if (userIsInterested) {
         [self.UIButtonImIntrested setBackgroundImage:[UIImage imageNamed:@"iconJustMeGoing"] forState:UIControlStateNormal];
-        self.UILableJustMe.text = @"Your Going!";
+        self.UILableJustMe.text = @"You're Going!";
         
         [self.UIButtonIntiveFriends setBackgroundImage:[UIImage imageNamed:@"iconIntiveFriends"] forState:UIControlStateNormal];
         self.UILableInviteFriends.text = @"Add Friends";
@@ -124,7 +124,7 @@
             self.userIsInTerestedInGoing = YES;
             [self.JCInvteFollowHeaderDelegate didClickImIntrested:self.userIsInTerestedInGoing];
             [self.UIButtonImIntrested setBackgroundImage:[UIImage imageNamed:@"iconJustMeGoing"] forState:UIControlStateNormal];
-            self.UILableJustMe.text = @"Your Going!";
+            self.UILableJustMe.text = @"You're Going!";
             [self.UIButtonIntiveFriends setBackgroundImage:[UIImage imageNamed:@"iconIntiveFriends"] forState:UIControlStateNormal];
             self.UILableInviteFriends.text = @"Add Friends";
             

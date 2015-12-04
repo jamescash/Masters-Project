@@ -65,6 +65,15 @@
 
 
 -(IBAction)signUp:(id)sender {
+    
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc]
+                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+
+    activityView.center=self.view.center;
+    activityView.color = [UIColor blackColor];
+    [activityView startAnimating];
+    [self.view addSubview:activityView];
 
 NSString *userName = [self.userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 NSString *password = [self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -76,21 +85,32 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     //TODO cheack for valid email and duplicate usernames and valid profile picture
     if ([userName length] == 0 || [password length] == 0 || [userEmail length]== 0 ) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a vaild username & password!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
     }else if( self.profileImage == nil) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Your friends would like to see your beautiful face! Please select a profile picture" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please select a profile picture" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
         
         
     }else if ([self NSStringIsValidEmail:userEmail] == NO){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That doesn't look like a valid email address, plaese try again!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
     }else if (![self validateName:userFullName]){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure you full name is entered correctly!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+
         [alert show];
-     }
-    
-    else{
+    }else if (![self validateUserName:userName]){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure your username only contains letters or numbers with no white space" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+        
+        [alert show];
+    }else{
         
         //everything seems to be filled out so lets upload the profile image to the backend first
         NSData *fileData;
@@ -119,6 +139,8 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
             if (error) {
             
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That profile pic didn't upload, Please try again" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                [activityView stopAnimating];
+
                 [alert show];
             }else{
                 
@@ -141,7 +163,9 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
                 
                     if (error) {
                         
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That profile pic didn't upload, Please try again" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That profile picture didn't upload, Please try again" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                        [activityView stopAnimating];
+
                         [alert show];
                     }else{
                     
@@ -161,13 +185,18 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
                         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                             if (error) {
                                 
-                                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Gerr okay" otherButtonTitles:nil];
+                                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                                [activityView stopAnimating];
+
                                 [alert show];
                             }else{
                                 NSLog(@"User sucessfully sigend up");
+                                [activityView stopAnimating];
+
                                 //[self dismissViewControllerAnimated:YES completion:nil];
                                 [self saveInstalation];
-                                [self performSegueWithIdentifier:@"unwindHomeScreenCollectionView" sender:self];
+                                [self dismissViewControllerAnimated:YES completion:nil];
+                                //[self performSegueWithIdentifier:@"unwindHomeScreenCollectionView" sender:self];
                             }
                             
                             
@@ -273,7 +302,10 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
 {
     UIImage *img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     self.profileImage = img;
+    
+    self.UserProfilePicture = [self addLayerMaskToImageView:self.UserProfilePicture];
     self.UserProfilePicture.image = self.profileImage;
+    self.UserProfilePicture.contentMode = UIViewContentModeScaleAspectFill;
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
 
 
@@ -311,6 +343,16 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     return numberOfMatches == string.length;
 }
 
+- (BOOL)validateUserName:(NSString *)string
+{
+    NSError *error             = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:
+                                  @"[a-zA-Z0-9]" options:0 error:&error];
+    
+    NSUInteger numberOfMatches = [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, [string length])];
+    return numberOfMatches == string.length;
+}
+
 -(void)resignFirstRespomders{
     [self.emailField resignFirstResponder];
     [self.userFullName resignFirstResponder];
@@ -318,15 +360,15 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     [self.userNameField resignFirstResponder];
 }
 
--(UIImageView*)addVinettLayerToBackGroundToImage:(UIImageView*)imageView{
-    CAGradientLayer *vignetteLayer = [CAGradientLayer layer];
-    [vignetteLayer setBounds:[imageView bounds]];
-    [vignetteLayer setPosition:CGPointMake([imageView bounds].size.width/2.0f, [imageView bounds].size.height/2.0f)];
-    UIColor *lighterBlack = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3];
-    [vignetteLayer setColors:@[(id)[[UIColor clearColor] CGColor], (id)[lighterBlack CGColor]]];
-    [vignetteLayer setLocations:@[@(.05), @(1.0)]];
-    [[imageView layer] addSublayer:vignetteLayer];
+
+-(UIImageView*)addLayerMaskToImageView:(UIImageView*)imageView{
+    UIBezierPath *maskPath;
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(2.0, 2.0)];
+    
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height);
+    maskLayer.path = maskPath.CGPath;
+    imageView.layer.mask = maskLayer;
     return imageView;
 }
-
 @end

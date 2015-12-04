@@ -82,9 +82,9 @@
     
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
         [self addNavBarForMyFriendsMyAritst];
-
         [self setupNavBarForScreen:self.tableViewType];
-         self.navigationItem.title = @"My Friends";
+        
+        self.navigationItem.title = @"My Friends";
         self.screenName = @"myFriends Screen";
         
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
@@ -102,7 +102,7 @@
                  });
          }];
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
-         self.navigationItem.title = @"My artist";
+         self.navigationItem.title = @"My Artists";
         [self addNavBarForMyFriendsMyAritst];
         self.screenName = @"myArtist Screen";
 
@@ -485,8 +485,8 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [searchButton setImage:[UIImage imageNamed:@"iconPlus.png"] forState:UIControlStateNormal];
-    searchButton.adjustsImageWhenDisabled = NO;
-    searchButton.frame = CGRectMake(0, self.tableView.frame.size.width-40 , 40, 40);
+    //searchButton.adjustsImageWhenDisabled = NO;
+    searchButton.frame = CGRectMake(0, 0, 40, 40);
     [searchButton addTarget:self action:@selector(serchbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *searchbarbutton = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     self.navigationItem.rightBarButtonItem = searchbarbutton;
@@ -512,22 +512,14 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 - (void)addNavBarForMyFriendsMyAritst
 {
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage im];
-    //imageView.alpha = 0.5; //Alpha runs from 0.0 to 1.0
-    
     [backButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
     backButton.adjustsImageWhenDisabled = NO;
-    //set the frame of the button to the size of the image (see note below)
     backButton.frame = CGRectMake(0, 0, 40, 40);
-    backButton.opaque = YES;
-    
     [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     //create a UIBarButtonItem with the button as a custom view
     UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
     self.navigationItem.leftBarButtonItem = customBarItem;
-    
+    //[self.tableView setContentInset:UIEdgeInsetsMake(-200,0,0,0)];
     self.shyNavBarManager.scrollView = self.tableView;
     
 }
@@ -600,15 +592,15 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 {
     NSString *text;
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
-        text = @"Go to our homescreen to find your favorite artist and follow them!!";
+        text = @"Follow artist from the homesceen so we can build your personal gig discover calander";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
-        text = @"If you login with facebook we can easily show you which of your facebook friends use Preamp";
+        text = @"We cant find any of your facebook friends on Preamp right now";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]){
         text = @"Click the plus icon in the top right to add some friends";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustAddedFriends ]){
         text = @"Seems like nobody has added you recently";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypePreAmpFriends ]){
-        text = @"Type your friends username to find them and add them";
+        text = @"Type your friends username to find them";
     }else if ([self.tableViewType isEqualToString:JCUserEventUserGoing ]){
         text = @"Be the first person to update your status to going";
     }else if ([self.tableViewType isEqualToString:JCUserEventUserMaybeGoing ]){

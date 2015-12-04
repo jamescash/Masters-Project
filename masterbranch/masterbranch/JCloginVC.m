@@ -18,6 +18,7 @@
 
 @interface JCloginVC ()
 //@property(nonatomic,strong) PFLogInViewController *logInViewController;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImagePreAmpLogo;
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
@@ -38,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardAvoiding];
+    self.UIImagePreAmpLogo.image = [UIImage imageNamed:@"LogoPreAmp"];
     //self.imageViewBackGround = [self addVinettLayerToBackGroundToImage:self.imageViewBackGround];
     self.imageViewBackGround.image = [UIImage imageNamed:@"backgroundLogin"];
     self.imageViewBackGround.contentMode = UIViewContentModeScaleAspectFill;
@@ -71,7 +73,7 @@
     
     
     if ([userName length] == 0 || [password length] == 0) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a vaild username & password!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a vaild username & password" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }else{
         
@@ -79,7 +81,7 @@
             
        
             if (error) {
-                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a vaild username & password" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [alert show];
             }else{
                 

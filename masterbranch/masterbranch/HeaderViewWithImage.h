@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 
 @interface HeaderViewWithImage : UIView
 
 + (instancetype)instantiateFromNib;
-@property (weak, nonatomic) IBOutlet UIImageView *HeaderImageView;
+@property (weak, nonatomic) IBOutlet PFImageView *HeaderImageView;
 @property (weak, nonatomic) IBOutlet UILabel *ArtistName;
 
 @end
