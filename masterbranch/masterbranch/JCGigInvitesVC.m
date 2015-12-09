@@ -16,6 +16,7 @@
 #import "RESideMenu.h"
 
 #import <QuartzCore/QuartzCore.h>
+#import "UIColor+JCColor.h"
 
 
 #import "UIERealTimeBlurView.h"
@@ -28,6 +29,7 @@
 
 #import "DGActivityIndicatorView.h"
 #import "JCMusicDiaryPreLoader.h"
+#import "UIColor+JCColor.h"
 
 @interface JCGigInvitesVC ()
 //UI elements
@@ -47,12 +49,16 @@
 
 @property (nonatomic,strong) JCDropDownMenu *contextMenu;
 @property (nonatomic,strong) NSString *userEventsType;
+@property (nonatomic,strong) UIActivityIndicatorView *UIActivitySpinner;
+
+
 
 @end
 
 @implementation JCGigInvitesVC{
     BOOL blerViewOn;
     BOOL isLoading;
+    UITapGestureRecognizer *didTapAnywhereWhenDropDownMenuActive;
 }
 
 - (void)viewDidLoad {
@@ -60,7 +66,7 @@
     isLoading = YES;
     [self addCustomButtonOnNavBar];
     self.tableViewDataSource = [[NSMutableArray alloc]init];
-    self.tableViewHeader.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    self.tableViewHeader.textColor = [UIColor JCPink];
     self.userEventsType = JCUserEventUsersTypeUpcoming;
     self.JCParseQuery = [JCParseQuerys sharedInstance];
     self.imageFiles = [[NSMutableArray alloc]init];
@@ -88,6 +94,12 @@
     
     // A little trick for removing the cell separators
     self.MyGigInvitesTable.tableFooterView = [UIView new];
+    
+    self.UIActivitySpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    //self.UIActivitySpinner.frame = CGRectMake(self.view.frame.size.width-10, self.view.frame.size.height-10, 60, 60);
+    self.UIActivitySpinner.color = [UIColor grayColor];
+    self.UIActivitySpinner.center = self.view.center;
+    
 }
 
 #pragma - empty Datasource delagte
@@ -100,7 +112,7 @@
         musicDiaryPreLoder.frame = self.MyGigInvitesTable.frame;
         
         
-        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
+        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallScaleMultiple tintColor:[UIColor JCPink] size:100.0f];
         prelaoder.center = musicDiaryPreLoder.center;
         [musicDiaryPreLoder addSubview:prelaoder];
         musicDiaryPreLoder.UILableTextString.text = @"Loading your gigs..";
@@ -139,11 +151,11 @@
 {
     NSString *text;
     if ([self.userEventsType isEqualToString:JCUserEventUsersTypeUpcoming]) {
-        text = @"Find some cool upcoming gig you want to go to and invite your friends along. You can keep trak of all your future plans here";
+        text = @"Go to the homescreen and find some upcoming gigs that you would like to attend";
     }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypePast]){
-        text = @"After you attend gigs they will apper here, this helps you trak all the gigs you and you friends attended in the past.";
+        text = @"After you attend gigs they will apper here, Go to the homescreen and find some upcoming gig that you would like to attend";
     }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypeSent]){
-        text = @"Find some cool upcoming gig you want to go to and invite your friends along";
+        text = @"Go to the homescreen and find some upcoming gig that you would like to attend";
     }
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
@@ -155,11 +167,50 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    if ([self.userEventsType isEqualToString:JCUserEventUsersTypeUpcoming]) {
+        return [UIImage imageNamed:@"emptyUpcoming"];
+
+    }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypePast]){
+        return [UIImage imageNamed:@"emptyPast"];
+
+    }else if ([self.userEventsType isEqualToString:JCUserEventUsersTypeSent]){
+        return [UIImage imageNamed:@"emptySent"];
+
+    }
+    
+    return nil;
+}
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    UIColor *pink = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f],NSForegroundColorAttributeName:pink};
+    
+    return [[NSAttributedString alloc] initWithString:@"Home" attributes:attributes];
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"HomeScreenCollectionView"]]
+                                                 animated:YES];
+    [self.sideMenuViewController hideMenuViewController];
+}
+
+//- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+//{
+   //return 20.0f;
+//}
 
 
 
 
-
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return -self.MyGigInvitesTable.tableHeaderView.frame.size.height/2.0f;
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -191,9 +242,14 @@
     cell.BackRoundImage.file = imageFile;
     cell.BackRoundImage.contentMode = UIViewContentModeScaleAspectFill;
 
-    //set up the swipe buttons
-cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor grayColor]],
-                         [MGSwipeButton buttonWithTitle:@"Delete" icon:[UIImage imageNamed:@""] backgroundColor:[UIColor redColor]]];
+   // set up the swipe buttons
+    
+    
+    cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"" icon:[UIImage imageNamed:@"iconMute"] backgroundColor:[UIColor whiteColor]],
+                         [MGSwipeButton buttonWithTitle:@"" icon:[UIImage imageNamed:@"iconCancle"] backgroundColor:[UIColor JCPink]]];
+    
+          
+
     
     MGSwipeButton *muteButton = [cell.leftButtons firstObject];
     muteButton.tag = indexPath.row;
@@ -232,6 +288,9 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 
     return cell;
 }
+
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   
     self.selectedInvite = [self.tableViewDataSource objectAtIndex:indexPath.row];
@@ -303,6 +362,8 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
     
     
     if (index == 0) {
+        
+        
         NSLog(@"mute button %@",cell);
     }else if (index == 1){
         [self deleteEventFromInboxatIndexPath:cell.indexPath];
@@ -415,7 +476,6 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
     if (blerViewOn) {
         self.blerView.hidden=YES;
         self.navBarDropDown.hidden = NO;
-
         blerViewOn=NO;
     }else{
         if (!self.blerView) {
@@ -425,16 +485,28 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
             self.blerView.translucentStyle = UIBarStyleDefault;
             self.blerView.translucentTintColor = [UIColor clearColor];
             self.blerView.backgroundColor = [UIColor clearColor];
+           
+
+            
 
         }
+        
+
+        
+       
         self.blerView.hidden=NO;
         self.navBarDropDown.hidden = YES;
 
         blerViewOn=YES;
+       // [self.blerView addGestureRecognizer:didTapAnywhereWhenDropDownMenuActive];
+
     }
 }
-
-
+//
+-(void)didTapAnywhere{
+    [self.contextMenu animatContextMenu];
+    [self manageBleredLayer];
+}
 
 #pragma - DropDownMenu Delage CallBacks 
 
@@ -446,7 +518,22 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 -(void)contextMenuButtonFirstClicked{
     [self.contextMenu setUserInteractionEnabled:NO];
     self.userEventsType = JCUserEventUsersTypeUpcoming;
+    [self.blerView addSubview:self.UIActivitySpinner];
+
+    [self.UIActivitySpinner startAnimating];
+
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeUpcoming completionblock:^(NSError *error, NSArray *response) {
+       //
+        
+        UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconUpcomingDD"]];
+        contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
+        
+        NSArray *navBaSubViews = [self.navBarDropDown subviews];
+        
+        UIView *subView = [navBaSubViews firstObject];
+        [subView removeFromSuperview];
+        
+        [self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
         
         if (error) {
             NSLog(@"getMyInvitesforType %@",error);
@@ -454,6 +541,8 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
             [self.tableViewDataSource removeAllObjects];
             [self.tableViewDataSource addObjectsFromArray:response];
             self.tableViewHeader.text = @"Upcoming Gigs";
+            [self.UIActivitySpinner stopAnimating];
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
                 [self.contextMenu animatContextMenu];
@@ -466,6 +555,20 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 -(void)contextMenuButtonSecondClicked{
     [self.contextMenu setUserInteractionEnabled:NO];
     self.userEventsType = JCUserEventUsersTypeSent;
+    [self.UIActivitySpinner startAnimating];
+    [self.blerView addSubview:self.UIActivitySpinner];
+
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconSentDD"]];
+    contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
+    
+    NSArray *navBaSubViews = [self.navBarDropDown subviews];
+    
+    UIView *subView = [navBaSubViews firstObject];
+    [subView removeFromSuperview];
+    
+    [self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
+    
+
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypeSent completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
@@ -475,6 +578,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
             [self.tableViewDataSource removeAllObjects];
             [self.tableViewDataSource addObjectsFromArray:response];
             self.tableViewHeader.text = @"Sent";
+            [self.UIActivitySpinner stopAnimating];
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];
@@ -489,6 +593,26 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
 -(void)contextMenuButtonThirdClicked{
     [self.contextMenu setUserInteractionEnabled:NO];
     self.userEventsType = JCUserEventUsersTypePast;
+    [self.blerView addSubview:self.UIActivitySpinner];
+
+    //UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconPastDD"]];
+    //contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
+    //[self.navBarDropDown ]
+    //[self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
+    [self.UIActivitySpinner startAnimating];
+
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconPastDD"]];
+    contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
+    
+    NSArray *navBaSubViews = [self.navBarDropDown subviews];
+    
+    UIView *subView = [navBaSubViews firstObject];
+    [subView removeFromSuperview];
+    
+    [self.navBarDropDown addSubview:contextMenuButtonCoverimageView];
+   
+    //self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"iconPastDD"];
+    
     [self.JCParseQuery getMyInvitesforType:JCUserEventUsersTypePast completionblock:^(NSError *error, NSArray *response) {
         
         if (error) {
@@ -498,6 +622,7 @@ cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"Mute" icon:[UIImage imageN
             [self.tableViewDataSource removeAllObjects];
             [self.tableViewDataSource addObjectsFromArray:response];
             self.tableViewHeader.text = @"Past Gigs";
+            [self.UIActivitySpinner stopAnimating];
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.MyGigInvitesTable reloadData];

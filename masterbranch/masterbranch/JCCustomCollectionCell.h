@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DGActivityIndicatorView.h"
+#import "JCMusicDiaryArtistObject.h"
 
 
 @interface JCCustomCollectionCell : UICollectionViewCell
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *venue;
 @property (strong,nonatomic ) CAGradientLayer *vignetteLayer;
 @property (weak, nonatomic) IBOutlet UIImageView *UIImageMusicDiaryBG;
+//@property (weak, nonatomic) IBOutlet UILabel *UILableNumberOfGigsThisMonth;
 
 -(void)startLoadingAnimation;
 -(void)stopLoadingAnimation;
@@ -23,7 +25,7 @@
 -(void)addVinettLayer;
 
 -(void)setImageForMusicDiary:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName;
-
+-(void)formatCellWithDiryObject:(JCMusicDiaryArtistObject*)diaryObject andArtist:(PFObject*)artist;
 -(void)setImage:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName;
 @property (strong,nonatomic ) DGActivityIndicatorView *activityIndicatorView;
 

@@ -21,7 +21,7 @@
 @property (strong ,nonatomic) UILabel *contextMenuLableForButtonFirst;
 @property (strong ,nonatomic) UILabel *contextMenuLableForButtonSecond;
 @property (strong ,nonatomic) UILabel *contextMenuLableForButtonThird;
-
+@property (strong,nonatomic) UITapGestureRecognizer *didTapAnywhereWhenDropDownMenuActive;
 
 //UIDynamics
 @property (nonatomic, strong) UIDynamicAnimator *animator;
@@ -31,6 +31,8 @@
     
     BOOL contextMenuDown;
     BOOL dropDownUserInteraction;
+    
+
 }
 
 
@@ -43,6 +45,9 @@
         
         //self.backgroundColor = [UIColor orangeColor];
         
+        self.didTapAnywhereWhenDropDownMenuActive = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapAnywhere)];
+        [self addGestureRecognizer:self.didTapAnywhereWhenDropDownMenuActive];
+        
         CGRect  viewRect = CGRectMake(self.bounds.size.width-56 ,(self.bounds.size.height-(self.bounds.size.height-21)), 40, 40);
          [self layoutUI:viewRect];
         dropDownUserInteraction = YES;
@@ -51,6 +56,11 @@
         
     }
     return self;
+}
+
+-(void)didTapAnywhere{
+    //[self animatContextMenu];
+    [self.JCDropDownMenuDelagte didTapAnywhere];
 }
 
 -(void)animatContextMenu{
@@ -157,7 +167,7 @@
                                             action:@selector(contextMenuButtonCoverTapped)];
     
     self.contextMenuButtonCover = [[UIView alloc]initWithFrame:frame];
-    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconCalender.png"]];
+    UIImageView * contextMenuButtonCoverimageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconEmpty"]];
     contextMenuButtonCoverimageView.frame = CGRectMake(0, 0, 40, 40);
     [self.contextMenuButtonCover addSubview:contextMenuButtonCoverimageView];
     [self.contextMenuButtonCover addGestureRecognizer:contextMenuButtonCover];
@@ -235,19 +245,17 @@
 }
 
 -(void)contextMenuButtonCoverTapped{
-    NSLog(@"%d",dropDownUserInteraction);
+    //NSLog(@"%d",dropDownUserInteraction);
     if (dropDownUserInteraction) {
         [self.JCDropDownMenuDelagte contextMenuButtonCoverClicked];
     }
 }
-
 -(void)contextMenuButtonThirdTapped{
     if (dropDownUserInteraction) {
 
     [self.JCDropDownMenuDelagte contextMenuButtonThirdClicked];
     }
 }
-
 -(void)contextMenuButtonSecondTapped{
     if (dropDownUserInteraction) {
 

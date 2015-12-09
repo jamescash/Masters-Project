@@ -16,7 +16,7 @@
 @property (nonatomic)BOOL userIsFollowingArtist;
 @property (nonatomic)BOOL userIsInTerestedInGoing;
 
--(void)formatCellButtons:(BOOL)userIsFollowingArtist and: (BOOL)userIsInterested;
+-(void)formatCellButtons:(BOOL)userIsFollowingArtist and:(BOOL)userIsInterested isLoading:(BOOL)isLoading;
 @end
 
 

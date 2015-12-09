@@ -84,7 +84,7 @@
     if (aRecord.hasImage) {
         cell.UIImageArtistImage.image = aRecord.image;
     }else if (aRecord.isFailed) {
-        cell.UIImageArtistImage.image = [UIImage imageNamed:@"loadingGray.png"];
+        cell.UIImageArtistImage.image = [UIImage imageNamed:@"iconFailed"];
     }else{
         cell.UIImageArtistImage.image = [UIImage imageNamed:@"loadingGreyPlane"];
         [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
@@ -339,6 +339,23 @@
                                  NSParagraphStyleAttributeName: paragraph};
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    
+        return [UIImage imageNamed:@"emptySearch"];
+    
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return 2;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return YES;
 }
 
 #pragma mark - Navigation

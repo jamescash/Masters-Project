@@ -11,6 +11,8 @@
 #import "UIScrollView+VGParallaxHeader.h"
 #import "JCUserAttendingGigCell.h"
 #import "GAITrackedViewController.h"
+#import "JCTimeDateLocationTableViewCell.h"
+
 
 
 

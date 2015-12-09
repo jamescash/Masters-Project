@@ -63,11 +63,30 @@
     
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     
+    
+    
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
+        
+        [self addNavBarForMyFriendsMyAritst];
+        [self setupNavBarForScreen:self.tableViewType];
+    }  else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
+        [self addNavBarForMyFriendsMyAritst];
+
+        
+    } else if ([self.tableViewType isEqualToString:JCUserEventUserGoing]||[self.tableViewType isEqualToString:JCUserEventUserMaybeGoing]||[self.tableViewType isEqualToString:JCUserEventUsersEventInvited]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]||[self.tableViewType isEqualToString:JCUserEventUserGotTickets]||[self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
+        [self addcontentOffsetForPageView];
+
+    }
+
+
+    
    
 }
 
 
 - (void) viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
     firendskey = @"friends";
     artistkey =@"artist";
     
@@ -81,29 +100,29 @@
    
     
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
-        [self addNavBarForMyFriendsMyAritst];
-        [self setupNavBarForScreen:self.tableViewType];
+     
         
         self.navigationItem.title = @"My Friends";
         self.screenName = @"myFriends Screen";
         
         [self.JCParseQuerys getMyFriends:^(NSError *error, NSArray *response) {
-            
+            if (error){
+                NSLog(@"erro getting friends %@",[error localizedDescription]);
+            }else {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
             [self.tableViewDataSource addObjectsFromArray:response];
-            //self.tableViewDataSource = response;
             [self.myFriends addObjectsFromArray:response];
-
 
             isLoading = NO;
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
                  });
+                
+            }
          }];
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]){
          self.navigationItem.title = @"My Artists";
-        [self addNavBarForMyFriendsMyAritst];
         self.screenName = @"myArtist Screen";
 
         [self.JCParseQuerys getMyAtrits:^(NSError *error, NSArray *response) {
@@ -115,6 +134,7 @@
                  PFFile *imageFile = [artist objectForKey:@"thmbnailAtistImage"];
                 [self.imageFiles addObject:[@{@"pfFile":imageFile} mutableCopy]];
             }
+
             isLoading = NO;
 
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -123,7 +143,6 @@
          }];
     }else if ([self.tableViewType isEqualToString:JCUserEventUserGoing]){
         
-        [self addcontentOffsetForPageView];
         
         
         
@@ -156,7 +175,6 @@
         
     }else if ([self.tableViewType isEqualToString:JCUserEventUserMaybeGoing]){
         
-        [self addcontentOffsetForPageView];
         
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUserMaybeGoing completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
@@ -172,7 +190,6 @@
         
     }else if ([self.tableViewType isEqualToString:JCUserEventUsersEventInvited]){
         
-        [self addcontentOffsetForPageView];
         
         [self.JCParseQuerys getUserGoingToEvent:self.currentUserEvent forEventStatus:JCUserEventUsersEventInvited completionBlock:^(NSError *error, NSArray *userGoing) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
@@ -189,11 +206,10 @@
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
         self.screenName = @"Facebook Friends Screen";
 
-        [self addcontentOffsetForPageView];
         [self getusersFacebookfriebndsAndRealodTableView];
         
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustRecentlyAdded]){
-        [self addcontentOffsetForPageView];
+        //[self addcontentOffsetForPageView];
         
         [self.JCParseQuerys getPeopleThatRecentlyAddedMe:^(NSError *error, NSArray *response) {
             self.tableViewDataSource = [[NSMutableArray alloc]init];
@@ -511,6 +527,10 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
 - (void)addNavBarForMyFriendsMyAritst
 {
+    
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
+    //[self.navigationController.navigationBar setTranslucent:NO];
+
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
     backButton.adjustsImageWhenDisabled = NO;
@@ -525,7 +545,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 - (void)addcontentOffsetForPageView
 {
-    [self.tableView setContentInset:UIEdgeInsetsMake(80,0,0,0)];
+    [self.tableView setContentInset:UIEdgeInsetsMake(30,0,0,0)];
 }
 
 -(void)BackButtonPressed{
@@ -592,11 +612,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 {
     NSString *text;
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
-        text = @"Follow artist from the homesceen so we can build your personal gig discover calander";
+        text = @"Follow artist so we can add there Irish gigs to your discovery calender";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
         text = @"We cant find any of your facebook friends on Preamp right now";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]){
-        text = @"Click the plus icon in the top right to add some friends";
+        text = @"Preamp works better when you have friends";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustAddedFriends ]){
         text = @"Seems like nobody has added you recently";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypePreAmpFriends ]){
@@ -608,7 +628,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     }else if ([self.tableViewType isEqualToString:JCUserEventUserGotTickets ]){
         text = @"Be the first of your friends to get tickets";
     }else{
-        text = @"oops";
+        text = @"Seems like nobody has added you recently";
     }
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
@@ -620,5 +640,42 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
+        return [UIImage imageNamed:@"emptyFriends"];
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
+        return [UIImage imageNamed:@"empthyArtist"];
+        
+    }
+    
+    return nil;
+}
 
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    UIColor *pink = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f],NSForegroundColorAttributeName:pink};
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
+        return [[NSAttributedString alloc] initWithString:@"Add Friends" attributes:attributes];
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
+        return [[NSAttributedString alloc] initWithString:@"Find Artists" attributes:attributes];
+        
+    }
+    return [[NSAttributedString alloc] initWithString:@"" attributes:attributes];
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
+        
+        [self performSegueWithIdentifier:@"addFriends" sender:self];
+    }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeArtist]) {
+        [self performSegueWithIdentifier:@"artistSearch" sender:self];
+
+    }
+    
+}
 @end

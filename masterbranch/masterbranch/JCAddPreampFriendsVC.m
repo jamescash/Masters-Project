@@ -199,7 +199,7 @@
 - (void)searchBar:(UISearchBar *)searchBar
     textDidChange:(NSString *)searchText{
     
-    if ([searchBar.text length] > 0 ) {
+    if ([searchBar.text length] > 3 ) {
         
         NSString *searchQuery = [searchBar.text lowercaseString];
         [self searchForUserByUserNamr:searchQuery];

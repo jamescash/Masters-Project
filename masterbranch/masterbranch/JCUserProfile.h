@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UIScrollView+VGParallaxHeader.h"
 
-@interface JCUserProfile : UIViewController
+@interface JCUserProfile : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate>
 
 @end

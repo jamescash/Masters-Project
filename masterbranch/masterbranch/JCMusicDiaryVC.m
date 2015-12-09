@@ -20,6 +20,7 @@
 #import "DGActivityIndicatorView.h"
 #import "JCMusicDiaryPreLoader.h"
 
+#import "UIColor+JCColor.h"
 
 
 
@@ -69,6 +70,7 @@
     self.MusicDiaryObjectsSortedArray =  [[NSMutableArray alloc]init];
     self.MusicDiaryObjectsSortedByDate = [[NSMutableArray alloc]init];
     [self addCustomButtonOnNavBar];
+    //IrelandDataLoaded = YES;
     [self loadUpcomingGigs:YES];
     self.myMusicDiary.emptyDataSetDelegate = self;
     self.myMusicDiary.emptyDataSetSource = self;
@@ -81,7 +83,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     
 
 }
@@ -117,7 +118,8 @@
     if (daryObject.artistImage) {
   
         [cell stopLoadingAnimation];
-        [cell setImageForMusicDiary:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
+        [cell formatCellWithDiryObject:daryObject andArtist:artist];
+        //[cell setImageForMusicDiary:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
         //[cell setImage:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
         //cell.UIImageMusicDiaryBG.image = [UIImage imageNamed:@"loadingGreyPlane"];
         //cell.MainImageView.image =
@@ -624,12 +626,22 @@
         JCMusicDiaryPreLoader *musicDiaryPreLoder = [JCMusicDiaryPreLoader instantiateFromNib];
 
         musicDiaryPreLoder.frame = self.myMusicDiary.frame;
+        //DGActivityIndicatorAnimationTypeBallGridBeat
         
-        
-        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallGridBeat tintColor:[UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f] size:100.0f];
+        DGActivityIndicatorView *prelaoder = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallScaleMultiple tintColor:[UIColor JCPink] size:100.0f];
         prelaoder.center = musicDiaryPreLoder.center;
         [musicDiaryPreLoder addSubview:prelaoder];
-        musicDiaryPreLoder.UILableTextString.text = @"Building your personal discovery calendar from the artist's that you follow";
+        
+        
+         //if (IrelandDataLoaded) {
+         //   musicDiaryPreLoder.UILableTextString.text = @"Gathering your artists Irish gigs";
+
+         //}else{
+            musicDiaryPreLoder.UILableTextString.text = @"Gathering your artists upcoming gigs";
+         //}
+        
+        
+        
         [prelaoder startAnimating];
         
         musicDiaryPreLoder.autoresizingMask = UIViewAutoresizingFlexibleRightMargin |
@@ -646,7 +658,7 @@
 -(NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     
-    NSString *text = @"Build a personal gig diary";
+    NSString *text = @"No gigs found";
     
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
@@ -656,7 +668,17 @@
 
 -(NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"We automatically add your artist's upcoming Irish gigs to your gig diary, so go follow some artist";
+    NSString *text;
+   
+    if (IrelandDataLoaded) {
+        text = @"Follow all your favourite artists so we can tell you when there coming to Ireland";
+
+    }else{
+        text = @"Follow all your favourite artists so we can tell you when there coming to UK";
+
+    }
+    
+    
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
@@ -668,15 +690,24 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    UIColor *pink = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f],NSForegroundColorAttributeName:pink};
+    return [[NSAttributedString alloc] initWithString:@"Find Artists" attributes:attributes];
+        
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    [self performSegueWithIdentifier:@"artistSearch" sender:self];
+}
 
 
-
-
-
-
-
-
-
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+        return [UIImage imageNamed:@"empthDiscovery"];
+}
 
 
 

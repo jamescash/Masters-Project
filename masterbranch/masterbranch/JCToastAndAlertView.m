@@ -22,6 +22,11 @@
     
     UIFont *font = [UIFont fontWithName:@"helvetica-Light" size:15];
     
+    CRToastInteractionResponder *responder = [CRToastInteractionResponder interactionResponderWithInteractionType:CRToastInteractionTypeSwipeUp automaticallyDismiss:NO block:^(CRToastInteractionType interactionType) {
+        [CRToastManager dismissAllNotifications:YES];
+            
+    }];
+    
     NSDictionary *toast = @{
                              kCRToastTextKey : message,
                              kCRToastFontKey: font,
@@ -38,11 +43,11 @@
                              kCRToastAnimationOutTimeIntervalKey: @(.3),
                              kCRToastAnimationInTimeIntervalKey:@(.3),
                              kCRToastTimeIntervalKey:@(3),
+                             kCRToastInteractionRespondersKey:@[responder],
                              };
     
     
     [CRToastManager setDefaultOptions:toast];
-    
     
     [CRToastManager showNotificationWithOptions:toast
                                 completionBlock:^{
@@ -50,6 +55,8 @@
                                 }];
     
 }
+
+
 
 -(void)showLoadingAlertViewWithMessage:(NSString*)message andTitle:(NSString*)title inUIViewController:(UIViewController*)UIViewController {
     

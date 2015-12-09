@@ -21,6 +21,8 @@
 #import "JCSelectFriends.h"
 #import <Google/Analytics.h>
 #import "GAI.h"
+#import "JCGigMoreInfoDetailedView.h"
+
 
 @interface JCInboxDetail ()
 //UIElements
@@ -59,8 +61,6 @@
     [super viewWillAppear:animated];
     
     
-    
-    
     //user this event object and current user to find out the current users status to this event
     [self.parseQuerys getUserEventStatus:self.userEvent completionBlock:^(NSError *error, PFObject *userEventStatusActivity) {
         
@@ -68,10 +68,15 @@
         
         self.userStatus = userStatus;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableViewVC reloadData];
-        });
-    }];
+        NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+            });
+       }];
+    
+    [self getCommentForUserEventAndRefreshTableView];
+
     [self getUserAttendingEvent];
 }
 
@@ -80,28 +85,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self initalize];
     [self customiseNavBar];
-    self.screenName = @"User Event Screen";
-    if (!self.isSinglePersonEvent) {
-        [self layoutCommentBox];
-        NSLog(@"is NOT single person event");
-        
-    }else{
-        NSLog(@"is single person event");
-        
-        //self.addCommentTextfield.hidden = YES;
-        //self.postButton.hidden = YES;
-        self.addCommentView.hidden = YES;
-    }
-    
-    
     [self layoutHeaderView];
-    self.parseQuerys = [JCParseQuerys sharedInstance];
-    self.eventId = self.userEvent.objectId;
-    self.tableViewVC.allowsSelection = NO;
-    self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self getCommentForUserEventAndRefreshTableView];
+    
     
     
    
@@ -110,6 +97,23 @@
     //add tap recongiser that will resign first responder while keybord is up and user taps anywhere
     resignKeyBoardOnTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                             action:@selector(didTapAnywhere:)];
+    
+}
+
+-(void)initalize{
+    self.parseQuerys = [JCParseQuerys sharedInstance];
+    self.eventId = self.userEvent.objectId;
+    self.tableViewVC.allowsSelection = NO;
+    self.tableViewVC.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.screenName = @"User Event Screen";
+    if (!self.isSinglePersonEvent) {
+        [self layoutCommentBox];
+        NSLog(@"is NOT single person event");
+        
+    }else{
+        NSLog(@"is single person event");
+        self.addCommentView.hidden = YES;
+    }
     
 }
 
@@ -130,18 +134,10 @@
 }
 
 
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -149,16 +145,12 @@
 }
 #pragma mark - Table view data source
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    return [NSString stringWithFormat:@"Section %@", @(section)];
-//}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
--(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     static NSString *multiplePeople = @"timeDateLocationCell";
 
@@ -166,7 +158,11 @@
     if (self.isSinglePersonEvent) {
     JCTimeDateLocationTableViewCell *singlePersonHeaderView = [tableView dequeueReusableCellWithIdentifier:@"SinglePersontEventTimeDateCell"];
         [singlePersonHeaderView formatCellwithParseEventObjectForSingleEvent:self.userEvent];
-        return singlePersonHeaderView;
+        UIView *view = [[UIView alloc] initWithFrame:[singlePersonHeaderView frame]];
+        singlePersonHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        
+        [view addSubview:singlePersonHeaderView];
+        return view;
     
     }else{
     
@@ -176,12 +172,15 @@
     if (headerViewMultiplePeopl == nil){
         [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
     }
+        UIView *view = [[UIView alloc] initWithFrame:[headerViewMultiplePeopl frame]];
+        headerViewMultiplePeopl.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         
-        return headerViewMultiplePeopl;
+        [view addSubview:headerViewMultiplePeopl];
+        return view;
+        
    }
     return nil;
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -207,11 +206,17 @@
     if (indexPath.row == 0) {
         JCUserAttendingGigCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
         
+        //if ture this means we already have a dictionary full and we know all the users attending the event
+        //so we can go ahead and foramt teh row.
         if (self.userAttendingEvent) {
+            
+            //give the cell a dictionary full of alll the people attedning the event so it can format itself.
             [cell formatCell:self.userAttendingEvent andMyStatus:nil];
+            
             
             NSArray *usersInvited = [self.userAttendingEvent objectForKey:JCUserEventUsersInvited];
             
+            //swich statment to set to images on the row equel to the first 5people.
             for (int i = 0; (i < [usersInvited count]); i++) {
                 PFUser *user = [usersInvited objectAtIndex:i];
                 switch (i) {
@@ -431,47 +436,57 @@
 
 -(IBAction)postComment:(id)sender {
     //Track Button clicks
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     
-    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
-                                                          action:@"button_press"    // Event action (required)
-                                                           label:@"postComment_UserEventScreen" // Event label
-                                                           value:nil] build]];      // Event value
-    //Trim comment and save it in a dictionary
-    NSDictionary *userInfo = [NSDictionary dictionary];
-    NSString *trimmedComment = [self.addCommentTextfield.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if (trimmedComment.length != 0) {
-        userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                    trimmedComment,@"comment",
-                    self.userEvent,@"eventId",
-                    nil];
-    }
     
-    //userInfo might contain any caption which might have been posted by the uploader
-    if (userInfo) {
+    NSString *text = self.addCommentTextfield.text;
+    
+    if (![text isEqualToString:@"Add comment here..."]) {
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
         
-        //go off to the parse class and save the comment to the backend
-        [self.parseQuerys saveCommentToBackend:userInfo complectionBlock:^(NSError *error)
-         {
-             if(error){
-                 //show alert view
-                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Ooops!" message:@"Please try sending posting that comment again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
-                 [alert show];
-             }else{
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                     [self refreshTableViewAfterUserCommented];
-                 });
-             }
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
+                                                              action:@"button_press"    // Event action (required)
+                                                               label:@"postComment_UserEventScreen" // Event label
+                                                               value:nil] build]];      // Event value
+        //Trim comment and save it in a dictionary
+        NSDictionary *userInfo = [NSDictionary dictionary];
+        NSString *trimmedComment = [self.addCommentTextfield.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        if (trimmedComment.length != 0) {
+            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        trimmedComment,@"comment",
+                        self.userEvent,@"eventId",
+                        nil];
+        }
+        
+        //userInfo might contain any caption which might have been posted by the uploader
+        if (userInfo) {
             
-        }];
+            //go off to the parse class and save the comment to the backend
+            [self.parseQuerys saveCommentToBackend:userInfo complectionBlock:^(NSError *error)
+             {
+                 if(error){
+                     //show alert view
+                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Ooops!" message:@"Please try sending posting that comment again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
+                     [alert show];
+                 }else{
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         [self refreshTableViewAfterUserCommented];
+                     });
+                 }
+                 
+             }];
+            
+            
+        }
         
-       
+        self.addCommentTextfield.textColor = [UIColor lightGrayColor];
+        self.addCommentTextfield.text = @"Add comment here...";
+        [self.addCommentTextfield resignFirstResponder];
     }
-
-     self.addCommentTextfield.textColor = [UIColor lightGrayColor];
-     self.addCommentTextfield.text = @"Add comment here...";
-     [self.addCommentTextfield resignFirstResponder];
+    
+    
+    
 }
 
 -(IBAction)buttonAreYouGoing:(id)sender {
@@ -506,6 +521,10 @@
     }];
 }
 
+
+
+
+
 #pragma - ActionSheet Delagate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -532,8 +551,25 @@
         self.userStatus = JCUserEventUserNotGoing;
     }
 }
+
+
+
+
 -(void)userChagnedStatus:(NSString*)userStatus{
     
+    
+    self.userStatus = userStatus;
+    
+    NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+    });
+
+
+    //after user changes event status
+    //we need to back up there event status on the backend
+    //then rerun the method getUserAttendingEvent so the Number of people going to event/Got tickets/not going/maybe is updated to
     [self.parseQuerys updateUserEventStatus:userStatus eventobject:self.userEvent completionBlock:^(NSError *error) {
         if (error) {
             NSLog(@"error updateUserEventStatus %@",error);
@@ -550,22 +586,15 @@
     [self.parseQuerys getUsersAttendingUserEvent:self.userEvent completionBlock:^(NSError *error, NSMutableDictionary *usersAttending) {
         
         
+        if (error) {
+            NSLog(@"%@",[error localizedDescription]);
+        }else{
+        
         self.userAttendingEvent = usersAttending;
         NSArray *userInvited = [self.userEvent objectForKey:JCUserEventUsersInvited];
         
         if ([userInvited count] > 1) {
             self.isSinglePersonEvent = NO;
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableViewVC reloadData];
-                if (!self.isSinglePersonEvent) {
-                    [self layoutCommentBox];
-                    
-                }else{
-                    self.addCommentView.hidden = YES;
-                }
-            });
         }
         
         
@@ -574,19 +603,32 @@
             if (error) {
                 NSLog(@"erroe %@",error);
             }else{
+                
+                
                 [self.userAttendingEvent setObject:response forKey:JCUserEventUsersInvited];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableViewVC reloadData];
-                });
+                //Now that we have the userAttending the event we can realod that spasific part of the tableview.
+                //and update the UI
                 
-                
-            }
+                if (self.isSinglePersonEvent) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableViewVC reloadData];
+                    });
+                }else{
+                    [self layoutCommentBox];
+//                    NSIndexPath *indexForRelaod = [NSIndexPath indexPathForRow:0 inSection:0];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableViewVC reloadData];
+//                        [self.tableViewVC reloadRowsAtIndexPaths:@[indexForRelaod] withRowAnimation:UITableViewRowAnimationNone];
+                        
+                    });
+                    
+                }
+             }
             
        } ];
-        
-    }];
-    
+    }
+  }];
 }
 
 -(void)userSelectedPeopleAttedningGig{
@@ -616,6 +658,7 @@
         
         
     }
+
     
 }
 

@@ -11,7 +11,6 @@
 #import "HeaderView.h"
 //calss named badly, this class does all the BIT API calls.
 #import "JCHomeScreenDataController.h"
-#import "JCUpcomingGigTableViewCell.h"
 #import "JCParseQuerys.h"
 #import "JCSelectFriends.h"
 #import "MGSwipeButton.h"
@@ -23,6 +22,7 @@
 #import "GAI.h"
 
 #import "JCGigMoreInfoDetailedView.h"
+#import "JCMoreUpComingGigsHeader.h"
 
 
 
@@ -39,8 +39,12 @@
 @property (strong,nonatomic) PFObject *JCParseUserEvent;
 @property (strong,nonatomic) eventObject *upcomingGigOfIntrest;
 @property (strong,nonatomic) NSMutableArray *upcomingGigsUserIsInterestedIn;
+@property (nonatomic,strong) NSIndexPath *upcomingGigOfIntrestIndexPath;
 @property (strong,nonatomic) NSMutableArray *upcomingGigsUserIsInterestedInUserEventObjects;
-//@property (weak, nonatomic) IBOutlet UIView *UItest;
+@property (strong,nonatomic) NSString *timeDateLocaionCellId;
+@property (strong,nonatomic) NSString *header1Buttons;
+@property (strong,nonatomic) NSString *header2UpcomingGigs;
+@property (strong,nonatomic) JCToastAndAlertView *toast;
 
 
 
@@ -49,171 +53,88 @@
 @end
 
 @implementation JCGigMoreInfoVC{
-   NSString *header1Buttons;
-   NSString *header2UpcomingGigs;
-   NSString *timeDateLocaionCellId;
     BOOL userIsFollowingArtistMainVC;
     BOOL userIsInterestedInEvent;
     BOOL performSegueFromUpcomingGig;
+    BOOL isLoadingButtonsHeader;
 }
-
-
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    performSegueFromUpcomingGig = NO;
-    self.JCParseQuerys = [JCParseQuerys sharedInstance];
-    self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
-    self.tableViewDataSource = [[NSMutableDictionary alloc]init];
-
-    self.screenName = @"Gig more Info screen";
-    header1Buttons = @"buttonsHeader";
-    header2UpcomingGigs = @"MoreUpcomingGigs";
-    timeDateLocaionCellId = @"timeDateLocationCell";
+    [self initalize];
     
-    self.TableViewVC.allowsSelection = NO;
     [self addCustomButtonOnNavBar];
     [self layouStickyHeaderView];
     
+    NSArray *timeDateLocaionCellIdArray = @[self.timeDateLocaionCellId];
+    [self.tableViewDataSource setObject:timeDateLocaionCellIdArray forKey:self.header1Buttons];
+    self.tableViewDataSourcekeys = @[self.header1Buttons,self.header2UpcomingGigs];
     
+    
+    
+    //[self performSelector:@selector(getUpcomingGigsForArtist:) withObject:self.currentEvent.eventTitle afterDelay:3];
+    
+    [self getUpcomingGigsForArtist:self.currentEvent.eventTitle];
+    
+    
+
+    
+}
+
+-(void)initalize{
+    self.toast = [[JCToastAndAlertView alloc]init];
+    self.JCParseQuerys = [JCParseQuerys sharedInstance];
+    self.bandsInTownAPI = [[JCHomeScreenDataController alloc]init];
+    self.tableViewDataSource = [[NSMutableDictionary alloc]init];
+    isLoadingButtonsHeader = YES;
+    self.screenName = @"Gig more Info screen";
+    self.header1Buttons = @"buttonsHeader";
+    self.header2UpcomingGigs = @"MoreUpcomingGigs";
+    self.timeDateLocaionCellId = @"timeDateLocationCell";
+    self.TableViewVC.allowsSelection = NO;
     self.upcomingGigsUserIsInterestedIn = [[NSMutableArray alloc]init];
     self.upcomingGigsUserIsInterestedInUserEventObjects = [[NSMutableArray alloc]init];
-    
-    NSArray *timeDateLocaionCellIdArray = @[timeDateLocaionCellId];
-    [self.tableViewDataSource setObject:timeDateLocaionCellIdArray forKey:header1Buttons];
-    self.tableViewDataSourcekeys = @[header1Buttons,header2UpcomingGigs];
-    
-    [self.bandsInTownAPI getUpcomingGigsForArtist:self.currentEvent.eventTitle competionBlock:^(NSError *error, NSArray *response){
-        
-        
-        if (response !=nil) {
-            //Remove the first gig from all response as thats that gig the user is already looking at
-            NSMutableArray *upcomingGigs = [[NSMutableArray alloc]init];
-            [upcomingGigs addObjectsFromArray:response];
-            eventObject *firstGig = [upcomingGigs firstObject];
-            [upcomingGigs removeObject:firstGig];
-            
-            [self.tableViewDataSource setObject:upcomingGigs forKey:header2UpcomingGigs];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.TableViewVC reloadData];
-            });
-            
-            
-            eventObject *lastObject = [upcomingGigs lastObject];
-            
-            //Loop through all the upcoming gigs and find out what one the user is intrested in.
-            for (eventObject *upcomingGig in upcomingGigs) {
-                
-                
-                [self.JCParseQuerys isUserInterestedInEvent:upcomingGig completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent) {
-                    
-                    
-                    if (error) {
-                        NSLog(@"%@ error",error);
-                    }else{
-                        
-                        
-                        if (userIsInterestedInGoingToEvent) {
-                            [self.upcomingGigsUserIsInterestedIn addObject:upcomingGig];
-                            [self.upcomingGigsUserIsInterestedInUserEventObjects addObject:JCParseuserEvent];
-                        }
-                    }
-                    
-                    
-                    if (upcomingGig == lastObject) {
-                        if ([response count] > 6) {
-                            [self performSelector:@selector(realoadData) withObject:self afterDelay:.6];
-                            
-                        }else{
-                            [self performSelector:@selector(realoadData) withObject:self afterDelay:.2];
-                            
-                        }
-                    }
-    
-                }];
-            }
-        }
-    }];
 
-    [self.JCParseQuerys isUserFollowingArtist:self.currentEvent completionBlock:^(NSError *error, BOOL IsFollowingArtist) {
-        
-        if (error) {
-            NSLog(@"%@",error);
-        }else{
-           
-            
-            if (IsFollowingArtist) {
-                userIsFollowingArtistMainVC = YES;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.TableViewVC reloadData];
-                    });
-            }else{
-                userIsFollowingArtistMainVC = NO;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.TableViewVC reloadData];
-                    });
-
-            }
-            
-            
-        }
-    }];
- 
-    
-    
-}
--(void)realoadData{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.TableViewVC reloadData];
-    });
-    
 }
 
-- (IBAction)FollowButton:(id)sender {
-}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     performSegueFromUpcomingGig = NO;
-
-    [self.JCParseQuerys isUserInterestedInEvent:self.currentEvent completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent) {
+    
+    [self isUserIntrestedInThisGigIsUserFollowingArtist:self.currentEvent completionBlock:^(NSError *error, bool userIsInterested, bool userIsFollowingArtist) {
         
         
         if (error) {
-            NSLog(@"%@",error);
+            NSLog(@"%@",[error localizedDescription]);
         }else{
             
+            NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+            isLoadingButtonsHeader = NO;
+            NSLog(@"isloading no");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+            });
             
-            if (userIsInterestedInGoingToEvent) {
-                //Save a referance to that event on the backend incase the user wants to add more people to it
-                self.JCParseUserEvent = JCParseuserEvent;
-                userIsInterestedInEvent = YES;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.TableViewVC reloadData];
-                });
-            }else{
-                userIsInterestedInEvent = NO;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.TableViewVC reloadData];
-                });
-                
-            }
+            [self getUpcomingGigsForArtist:self.currentEvent.eventTitle];
         }
         
+        
+        
     }];
+    
+    
 }
+
 
 -(void)layouStickyHeaderView{
     
     HeaderViewWithImage *headerView = [HeaderViewWithImage instantiateFromNib];
     
-    
     headerView.HeaderImageView.image = self.currentEvent.photoDownload.image;
     headerView.ArtistName.text = self.currentEvent.eventTitle;
-    
     
     self.vignetteLayer = [CAGradientLayer layer];
     [self.vignetteLayer setBounds:[headerView.HeaderImageView bounds]];
@@ -226,11 +147,6 @@
     [self.TableViewVC setParallaxHeaderView:headerView
                                        mode:VGParallaxHeaderModeFill
                                      height:200];
-
-    
-    
-    
-    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -241,11 +157,10 @@
 
 #pragma mark - Table view data source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [self.tableViewDataSource count];
+    return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSString *key = self.tableViewDataSourcekeys[section];
     NSArray *objectfromdataobject = [self.tableViewDataSource objectForKey:key];
     return [objectfromdataobject count];
@@ -256,40 +171,33 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     NSString *section = [self.tableViewDataSourcekeys objectAtIndex:indexPath.section];
     
-    if ([section isEqualToString:header1Buttons]) {
-        JCTimeDateLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:timeDateLocaionCellId];
+    if ([section isEqualToString:self.header1Buttons]) {
+        JCTimeDateLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.timeDateLocaionCellId];
         [cell formatCell:self.currentEvent];
         cell.JCTimeDateLocationTableViewCellDelagate = self;
         return cell;
     }
     
-    if ([section isEqualToString:header2UpcomingGigs]) {
+    if ([section isEqualToString:self.header2UpcomingGigs]) {
         
         JCUpcomingGigTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"upComingGig"];
         NSArray *upcomingGigs = self.tableViewDataSource[section];
         eventObject *upcomingGig = [upcomingGigs objectAtIndex:indexPath.row];
-        BOOL userIsInteresedInThisUpComingGig;
-       // NSLog(@"gigCXXXXXXX %@",upcomingGig.eventDate);
 
-        //NSLog(@"%@",self.upcomingGigsUserIsInterestedIn);
-//        for (eventObject *gig in self.upcomingGigsUserIsInterestedIn) {
-//            NSLog(@"Array ....... %@",gig.eventDate);
-//        }
+        cell.cellIndex = indexPath.row;
+        cell.cellIndexNSIndexPath = indexPath;
         
-        if ([self.upcomingGigsUserIsInterestedIn containsObject:upcomingGig]) {
-            NSLog(@"Interested");
-            userIsInteresedInThisUpComingGig = YES;
-        }else{
-            userIsInteresedInThisUpComingGig = NO;
+        if (!upcomingGig.isUserInterestedInUpcomingGigFinishedLoading) {
+            [self isUserInterestedInUpcomingGig:upcomingGig AtIndex:indexPath];
         }
-
-         cell.cellIndex = indexPath.row;
-        [cell formatCell:upcomingGig userIsInterested:userIsInteresedInThisUpComingGig];
+        
+        [cell formatCell:upcomingGig userIsInterested:upcomingGig.userIsInterestedInEvent];
          cell.JCUpcomingGigTableViewCellDelegate = self;
-       
+
+        
         return cell;
     }
 
@@ -301,13 +209,13 @@
     
     NSString *section = [self.tableViewDataSourcekeys objectAtIndex:indexPath.section];
     
-    if ([section isEqualToString:header1Buttons]) {
+    if ([section isEqualToString:self.header1Buttons]) {
         
         return 94;
         
     }
     
-    if ([section isEqualToString:header2UpcomingGigs]) {
+    if ([section isEqualToString:self.header2UpcomingGigs]) {
         return 110;
 
     }
@@ -318,22 +226,53 @@
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    if (section == 0) {
+    NSString *sectionKey = [self.tableViewDataSourcekeys objectAtIndex:section];
+
+    
+    if ([sectionKey isEqualToString:self.header1Buttons]) {
         NSString *CellIdentifier = self.tableViewDataSourcekeys[section];
         JCInvteFollowHeaderVC *headerView = (JCInvteFollowHeaderVC*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (headerView == nil){
             headerView = [[JCInvteFollowHeaderVC alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        [headerView formatCellButtons:userIsFollowingArtistMainVC and:userIsInterestedInEvent];
-        headerView.JCInvteFollowHeaderDelegate = self;
-        return headerView;
-    }else{
+        
+        
+        
+        [headerView formatCellButtons:userIsFollowingArtistMainVC and:userIsInterestedInEvent isLoading:isLoadingButtonsHeader];
+        //[headerView formatCellButtons:userIsFollowingArtistMainVC and:userIsInterestedInEvent];
+         headerView.JCInvteFollowHeaderDelegate = self;
+        
+        UIView *view = [[UIView alloc] initWithFrame:[headerView frame]];
+        headerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        
+        [view addSubview:headerView];
+        return view;
+        
+    }else if ([sectionKey isEqualToString:self.header2UpcomingGigs]){
         NSString *CellIdentifier = self.tableViewDataSourcekeys[section];
-        UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        JCMoreUpComingGigsHeader *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
         if (headerView == nil){
-            headerView = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            headerView = [[JCMoreUpComingGigsHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        return headerView;
+        
+        NSString *sectionkeyy = [self.tableViewDataSourcekeys objectAtIndex:section];
+        NSArray *upcomingGigs = self.tableViewDataSource[sectionkeyy];
+        
+        if ([upcomingGigs count]==0) {
+            headerView.title.text = @"No Upcoming Gigs";
+        }else{
+            headerView.title.text = @"More Upcoming Gigs";
+        }
+        
+        
+        
+        
+        UIView *view = [[UIView alloc] initWithFrame:[headerView frame]];
+        headerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        
+        [view addSubview:headerView];
+        return view;
        }
     return nil;
 }
@@ -342,28 +281,19 @@
 {
     NSString *sectionTitle = self.tableViewDataSourcekeys[section];
     
-    if ([sectionTitle isEqualToString:header1Buttons]) {
+    if ([sectionTitle isEqualToString:self.header1Buttons]) {
         
         return 95;
     
     }
     
-    if ([sectionTitle isEqualToString:header2UpcomingGigs]) {
+    if ([sectionTitle isEqualToString:self.header2UpcomingGigs]) {
         return 60;
     }
 
     
     return 100;
 }
-
--(BOOL) swipeTableCell:(MGSwipeTableCell*) cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion{
-    
-    NSLog(@"tapped button");
-    
-    return YES;
-}
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -372,37 +302,35 @@
 
 #pragma - Actions
 
--(void)didClickAddFriendsAction{
+- (void) didClickAddFriendsAction{
     [self performSegueWithIdentifier:@"SelectFriends" sender:self];
 }
 
--(void)didClickInviteFriendsOnUpcomingGigAt:(NSInteger)cellIndex{
+- (void) didClickInviteFriendsOnUpcomingGigAtNSIndexPath:(NSIndexPath *)cellIndex{
     
-    NSArray *upcomingGigs = [self.tableViewDataSource objectForKey:header2UpcomingGigs];
-    self.upcomingGigOfIntrest = [upcomingGigs objectAtIndex:cellIndex];
+    
+    NSArray *upcomingGigs = [self.tableViewDataSource objectForKey:self.header2UpcomingGigs];
+    self.upcomingGigOfIntrest = [upcomingGigs objectAtIndex:cellIndex.row];
+    self.upcomingGigOfIntrestIndexPath = cellIndex;
     //the user wants to intive friends to one of the artist upcoming gigs
     //I can reuse the curently downloaded photo here
     self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
-
+    
     
     //find out if user is already going to this upcoming gig and respond appropriatly.
     
     if ([self.upcomingGigsUserIsInterestedIn containsObject:self.upcomingGigOfIntrest]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends",@"View on map",nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends",@"More info",nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
         [actionSheet showInView:self.view];
     }else{
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends",@"View on map", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends",@"More info", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
         [actionSheet showInView:self.view];
-     }
-    
-    
-    
-    
+    }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
     
@@ -437,11 +365,26 @@
                 
                 [alert show];
             }else{
-                
                 [self.upcomingGigsUserIsInterestedIn addObject:self.upcomingGigOfIntrest];
+                self.upcomingGigOfIntrest.userIsInterestedInEvent = YES;
+                self.upcomingGigOfIntrest.isUserInterestedInUpcomingGigFinishedLoading = YES;
+                
+                NSString *key = self.tableViewDataSourcekeys [self.upcomingGigOfIntrestIndexPath.section];
+                NSArray *upcomingGigsSection = [self.tableViewDataSource objectForKey:key];
+                NSMutableArray *replacmentArray = [[NSMutableArray alloc]init];
+                
+                [replacmentArray addObjectsFromArray:upcomingGigsSection];
+                
+                [replacmentArray replaceObjectAtIndex:self.upcomingGigOfIntrestIndexPath.row withObject:self.upcomingGigOfIntrest];
+                
+                [self.tableViewDataSource setValue:replacmentArray forKey:key];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
-                [self.TableViewVC reloadData];
+                    
+                    [self.TableViewVC reloadRowsAtIndexPaths:@[self.upcomingGigOfIntrestIndexPath] withRowAnimation:UITableViewRowAnimationNone];
                 });
+
+               
             }
             
             
@@ -463,7 +406,7 @@
     }
 }
 
--(void)didClickFollowArtistButton:(BOOL)userIsFollowingArtist{
+- (void) didClickFollowArtistButton:(BOOL)userIsFollowingArtist{
     
     if (userIsFollowingArtist) {
         //Track Button clicks
@@ -479,8 +422,28 @@
                 
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"There was a problem follwing that artist try again" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [alert show];
+                userIsFollowingArtistMainVC = NO;
                 
-            };
+                NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                isLoadingButtonsHeader = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                });
+                
+            }else{
+                userIsFollowingArtistMainVC = YES;
+                
+                NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                isLoadingButtonsHeader = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                });
+                
+                [self.toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"Your following %@",self.currentEvent.eventTitle]];
+                
+            }
+        
+        
         }];
     }else{
         //Track Button clicks
@@ -494,6 +457,25 @@
             
             if (error) {
                 NSLog(@"Error unfollowing artist %@",error);
+                userIsFollowingArtistMainVC = YES;
+                
+                NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                isLoadingButtonsHeader = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                });
+                
+            }else{
+                
+                userIsFollowingArtistMainVC = NO;
+                
+                NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                isLoadingButtonsHeader = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                });
+                
+                
             }
             
         }];
@@ -502,7 +484,7 @@
     
 }
 
--(void)didClickImIntrested:(BOOL)userIsInterested{
+- (void) didClickImIntrested:(BOOL)userIsInterested{
     
     
     if (!userIsInterested) {
@@ -527,7 +509,32 @@
             [self.JCParseUserEvent setObject:InvitedUsers forKey:JCUserEventUsersEventInvited];
             [self.JCParseUserEvent setObject:InvitedUsers forKey:JCUserEventUsersSubscribedForNotifications];
             [self.JCParseUserEvent setObject:@YES forKeyedSubscript:JCUserEventUsersEventIsBeingUpDated];
-            [self.JCParseUserEvent saveInBackground];
+            [self.JCParseUserEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                if (error) {
+                    userIsInterestedInEvent = YES;
+                    
+                    NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                    isLoadingButtonsHeader = NO;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                    });
+                }else{
+                    
+                    userIsInterestedInEvent = NO;
+                    [self.toast showUserUpDateToastWithMessage:@"Removed from your upcoming gigs"];
+                    NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                    isLoadingButtonsHeader = NO;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                    });
+                    
+                }
+               
+               
+                
+            }];
+            
             NSLog(@"User Removed from event");
                 
         
@@ -552,12 +559,24 @@
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"oops!" message:@"Please try sending creating that event again" delegate:self cancelButtonTitle:@"okay" otherButtonTitles:nil];
                 
                 [alert show];
+                
+                NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                isLoadingButtonsHeader = NO;
+                userIsInterestedInEvent = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                });
             }else{
                 
                 JCToastAndAlertView *toast = [[JCToastAndAlertView alloc]init];
                 [toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"%@ added to your upcoming events, now ask some friends along!",self.currentEvent.eventTitle]];
-                //Track Button clicks
-                id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+                
+                NSIndexSet *section = [NSIndexSet indexSetWithIndex:0];
+                isLoadingButtonsHeader = NO;
+                userIsInterestedInEvent = YES;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+                });                id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
                 
                 [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"       // Event category (required)
                                                                       action:@"button_press"    // Event action (required)
@@ -571,6 +590,7 @@
         
     }
 }
+
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -665,6 +685,7 @@
 }
 
 
+
 -(void)didTapShowGigMoreInfo{
     [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
 }
@@ -694,17 +715,157 @@
     
 }
 
-
--(void)BackButtonPressed{
+- (void)BackButtonPressed{
     [self.JCGigMoreInfoVCDelegate JCGigMoreInfoVCDidSelectDone:self];
 }
 
+- (void)isUserInterestedInUpcomingGig:(eventObject*)upcomingGig AtIndex:(NSIndexPath*)indexPath{
+    
+    [self.JCParseQuerys isUserInterestedInEvent:upcomingGig completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent, PFObject *JCParseuserEvent) {
+        
+        if (error) {
+            NSLog(@"error user intersed %@",error);
+        }else{
+            
+            if (userIsInterestedInGoingToEvent) {
+                
+                upcomingGig.isUserInterestedInUpcomingGigFinishedLoading = YES;
+                upcomingGig.userIsInterestedInEvent = YES;
+                [self.upcomingGigsUserIsInterestedIn addObject:upcomingGig];
+                [self.upcomingGigsUserIsInterestedInUserEventObjects addObject:JCParseuserEvent];
+                
+            }else{
+                upcomingGig.isUserInterestedInUpcomingGigFinishedLoading = YES;
+                upcomingGig.userIsInterestedInEvent = NO;
+            }
+            
+            
+            NSString *key = self.tableViewDataSourcekeys [indexPath.section];
+            NSArray *upcomingGigsSection = [self.tableViewDataSource objectForKey:key];
+            NSMutableArray *replacmentArray = [[NSMutableArray alloc]init];
+            
+            [replacmentArray addObjectsFromArray:upcomingGigsSection];
+            
+            [replacmentArray replaceObjectAtIndex:indexPath.row withObject:upcomingGig];
+            
+            [self.tableViewDataSource setValue:replacmentArray forKey:key];
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.TableViewVC reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            });
+            
+            
+            
+        }
+        
+    }];
+    
+    
+}
 
+-(void)isUserIntrestedInThisGigIsUserFollowingArtist:(eventObject*) currentGig completionBlock:(void(^)(NSError* error,bool  userIsInterested,bool userIsFollowingArtist))finished{
+    
+    
+    
+    [self.JCParseQuerys isUserInterestedInEvent:currentGig completionBlock:^(NSError *error, BOOL userIsInterestedInGoingToEvent,PFObject* JCParseuserEvent) {
+        
+        
+        if (error) {
+            NSLog(@"%@",[error localizedDescription]);
+            finished(error,nil,nil);
+        }else{
+            
+            
+            if (userIsInterestedInGoingToEvent) {
+                self.JCParseUserEvent = JCParseuserEvent;
+                userIsInterestedInEvent = YES;
 
+                [self.JCParseQuerys isUserFollowingArtist:self.currentEvent completionBlock:^(NSError *error, BOOL IsFollowingArtist) {
+                    
+                    if (error) {
+                        NSLog(@"%@",[error localizedDescription]);
+                        finished(error,nil,nil);
 
+                    }else{
+                        
+                        
+                        if (IsFollowingArtist) {
+                            userIsFollowingArtistMainVC = YES;
+                            finished (nil,userIsInterestedInEvent,userIsFollowingArtistMainVC);
+                            
+                        }else{
 
+                            userIsFollowingArtistMainVC = NO;
+                            finished (nil,userIsInterestedInEvent,userIsFollowingArtistMainVC);
 
+                            
+                        }
+                        
+                        
+                    }
+                }];
+            
+            
+            
+            }else{
 
+                userIsInterestedInEvent = NO;
+               
+                [self.JCParseQuerys isUserFollowingArtist:self.currentEvent completionBlock:^(NSError *error, BOOL IsFollowingArtist) {
+                    
+                    if (error) {
+                        NSLog(@"%@",[error localizedDescription]);
+                    }else{
+                        
+                        
+                        if (IsFollowingArtist) {
+
+                            userIsFollowingArtistMainVC = YES;
+                            finished (nil,userIsInterestedInEvent,userIsFollowingArtistMainVC);
+
+                            
+                        }else{
+
+                            userIsFollowingArtistMainVC = NO;
+                            finished (nil,userIsInterestedInEvent,userIsFollowingArtistMainVC);
+                        }
+                     }
+                }];
+            }
+        }
+        
+    }];
+    
+}
+
+- (void)getUpcomingGigsForArtist:(NSString*)artistName{
+    
+    [self.bandsInTownAPI getUpcomingGigsForArtist:artistName competionBlock:^(NSError *error, NSArray *response){
+        
+        
+        if (response !=nil) {
+            //Remove the first gig from all response as thats that gig the user is already looking at
+            NSMutableArray *upcomingGigs = [[NSMutableArray alloc]init];
+            [upcomingGigs addObjectsFromArray:response];
+            eventObject *firstGig = [upcomingGigs firstObject];
+            [upcomingGigs removeObject:firstGig];
+            
+            NSIndexSet *section = [NSIndexSet indexSetWithIndex:1];
+            
+            
+            [self.tableViewDataSource setObject:upcomingGigs forKey:self.header2UpcomingGigs];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.TableViewVC reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+            });
+            
+            
+        }
+    }];
+    
+}
 
 
 

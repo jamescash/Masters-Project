@@ -10,8 +10,11 @@
 
 @interface JCTutorialPageViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *UILablePageTitle;
+@property (weak, nonatomic) IBOutlet UIImageView *UIImageTutorialImage;
+@property (weak, nonatomic) IBOutlet UILabel *UILabledesciption;
 @property NSUInteger pageIndex;
 @property NSString *titleText;
 @property NSString *imageFile;
+@property NSString *LableDescription;
 
 @end

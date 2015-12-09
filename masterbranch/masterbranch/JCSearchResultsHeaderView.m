@@ -11,9 +11,14 @@
 @implementation JCSearchResultsHeaderView
 
 + (instancetype)instantiateFromNib
+
 {
+    
     NSArray *views = [[NSBundle mainBundle] loadNibNamed:[NSString stringWithFormat:@"%@", [self class]] owner:nil options:nil];
+
     return [views firstObject];
 }
+
+
 
 @end

@@ -29,7 +29,7 @@
    
     
     if (userIsInterested) {
-        self.UILableUserInterested.text = @"You'er going!";
+        self.UILableUserInterested.text = @"You're going!";
         self.UIImageViewImGoingIcon.image = [UIImage imageNamed:@"iconJustMeGoing"];
         
     }else{
@@ -48,7 +48,7 @@
 -(void)formatCellwith:(PFObject*)upcomingGig userIsInterested:(BOOL)userIsInterested {
     
     if (userIsInterested) {
-        self.UILableUserInterested.text = @"You'er going!";
+        self.UILableUserInterested.text = @"You're going!";
         self.UIImageViewImGoingIcon.image = [UIImage imageNamed:@"iconJustMeGoing"];
 
     }else{

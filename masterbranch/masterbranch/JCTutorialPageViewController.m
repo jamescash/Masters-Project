@@ -17,12 +17,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.UILablePageTitle.text = self.titleText;
+    self.UIImageTutorialImage.image = [UIImage imageNamed:self.imageFile];
+    self.UIImageTutorialImage.contentMode = UIViewContentModeScaleAspectFit;
+    self.UILabledesciption.text = self.LableDescription;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

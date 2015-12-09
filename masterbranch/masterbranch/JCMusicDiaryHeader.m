@@ -7,6 +7,7 @@
 //
 
 #import "JCMusicDiaryHeader.h"
+#import "UIColor+JCColor.h"
 
 @implementation JCMusicDiaryHeader
 
@@ -19,7 +20,7 @@
     //in the middle of stlying header
     
     self.month.text = text;
-    self.month.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    self.month.textColor = [UIColor JCPink];
     self.backgroundColor = [UIColor whiteColor];
     //self.layer.borderWidth = 5.0f;
     //self.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:234.0f green:65.0f blue:150.0f alpha:1]);

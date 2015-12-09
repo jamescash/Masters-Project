@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="nb0-Lr-Umn">
+            <objects>
+                <viewController id="mJp-3a-Iye" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rwV-3u-Wr5"/>
+                        <viewControllerLayoutGuide type="bottom" id="OpN-4U-10q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aGN-mj-HmI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="Y5Z-Sw-7oI">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Y5Z-Sw-7oI" secondAttribute="trailing" constant="-20" id="N5d-kc-2Jk"/>
+                            <constraint firstItem="OpN-4U-10q" firstAttribute="top" secondItem="Y5Z-Sw-7oI" secondAttribute="bottom" id="Q0d-5y-KJX"/>
+                            <constraint firstItem="Y5Z-Sw-7oI" firstAttribute="top" secondItem="aGN-mj-HmI" secondAttribute="topMargin" id="wls-Qz-eSK"/>
+                            <constraint firstItem="Y5Z-Sw-7oI" firstAttribute="leading" secondItem="aGN-mj-HmI" secondAttribute="leadingMargin" constant="-20" id="z3T-mK-oDW"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z8w-hi-OVK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="631" y="313"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="splash" width="320" height="568"/>
+    </resources>
+</document>

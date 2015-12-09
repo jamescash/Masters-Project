@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
 @property (weak, nonatomic) IBOutlet UILabel *UILableUserName;
 @property (weak, nonatomic) IBOutlet UILabel *UILableUserParseName;
+@property (weak, nonatomic) IBOutlet UIView *UIViewHitTargetChangeProfilePic;
 
 @end
 

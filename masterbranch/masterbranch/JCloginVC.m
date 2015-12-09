@@ -39,7 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [IHKeyboardAvoiding setAvoidingView:(UIView *)self.UiViewKeyboardAvoiding];
-    self.UIImagePreAmpLogo.image = [UIImage imageNamed:@"LogoPreAmp"];
+    self.UIImagePreAmpLogo.image = [UIImage imageNamed:@"welcomeScreen"];
+    self.UIImagePreAmpLogo.contentMode = UIViewContentModeScaleAspectFill;
     //self.imageViewBackGround = [self addVinettLayerToBackGroundToImage:self.imageViewBackGround];
     self.imageViewBackGround.image = [UIImage imageNamed:@"backgroundLogin"];
     self.imageViewBackGround.contentMode = UIViewContentModeScaleAspectFill;

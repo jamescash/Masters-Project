@@ -19,6 +19,7 @@
 #import "JCParseQuerys.h"
 #import "JCSelectFriends.h"
 #import "JCGigMoreInfoDetailedView.h"
+#import "JCToastAndAlertView.h"
 
 
 @interface JCSearchPageDetailView ()
@@ -34,16 +35,22 @@
 @property (strong,nonatomic) NSMutableArray *upcomingGigsUserIsInterestedInUserEventObjects;
 @property (nonatomic,strong) eventObject *upcomingGigOfIntrest;
 @property (nonatomic,strong) NSIndexPath *upcomingGigOfIntrestIndexPath;
-
+@property (nonatomic,strong) eventObject *gigToTakeFollowArtistInformationFrom;
+@property (nonatomic,strong) JCToastAndAlertView *toast;
 @end
 
 @implementation JCSearchPageDetailView{
     BOOL performSegueFromUpcomingGig;
 
+    //In the middle of figuring out if user id following artist
+    BOOL userIsFollowingCurentArtist;
+    UITapGestureRecognizer *followArtistTapped;
+    eventObject *eventWithArtist;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.toast = [[JCToastAndAlertView alloc]init];
     self.JCSearchAPI = [[JCHomeScreenDataController alloc]init];
     self.tableViewDataSource = [[NSMutableDictionary alloc]init];
     self.upcomingGigsUserIsInterestedIn = [[NSMutableArray alloc]init];
@@ -52,6 +59,7 @@
     [self addCustomButtonOnNavBar];
     [self layoutHeaderViewWithArtistImage:self.artistImage];
     [self GetArtistUpComingGigsFromBandsInTown:self.artistName];
+    [self isUserFollowingAritst];
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.emptyDataSetSource = self;
     self.tableView.tableFooterView = [UIView new];
@@ -61,7 +69,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"relod");
+    dispatch_async(dispatch_get_main_queue(), ^{
+                
+        [self.tableView reloadData];
+            });
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [self.tableViewDataSource count];
@@ -81,9 +96,10 @@
     cell.JCUpcomingGigTableViewCellDelegate = self;
 
     NSString *key = self.tableViewDataSourceKeys[indexPath.section];
+    
     NSArray *currentSection = [self.tableViewDataSource objectForKey:key];
     eventObject *event = currentSection[indexPath.row];
-    
+
     if (!event.isUserInterestedInUpcomingGigFinishedLoading) {
        [self isUserInterestedInUpcomingGig:event AtIndex:indexPath];
     }
@@ -173,7 +189,7 @@
     self.upcomingGigOfIntrestIndexPath = cellIndex;
     self.upcomingGigOfIntrest.photoDownload.image = self.artistImage;
     if ([self.upcomingGigsUserIsInterestedIn containsObject:upcomingGigClickedOn]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends",@"View on map",nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends",@"More info",nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
         [actionSheet showInView:self.view];
     }else{
@@ -193,7 +209,19 @@
         
         if (buttonIndex == 0) {
             performSegueFromUpcomingGig = YES;
+            NSString *key = self.tableViewDataSourceKeys [self.upcomingGigOfIntrestIndexPath.section];
+            NSArray *upcomingGigsSection = [self.tableViewDataSource objectForKey:key];
+            NSMutableArray *replacmentArray = [[NSMutableArray alloc]init];
+            
+            [replacmentArray addObjectsFromArray:upcomingGigsSection];
+            
+            [replacmentArray replaceObjectAtIndex:self.upcomingGigOfIntrestIndexPath.row withObject:self.upcomingGigOfIntrest];
+            
+            [self.tableViewDataSource setValue:replacmentArray forKey:key];
             [self performSegueWithIdentifier:@"SelectFriends" sender:self];
+            
+           
+           
         }else if (buttonIndex == 1){
            performSegueFromUpcomingGig = YES;
             [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
@@ -235,9 +263,9 @@
                     [replacmentArray replaceObjectAtIndex:self.upcomingGigOfIntrestIndexPath.row withObject:self.upcomingGigOfIntrest];
                     
                     [self.tableViewDataSource setValue:replacmentArray forKey:key];
+                    [self.toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"%@ added to your upcoming gigs, now ask some friends to go with you",self.artistName]];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                       // [self.tableView reloadData];
                         
                         [self.tableView reloadRowsAtIndexPaths:@[self.upcomingGigOfIntrestIndexPath] withRowAnimation:UITableViewRowAnimationNone];
                     });
@@ -369,14 +397,19 @@
 }
 
 - (void)layoutHeaderViewWithArtistImage:(UIImage*)artistImage{
-    
-    // Do any additional setup after loading the view, typically from a nib.
+    //init the header view and add all the properties
     self.headerView = [JCSearchResultsHeaderView instantiateFromNib];
+    self.headerView.UIActivityIndicator.hidden = YES;
     if (artistImage) {
         self.headerView.HeaderImageView.image = artistImage;
     }else{
+        //if the user clicked the artist befoure there image loaded on the search results page we have to download it in here 
         [self setNameAndImageOnHeaderView:self.artistName];
     }
+    
+    followArtistTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(followArtistTapped)];
+    [self.headerView.UIViewHitTargetFollowArtist addGestureRecognizer:followArtistTapped];
+    
     self.headerView.UIImageViewFollwIcon.image = [UIImage imageNamed:@"iconFollowArtist"];
     self.vignetteLayer = [CAGradientLayer layer];
     [self.vignetteLayer setBounds:[self.headerView.HeaderImageView bounds]];
@@ -452,6 +485,232 @@
     [self.tableView shouldPositionParallaxHeader];
 }
 
+-(void)followArtistTapped{
+    
+    [self setHeaderViewFollowArtistButtonToLoadingState];
+    
+    if (userIsFollowingCurentArtist) {
+        //unfollow
+        
+        if (self.gigToTakeFollowArtistInformationFrom) {
+            [self.JCParseQuerys UserUnfollowedArtist:self.gigToTakeFollowArtistInformationFrom complectionBlock:^(NSError *error) {
+                
+                if (error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
+                                                                    message:@"We couldnt unfollow that artist, please try again"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Okay"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }else{
+                    NSLog(@"User Unfollowed Artist");
+                    [self.toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"You unfollowed %@",self.artistName]];
+                    userIsFollowingCurentArtist = NO;
+                    [self setHeaderViewFollowArtistToFollowState];
+                    
+                    
+                }
+                
+                
+                
+            }];
+
+        }else{
+            
+            [self getArtistImfomation:self.artistName completionBlock:^(NSError *error, eventObject *followAritst) {
+                if (error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
+                                                                    message:@"We couldnt unfollow that artist, please try again"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Okay"
+                                                          otherButtonTitles:nil];
+                    [alert show];                }else{
+                [self unfollowArtist:followAritst completionBlock:^(NSError *error) {
+                    if (error) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
+                                                                        message:@"We couldnt unfollow that artist, please try again"
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"Okay"
+                                                              otherButtonTitles:nil];
+                        [alert show];
+                    }else{
+                        NSLog(@"User Unfollowed Artist");
+                        [self.toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"You unfollowed %@",self.artistName]];
+
+                        userIsFollowingCurentArtist = NO;
+                        [self setHeaderViewFollowArtistToFollowState];
+                        
+                        
+                    }
+                    
+                }];
+                    
+                }
+                
+                
+            }];
+            
+            
+        }
+        
+        
+        
+        
+        
+    }else{
+        //follow
+        
+        if (self.gigToTakeFollowArtistInformationFrom) {
+            [self followArtist:self.gigToTakeFollowArtistInformationFrom completionBlock:^(NSError *error) {
+                if (error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
+                                                                    message:@"We couldnt follow that artist, please try again"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Okay"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                    
+                }else{
+                    NSLog(@"User followed Artist");
+                    userIsFollowingCurentArtist = YES;
+                    [self.toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"You followed %@",self.artistName]];
+
+                    [self setHeaderViewFollowArtistToUnFollowState];
+                    
+                    // NSLog(@"followed %@",self.artistName);
+                }
+                
+            }];
+        }else{
+            [self getArtistImfomation:self.artistName completionBlock:^(NSError *error, eventObject *followAritst) {
+                
+                if (error) {
+                    //alert view
+                }else{
+                    self.gigToTakeFollowArtistInformationFrom = followAritst;
+                    [self followArtist:followAritst completionBlock:^(NSError *error) {
+                        if (error) {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
+                                                                            message:@"We couldnt follow that artist, please try again"
+                                                                           delegate:self
+                                                                  cancelButtonTitle:@"Okay"
+                                                                  otherButtonTitles:nil];
+                            [alert show];
+                            
+                            
+                        }else{
+                            NSLog(@"User followed Artist");
+                            [self.toast showUserUpDateToastWithMessage:[NSString stringWithFormat:@"You followed %@",self.artistName]];
+
+                            userIsFollowingCurentArtist = YES;
+
+                            [self setHeaderViewFollowArtistToUnFollowState];
+                            
+                        }
+                        
+                    }];
+                    
+                }
+                
+            }];
+        }
+     }
+}
+
+-(void)isUserFollowingAritst{
+    
+    [self setHeaderViewFollowArtistButtonToLoadingState];
+    
+    [self getArtistImfomation:self.artistName completionBlock:^(NSError *error, eventObject *followAritst) {
+        
+        if (error) {
+            
+        }else{
+            self.gigToTakeFollowArtistInformationFrom = followAritst;
+            
+            [self.JCParseQuerys isUserFollowingArtist:followAritst completionBlock:^(NSError *error, BOOL userIsFollowingArtist) {
+                
+                if (userIsFollowingArtist) {
+                
+                    userIsFollowingCurentArtist = YES;
+                    [self setHeaderViewFollowArtistToUnFollowState];
+
+                }else{
+                    userIsFollowingCurentArtist = NO;
+                    [self setHeaderViewFollowArtistToFollowState];
+                    
+                }
+                
+                
+               }];
+            }
+        
+    }];
+    
+    
+    
+}
+-(void)getArtistImfomation:(NSString*)artistName completionBlock:(void(^)(NSError* error, eventObject* followAritst ))finishedgettingArtistInfo{
+    
+    NSString *artistNameEncodedRequest = [self.artistName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    
+    //1.//first get all the nessasery information about the artist
+    //2. Add artist to backend
+    [self.JCSearchAPI getArtistImage:artistNameEncodedRequest andMbidNumber:nil competionBlock:^(NSError *error, NSDictionary *artistInfo) {
+        
+        if (error) {
+            NSLog(@"%@",error);
+        }else{
+            
+            if (error) {
+                
+                finishedgettingArtistInfo(error,nil);
+            }else{
+                NSString  *artistName = [artistInfo objectForKey:@"artistName"];
+                UIImage   *artistImage = [artistInfo objectForKey:@"artistImage"];
+                NSString *mbid = [artistInfo objectForKey:@"mbid"];
+                
+                if (artistName == nil&&artistImage == nil){
+                    
+                    
+                }else{
+                    eventObject *followArtist = [[eventObject alloc]init];
+                    followArtist.eventTitle = artistName;
+                    followArtist.mbidNumber = mbid;
+                    followArtist.photoDownload.image = artistImage;
+                    finishedgettingArtistInfo(nil,followArtist);
+                  }
+                }
+            }
+        
+    }];
+}
+-(void)unfollowArtist:(eventObject*)currentEvet completionBlock:(void(^)(NSError* error))finishedUnfollowingArtistInfo{
+ 
+    [self.JCParseQuerys UserUnfollowedArtist:currentEvet complectionBlock:^(NSError *error) {
+        if (error) {
+            finishedUnfollowingArtistInfo (error);
+        }else{
+            finishedUnfollowingArtistInfo(nil);
+        }
+        
+    }];
+
+
+}
+-(void)followArtist:(eventObject*)currentEvet completionBlock:(void(^)(NSError* error))finishedFollowingArtistInfo{
+    
+    [self.JCParseQuerys UserFollowedArtist:currentEvet complectionBlock:^(NSError *error) {
+        
+        if (error) {
+            finishedFollowingArtistInfo (error);
+        }else{
+            finishedFollowingArtistInfo(nil);
+        }
+        
+    }];
+}
+
 #pragma - HelperMethods
 - (void)addCustomButtonOnNavBar
 {
@@ -477,11 +736,45 @@
 }
 
 - (void)handelEmptyResults{
-    self.headerView.ArtistName.text = self.artistName;
     [self.tableViewDataSource removeAllObjects];
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.headerView.ArtistName.text = self.artistName;
+
         [self.tableView reloadData];
     });
+    
+    
+}
+
+-(void)setHeaderViewFollowArtistButtonToLoadingState{
+    self.headerView.UIViewHitTargetFollowArtist.userInteractionEnabled = NO;
+    self.headerView.UILableFollowLable.text = @"Loading";
+    self.headerView.UIImageViewFollwIcon.hidden = YES;
+    self.headerView.UIActivityIndicator.color = [UIColor whiteColor];
+    self.headerView.UIActivityIndicator.hidden = NO;
+    [self.headerView.UIActivityIndicator startAnimating];
+    
+}
+
+-(void)setHeaderViewFollowArtistToUnFollowState{
+    self.headerView.UIViewHitTargetFollowArtist.userInteractionEnabled = YES;
+
+    self.headerView.UILableFollowLable.text = @"Unfollow";
+    self.headerView.UIImageViewFollwIcon.image = [UIImage imageNamed:@"iconUnfollowWhite"];
+    self.headerView.UIImageViewFollwIcon.hidden = NO;
+    self.headerView.UIActivityIndicator.hidden = YES;
+    [self.headerView.UIActivityIndicator stopAnimating];
+    
+}
+
+-(void)setHeaderViewFollowArtistToFollowState{
+    self.headerView.UIViewHitTargetFollowArtist.userInteractionEnabled = YES;
+
+    self.headerView.UILableFollowLable.text = @"follow";
+    self.headerView.UIImageViewFollwIcon.image = [UIImage imageNamed:@"iconFollowArtistWhite"];
+    self.headerView.UIImageViewFollwIcon.hidden = NO;
+    self.headerView.UIActivityIndicator.hidden = YES;
+    [self.headerView.UIActivityIndicator stopAnimating];
     
     
 }
@@ -494,9 +787,10 @@
     
     if ([self.resultsType isEqualToString:JCSeachPageResultsDicNoUpcomingGigs]){
         text = @"No upcoming gigs found";
+
     }else if ([self.resultsType isEqualToString:JCSeachPageResultsDicResultsArtistUnknown]){
         text = @"Unkown Artist";
-        
+
     }
     
     
@@ -579,7 +873,15 @@
                 
             }else{
                 
-                
+//                NSString *key = self.tableViewDataSourceKeys [indexPath.section];
+//                NSArray *upcomingGigsSection = [self.tableViewDataSource objectForKey:key];
+//                NSMutableArray *replacmentArray = [[NSMutableArray alloc]init];
+//                
+//                [replacmentArray addObjectsFromArray:upcomingGigsSection];
+//                
+//                [replacmentArray replaceObjectAtIndex:indexPath.row withObject:upcomingGig];
+//                
+//                [self.tableViewDataSource setValue:replacmentArray forKey:key];
                 
                 SelectFreindsVC.currentEvent = self.upcomingGigOfIntrest;
                 

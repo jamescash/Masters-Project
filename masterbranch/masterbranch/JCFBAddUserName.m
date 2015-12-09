@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 - (IBAction)userSelectedDone:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *UIImageBackRound;
+@property (weak, nonatomic) IBOutlet UIView *UIViweKeyboardAAdvoiding;
 
 @end
 
@@ -36,7 +37,8 @@
     self.screenName = @"Loggin Facebook username Screen";
     self.UIImageBackRound.image = [UIImage imageNamed:@"backgroundLogin"];
     
-    
+    //[IHKeyboardAvoiding setAvoidingView:(UIView *)self.UIViweKeyboardAAdvoiding];
+
     //register for keyboard notification
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     

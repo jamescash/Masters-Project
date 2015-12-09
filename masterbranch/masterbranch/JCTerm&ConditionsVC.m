@@ -27,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self LoadWebViewWithaddress:@"https://www.iubenda.com/privacy-policy/879863"];
+    [self LoadWebViewWithaddress:self.url];
     [self addCustomButtonOnNavBar];
     // Do any additional setup after loading the view.
 }

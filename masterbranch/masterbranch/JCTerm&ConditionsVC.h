@@ -11,4 +11,5 @@
 @interface JCTerm_ConditionsVC : UIViewController
 @property (nonatomic,strong)NSString *webviewAddress;
 -(void)LoadWebViewWithaddress:(NSString*)webAddress;
+@property (nonatomic,strong)NSString *url;
 @end

@@ -14,12 +14,14 @@
 #import "JCUpcomingGigTableViewCell.h"
 #import "GAITrackedViewController.h"
 #import "JCTimeDateLocationTableViewCell.h"
+#import "JCUpcomingGigTableViewCell.h"
+#import "JCToastAndAlertView.h"
 
 
 @protocol JCGigMoreInfoVC;
 
 
-@interface JCGigMoreInfoVC : GAITrackedViewController <UITableViewDataSource,UITableViewDelegate,MGSwipeTableCellDelegate,JCInvteFollowHeaderDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate,JCTimeDateLocationTableViewCell>
+@interface JCGigMoreInfoVC : GAITrackedViewController <UITableViewDataSource,UITableViewDelegate,MGSwipeTableCellDelegate,JCInvteFollowHeaderDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate,JCTimeDateLocationTableViewCell,JCUpcomingGigTableViewCellDelegate>
 @property (nonatomic,strong)eventObject *currentEvent;
 @property (nonatomic, weak) id <JCGigMoreInfoVC> JCGigMoreInfoVCDelegate;
 @end
