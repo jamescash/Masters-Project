@@ -15,6 +15,8 @@
 
 @implementation eventObject
 
+
+//Parse bandsinTown JSON
 - (id)initWithTitle:(NSDictionary *)object {
     
     
@@ -22,8 +24,7 @@
     
     if (self) {
         
-        
-        //Made the parse call a shared instance so its only initiated once to save memory
+        //Helper calss
          _pasre = [EventObjectParser sharedInstance];
         
         
@@ -35,7 +36,6 @@
          NSDictionary *artistdic = object [@"artists"];
          //Array contaning a dictionarry with all the artsit at the event
          NSArray *artists = object [@"artists"];
-        //TODO parse thisJSON correctly
             if ([artists count]==0) {
                 NSLog(@"no artist found for event");
                 return nil;
@@ -118,11 +118,13 @@
             self.twitterSearchQuery = [self.pasre makeTitterSearch:self.eventTitle venueName:self.venueName eventStartDate:self.eventDate];
         
             //self.status = [self.pasre GetEventStatus:object [@"datetime"]];
+        
             //Go off and calulate the distance from Ireland
             NSString *latitude = self.LatLong[@"lat"];
             NSString *Long = self.LatLong[@"long"];
             self.aLocation = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[Long doubleValue]];
             self.DistanceFromIreland = [self.pasre DistanceFromIreland:self.aLocation];
+        
         
             if (self.DistanceFromIreland<4000&&!self.isInIreland) {
                 self.isNearIreland = YES;

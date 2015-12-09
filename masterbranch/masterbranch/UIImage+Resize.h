@@ -31,7 +31,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-
+//Github code - Catoary on UIImage used to resize images to thumbnials before save to backend
+//https://github.com/AliSoftware/UIImage-Resize
 
 @interface UIImage(ResizeCategory)
 -(UIImage*)resizedImageToSize:(CGSize)dstSize;

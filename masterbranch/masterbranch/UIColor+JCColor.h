@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+//catoary so I have the one pink colour 
+
 @interface UIColor (JCColor)
 + (UIColor *)JCPink;
 @end

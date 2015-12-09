@@ -74,6 +74,7 @@
     activityView.color = [UIColor blackColor];
     [activityView startAnimating];
     [self.view addSubview:activityView];
+    [sender setEnabled:NO];
 
 NSString *userName = [self.userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 NSString *password = [self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -86,11 +87,15 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     if ([userName length] == 0 || [password length] == 0 || [userEmail length]== 0 ) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please enter a vaild username & password!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [activityView stopAnimating];
+        [sender setEnabled:YES];
+
 
         [alert show];
     }else if( self.profileImage == nil) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please select a profile picture" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [activityView stopAnimating];
+        [sender setEnabled:YES];
+
 
         [alert show];
         
@@ -98,16 +103,29 @@ NSString *userFullName = [self.userFullName.text stringByTrimmingCharactersInSet
     }else if ([self NSStringIsValidEmail:userEmail] == NO){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"That doesn't look like a valid email address, plaese try again!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [activityView stopAnimating];
+        [sender setEnabled:YES];
+
 
         [alert show];
     }else if (![self validateName:userFullName]){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure you full name is entered correctly!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [activityView stopAnimating];
+        [sender setEnabled:YES];
+
 
         [alert show];
     }else if (![self validateUserName:userName]){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure your username only contains letters or numbers with no white space" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [activityView stopAnimating];
+        [sender setEnabled:YES];
+
+        
+        [alert show];
+    }else if ([password length]< 4){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"Please make sure your password is four characters long" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [activityView stopAnimating];
+        [sender setEnabled:YES];
+
         
         [alert show];
     }else{

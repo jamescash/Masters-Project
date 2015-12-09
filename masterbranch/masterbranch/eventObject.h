@@ -11,7 +11,12 @@
 
 #import "JCPhotoDownLoadRecord.h"
 
-
+/////////Class summery
+/**
+ 1. Parse bandsintown JSON into usable eventObject,
+ 2.
+ 
+ */
 @interface eventObject : NSObject
 
 @property (nonatomic) NSString *eventTitle;

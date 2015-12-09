@@ -10,7 +10,9 @@
 
 #import "JCPhotoDownLoadRecord.h"
 
-
+//Stright forawrd image downloader
+//Download image and notfiy the delage class and return image
+//passed with intitated URL comes from JCURLRetivers
 
 @protocol ImageDownloaderDelegate;
 

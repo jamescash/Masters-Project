@@ -10,12 +10,10 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
+//Get the user loacation - Used on homescreen 
 
 @interface JCLocationManager : NSObject
 
 +(JCLocationManager*)sharedInstance;
 -(void)getlocation;
-
-//propertis
-
 @end

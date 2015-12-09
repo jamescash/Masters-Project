@@ -7,20 +7,18 @@
 //
 
 #import "JCMusicDiaryVC.h"
-#import "JCMusicDiaryHeader.h"
-#import "JCParseQuerys.h"
-#import "JCMusicDiaryCell.h"
-#import "JCMusicDiaryObject.h"
+#import "JCMusicDiaryHeader.h" //Header Controller
+#import "JCParseQuerys.h"      //Custom API interface for parse
+#import "JCMusicDiaryCell.h"   //Unused now
+#import "JCMusicDiaryObject.h" //Music Diary object used to be called
 #import "JCMusicDiaryArtistObject.h"
 #import "JCGigsComingUpInThisMonthVC.h"
-#import "RESideMenu.h"
-#import "JCCustomCollectionCell.h"
-
-#import "JCConstants.h"
-#import "DGActivityIndicatorView.h"
-#import "JCMusicDiaryPreLoader.h"
-
-#import "UIColor+JCColor.h"
+#import "RESideMenu.h"//https://github.com/romaonthego/RESideMenu //Side View controler
+#import "JCCustomCollectionCell.h" //reusing the cell from the homescreen
+#import "JCConstants.h"//where I defined most the keys
+#import "DGActivityIndicatorView.h"//preloaders //https://github.com/gontovnik/DGActivityIndicatorView
+#import "JCMusicDiaryPreLoader.h" //xib For header
+#import "UIColor+JCColor.h" //custom catoary on UIcolor so i can access colours
 
 
 
@@ -33,20 +31,14 @@
 @property (nonatomic,strong) NSDictionary *UpcomingGigsCalander;
 @property (nonatomic,strong) NSArray *UpcomingGigsCalanderKeys;
 @property (nonatomic,strong) NSMutableArray *imageFilesForAsyncDownload;
-
-
-//test properties
 @property (nonatomic,strong) NSArray *MusicDiaryObjectsSortedByDate;
 @property (nonatomic,strong) NSMutableArray *MusicDiaryObjectsSortedArray;
 @property (nonatomic,strong) JCMusicDiaryArtistObject *selectedObject;
-
 @property (nonatomic,strong) NSSet *dateSet;
 @property (nonatomic,strong) NSCalendar *calendar;
 
-
 //UIElements
 @property (nonatomic,strong) UIButton *searchButton;
-
 //Classes
 @property (nonatomic,strong) JCParseQuerys *JCParseQuerys;
 
@@ -81,11 +73,6 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-
-}
 
 -(NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
     return [self.MusicDiaryObjectsSortedArray[section]count];
@@ -98,9 +85,7 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    //JCMusicDiaryCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
    
-    
     JCCustomCollectionCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"EventImageCell" forIndexPath:indexPath];
 
     if (!cell) {
@@ -119,21 +104,14 @@
   
         [cell stopLoadingAnimation];
         [cell formatCellWithDiryObject:daryObject andArtist:artist];
-        //[cell setImageForMusicDiary:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
-        //[cell setImage:daryObject.artistImage andArtistNamr:[artist objectForKey:JCArtistArtistName] andVenueName:nil];
-        //cell.UIImageMusicDiaryBG.image = [UIImage imageNamed:@"loadingGreyPlane"];
-        //cell.MainImageView.image =
-        //[cell addVinettLayer];
-
+    
     }else{
         
         [cell startLoadingAnimation];
-        //cell.backgroundColor = [UIColor lightGrayColor];
         cell.UIImageMusicDiaryBG.image = [UIImage imageNamed:@"loadingGreyPlane"];
         [cell removeVinettLayer];
         cell.CellTitle.text = @"";
         cell.venue.text = @"";
-        
         [self DownloadImageForeventAtIndex:indexPath completion:^(UIImage* image, NSError* error) {
                 if (!error) {
                     daryObject.artistImage = image;
@@ -195,7 +173,6 @@
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat cellLeg = ((self.myMusicDiary.frame.size.width/3)-1);
@@ -206,8 +183,6 @@
     
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
-
-
 
 #pragma - Calender Helper Methods
 - (NSDate *)dateWithFirstDayOfMonth:(NSDate *)date
@@ -220,9 +195,9 @@
          
 #pragma - Helper Methods
 
-//TODO add lazy initiation to the Mutable arrays so they are only initalised as they are needed
 -(NSArray*)sortArrayInto2DArrayContaningYears:(NSArray*)ArrayToSort{
 
+    //TODO add lazy initiation to the Mutable arrays so they are only initalised as they are needed
 
     
     NSMutableArray *TwentyFourteen = [[NSMutableArray alloc]init];
@@ -419,8 +394,10 @@
 //    //build a manual array of keys to make sure they are in the right order
 //    self.UpcomingGigsCalanderKeys = @[@"January",@"February",@"March",@"April",@"May",@"June",@"July",@"August",@"September",@"October",@"November",@"December"];
 };
+
+
 -(void)DownloadImageForeventAtIndex:(NSIndexPath *)indexPath completion:(void (^)( UIImage *,NSError*)) completion {
-             
+        //asyn download for disvoery images
     
      NSArray *monthSection = self.MusicDiaryObjectsSortedArray[indexPath.section];
             JCMusicDiaryArtistObject *diaryObject = monthSection[indexPath.row];
@@ -449,14 +426,13 @@
 }
 
 
-
 -(void)emptyCollectionView{
     
     [self.MusicDiaryObjectsSortedArray removeAllObjects];
     [self.myMusicDiary reloadData];
 }
 
-
+//Metohd for gatheing the data for this ViewContoler
 -(void)loadUpcomingGigs:(BOOL)forIrelandOnly{
     
     isLoadingContent = YES;
@@ -469,7 +445,7 @@
     }
     
    
-
+  //see metohd in JCParse Qerys calss
   [self.JCParseQuerys getMyAtritsUpComingGigs:forIrelandOnly comletionblock:^(NSError *error, NSMutableArray *response) {
     
       if (error) {
@@ -478,8 +454,9 @@
 
       }else{
           
-          
-          
+          //sort the aray into years
+          //sort the years into moths
+          //Add the months to the calender in order
           NSArray *twoDArraySortedYears = [self sortArrayInto2DArrayContaningYears:response];
           //Now that we have our year seperated sort each year array into months
           for (NSArray *year in twoDArraySortedYears) {
@@ -490,7 +467,6 @@
           
           isLoadingContent = NO;
           dispatch_async(dispatch_get_main_queue(), ^{
-              NSLog(@"XXXXXXX XXXXXX XXXXX isLoading %d",isLoadingContent);
               [self.myMusicDiary reloadData];
           });
       }
@@ -585,6 +561,7 @@
     
 }
 
+//Set the states for the Ireald UK Tab button
 -(void)IrelandUkManager {
     
     
@@ -614,9 +591,6 @@
 
 
 #pragma mark - Empty state
- 
-
-
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
     
@@ -692,7 +666,7 @@
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    UIColor *pink = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    UIColor *pink = [UIColor JCPink];
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f],NSForegroundColorAttributeName:pink};
     return [[NSAttributedString alloc] initWithString:@"Find Artists" attributes:attributes];
         

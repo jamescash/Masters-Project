@@ -44,23 +44,40 @@
                                     <constraint firstAttribute="width" constant="58" id="JHk-wZ-7WK"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWl-si-urR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWl-si-urR">
                                 <rect key="frame" x="262" y="371" width="76" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="OrP-Or-OhV"/>
-                                    <constraint firstAttribute="width" constant="76" id="l2s-3X-mOe"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NcQ-8t-M9m">
-                                <rect key="frame" x="539" y="347" width="46" height="45"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="560" y="367" width="25" height="25"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChangeProfile" translatesAutoresizingMaskIntoConstraints="NO" id="1uv-NL-pWK">
+                                        <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="0EG-ZU-dOI"/>
+                                            <constraint firstAttribute="width" constant="25" id="IIb-uS-e7B"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="7fQ-bT-3EI"/>
-                                    <constraint firstAttribute="height" constant="45" id="Nyt-AS-coC"/>
+                                    <constraint firstItem="1uv-NL-pWK" firstAttribute="top" secondItem="NcQ-8t-M9m" secondAttribute="top" id="24L-3H-oFy"/>
+                                    <constraint firstItem="1uv-NL-pWK" firstAttribute="leading" secondItem="NcQ-8t-M9m" secondAttribute="leading" id="44s-Sy-EpH"/>
+                                    <constraint firstAttribute="width" constant="25" id="7fQ-bT-3EI"/>
+                                    <constraint firstAttribute="trailing" secondItem="1uv-NL-pWK" secondAttribute="trailing" id="BwV-WG-hsX"/>
+                                    <constraint firstAttribute="bottom" secondItem="1uv-NL-pWK" secondAttribute="bottom" id="Jds-x8-Ve3"/>
+                                    <constraint firstAttribute="height" constant="25" id="Nyt-AS-coC"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="44s-Sy-EpH"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="0.12" colorSpace="calibratedWhite"/>
@@ -115,8 +132,12 @@
                 <outlet property="UILableUserName" destination="gAD-fr-0zb" id="ocJ-24-MNQ"/>
                 <outlet property="UILableUserParseName" destination="YWl-si-urR" id="azh-xy-ng4"/>
                 <outlet property="UIViewHitTargetChangeProfilePic" destination="NcQ-8t-M9m" id="lW9-nR-T99"/>
+                <outlet property="UIimageChangeProfilePicIcon" destination="1uv-NL-pWK" id="N2W-36-lyM"/>
                 <outlet property="blurView" destination="fe3-TE-56x" id="4ED-Vg-WhT"/>
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="iconChangeProfile" width="44" height="44"/>
+    </resources>
 </document>

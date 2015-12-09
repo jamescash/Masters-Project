@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+//profile page view controller 
 @interface JCProfilePage : UIViewController <UITableViewDataSource,UITableViewDelegate>
 @end

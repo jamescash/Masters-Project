@@ -22,6 +22,8 @@
     self.UIImageBG.contentMode = UIViewContentModeScaleAspectFill;
     
     _pageTitles = @[@"Welcome to Preamp",@"Browse", @"Invite", @"Discover",@"loggin Screen"];
+    //_pageTitles = @[@"Welcome to Preamp",@"", @"", @"",@"loggin Screen"];
+
     _pageImages = @[@"welcomeScreen",@"tutorial1",@"tutorial2",@"tutorial3"];
     _textDiscription = @[@"Swipe through for a quick tutorial         >>>>",@"See what gigs are happening around your current location",@"Ask your firends to attend upcoming gigs with you",@"Discover when your favorite artists are palying in Ireland"];
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];

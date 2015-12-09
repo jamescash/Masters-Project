@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 
+//MusicDiary object to parse data coing from our backend intp usable objects used as the data model to build our discovery page 
+
 @interface JCMusicDiaryArtistObject : NSObject
 @property (nonatomic,strong) PFObject          *artist;
 @property (nonatomic,strong) NSDateComponents  *dateComponents;

@@ -7,22 +7,20 @@
 //
 
 #import "JCMyFiriendsMyArtistVC.h"
-#import "JCParseQuerys.h"
+#import "JCParseQuerys.h"//custom parse api
 #import <Parse/Parse.h>
-#import "JCMyFriendsCell.h"
+#import "JCMyFriendsCell.h"//custom cell for my friends
 #import "JCAddMyFriendsVC.h"
-#import "JCConstants.h"
+#import "JCConstants.h"//where i define most of my keys
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
-#import <TLYShyNavBar/TLYShyNavBarManager.h>
+#import <TLYShyNavBar/TLYShyNavBarManager.h>//https://github.com/telly/TLYShyNavBar -- hiding the nav bar on scroll
 #import "RESideMenu.h"
-
-#import "RKSwipeBetweenViewControllers.h"
-
-#import "JCMusicDiaryPreLoader.h"
-
-#import "DGActivityIndicatorView.h"
+#import "RKSwipeBetweenViewControllers.h" //https://github.com/cwRichardKim/RKSwipeBetweenViewControllers -- sliding ViewConrollers
+#import "JCMusicDiaryPreLoader.h" //preaaoder
+#import "DGActivityIndicatorView.h" //https://github.com/gontovnik/DGActivityIndicatorView
+#import "UIColor+JCColor.h"
 
 
 @interface JCMyFiriendsMyArtistVC () <UITableViewDataSource,UITableViewDelegate>
@@ -64,7 +62,7 @@
     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     
     
-    
+    //Setup the nav bars for the screens in viewDidLoad
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
         
         [self addNavBarForMyFriendsMyAritst];
@@ -86,6 +84,8 @@
 
 - (void) viewWillAppear:(BOOL)animated{
     
+    //Get the data in view did appera so it refresed everytime the view appears.
+    
     [super viewWillAppear:animated];
     firendskey = @"friends";
     artistkey =@"artist";
@@ -97,7 +97,7 @@
     }
     
     
-   
+   //Here we see what type of screen its going to be and we get the data based on that.
     
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
      
@@ -420,8 +420,9 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    }
 }
 
-#pragma - HelperMethods
+#pragma - JCArtistCell Delage Call backs
 
+//deal with unfollows
 -(void)didClickUnFollowArtistButton:(NSInteger)cellIndex{
     
     [self.JCParseQuerys UserUnfollowedArtistWithArtistObject:[self.tableViewDataSource objectAtIndex:cellIndex] complectionBlock:^(NSError *error) {
@@ -437,6 +438,8 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
 
+#pragma - Helper Methods 
+//find out if user is the users friends or not
 -(BOOL)IsFriend:(PFUser *)user{
     
     for (PFUser *firend in self.myFriends){
@@ -460,9 +463,50 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return imageView;
 }
 
+-(void)serchbuttonPressed{
+    [self performSegueWithIdentifier:@"addFriends" sender:self];
+}
+- (void)setupNavBarForScreen:(NSString*)screenType
+{
+    
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [searchButton setImage:[UIImage imageNamed:@"iconPlus.png"] forState:UIControlStateNormal];
+    //searchButton.adjustsImageWhenDisabled = NO;
+    searchButton.frame = CGRectMake(0, 0, 40, 40);
+    [searchButton addTarget:self action:@selector(serchbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *searchbarbutton = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
+    self.navigationItem.rightBarButtonItem = searchbarbutton;
+    
+}
+
+
+- (void)addNavBarForMyFriendsMyAritst
+{
+    
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
+    //[self.navigationController.navigationBar setTranslucent:NO];
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
+    backButton.adjustsImageWhenDisabled = NO;
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //create a UIBarButtonItem with the button as a custom view
+    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = customBarItem;
+    //[self.tableView setContentInset:UIEdgeInsetsMake(-200,0,0,0)];
+    self.shyNavBarManager.scrollView = self.tableView;
+    
+}
+
+- (void)addcontentOffsetForPageView
+{
+    [self.tableView setContentInset:UIEdgeInsetsMake(30,0,0,0)];
+}
+#pragma - Get Data 
+
+//User facebook api call's to get users friends that are on preamp
 -(void)getusersFacebookfriebndsAndRealodTableView{
-    
-    
     
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
                                   initWithGraphPath:@"/me/friends"
@@ -479,6 +523,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
             [facebookUserIds addObject:FBUserId];
         }
         
+        //match the return facebook IDs with preamp users
         [self.JCParseQuerys getPreAmpUsersThatMatchTheseFBids:facebookUserIds completionblock:^(NSError *error, NSArray *response) {
             
             if (error) {
@@ -496,62 +541,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     }];
 }
 
-- (void)setupNavBarForScreen:(NSString*)screenType
-{
-    
-    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [searchButton setImage:[UIImage imageNamed:@"iconPlus.png"] forState:UIControlStateNormal];
-    //searchButton.adjustsImageWhenDisabled = NO;
-    searchButton.frame = CGRectMake(0, 0, 40, 40);
-    [searchButton addTarget:self action:@selector(serchbuttonPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *searchbarbutton = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
-    self.navigationItem.rightBarButtonItem = searchbarbutton;
-    
-}
-
--(void)serchbuttonPressed{
-    //TODO why did that crash here?
-    [self performSegueWithIdentifier:@"addFriends" sender:self];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:@"addFriends"]){
-        //Pass list of friends to add freinds VC so it knows who's alrealdy your friends3
-        
-        RKSwipeBetweenViewControllers *DVC = (RKSwipeBetweenViewControllers*)segue.destinationViewController;
-        DVC.comingFromUserEventsPage = NO;
-        DVC.myFriends = self.myFriends;
-    }
-};
-
-
-- (void)addNavBarForMyFriendsMyAritst
-{
-    
-    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-    //[self.navigationController.navigationBar setTranslucent:NO];
-
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"iconMenu.png"] forState:UIControlStateNormal];
-    backButton.adjustsImageWhenDisabled = NO;
-    backButton.frame = CGRectMake(0, 0, 40, 40);
-    [backButton addTarget:self action:@selector(BackButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    //create a UIBarButtonItem with the button as a custom view
-    UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.leftBarButtonItem = customBarItem;
-    //[self.tableView setContentInset:UIEdgeInsetsMake(-200,0,0,0)];
-    self.shyNavBarManager.scrollView = self.tableView;
-    
-}
-- (void)addcontentOffsetForPageView
-{
-    [self.tableView setContentInset:UIEdgeInsetsMake(30,0,0,0)];
-}
-
--(void)BackButtonPressed{
-    [self.sideMenuViewController presentLeftMenuViewController];
-
-}
+#pragma - Empty screen delagte
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
@@ -600,7 +590,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     }else if ([self.tableViewType isEqualToString:JCUserEventUserGotTickets ]){
         text = @"Nobody has tickets yet";
     }else{
-        text = @"oops";
+        text = @"Emptiness";
     }
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
@@ -616,7 +606,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFacebookFriends]){
         text = @"We cant find any of your facebook friends on Preamp right now";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]){
-        text = @"Preamp works better when you have friends";
+        text = @"Dont be a loner";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeJustAddedFriends ]){
         text = @"Seems like nobody has added you recently";
     }else if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypePreAmpFriends ]){
@@ -655,7 +645,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    UIColor *pink = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    UIColor *pink = [UIColor JCPink];
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f],NSForegroundColorAttributeName:pink};
     if ([self.tableViewType isEqualToString:JCAddMyFriendsMyArtistTypeFriends]) {
@@ -676,6 +666,24 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath{
         [self performSegueWithIdentifier:@"artistSearch" sender:self];
 
     }
+    
+}
+
+#pragma - Navigation
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"addFriends"]){
+        //Pass list of friends to add freinds VC so it knows who's alrealdy your friends3
+        
+        RKSwipeBetweenViewControllers *DVC = (RKSwipeBetweenViewControllers*)segue.destinationViewController;
+        DVC.comingFromUserEventsPage = NO;
+        DVC.myFriends = self.myFriends;
+    }
+};
+
+
+-(void)BackButtonPressed{
+    [self.sideMenuViewController presentLeftMenuViewController];
     
 }
 @end

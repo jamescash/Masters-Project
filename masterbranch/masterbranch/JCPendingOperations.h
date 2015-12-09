@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+//Creat NSOPeration Q to put long running operations such as image downloading onto them
+
 @interface JCPendingOperations : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary *URLRetrieversInProgress;

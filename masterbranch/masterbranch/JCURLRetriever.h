@@ -12,6 +12,9 @@
 @protocol JCURLRetrieverDelegate;
 
 
+//Not all the artist images were coming back when we were just using bandsintown so we had add I few diffrent place that we could look for matching artist images.
+//This URL retever search BandsinTown and Echo Nest with and with out MBID numbers and then uses the first (best) possible match 
+
 @interface JCURLRetriever : NSOperation
 
 

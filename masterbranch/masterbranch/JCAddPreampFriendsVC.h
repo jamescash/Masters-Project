@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
+/////////Class summery
+/**
+ 1. Viewcontroller - Deals with search for other preamp users to add as friends 
+ 
+ */
+
 
 @interface JCAddPreampFriendsVC : GAITrackedViewController
 @property (nonatomic,strong) NSMutableArray *myFriends;

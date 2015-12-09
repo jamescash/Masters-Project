@@ -41,7 +41,7 @@
             return;
         }
         
-
+       //{try all there places to get a decent URL (top best - bottom worst)}
         if (![self.photoRecord.artistMbid  isEqual: @"error"]) {
             //first try bandsintown with MBID
             self.photoRecord.URL = [self getimageURLfromBandsintownwithartistMBID];

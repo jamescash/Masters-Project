@@ -10,9 +10,9 @@
 #import <Parse/Parse.h>
 #import "UIScrollView+VGParallaxHeader.h"
 #import "JCMusicDiaryArtistObject.h"
-#import <MGSwipeTableCell/MGSwipeTableCell.h>
-#import "JCUpcomingGigTableViewCell.h"
+#import "JCUpcomingGigTableViewCell.h"//Upcoming Cells 
 
+#import <MGSwipeTableCell/MGSwipeTableCell.h>//https://github.com/MortimerGoro/MGSwipeTableCell
 
 
 

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+//header view for when there no irish search results 
 @interface JCNoIrishGigsCell : UITableViewCell
 -(void)formateCellWithText:(NSString*)cellText;
 @end

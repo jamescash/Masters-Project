@@ -561,6 +561,8 @@
         //follow
         
         if (self.gigToTakeFollowArtistInformationFrom) {
+            
+            
             [self followArtist:self.gigToTakeFollowArtistInformationFrom completionBlock:^(NSError *error) {
                 if (error) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"

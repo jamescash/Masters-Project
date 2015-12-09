@@ -36,11 +36,9 @@
 
 - (void)main {
     
-    // 4
     @autoreleasepool {
         
        
-        //NSLog(@"JCimagedownloader downloading with URL %@",self.photoRecord.URL);
         
         if (self.isCancelled)
             return;

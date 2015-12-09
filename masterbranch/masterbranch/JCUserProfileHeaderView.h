@@ -10,6 +10,9 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
+
+
+
 @interface JCUserProfileHeaderView : UIView
 @property (weak, nonatomic) IBOutlet PFImageView *BGImage;
 @property (weak, nonatomic) IBOutlet PFImageView *ProfileImage;
@@ -18,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *UILableUserName;
 @property (weak, nonatomic) IBOutlet UILabel *UILableUserParseName;
 @property (weak, nonatomic) IBOutlet UIView *UIViewHitTargetChangeProfilePic;
+@property (weak, nonatomic) IBOutlet UIImageView *UIimageChangeProfilePicIcon;
 
 @end
 

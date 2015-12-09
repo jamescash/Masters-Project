@@ -246,7 +246,7 @@
     
     
     cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"" icon:[UIImage imageNamed:@"iconMute"] backgroundColor:[UIColor whiteColor]],
-                         [MGSwipeButton buttonWithTitle:@"" icon:[UIImage imageNamed:@"iconCancle"] backgroundColor:[UIColor JCPink]]];
+                         [MGSwipeButton buttonWithTitle:@"" icon:[UIImage imageNamed:@"iconDelete"] backgroundColor:[UIColor JCPink]]];
     
           
 

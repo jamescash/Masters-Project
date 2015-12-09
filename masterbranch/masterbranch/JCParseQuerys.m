@@ -19,7 +19,7 @@
 @property (nonatomic,strong) PFRelation *artistRelations;
 @property (nonatomic,strong) PFRelation *upComingGigsRelation;
 @property (nonatomic,strong) PFRelation *FriendRelations;
-@property (nonatomic,strong) PFUser   *currentUser;
+//@property (nonatomic,strong) PFUser   *currentUser;
 
 @property (nonatomic,strong) NSString *going;
 @property (nonatomic,strong) NSString *maybe;
@@ -56,7 +56,7 @@
     if (self = [super init]) {
         self.MyArtist =             [[NSMutableArray alloc]init];
         self.artistImages =         [[NSMutableDictionary alloc]init];
-        self.currentUser =          [PFUser currentUser];
+        //self.currentUser =          [PFUser currentUser];
         self.MyArtistUpcomingGigs = [[NSMutableArray alloc]init];
         self.going = JCUserEventUserGoing;
         self.gotTickets = JCUserEventUserGotTickets;
@@ -595,7 +595,7 @@
     PFQuery *getUserEventStatus = [PFQuery queryWithClassName:JCParseClassActivity];
     [getUserEventStatus whereKey:@"type" equalTo:@"eventStatus"];
     [getUserEventStatus whereKey:@"toEvent" equalTo:eventobject];
-    [getUserEventStatus whereKey:@"fromUser" equalTo:self.currentUser];
+    [getUserEventStatus whereKey:@"fromUser" equalTo:[PFUser currentUser]];
     
     [getUserEventStatus findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         
@@ -866,7 +866,7 @@
     //3. If artist doesnt already exist on the backend then save a new artist object
     //4. This artist object will then be avilible for future users
     
-    
+    NSLog(@"Follow artist");
     
     PFQuery *query = [PFQuery queryWithClassName:JCParseClassArtist];
     //this is artist name, bad varible naming.
@@ -882,13 +882,13 @@
             
             if ([objects count]>0) {
                 //that artist exist so add it as a reation the current user.
-                PFRelation *ArtistRelation = [self.currentUser relationForKey:JCUserArtistRelation];
+                PFRelation *ArtistRelation = [[PFUser currentUser] relationForKey:JCUserArtistRelation];
                 //add the artist to the users relation.
                 
                 [ArtistRelation addObject:[objects firstObject]];
                 [[objects firstObject] pinInBackgroundWithName:@"MyArtist"];
                 
-                [self.currentUser saveInBackground];
+                [[PFUser currentUser] saveInBackground];
                 
                 finishedSavingArtist(nil);
             }else{
@@ -980,11 +980,12 @@
                         }else{
                             [artist pinInBackgroundWithName:@"MyArtist"];
                             //now that we saved that artist to the data base we can relat it to the current user
-                            PFRelation *ArtistRelation = [self.currentUser relationForKey:@"ArtistRelation"];
+                            PFRelation *ArtistRelation = [[PFUser currentUser] relationForKey:@"ArtistRelation"];
                             [ArtistRelation addObject:artist];
                             
+                            PFUser *currentUser = [PFUser currentUser];
                             
-                            [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                            [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                                 if (error){
                                     finishedfollowingArtist(error);
                                 }else{
