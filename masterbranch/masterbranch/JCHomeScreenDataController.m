@@ -295,19 +295,26 @@
        
     NSDictionary *JSONresults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
             
+            
+            
             NSDictionary *returnDic;
             NSString *URLString = [JSONresults objectForKey:@"thumb_url"];
             NSString *artistName = [JSONresults objectForKey:@"name"];
+            NSString *mbidNumber = [JSONresults objectForKey:@"mbid"];
+            
+            if (mbidNumber == (id)[NSNull null]) {
+                mbidNumber = @"empty";
+            }
+            
+            
             if (URLString) {
                 NSURL *imageNSURL = [[NSURL alloc]initWithString:URLString];
                 NSData *imageData = [[NSData alloc]initWithContentsOfURL:imageNSURL];
                 UIImage *downloadedImage = [UIImage imageWithData:imageData];
                 
                 if (artistName) {
-                    returnDic = @{@"artistName":artistName,@"artistImage":downloadedImage};
-                    NSLog(@"finished");
+                    returnDic = @{@"artistName":artistName,@"artistImage":downloadedImage,@"mbid":mbidNumber};
                     finishedGettingArtistImage(nil,returnDic);
-
                 }
                 
             }else{

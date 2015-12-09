@@ -7,6 +7,7 @@
 //
 
 #import "JCCollectionViewHeaders.h"
+#import "UIColor+JCColor.h"
 
 @interface JCCollectionViewHeaders ()
 @property(weak) IBOutlet UILabel *searchLabel;
@@ -17,13 +18,13 @@
 -(void)formateHeaderwithString:(NSString*)headerTitle{
     
     self.searchLabel.text = headerTitle;
-    self.searchLabel.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    self.searchLabel.textColor = [UIColor JCPink];
 }
 
 -(void)formateHeaderwithEventObject:(eventObject *)eventObject{
     
     self.searchLabel.text = [self formatDateString:eventObject.eventDate];
-    self.searchLabel.textColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
+    self.searchLabel.textColor = [UIColor JCPink];
 
     
 }

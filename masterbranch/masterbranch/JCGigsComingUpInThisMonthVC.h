@@ -17,7 +17,7 @@
 
 
 
-@interface JCGigsComingUpInThisMonthVC : UIViewController <MGSwipeTableCellDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate>
+@interface JCGigsComingUpInThisMonthVC : UIViewController <MGSwipeTableCellDelegate,JCUpcomingGigTableViewCellDelegate,UIActionSheetDelegate,JCUpcomingGigTableViewCellDelegate>
 @property (nonatomic,strong)JCMusicDiaryArtistObject *diaryObject;
 @property (nonatomic) BOOL IsIrishQuery;
 @end

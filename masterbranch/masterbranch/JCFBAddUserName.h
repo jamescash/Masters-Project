@@ -11,6 +11,8 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import "JCleftSlideOutVC.h"
 #import "GAITrackedViewController.h"
+#import "IHKeyboardAvoiding.h"
+
 
 @interface JCFBAddUserName : GAITrackedViewController < UITextFieldDelegate>
 

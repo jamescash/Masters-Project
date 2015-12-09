@@ -134,7 +134,15 @@
 }
 
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.photoDownload = [[JCPhotoDownLoadRecord alloc]init];
 
+    }
+    return self;
+}
 
 
 @end

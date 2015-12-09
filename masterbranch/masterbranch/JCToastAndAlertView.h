@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+
 @interface JCToastAndAlertView : NSObject
 -(void)showUserUpDateToastWithMessage:(NSString*)message;
 -(void)showLoadingAlertViewWithMessage:(NSString*)message andTitle:(NSString*)title inUIViewController:(UIViewController*)UIViewController;
 @end
+

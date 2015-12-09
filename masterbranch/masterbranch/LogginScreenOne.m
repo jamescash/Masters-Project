@@ -11,6 +11,7 @@
 #import <Google/Analytics.h>
 #import "GAI.h"
 #import "JCTutorialPageViewController.h"
+#import "JCTerm&ConditionsVC.h"
 
 
 
@@ -28,7 +29,8 @@
     [super viewDidLoad];
     self.screenName = @"Loggin Screen One";
 
-    self.UIImageLoginLogo.image = [UIImage imageNamed:@"LogoPreAmp"];
+    self.UIImageLoginLogo.image = [UIImage imageNamed:@"welcomeScreen"];
+    self.UIImageLoginLogo.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 
@@ -54,7 +56,9 @@
     [[imageView layer] addSublayer:vignetteLayer];
     return imageView;
 }
-- (IBAction)buttonFacebookLoggin:(id)sender {
+
+
+-(IBAction)buttonFacebookLoggin:(id)sender {
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me",@"user_friends"];
     
@@ -73,10 +77,15 @@
             //TODO add alert here saying pleease try that againg something went wrong
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
         } else if (user.isNew) {
+           
+
             //New user signed up and logged in through Facebook
             [self saveUserIdToNewInstalation];
-            [self performSegueWithIdentifier:@"JCFBAddUserName" sender:self];
             
+            //dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self performSegueWithIdentifier:@"JCFBAddUserName" sender:self];
+           // });
             
             
         } else {
@@ -90,6 +99,7 @@
 
     
 }
+
 -(void)saveUserIdToNewInstalation{
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -100,9 +110,23 @@
     
 }
 
+- (IBAction)tscs:(id)sender {
+    [self performSegueWithIdentifier:@"t&c" sender:self];
+}
 
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"t&c"]) {
+        
+        
+        
+        UINavigationController *DVC = (UINavigationController*)[segue destinationViewController];
+        JCTerm_ConditionsVC *webview = [[DVC viewControllers]firstObject];
+        webview.url = @"https://preampapp.wordpress.com/terms-of-service/";
 
+        
+    }
+}
 
 #pragma - Tutorial Data source
 - (IBAction)UIButtonRegisterWithFacebook:(id)sender {

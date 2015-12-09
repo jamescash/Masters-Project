@@ -27,4 +27,5 @@
 - (void)contextMenuButtonFirstClicked;
 - (void)contextMenuButtonSecondClicked;
 - (void)contextMenuButtonThirdClicked;
+-(void)didTapAnywhere;
 @end

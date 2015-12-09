@@ -6,31 +6,28 @@
 //  Copyright (c) 2015 com.james.www. All rights reserved.
 //
 
+
+
+/////////Class summery
+/**
+1. HomeScreen ViewController, Has one cellection view responsible for displaying gigs around users current location
+2. Gets data from bandsintown/enchnest
+3. Instactating asyn image donloading/Url searching/filtering for all eventObjects artist Images
+4. Displays searchPage and Gig more info page
+ */
+
 #import <UIKit/UIKit.h>
-//API facade for building array for bandsintown event objects
-//#import "JCEventBuilder.h"
 //This is the superclass viewcontroler for any views that are part of the slideout side menu
-
-
-//operation Q for downloadning images
-#import "JCImageDownLoader.h"
-
-//operation Q for filtering the images
-#import "JCPhotoFiltering.h"
-
-#import "JCURLRetriever.h"
-
-#import "JCSearchPage.h"
+#import "JCImageDownLoader.h"//operation Q for downloadning images
+#import "JCPhotoFiltering.h"//operation Q for filtering the images
+#import "JCURLRetriever.h"//operation Q for serching and finding an image URL for artist
+#import "JCSearchPage.h"// Search VC
+#import "AppDelegate.h"//To access the Allevents Array
+#import "JCGigMoreInfoVC.h"// Gig more info VC
+#import "GAITrackedViewController.h"//Goole tracking
 
 #import "JCSocailStreamController.h"
-
 #import "JCHappeningTonightVC.h"
-
-//To access the Allevents Array
-#import "AppDelegate.h"
-
-#import "JCGigMoreInfoVC.h"
-#import "GAITrackedViewController.h"
 
 
 
@@ -40,12 +37,7 @@
 
 
 @interface JCHomeMainScreenVC : GAITrackedViewController  <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,ImageDownloaderDelegate,ImageFiltrationDelegate,JCURLRetrieverDelegate,JCSocailStreamControllerDelegate,JCGigMoreInfoVC,CLLocationManagerDelegate>
-
-//JCSearchPageDelegate
-
 @property (strong, nonatomic) id<MainScreenCollectionViewDelegate>MainScreenCollectionViewDelegate;
-
-
 @end
 
 

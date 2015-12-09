@@ -63,7 +63,7 @@
     self.VenueName.text = venueInfo;
     NSString *eventTitle = [currentEvent objectForKey:JCUserEventUsersEventTitle];
 
-    self.UILableUserNameInvitedYou.text = [NSString stringWithFormat:@"Looks like your going to see %@ by yourself, ask some frineds to join you",eventTitle];
+    self.UILableUserNameInvitedYou.text = [NSString stringWithFormat:@"Looks like your going to see %@ by yourself, ask some friends to join you",eventTitle];
 }
 
 

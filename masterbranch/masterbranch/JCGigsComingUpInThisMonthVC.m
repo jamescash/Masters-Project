@@ -13,6 +13,8 @@
 #import "HeaderView.h"
 #import "MGSwipeButton.h"
 #import "JCConstants.h"
+#import "JCGigMoreInfoDetailedView.h"
+#import "JCMusicDiaryDetailViewHeader.h"
 
 
 @interface JCGigsComingUpInThisMonthVC ()
@@ -160,7 +162,85 @@
    return 110;
 }
 
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    static NSString *headerViews = @"HeardView";
+    
+    JCMusicDiaryDetailViewHeader *headerView = [tableView dequeueReusableCellWithIdentifier:headerViews];
+     NSString *headerViewTitle;
+    if (self.IsIrishQuery) {
+        headerViewTitle = [NSString stringWithFormat:@"%@ Tour Dates - Ireland",[self monthforindex:self.diaryObject.dateComponents.month]];
+    }else{
+        headerViewTitle = [NSString stringWithFormat:@"%@ Tour Dates - UK",[self monthforindex:self.diaryObject.dateComponents.month]];
+    }
+    
+    headerView.title.text = headerViewTitle;
+    return headerView;
+    
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 70;
+    
+}
+
+-(NSString*)monthforindex:(int)monthindex{
+    
+    switch (monthindex) {
+        case 1:
+            return  @"January";
+            break;
+        case 2:
+            return  @"February";
+            break;
+        case 3:
+            return  @"March";
+            break;
+        case 4:
+            return  @"April";
+            break;
+        case 5:
+            return  @"May";
+            
+            break;
+        case 6:
+            return  @"June";
+            
+            break;
+        case 7:
+            return  @"July";
+            
+            break;
+        case 8:
+            return @"August";
+            
+            break;
+        case 9:
+            return @"September";
+            
+            break;
+        case 10:
+            return  @"October";
+            
+            break;
+        case 11:
+            return @"November";
+            
+            break;
+        case 12:
+            return @"December";
+            break;
+        default:
+            NSLog(@"default");
+            break;
+            
+    }
+    
+    NSLog(@"month index fail");
+    return nil;
+    
+}
 - (void)addCustomButtonOnNavBar
 {
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -192,16 +272,17 @@
     
     
     if ([self.upcomingGigsUserIsInterestedIn containsObject:self.upcomingGigCurrentlyClickedOn]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"This gig is in your upcoming events" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add Friends",@"More info", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
         [actionSheet showInView:self.view];
 
     }else{
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Interested in attending this upcoming gig?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Just me", @"Me and Friends",@"More info",nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
         [actionSheet showInView:self.view];
     }
 }
+
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -213,6 +294,9 @@
             //user event already exisits lets add friends to it
             [self performSegueWithIdentifier:@"SelectFriends" sender:self];
             
+        }else if (buttonIndex == 1){
+            //performSegueFromUpcomingGig = YES;
+            [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
         }
 
     
@@ -249,6 +333,11 @@
             //me and firneds
             //this will creat a user event with current user and friends
             [self performSegueWithIdentifier:@"SelectFriends" sender:self];
+        }else if (buttonIndex == 2)
+        {
+            
+            [self performSegueWithIdentifier:@"showMoreInfo" sender:self];
+            
         }
         
         
@@ -299,37 +388,26 @@
             
             
             
-        }else{
-            
-            //else the user has not expressed any intrest in this gig befoure
-            //if (//just me) {
-                 //creat a gig with jsut me
-            //}else{
-            //create the gig for me and my friends
-        //}
-        
-            
-            
         }
+  
+    }else if ([segue.identifier isEqualToString:@"showMoreInfo"]){
         
-            
-//            //so user wants to intive people to the current gig
-//            UINavigationController *SelectFriendsNav = (UINavigationController*)segue.destinationViewController;
-//            JCSelectFriends *SelectFreindsVC = [SelectFriendsNav viewControllers][0];
-//            //pass the senderVC a referance to the current event that need to be sent
-//            
-//            if (self.upcomingGigCurrentlyClickedOn) {
-//                //if there a user event it means the user already has created an event so lets just add people to it
-//                //SelectFreindsVC.tableViewType = JCSendEventIntivesPageAddUserToExistingEvent;
-//                //SelectFreindsVC.ParseEventObject = self.JCParseUserEvent;
-//                
-//            }else{
-//                //else the user is creating a new event
-//                //self.ParseUpcomingGigOfIntrest.
-//                //self.upcomingGigOfIntrest.photoDownload.image = self.currentEvent.photoDownload.image;
-//            }
         
-            
+        JCGigMoreInfoDetailedView *DVC = (JCGigMoreInfoDetailedView*)[segue destinationViewController];
+        eventObject *eventObjectForMoreInfo = [[eventObject alloc]init];
+        eventObjectForMoreInfo.eventTitle = [self.upcomingGigCurrentlyClickedOn objectForKey:@"title"];
+        eventObjectForMoreInfo.photoDownload.image = self.diaryObject.artistImage;
+        eventObjectForMoreInfo.eventDate = [self.upcomingGigCurrentlyClickedOn objectForKey:@"datetime"];
+        eventObjectForMoreInfo.venueName = [self.upcomingGigCurrentlyClickedOn objectForKey:@"venueName"];
+        eventObjectForMoreInfo.county = [self.upcomingGigCurrentlyClickedOn objectForKey:@"city"];
+        
+        
+        eventObjectForMoreInfo.LatLong = @{ @"lat" : [self.upcomingGigCurrentlyClickedOn objectForKey:@"venueLatitude"],
+                          @"long": [self.upcomingGigCurrentlyClickedOn objectForKey:@"venueLongitude"]};
+
+        DVC.currentEventEventObject = eventObjectForMoreInfo;
+        
+        
         
     }
     

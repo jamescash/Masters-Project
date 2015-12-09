@@ -7,6 +7,8 @@
 //
 
 #import "JCCustomCollectionCell.h"
+#import "JCMusicDiaryArtistObject.h"
+#import "JCConstants.h"
 
 @interface JCCustomCollectionCell()
 
@@ -23,6 +25,18 @@
     self.MainImageView = [self addLayerMaskToImageView:self.MainImageView withConorRadious:0 width:self.frame.size.width height:self.frame.size.height frameinsetX:0 frameInsetY:0];
     self.CellTitle.text = artistName;
     self.venue.text = venueName;
+}
+
+-(void)formatCellWithDiryObject:(JCMusicDiaryArtistObject*)diaryObject andArtist:(PFObject*)artist{
+    
+    self.MainImageView.image = diaryObject.artistImage;
+    self.MainImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    self.MainImageView = [self addLayerMaskToImageView:self.MainImageView withConorRadious:self.MainImageView.frame.size.width/2 width:90 height:90 frameinsetX:4 frameInsetY:10];
+    self.CellTitle.text = [artist objectForKey:JCArtistArtistName];
+   // self.UILableNumberOfGigsThisMonth.text = [NSString stringWithFormat:@"%d",diaryObject.numberOfGigsThisMonth];
+    self.venue.text = nil;
+    
 }
 
 -(void)setImageForMusicDiary:(UIImage*)image andArtistNamr:(NSString*)artistName andVenueName:(NSString*)venueName{

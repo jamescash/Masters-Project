@@ -15,6 +15,7 @@
 @property (nonatomic,strong) NSString          *month;
 @property (nonatomic,strong) NSString          *year;
 @property (nonatomic,strong) UIImage           *artistImage;
+//@property (nonatomic,assign) NSInteger         *numberOfGigsThisMonth;
 
 - (id)initWithArtits:(PFObject*)artits andupComingGig:(PFObject*)upcomingGig;
 

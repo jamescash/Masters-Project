@@ -47,8 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.JCParseQuerys = [JCParseQuerys sharedInstance];
+     self.JCParseQuerys = [JCParseQuerys sharedInstance];
     isFacebookSearch = YES;
     self.userFbId = [[PFUser currentUser] objectForKey:@"facebookId"];
     [self getusersFacebookfriebnds];

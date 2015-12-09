@@ -15,7 +15,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czF-Ho-CcO">
-                    <rect key="frame" x="20" y="551.5" width="455" height="36"/>
+                    <rect key="frame" x="20" y="551" width="455" height="36"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -33,16 +33,33 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BgX-VG-ild">
+                    <rect key="frame" x="417" y="448" width="183" height="152"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="WoC-lx-1VJ">
+                            <rect key="frame" x="125" y="100" width="20" height="20"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="WoC-lx-1VJ" secondAttribute="bottom" constant="32" id="0Eh-Hy-eG5"/>
+                        <constraint firstAttribute="height" constant="152" id="Jmn-3w-6bH"/>
+                        <constraint firstAttribute="trailing" secondItem="WoC-lx-1VJ" secondAttribute="trailing" constant="38" id="VY5-Bg-7BM"/>
+                        <constraint firstAttribute="width" constant="183" id="Ynd-dL-N1a"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="z0g-Gh-OI8" firstAttribute="top" secondItem="56a-43-Kz5" secondAttribute="bottom" constant="4" id="1kD-IT-qgQ"/>
                 <constraint firstItem="mez-6c-Tzq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4Dg-bP-RKk"/>
+                <constraint firstAttribute="trailing" secondItem="BgX-VG-ild" secondAttribute="trailing" id="4Kd-gh-fMt"/>
+                <constraint firstAttribute="trailing" secondItem="56a-43-Kz5" secondAttribute="trailing" constant="38" id="7Ui-7D-Iry"/>
                 <constraint firstAttribute="bottom" secondItem="czF-Ho-CcO" secondAttribute="bottom" constant="12.5" id="9Lj-Hm-FWR"/>
                 <constraint firstAttribute="trailing" secondItem="czF-Ho-CcO" secondAttribute="trailing" constant="125" id="Jqf-RB-0If"/>
                 <constraint firstAttribute="trailing" secondItem="mez-6c-Tzq" secondAttribute="trailing" id="K66-gK-dwG"/>
                 <constraint firstItem="z0g-Gh-OI8" firstAttribute="centerX" secondItem="56a-43-Kz5" secondAttribute="centerX" id="Tl1-RX-ceb"/>
-                <constraint firstAttribute="trailing" secondItem="z0g-Gh-OI8" secondAttribute="trailing" constant="30" id="UGA-G5-YVk"/>
+                <constraint firstAttribute="bottom" secondItem="BgX-VG-ild" secondAttribute="bottom" id="TtW-UA-qoA"/>
                 <constraint firstAttribute="bottom" secondItem="mez-6c-Tzq" secondAttribute="bottom" id="p7E-8H-vHs"/>
                 <constraint firstItem="czF-Ho-CcO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="sxg-7a-F3M"/>
                 <constraint firstItem="mez-6c-Tzq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vM5-Xv-e5e"/>
@@ -51,8 +68,10 @@
             <connections>
                 <outlet property="ArtistName" destination="czF-Ho-CcO" id="WDq-iz-Mma"/>
                 <outlet property="HeaderImageView" destination="mez-6c-Tzq" id="SGn-G5-aFb"/>
+                <outlet property="UIActivityIndicator" destination="WoC-lx-1VJ" id="mSW-Mv-plL"/>
                 <outlet property="UIImageViewFollwIcon" destination="56a-43-Kz5" id="2R9-v4-LKN"/>
                 <outlet property="UILableFollowLable" destination="z0g-Gh-OI8" id="FMZ-TM-sK7"/>
+                <outlet property="UIViewHitTargetFollowArtist" destination="BgX-VG-ild" id="d16-VR-N5A"/>
             </connections>
         </view>
     </objects>

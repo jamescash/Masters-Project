@@ -21,9 +21,9 @@
     self.UIImageBG.image = [UIImage imageNamed:@"backgroundLogin"];
     self.UIImageBG.contentMode = UIViewContentModeScaleAspectFill;
     
-    _pageTitles = @[@"Tutorial screens",@"Tutorial 1", @"Tutorial 2", @"Tutorial 3", @"Tutorial 4",@"loggin Screen"];
-    
-    
+    _pageTitles = @[@"Welcome to Preamp",@"Browse", @"Invite", @"Discover",@"loggin Screen"];
+    _pageImages = @[@"welcomeScreen",@"tutorial1",@"tutorial2",@"tutorial3"];
+    _textDiscription = @[@"Swipe through for a quick tutorial         >>>>",@"See what gigs are happening around your current location",@"Ask your firends to attend upcoming gigs with you",@"Discover when your favorite artists are palying in Ireland"];
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     self.pageViewController.dataSource = self;
     
@@ -69,7 +69,7 @@
     
     index++;
     
-    if (index == 5) {
+    if (index == 4) {
         return [self returnLoginVC:index];
     }
     
@@ -100,6 +100,8 @@
     // Create a new view controller and pass suitable data.
     JCTutorialPageViewController *pageContentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageContentViewController"];
     pageContentViewController.titleText = self.pageTitles[index];
+    pageContentViewController.imageFile = self.pageImages[index];
+    pageContentViewController.LableDescription = self.textDiscription[index];
     pageContentViewController.pageIndex = index;
     
     return pageContentViewController;

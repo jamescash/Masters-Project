@@ -54,14 +54,24 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NcQ-8t-M9m">
+                                <rect key="frame" x="539" y="347" width="46" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="7fQ-bT-3EI"/>
+                                    <constraint firstAttribute="height" constant="45" id="Nyt-AS-coC"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="0.12" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="NcQ-8t-M9m" secondAttribute="trailing" constant="15" id="2ch-rG-Qav"/>
                             <constraint firstItem="gAD-fr-0zb" firstAttribute="centerX" secondItem="koi-nA-VEV" secondAttribute="centerX" id="3uz-Xg-BFR"/>
                             <constraint firstItem="gAD-fr-0zb" firstAttribute="top" secondItem="Lf4-TB-6KX" secondAttribute="bottom" constant="40" id="5jp-cb-gCb"/>
                             <constraint firstItem="Lf4-TB-6KX" firstAttribute="centerY" secondItem="koi-nA-VEV" secondAttribute="centerY" id="6GF-DN-cIc"/>
                             <constraint firstItem="Lf4-TB-6KX" firstAttribute="centerX" secondItem="koi-nA-VEV" secondAttribute="centerX" id="7jC-sU-prA"/>
                             <constraint firstItem="YWl-si-urR" firstAttribute="centerX" secondItem="koi-nA-VEV" secondAttribute="centerX" id="BLZ-jc-OFe"/>
+                            <constraint firstItem="NcQ-8t-M9m" firstAttribute="bottom" secondItem="YWl-si-urR" secondAttribute="bottom" id="IZY-OM-1Lu"/>
                             <constraint firstAttribute="trailing" secondItem="gAD-fr-0zb" secondAttribute="trailing" constant="25" id="OCq-uz-JSx"/>
                             <constraint firstItem="YWl-si-urR" firstAttribute="top" secondItem="gAD-fr-0zb" secondAttribute="bottom" constant="1" id="TGb-v8-KoB"/>
                             <constraint firstItem="4Kg-Ms-9aa" firstAttribute="centerX" secondItem="koi-nA-VEV" secondAttribute="centerX" id="XM1-8c-zKW"/>
@@ -104,6 +114,7 @@
                 <outlet property="ProfileImage" destination="4Kg-Ms-9aa" id="Bh2-pF-4RF"/>
                 <outlet property="UILableUserName" destination="gAD-fr-0zb" id="ocJ-24-MNQ"/>
                 <outlet property="UILableUserParseName" destination="YWl-si-urR" id="azh-xy-ng4"/>
+                <outlet property="UIViewHitTargetChangeProfilePic" destination="NcQ-8t-M9m" id="lW9-nR-T99"/>
                 <outlet property="blurView" destination="fe3-TE-56x" id="4ED-Vg-WhT"/>
             </connections>
         </view>

@@ -118,6 +118,9 @@
 		89D88EF31BBD1E85002286FD /* JCDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D88EF21BBD1E85002286FD /* JCDatePickerCollectionView.m */; settings = {ASSET_TAGS = (); }; };
 		89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC5951BC04C4500E926A0 /* JCParseQuerys.m */; settings = {ASSET_TAGS = (); }; };
 		89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */; settings = {ASSET_TAGS = (); }; };
+		89F11EB71C164BCC0007C590 /* JCMoreUpComingGigsHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F11EB61C164BCC0007C590 /* JCMoreUpComingGigsHeader.m */; settings = {ASSET_TAGS = (); }; };
+		89F11EBE1C1731070007C590 /* JCMusicDiaryDetailViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F11EBD1C1731070007C590 /* JCMusicDiaryDetailViewHeader.m */; settings = {ASSET_TAGS = (); }; };
+		89F11EC51C1781190007C590 /* UIColor+JCColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F11EC41C1781190007C590 /* UIColor+JCColor.m */; settings = {ASSET_TAGS = (); }; };
 		89F51DDA1B1E1B39004E9055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DD91B1E1B39004E9055 /* main.m */; };
 		89F51DDD1B1E1B39004E9055 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F51DDC1B1E1B39004E9055 /* AppDelegate.m */; };
 		89F51DE51B1E1B39004E9055 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F51DE41B1E1B39004E9055 /* Images.xcassets */; };
@@ -142,6 +145,7 @@
 		89F756901C108934002E4B0B /* JCTutorialRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7568F1C108934002E4B0B /* JCTutorialRootVC.m */; settings = {ASSET_TAGS = (); }; };
 		89F756941C10994F002E4B0B /* JCTerm&ConditionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756931C10994F002E4B0B /* JCTerm&ConditionsVC.m */; settings = {ASSET_TAGS = (); }; };
 		89F756971C10C1AC002E4B0B /* JCRecoverPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756961C10C1AC002E4B0B /* JCRecoverPassword.m */; settings = {ASSET_TAGS = (); }; };
+		89F7569A1C151F16002E4B0B /* JCUIlaunchScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F756991C151F16002E4B0B /* JCUIlaunchScreen.m */; settings = {ASSET_TAGS = (); }; };
 		89FAA90E1B8D044F00012ED5 /* JCSearchPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */; };
 		89FAA9111B90A7AA00012ED5 /* JCAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FAA9101B90A7AA00012ED5 /* JCAnnotation.m */; };
 		A5DD715AA95F080A876F2C8B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C529EED248564E7B26AF038E /* libPods.a */; };
@@ -349,6 +353,12 @@
 		89DCC5951BC04C4500E926A0 /* JCParseQuerys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCParseQuerys.m; sourceTree = "<group>"; };
 		89DCC5991BC1483900E926A0 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		89DCC59A1BC1483900E926A0 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		89F11EB51C164BCC0007C590 /* JCMoreUpComingGigsHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMoreUpComingGigsHeader.h; sourceTree = "<group>"; };
+		89F11EB61C164BCC0007C590 /* JCMoreUpComingGigsHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMoreUpComingGigsHeader.m; sourceTree = "<group>"; };
+		89F11EBC1C1731070007C590 /* JCMusicDiaryDetailViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMusicDiaryDetailViewHeader.h; sourceTree = "<group>"; };
+		89F11EBD1C1731070007C590 /* JCMusicDiaryDetailViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMusicDiaryDetailViewHeader.m; sourceTree = "<group>"; };
+		89F11EC31C1781190007C590 /* UIColor+JCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JCColor.h"; sourceTree = "<group>"; };
+		89F11EC41C1781190007C590 /* UIColor+JCColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JCColor.m"; sourceTree = "<group>"; };
 		89F51DD41B1E1B39004E9055 /* PreAmp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreAmp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F51DD81B1E1B39004E9055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89F51DD91B1E1B39004E9055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -394,6 +404,8 @@
 		89F756931C10994F002E4B0B /* JCTerm&ConditionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCTerm&ConditionsVC.m"; sourceTree = "<group>"; };
 		89F756951C10C1AC002E4B0B /* JCRecoverPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCRecoverPassword.h; sourceTree = "<group>"; };
 		89F756961C10C1AC002E4B0B /* JCRecoverPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCRecoverPassword.m; sourceTree = "<group>"; };
+		89F756981C151F16002E4B0B /* JCUIlaunchScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUIlaunchScreen.h; sourceTree = "<group>"; };
+		89F756991C151F16002E4B0B /* JCUIlaunchScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUIlaunchScreen.m; sourceTree = "<group>"; };
 		89FAA90C1B8D044F00012ED5 /* JCSearchPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSearchPageCell.h; sourceTree = "<group>"; };
 		89FAA90D1B8D044F00012ED5 /* JCSearchPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSearchPageCell.m; sourceTree = "<group>"; };
 		89FAA90F1B90A7AA00012ED5 /* JCAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAnnotation.h; sourceTree = "<group>"; };
@@ -804,6 +816,8 @@
 			children = (
 				897780D61BD15246006B20C3 /* headers */,
 				897780D51BD1523B006B20C3 /* cells */,
+				89F11EB51C164BCC0007C590 /* JCMoreUpComingGigsHeader.h */,
+				89F11EB61C164BCC0007C590 /* JCMoreUpComingGigsHeader.m */,
 			);
 			name = "custom views";
 			sourceTree = "<group>";
@@ -919,6 +933,8 @@
 			children = (
 				897780F81BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.h */,
 				897780F91BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m */,
+				89F11EBC1C1731070007C590 /* JCMusicDiaryDetailViewHeader.h */,
+				89F11EBD1C1731070007C590 /* JCMusicDiaryDetailViewHeader.m */,
 			);
 			name = DetailView;
 			sourceTree = "<group>";
@@ -1019,6 +1035,8 @@
 				897D4B0A1BFBAA4100DF54EB /* GoogleService-Info.plist */,
 				8969D0131BC93C6E00A0FCED /* Main.storyboard */,
 				89F51DE61B1E1B39004E9055 /* LaunchScreen.xib */,
+				89F756981C151F16002E4B0B /* JCUIlaunchScreen.h */,
+				89F756991C151F16002E4B0B /* JCUIlaunchScreen.m */,
 				89F51DE41B1E1B39004E9055 /* Images.xcassets */,
 				89F51DDB1B1E1B39004E9055 /* AppDelegate.h */,
 				89F51DDC1B1E1B39004E9055 /* AppDelegate.m */,
@@ -1194,6 +1212,7 @@
 		89DCC5971BC1464900E926A0 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				89F11EBF1C177F4A0007C590 /* colour */,
 				89BA5EAB1BCFE8020049DC8D /* locationManager */,
 				89DCC5931BC04C1100E926A0 /* ParseQuerys */,
 				89DCC5981BC1469800E926A0 /* ImageResizing */,
@@ -1231,6 +1250,15 @@
 				891238001B40360E00E7C6CA /* JCSocailStreamController.m */,
 			);
 			name = controller;
+			sourceTree = "<group>";
+		};
+		89F11EBF1C177F4A0007C590 /* colour */ = {
+			isa = PBXGroup;
+			children = (
+				89F11EC31C1781190007C590 /* UIColor+JCColor.h */,
+				89F11EC41C1781190007C590 /* UIColor+JCColor.m */,
+			);
+			name = colour;
 			sourceTree = "<group>";
 		};
 		89F51DCB1B1E1B39004E9055 = {
@@ -1560,6 +1588,7 @@
 				8989AA381BDEBC1F0029F071 /* JCConstants.m in Sources */,
 				897780F01BD8F6C1006B20C3 /* JCFBAddUserName.m in Sources */,
 				89F756901C108934002E4B0B /* JCTutorialRootVC.m in Sources */,
+				89F7569A1C151F16002E4B0B /* JCUIlaunchScreen.m in Sources */,
 				8924A97B1B6A3D55007FB71C /* JCHttpFacade.m in Sources */,
 				89F756941C10994F002E4B0B /* JCTerm&ConditionsVC.m in Sources */,
 				89BDB1A51BCA72E300ECD8BA /* JCMusicDiaryHeader.m in Sources */,
@@ -1572,6 +1601,7 @@
 				891F84A91BE19B1D00C110D7 /* ILTranslucentView.m in Sources */,
 				897780FA1BDA8D9E006B20C3 /* JCGigsComingUpInThisMonthVC.m in Sources */,
 				89AD3BA91B3C1BC00004CAE4 /* EventObjectParser.m in Sources */,
+				89F11EC51C1781190007C590 /* UIColor+JCColor.m in Sources */,
 				891F84AD1BE269E400C110D7 /* JCCustomSearchPageSegue.m in Sources */,
 				897780D41BD1522D006B20C3 /* JCTimeDateLocationTableViewCell.m in Sources */,
 				8954EC1F1B874F9600BBA658 /* JCImageDownLoader.m in Sources */,
@@ -1590,6 +1620,7 @@
 				89D88EED1BB97E0B002286FD /* JCDatePickerDaysOfWeekView.m in Sources */,
 				891F84A61BE1994D00C110D7 /* UIERealTimeBlurView.m in Sources */,
 				89F7567B1C0C95D9002E4B0B /* JCSearchResultsObject.m in Sources */,
+				89F11EB71C164BCC0007C590 /* JCMoreUpComingGigsHeader.m in Sources */,
 				89D88EDB1BB55950002286FD /* JCSignUp.m in Sources */,
 				89DCC5961BC04C4500E926A0 /* JCParseQuerys.m in Sources */,
 				8954EC1C1B874EAA00BBA658 /* JCPendingOperations.m in Sources */,
@@ -1634,6 +1665,7 @@
 				897280DE1BC3386F00569648 /* HeaderView.m in Sources */,
 				897D4ACD1BF261D300DF54EB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				89B376CE1BCAF7CC006231A7 /* JCMusicDiaryCell.m in Sources */,
+				89F11EBE1C1731070007C590 /* JCMusicDiaryDetailViewHeader.m in Sources */,
 				89DCC59B1BC1483A00E926A0 /* UIImage+Resize.m in Sources */,
 				897780EB1BD7FD36006B20C3 /* JCAddMyFriendsVC.m in Sources */,
 				8954EC071B837B3600BBA658 /* JCHappeningTonightVC.m in Sources */,

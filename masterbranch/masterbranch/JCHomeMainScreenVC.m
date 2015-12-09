@@ -7,50 +7,27 @@
 //
 
 #import "JCHomeMainScreenVC.h"
-//top buttons in the nav bar
-//So I can call a segue to this VC
 #import <QuartzCore/QuartzCore.h>
-//Customised Cell class for collection view
-#import "JCCustomCollectionCell.h"
-//Imports for asyn download and filtration of homescreen Images
-#import "JCPhotoDownLoadRecord.h"
-#import "JCPendingOperations.h"
-//class for colection view header
-#import "JCCollectionViewHeaders.h"
-
-//AF netwroking
+#import "JCCustomCollectionCell.h"//Customised Cell class for collection view
+#import "JCPhotoDownLoadRecord.h"//photo download object
+#import "JCPendingOperations.h"//NSoperation Q, deals with URL retreving, and image downloading
+#import "JCCollectionViewHeaders.h"//home screen headers
 #import "AFNetworking/AFNetworking.h"
-//main app delaget
-//parse backend to check if users logged in or not
-#import <Parse/Parse.h>
-
-//adding infanit scrolling
-//#import "UIScrollView+SVPullToRefresh.h"
-//#import "UIScrollView+SVInfiniteScrolling.h"
-
-//data contrller for homescreen
-#import "JCHomeScreenDataController.h"
+#import <Parse/Parse.h>//backend
+#import "JCHomeScreenDataController.h"//class build to deal with BandsintownAPI/Echo Nest API.
 #import "JCleftSlideOutVC.h"
+#import <TLYShyNavBar/TLYShyNavBarManager.h>//https://github.com/telly/TLYShyNavBar// //Hiding the nav bar on scroll
+#import "DGActivityIndicatorView.h"//https://github.com/gontovnik/DGActivityIndicatorView //image loading anaimtions
+#import <Google/Analytics.h>
 
 
 #import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
-
-#import <TLYShyNavBar/TLYShyNavBarManager.h>
-
-#import "JCCustomSearchPageSegue.h"
-
-#import "DGActivityIndicatorView.h"
-#import <Google/Analytics.h>
 
 //backend
 
 //#define kDatasourceURLString @"https://sites.google.com/site/soheilsstudio/tutorials/nsoperationsampleproject/ClassicPhotosDictionary.plist"
 
 @interface JCHomeMainScreenVC ()
-//collection view data model object
-//@property (nonatomic,strong) NSDictionary *upComingGigsDataForCollectionView;
-//@property (nonatomic,strong) NSArray *KeysOfAllEventsDictionary;
-//UIELements
 @property(nonatomic, weak) IBOutlet UICollectionView *collectionView;
 //Properties
 @property(nonatomic,strong) NSDate *dateForAPICall;
@@ -62,23 +39,20 @@
 @property (nonatomic, strong) JCPendingOperations *pendingOperations;
 //classes
 @property (nonatomic,strong) JCHomeScreenDataController *JCHomeScreenDataController;
-
-
 //CollectionViewData
 @property (nonatomic,strong) NSMutableArray *collectionViewDataObject;
 
 
 @end
 
-//TODO make this class a shared instance and just update the collection view data model objects to stop the BADACCESS Image downlaoder URL. 
 
 @implementation JCHomeMainScreenVC{
+    //store users loation
     CLLocationManager *locationManager;
-
 }
 
 #pragma LazyInitations
-
+//home screen image asyn downloading
 - (JCPendingOperations *)pendingOperations {
     if (!_pendingOperations) {
         _pendingOperations = [[JCPendingOperations alloc] init];
@@ -104,12 +78,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    //google analitics
     self.screenName = @"Home Screen";
    
+    //see method for details - gets user loaction and gets data from BandsIntown
     [self getlocationAndWaitforUpdateThenGetDataForCollectionView];
     
     //show login screen if users not logged in
-    
     if (![PFUser currentUser]) {
         NSLog(@"current user %@",[[PFUser currentUser]username]);
         [self performSegueWithIdentifier:@"showLogin" sender:self];
@@ -119,6 +94,7 @@
 }
 
 - (void)refresh {
+    //gets data from BandsIntown
     [self getDataForCollectionView];
 }
 
@@ -127,10 +103,6 @@
     [self cancelAllOperations];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-}
 
 #pragma mark - UICollectionView Datasource
 
@@ -140,7 +112,6 @@
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
     return [self.collectionViewDataObject count];
-    //return [self.KeysOfAllEventsDictionary count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -151,40 +122,36 @@
         cell = [[JCCustomCollectionCell alloc] init];
     }
     
-    //NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
     eventObject *event = [self.collectionViewDataObject[indexPath.section] objectAtIndex:indexPath.row];
     
     //acesss the photo download object of that current event
-    
     JCPhotoDownLoadRecord *aRecord = event.photoDownload;
     
     
 
     //check if it has an image
     if (aRecord.hasImage) {
-        //[((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
-        //[cell.activityIndicatorView stopAnimating];
         [cell stopLoadingAnimation];
-        //cell.backgroundColor = [UIColor clearColor];
         [cell setImage:aRecord.image andArtistNamr:event.eventTitle andVenueName:event.venueName];
         [cell addVinettLayer];
      }
     else if (aRecord.isFailed) {
         [cell stopLoadingAnimation];
         [cell addVinettLayer];
-        cell.MainImageView.image = [UIImage imageNamed:@"loadingGray.png"];
-        cell.CellTitle.text = @"Failed";
+        [cell setImage:nil andArtistNamr:event.eventTitle andVenueName:event.venueName];
+        cell.MainImageView.image = [UIImage imageNamed:@"iconFailed"];
+
     }
     else {
-        //[((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
-        //[cell.activityIndicatorView startAnimating];
+        //if it has no image and is not failed then set it to loading state as the image is being downloed
         [cell startLoadingAnimation];
-        //cell.backgroundColor = [UIColor lightGrayColor];
         cell.MainImageView.image = [UIImage imageNamed:@"loadingGreyPlane"];
         [cell removeVinettLayer];
         cell.CellTitle.text = @"";
         cell.venue.text = @"";
         
+        //only load the image into the cell it the collection view is static on the screne
+        //and not when the users draging
         if (!cv.dragging && !cv.decelerating) {
            [self startOperationsForPhotoRecord:aRecord atIndexPath:indexPath];
          }
@@ -200,19 +167,15 @@
    
     JCCollectionViewHeaders *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionViewHeader" forIndexPath:indexPath];
-    
-    //TODO Make a date formatter class for here and in Music Diary
-    //TODO Setting the header by getting the date from the first item but what if there is no first item?
-    
     eventObject *firstEventInsection = self.collectionViewDataObject[indexPath.section][indexPath.row];
+    //use an event object from that section the format the header view.. date/daystring ect..
     [headerView formateHeaderwithEventObject:firstEventInsection];
-
-    
     return headerView;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    //take the index so we know what to show the user in the detailed view
     [self PerformNavigationForItemAtIndex:indexPath];
     //Track Button clicks
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
@@ -226,7 +189,6 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-   
     CGFloat cellLeg =  ((self.collectionView.frame.size.width/2)-1);
     return CGSizeMake(cellLeg,cellLeg);
 }
@@ -238,6 +200,12 @@
 
 
 #pragma Aysnc Downlaod Operations
+//This aysnc image retriver system was build on the bases of a tutorial I did found @http://www.raywenderlich.com/76341/use-nsoperation-nsoperationqueue-swift
+
+///1 search the web with the artist name and find a url to an image
+///2 once we have the URL start the image downloading of that image
+///3 once that image is downlaoded we and filter it
+///4 display the image in the cell
 
 -(void)startOperationsForPhotoRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
     if (!record.hasURL) {
@@ -254,7 +222,9 @@
 }
 
 -(void)startURLDownloading:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-
+  //if the user isint already being retrived then start getting it
+  //add it the the pedingoperations
+    
     if (![self.pendingOperations.URLRetrieversInProgress.allKeys containsObject:indexPath]) {
         
         JCURLRetriever *URLGetter = [[JCURLRetriever alloc] initWithPhotoRecord:record atIndexPath:indexPath delegate:self];
@@ -267,7 +237,6 @@
 
     if (![self.pendingOperations.downloadsInProgress.allKeys containsObject:indexPath]) {
         
-        // Start downloading
         JCImageDownLoader *imageDownloader = [[JCImageDownLoader alloc] initWithPhotoRecord:record atIndexPath:indexPath delegate:self];
         
         JCURLRetriever *dependency = [self.pendingOperations.URLRetrieversInProgress objectForKey:indexPath];
@@ -281,14 +250,12 @@
 }
 
 -(void)startImageFiltrationForRecord:(JCPhotoDownLoadRecord *)record atIndexPath:(NSIndexPath *)indexPath {
-    // 3
+
     if (![self.pendingOperations.filtrationsInProgress.allKeys containsObject:indexPath]) {
         
-        // 4
         // Start filtration
         JCPhotoFiltering *imageFiltration = [[JCPhotoFiltering alloc] initWithPhotoRecord:record atIndexPath:indexPath delegate:self];
         
-        // 5
         JCImageDownLoader *dependency = [self.pendingOperations.downloadsInProgress objectForKey:indexPath];
         if (dependency)
             [imageFiltration addDependency:dependency];
@@ -299,97 +266,71 @@
 }
 
 #pragma mark - Downloader delegate
-
+//this is where we get the call backs for when the Operation is complete
 -(void)JCURLRetrieverDidFinish:(JCURLRetriever *)downloader{
-    
-
+    //Url is now retrived
+   
     NSIndexPath *indexPath = downloader.indexPathInTableView;
     
     JCPhotoDownLoadRecord *theRecord = downloader.photoRecord;
     
-    //NSString *key = [self.KeysOfAllEventsDictionary objectAtIndex:indexPath.section];
-    
+    //get the event from the collection view
     eventObject *event = [self.collectionViewDataObject[indexPath.section] objectAtIndex:indexPath.row];
-    
+    //insert the photoDownload object to replace the old one
     event.photoDownload = theRecord;
-
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
-    
-    //TODO what is causing the crahs here? !!!!!!!!!
+    //relaod the table view
     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-    
+    //take out of operation Q
     [self.pendingOperations.URLRetrieversInProgress removeObjectForKey:indexPath];
     
 }
-
+//method as above
 -(void)imageDownloaderDidFinish:(JCImageDownLoader *)downloader {
-    
-    
-    // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
     NSIndexPath *indexPath = downloader.indexPathInTableView;
-    
-    // 2: Get hold of the PhotoRecord instance.
     JCPhotoDownLoadRecord *theRecord = downloader.photoRecord;
-    
     eventObject *event = [self.collectionViewDataObject[indexPath.section] objectAtIndex:indexPath.row];
-    
     event.photoDownload = theRecord;
-    
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
-   
-    //becuse im adding sections so the index path is diffrent then when added?
-        [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-
-    // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
+    [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
     [self.pendingOperations.downloadsInProgress removeObjectForKey:indexPath];
 }
-
+//method as above
 -(void)imageFiltrationDidFinish:(JCPhotoFiltering *)filtration {
     
     NSIndexPath *indexPath = filtration.indexPathInTableView;
-   
     JCPhotoDownLoadRecord *theRecord = filtration.photoRecord;
-    
     eventObject *event = [self.collectionViewDataObject[indexPath.section] objectAtIndex:indexPath.row];
-    
     event.photoDownload = theRecord;
-    
     [self.collectionViewDataObject[indexPath.section] replaceObjectAtIndex:indexPath.row withObject:event];
-    
     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-        
-
     [self.pendingOperations.filtrationsInProgress removeObjectForKey:indexPath];
 }
 
-//http://www.raywenderlich.com/19788/how-to-use-nsoperations-and-nsoperationqueues
 #pragma mark - UIScrollView delegate
-
+//to make sure we are only downloading image for where the user is in the collection view
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    // 1
+    //user is scrolling to a diffrent point so suspend operation for current point
     [self suspendAllOperations];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    // 2
+
     if (!decelerate) {
         [self loadImagesForOnscreenCells];
         [self resumeAllOperations];
     }
 }
 
+//the mothod laods a new section into the collection view when the user gets to the bottom of the collection view
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
-//    NSLog(@"scroll content offset y %f",scrollView.contentOffset.y);
-//    NSLog(@"scroll height %f",scrollView.frame.size.height);
-//    NSLog(@"scroll content size %f",scrollView.contentSize.height);
-//    NSLog(@"endscrolling %f",endScrolling);
+
     
     if (endScrolling >= scrollView.contentSize.height)
     {
         //TODO add animation to pull to refresh
-        //TODO add defensive code to stop the collection view from going into a loop call BIT API
         [self getDataForCollectionView];
     }
     
@@ -459,30 +400,19 @@
 
 #pragma Navigation
 
-- (IBAction)unwindHomeScreenCollectionView:(UIStoryboardSegue *)unwindSegue
-{
-    
-}
+//- (IBAction)unwindHomeScreenCollectionView:(UIStoryboardSegue *)unwindSegue
+//{
+//    
+//}
 
 -(void)PerformNavigationForItemAtIndex: (NSIndexPath*)index{
     
-    
-    //NSString *key = [self.collectionViewDataObject objectAtIndex:index.section];
+    //when user clicks a cell.
+    //1 get event object(gig) user clicked on
+    //2 Give the to the destination View Contolrer
+    //2 load an instance of Destination View Controler (JCGigMoreInfo)
     eventObject *currentEvent = [self.collectionViewDataObject[index.section] objectAtIndex:index.row];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-
-  
-    //if ([currentEvent.status isEqualToString:@"alreadyHappened"]||[currentEvent.status isEqualToString:@"currentlyhappening"]) {
-        
-        //TODO uncomment this so social stream shows up again
-        
-//         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"AlreadyHappenedSocialStreamNav"];
-//        
-//        JCSocailStreamController *jc = [myVC viewControllers][0];
-//        jc.JCSocailStreamControllerDelegate = self;
-//        jc.currentevent = currentEvent;
-//        [self presentViewController:myVC animated:YES completion:nil];
-        
         UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"JCGigMoreInfoNav"];
         JCGigMoreInfoVC *DVC = [myVC viewControllers][0];
         DVC.JCGigMoreInfoVCDelegate = self;
@@ -490,33 +420,17 @@
         [self presentViewController:myVC animated:YES completion:nil];
         
 }
-//    if ([currentEvent.status isEqualToString:@"happeningLater"]) {
-//        
-//        UINavigationController *myVC = (UINavigationController *)[storyboard instantiateViewControllerWithIdentifier:@"HappeningLater"];
-//        JCHappeningTonightVC *DVC = [myVC viewControllers][0];
-//        DVC.JCHappeningTonightVCDelegate = self;
-//        DVC.currentEvent = currentEvent;
-//        [self presentViewController:myVC animated:YES completion:nil];
-//    }
-//}
 
+//load search VC
 -(void)serchbuttonPressed:(id)sender {
-    
  [self performSegueWithIdentifier:@"showSearchPage" sender:self];
-  
+
 }
 
 -(void)JCSearchPageDidSelectDone:(JCSearchPage *)controller{
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 };
 
--(void)SocialStreamViewControllerDidSelectDone:(JCSocailStreamController *)controller{
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-
-    
-}
 
 -(void)menuButtonPressed{
     //[self.navigationController setNavigationBarHidden: YES animated:YES];
@@ -528,31 +442,27 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-
-
-
 #pragma  - Helper Methods
 
 -(void)getDataForCollectionView{
 
-
+    //1 add one day onto the date for the next api call
+    //2 get data form BIT useing the class I made
+    //3 returns an array of parsed event objects so add the to the table view data soucre
+    //4 relaod table view
+    //If location acress denided default loacation is set to diblin
     
     NSDate  *dateForAPICall = [[NSDate alloc]init];
     dateForAPICall = self.dateForAPICall;
-    //add one day onto the date for the next api call
     NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
     dayComponent.day = 1;
     NSCalendar *theCalendar = [NSCalendar currentCalendar];
     self.dateForAPICall = [theCalendar dateByAddingComponents:dayComponent toDate:self.dateForAPICall options:0];
     
-    NSLog(@"Going to bandsintown to get data for %@",self.dateForAPICall);
-    
    
     if (!self.userLocation) {
         NSLog(@"location acess denied getting gigs from dublin");
     }
-    
     
     
     [self.JCHomeScreenDataController getEventsforDate:dateForAPICall usingLocation:self.userLatitude Longditude:self.usersLongditude competionBlock:^(NSError *error, NSArray *response) {
@@ -561,39 +471,21 @@
         if ([response count]!=0) {
             
             
-           
-            //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
-
-            //[self.collectionViewDataObject insertObjects:response atIndexes:indexSet];
-            
-            
-            //[self.collectionViewDataObject ad]
-            
-            //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil]];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionViewDataObject addObject:response];
                 [self.collectionView reloadData];
-                //NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:[self.collectionViewDataObject count]];
-                //[self.collectionView reloadSections:indexSet];
-                        if ([response count]<=7) {
-                           
-                            [self performSelector:@selector(getDataForCollectionView) withObject:self afterDelay:1.0 ];
-                            
-                            //[self getDataForCollectionView];
-                        
-                        }
                 
+                      //if less the 7 gigs come back go the BIT and get the next days to, this ensures there is never an empty screen on first load.
+                        if ([response count]<=7) {
+                            [self performSelector:@selector(getDataForCollectionView) withObject:self afterDelay:1.0 ];
+                        }
             });
-            
         }
-        
-
-       
     }];
     
 }
 
+//ask for users loaction and wait for call back
 -(void)getlocationAndWaitforUpdateThenGetDataForCollectionView{
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -604,6 +496,7 @@
     [locationManager startUpdatingLocation];
 }
 
+//customise nav bar
 - (void)addCustomButtonOnNavBar
 {
     
@@ -649,16 +542,16 @@
 
 #pragma mark - CLLocationManagerDelegate
 
+//if access denined default to dublin
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    //if denied acess we set default values to the center of ireland 
     self.userLatitude = @"53.3478";
     self.usersLongditude = @"-6.2597";
     [self getDataForCollectionView];
-    NSLog(@"location set to dublin");
-    //[self getDataForCollectionView];
+    //NSLog(@"location set to dublin");
 }
 
+//else user allowed location services
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     //save user location once
@@ -691,6 +584,9 @@
 }
 
 
+-(void)SocialStreamViewControllerDidSelectDone:(JCSocailStreamController *)controller{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 @end

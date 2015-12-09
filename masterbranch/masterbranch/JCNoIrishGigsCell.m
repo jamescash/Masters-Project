@@ -23,7 +23,7 @@
 }
 
 - (void)awakeFromNib {
-    self.UIImageIconView.image = [UIImage imageNamed:@"iconDate"];
+    self.UIImageIconView.image = [UIImage imageNamed:@"iconSadFace"];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

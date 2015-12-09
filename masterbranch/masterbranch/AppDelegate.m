@@ -57,14 +57,14 @@
     pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     pageControl.backgroundColor = [UIColor clearColor];
 //    // Configure tracker from GoogleService-Info.plist.
-//    NSError *configureError;
-//    [[GGLContext sharedInstance] configureWithError:&configureError];
-//    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-//    
-//    // Optional: configure GAI options.
-//    GAI *gai = [GAI sharedInstance];
-//    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-//    //[GAI sharedInstance].dispatchInterval = 0;
+        NSError *configureError;
+        [[GGLContext sharedInstance] configureWithError:&configureError];
+        NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+        
+        // Optional: configure GAI options.
+        GAI *gai = [GAI sharedInstance];
+        gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+        //[GAI sharedInstance].dispatchInterval = 0;
 //
 //    //gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
@@ -76,21 +76,15 @@
     [application registerForRemoteNotifications];
     
     
+    
+    
+    
     self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"JCMainViewController"];
     [self customiseUi];
     
-//    [JDStatusBarNotification addStyleNamed:@"JCnotification"
-//                                   prepare:^JDStatusBarStyle *(JDStatusBarStyle *style) {
-//                                       style.barColor = [UIColor colorWithRed:234.0f/255.0f green:65.0f/255.0f blue:150.0f/255.0f alpha:1.0f];
-//                                       style.textColor = [UIColor whiteColor];
-//                                       style.animationType = JDStatusBarAnimationTypeBounce;
-//                                       style.progressBarColor = style.textColor;
-//                                       style.progressBarHeight = 7.0;
-//                                       style.progressBarPosition = JDStatusBarProgressBarPositionTop;
-//                                       
-//                                       style.font = [UIFont fontWithName:@"HelveticaNeue-light" size:17.0];
-//                                       return style;
-//                                   }];
+   
+    
+    
     return YES;
 }
 
